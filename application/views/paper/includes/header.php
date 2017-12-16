@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('inventory/'); ?>">
+                    <a href="<?= site_url('inventory/page'); ?>">
                         <i class="ti-archive"></i> <!-- ti-package -->
                         <p>Inventory</p>
                     </a>

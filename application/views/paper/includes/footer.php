@@ -56,11 +56,11 @@
             demo.initChartist();
 
             $.notify({
-                icon: 'ti-gift',
+                icon: 'ti-direction',
                 message: "Welcome to <b>Paper Dashboard</b> - a beautiful Bootstrap freebie for your next project."
 
             },{
-                type: 'success',
+                type: 'info',
                 timer: 4000
             });
 
