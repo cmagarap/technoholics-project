@@ -19,7 +19,7 @@ class Inventory extends CI_Controller {
         $products = $this->item_model->getProducts('product', 'product_name', 'ASC');
         $data = array(
             "title" => "Inventory Management",
-            "heading" => "Inventory Management",
+            "heading" => "Inventory",
             "products" => $products
         );
         $this->load->view("paper/includes/header", $data);

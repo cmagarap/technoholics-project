@@ -24,7 +24,6 @@
         </div>
     </div>
 </footer>
-</div>
 </body>
 
 <!--   Core JS Files   -->
@@ -49,7 +48,7 @@
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
 
-# Notification popup will only display on the Dashboard page
+<!-- Notification popup will only display on the Dashboard page -->
 <?php if ($heading == "Dashboard"): ?>
     <script type="text/javascript">
         $(document).ready(function(){

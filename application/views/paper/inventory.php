@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Products</h4>
+                        <h4 class="title">Products List</h4>
                         <p class="category">Here is a subtitle for this table</p>
                     </div>
                     <div class="content table-responsive table-full-width">

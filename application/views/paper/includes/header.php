@@ -51,7 +51,7 @@
                         <p>Sales</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Inventory Management") { echo 'class="active"'; } ?>>
+                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('inventory/'); ?>">
                         <i class="ti-archive"></i> <!-- ti-package -->
                         <p>Inventory</p>
