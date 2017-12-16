@@ -28,16 +28,24 @@ class Item_model extends CI_Model {
 
         $this->db->delete($table);
     }
-
+/*
     function getCount() {
         $query = $this->db->get('product');
         return $query->num_rows();
     }
+*/
+    function getCount($table, $where = NULL) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        $query = $this->db->get($table);
+        return $query->num_rows();
+    }
 
-    function getItemsWithLimit($limit, $offset) {
+    function getItemsWithLimit($limit, $offset, $orderby, $order) {
         $this->db->limit($limit);
         $this->db->offset($offset);
-
+        $this->db->order_by($orderby, $order);
         $query = $this->db->get('product');
         return $query->result();
     }

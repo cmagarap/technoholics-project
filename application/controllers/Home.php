@@ -12,40 +12,39 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        
-       $this->load->library('pagination');
-    
-       $page = $this->uri->segment(3);
-       $perpage = 20;
-       
-       $config['base_url'] = base_url()."home/index";
-       $config['total_rows'] = $this->item_model->getCount();
-       $config['per_page'] = $perpage;
+        $this->load->library('pagination');
 
-       $config['full_tag_open'] = '<nav><ul class="pagination">';
-       $config['full_tag_close']= ' </ul></nav>';
-       $config['first_link'] = 'First';
-       $config['first_tag_open'] = '<li>';
-       $config['first_tag_close'] = '</li>';
-       $config['first_url']='';
-       $config['last_link']='Last';
-       $config['last_tag_open']='<li>';
-       $config['last_tag_close']='</li>';
-       $config['next_link']='&raquo;';
-       $config['next_tag_open']='<li>';
-       $config['next_tag_close']='</li>';
-       $config['prev_link'] ='&laquo;';
-       $config['prev_tag_open']='<li>';
-       $config['prev_tag_close']='</li>';
-       $config['cur_tag_open']='<li class="active"><a href="#">';
-       $config['cur_tag_close']='</a></li>';
-       $config['num_tag_open']='<li>';
-       $config['num_tag_close']='</li>';
+        $page = $this->uri->segment(3);
+        $perpage = 20;
 
-       $this->pagination->initialize($config);
+        $config['base_url'] = base_url() . "home/index";
+        $config['total_rows'] = $this->item_model->getCount();
+        $config['per_page'] = $perpage;
 
-       $data['links'] = $this->pagination->create_links();
-       
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+
+        $data['links'] = $this->pagination->create_links();
+
         //$data['product'] = $this->item_model->getItems($page, $config['per_page']);
 
         $data = array('title' => 'Home');
@@ -55,7 +54,6 @@ class Home extends CI_Controller {
         $this->load->view("shop/includes/footer");
     }
 
-    
     public function details() {
         $data = array('title' => 'Product Details');
         $data['product'] = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
@@ -72,12 +70,10 @@ class Home extends CI_Controller {
                 "User_Type" => $userinformation->access_level,
                 "Username" => $userinformation->username,
                 "Date" => time(),
-                "Action" => $userinformation->username.' viewed the product '.$product->product_name
+                "Action" => $userinformation->username . ' viewed the product ' . $product->product_name
             );
-            //print_r($data1);
             $this->item_model->insertData('user_log', $data1);
         }
-        
     }
 
     public function categories() {
@@ -86,16 +82,15 @@ class Home extends CI_Controller {
         $this->load->view("shop/includes/header", $data);
         $this->load->view("shop/shop");
         $this->load->view("shop/includes/footer");
-        }
+    }
 
-        public function search() {
-            $data = array('title' => 'Home');
-            $data['product'] = $this->item_model->search("product", 'product_name', $this->input->post('search'));
-            $this->load->view("shop/includes/header", $data);
-            $this->load->view("shop/shop");
-            $this->load->view("shop/includes/footer");
-        }
-        
+    public function search() {
+        $data = array('title' => 'Home');
+        $data['product'] = $this->item_model->search("product", 'product_name', $this->input->post('search'));
+        $this->load->view("shop/includes/header", $data);
+        $this->load->view("shop/shop");
+        $this->load->view("shop/includes/footer");
+    }
 
     function add() {
 
@@ -107,13 +102,13 @@ class Home extends CI_Controller {
             "maxqty" => $_POST["max_quantity"],
             "price" => $_POST["product_price"]
         );
-        $this->cart->insert($data); //return rowid 
+        $this->cart->insert($data); //return rowid
         echo $this->view();
     }
 
     function load() {
         echo $this->view();
-         $this->load->view("shop/cart");
+        $this->load->view("shop/cart");
     }
 
     function remove() {
@@ -191,7 +186,7 @@ class Home extends CI_Controller {
             "user_type" => $userinformation->access_level,
             "username" => $userinformation->username,
             "date" => time(),
-            "action" => $userinformation->username.' just logged out.',
+            "action" => $userinformation->username . ' just logged out.',
             'status' => '1'
         );
 
@@ -199,7 +194,6 @@ class Home extends CI_Controller {
         $this->item_model->insertData('user_log', $data1);
         redirect('login');
     }
-
 }
 
 ?>
