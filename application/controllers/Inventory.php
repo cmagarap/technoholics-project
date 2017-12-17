@@ -43,28 +43,17 @@ class Inventory extends CI_Controller {
         if($this->session->userdata('type') == "General Manager" OR $this->session->userdata('type') == "Admin Assistant") {
             $config['total_rows'] = $this->item_model->getCount('product');
             $this->pagination->initialize($config);
-            $products = $this->item_model->getItemsWithLimit($perpage, $this->uri->segment(3), 'product_name', 'ASC');
+            $products = $this->item_model->getItemsWithLimit($perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 1));
             $data = array(
                 'title' => 'Inventory Management',
                 'heading' => 'Inventory',
                 'products' => $products,
                 'links' => $this->pagination->create_links()
             );
+
             $this->load->view("paper/includes/header", $data);
-            $this->load->view("paper/inventory");
+            $this->load->view("paper/inventory/inventory");
             $this->load->view("paper/includes/footer");
         }
-
-
-        /*$products = $this->item_model->getProducts('product', 'product_name', 'ASC');
-        $data = array(
-            "title" => "Inventory Management",
-            "heading" => "Inventory",
-            "products" => $products
-        );
-        $this->load->view("paper/includes/header", $data);
-        $this->load->view("paper/inventory");
-        $this->load->view("paper/includes/footer");
-        */
     }
 }

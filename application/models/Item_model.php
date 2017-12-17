@@ -42,7 +42,10 @@ class Item_model extends CI_Model {
         return $query->num_rows();
     }
 
-    function getItemsWithLimit($limit, $offset, $orderby, $order) {
+    function getItemsWithLimit($limit, $offset, $orderby, $order, $where = NULL) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by($orderby, $order);

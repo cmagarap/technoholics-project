@@ -14,6 +14,7 @@
 
         public function index() {
             $data = array('title' => "Admin Home", "heading" => "Dashboard");
+            # print_r($_SESSION);
             $this->load->view('paper/includes/header', $data);
             $this->load->view('paper/dashboard');
             $this->load->view('paper/includes/footer');
@@ -63,13 +64,14 @@
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
 
             $data = array(
-                'title' => "VIEW PRODUCT",
+                'title' => "View Product",
+                'heading' => "Inventory",
                 'products' => $product
             );
 
-            $this->load->view('management/includes/header', $data);
+            $this->load->view('paper/includes/header', $data);
             $this->load->view('management/view');
-            $this->load->view('management/includes/footer');
+            $this->load->view('paper/includes/footer');
         }
 
         public function updateproduct() {
@@ -86,9 +88,9 @@
             redirect("management/product");
         }
 
-        public function delete() {
-            $this->item_model->delete("product", array('product_id' => $this->uri->segment(3)));
-            redirect("management/product");
+        public function delete_product() {
+            $this->item_model->updatedata("product", array("status" => 0), array('product_id' => $this->uri->segment(3)));
+            redirect("inventory/page");
         }
 
         public function addproduct() {

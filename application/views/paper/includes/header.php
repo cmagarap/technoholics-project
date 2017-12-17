@@ -7,6 +7,7 @@
     <title><?= $title ?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
+
     <!-- Bootstrap core CSS     -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications   -->
@@ -20,6 +21,9 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <?php
@@ -34,7 +38,7 @@
         -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
+                <a>
                     <img src="<?= $this->config->base_url() ?>images/logo.png" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="100%">
                 </a>
             </div>
