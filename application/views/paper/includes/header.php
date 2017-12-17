@@ -44,7 +44,7 @@
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('management/'); ?>">
+                    <a href="<?= site_url('dashboard/'); ?>">
                         <i class="ti-pie-chart"></i> <!-- ti-panel ti-bar-chart-alt -->
                         <p>Dashboard</p>
                     </a>
@@ -100,7 +100,6 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-user"></i>
-
                                 <!--<p class="notification">5</p>-->
                                 <p><?= $user->firstname ?></p>
                                 <b class="caret"></b>

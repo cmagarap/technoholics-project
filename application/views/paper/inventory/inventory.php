@@ -32,7 +32,7 @@
                                     <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
                                     <td><?= $products->product_quantity ?></td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>management/view" title = "View Product Info" alt = "View Product Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
                                             <span class="ti-eye"></span>
                                         </a>
                                         <a class="btn btn-warning" href="<?php #$this->config->base_url() ?>sys_users/edit_user/<?php #$sys_user->admin_id ?>" */ title = "Edit Product" alt = "Edit Product">
@@ -67,7 +67,7 @@
             })
                 .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>management/delete_product/" + id;
+                    window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
                 } else {
                     swal("The product is safe!");
         }
