@@ -70,7 +70,7 @@
             );
 
             $this->load->view('paper/includes/header', $data);
-            $this->load->view('management/view');
+            $this->load->view('inventory/view');
             $this->load->view('paper/includes/footer');
         }
 
