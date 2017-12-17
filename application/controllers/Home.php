@@ -18,7 +18,7 @@ class Home extends CI_Controller {
         $perpage = 20;
 
         $config['base_url'] = base_url() . "home/index";
-        $config['total_rows'] = $this->item_model->getCount();
+        $config['total_rows'] = $this->item_model->getCount("product");
         $config['per_page'] = $perpage;
 
         $config['full_tag_open'] = '<nav><ul class="pagination">';
