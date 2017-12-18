@@ -35,7 +35,7 @@
                                         <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?php #$this->config->base_url() ?>sys_users/edit_user/<?php #$sys_user->admin_id ?>" */ title = "Edit Product" alt = "Edit Product">
+                                        <a class="btn btn-warning" href="<?php $this->config->base_url() ?>edit/<?php $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?php $products->product_id ?>" title = "Delete Product" alt = "Delete Product">

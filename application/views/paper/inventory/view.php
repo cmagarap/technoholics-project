@@ -2,135 +2,77 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-md-5">
+            <div class="col-lg-5 col-md-5">
                 <div class="card card-user">
-                    <div class="image">
-                        <img src="<?= $this->config->base_url() ?>uploads/<?= $products->product_image ?>" alt="..."/>
-                    </div>
                     <div class="content">
-                        <div class="author">
-                            <!-- <img class="avatar border-white" src="assets/img/faces/face-2.jpg" alt="..."/> -->
-                            <h4 class="title">Chet Faker<br />
-                                <a href="#"><small>@chetfaker</small></a>
-                            </h4>
+                        <div>
+                            <img src="<?= $this->config->base_url() ?>uploads/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
                         </div>
-                        <p class="description text-center">
-                            "I like the way you work it <br>
-                            No diggity <br>
-                            I wanna bag it up"
-                        </p>
+                        <div align = "center">
+                            <br><hr><br>
+                            <h4 class="title"><?= $products->product_name ?><br />
+                                <a href="#"><small><?= $products->product_category ?></small></a>
+                            </h4>
+                            <br>
+                            <p class="description text-center">
+                                <i><?= $products->product_desc ?></i>
+                            </p>
+                            <br>
+                        </div>
                     </div>
                     <hr>
                     <div class="text-center">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
-                                <h5>12<br /><small>Files</small></h5>
+                                <h5>12<br /><small>Sold</small></h5> <!-- not yet sure about this -->
                             </div>
                             <div class="col-md-4">
-                                <h5>2GB<br /><small>Used</small></h5>
+                                <h5>&#8369; <?= number_format($products->product_price, 2) ?><br /><small>Price</small></h5>
                             </div>
                             <div class="col-md-3">
-                                <h5>24,6$<br /><small>Spent</small></h5>
+                                <h5><?php
+                                    if($products->product_quantity == 0) {
+                                        echo "<font color = 'red'>$products->product_quantity</font>";
+                                    } else {
+                                        echo $products->product_quantity;
+                                    }
+                                     ?><br><small>Stock</small>
+                                </h5>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="col-lg-8 col-md-7">
+            <div class="col-lg-5 col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Edit Profile</h4>
+                        <h4 class="title"><b>Previous Buyers</b></h4>
                     </div>
                     <div class="content">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>Company</label>
-                                        <input type="text" class="form-control border-input" disabled placeholder="Company" value="Creative Code Inc.">
+                        <ul class="list-unstyled team-members">
+                            <?php for($i = 1; $i <= 8; $i++): ?>
+                            <li>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        Buyer <?= $i ?>
+                                        <br />
+                                        <span class="text-muted"><small>Offline</small></span>
+                                    </div>
+                                    <div class="col-xs-3 text-right">
+                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Username</label>
-                                        <input type="text" class="form-control border-input" placeholder="Username" value="michael23">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control border-input" placeholder="Email">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control border-input" placeholder="Company" value="Chet">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control border-input" placeholder="Last Name" value="Faker">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control border-input" placeholder="Home Address" value="Melbourne, Australia">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>City</label>
-                                        <input type="text" class="form-control border-input" placeholder="City" value="Melbourne">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" class="form-control border-input" placeholder="Country" value="Australia">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Postal Code</label>
-                                        <input type="number" class="form-control border-input" placeholder="ZIP Code">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>About Me</label>
-                                        <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-You doubt I'll bother, reading into it
-I'll probably won't, left to my own devices
-But that's the difference in our opinions.</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-</div>
+                            </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div> <!-- content -->
+                </div> <!-- card -->
+            </div> <!-- col-lg-5 col-md-7 -->
+        </div> <!-- row -->
+    </div> <!-- container fluid -->
+</div> <!-- content -->

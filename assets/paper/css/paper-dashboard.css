@@ -1474,7 +1474,7 @@ textarea.form-control {
   z-index: 1; }
   .card .image {
     width: 100%;
-    overflow: hidden;
+    overflow: none;
     height: 260px;
     border-radius: 6px 6px 0 0;
     position: relative;
