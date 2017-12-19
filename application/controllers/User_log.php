@@ -47,7 +47,7 @@ class User_log extends CI_Controller {
             $logs = $this->item_model->getItemsWithLimit('user_log', $perpage, $this->uri->segment(3), 'log_id', 'DESC', array("status" => 1));
             $data = array(
                 'title' => 'User Log Management',
-                'heading' => 'User Log',
+                'heading' => 'User Log Management',
                 'logs' => $logs,
                 'links' => $this->pagination->create_links()
             );
