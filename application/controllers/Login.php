@@ -56,7 +56,7 @@ class Login extends CI_Controller {
                                 );
 
                                 $this->item_model->insertData('user_log', $for_log);
-                                redirect('management');
+                                redirect('dashboard');
                             } elseif ($accountDetails->access_level == 1) { # 1: sub-admin
                                 $this->session->uid = $accountDetails->user_id;
                                 $this->session->set_userdata('isloggedin', true);
@@ -73,7 +73,7 @@ class Login extends CI_Controller {
                                 );
 
                                 $this->item_model->insertData('user_log', $for_log);
-                                redirect('management');
+                                redirect('dashboard');
                             } else if ($accountDetails->access_level == 2) { # 2: customer
                                 $this->session->uid = $accountDetails->user_id;
                                 $this->session->set_userdata('isloggedin', true);

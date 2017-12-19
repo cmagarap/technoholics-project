@@ -7,7 +7,11 @@
     <title><?= $title ?></title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-
+    <style>
+        input[type=text]:focus, input[type=number]:focus {
+            background-color: lightblue;
+        }
+    </style>
     <!-- Bootstrap core CSS     -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications   -->
@@ -44,7 +48,7 @@
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('management/'); ?>">
+                    <a href="<?= site_url('dashboard/'); ?>">
                         <i class="ti-pie-chart"></i> <!-- ti-panel ti-bar-chart-alt -->
                         <p>Dashboard</p>
                     </a>
@@ -73,8 +77,8 @@
                         <p>Transaction Log</p>
                     </a>
                 </li>
-                <li>
-                    <a href="notifications.html">
+                <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>
@@ -100,7 +104,6 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-user"></i>
-
                                 <!--<p class="notification">5</p>-->
                                 <p><?= $user->firstname ?></p>
                                 <b class="caret"></b>
