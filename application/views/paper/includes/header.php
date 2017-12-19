@@ -53,8 +53,8 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li>
-                    <a href="table.html">
+                <li <?php if($heading == "Sales") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('sales'); ?>">
                         <i class="ti-shopping-cart-full"></i>
                         <p>Sales</p>
                     </a>
@@ -65,20 +65,20 @@
                         <p>Inventory</p>
                     </a>
                 </li>
-                <li>
-                    <a href="icons.html">
+                <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
                         <p>Accounts</p>
                     </a>
                 </li>
-                <li>
-                    <a href="maps.html">
+                <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('transaction_log/page'); ?>">
                         <i class="ti-menu-alt"></i>
                         <p>Transaction Log</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('user_log'); ?>">
+                    <a href="<?= site_url('user_log/page'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>
