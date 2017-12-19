@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h4 class="title"><b>Products List</b></h4>
+                        <h3 class="title"><b>Products List</b></h3>
                         <p class="category">Here is a subtitle for this table</p>
                     </div>
                     <?php if(!$products) {
@@ -38,7 +38,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?php $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -60,14 +60,13 @@
 
             swal({
                 title: "Are you sure you want to delete this product?",
-                // text: "Once deleted, you will not be able to recover this item!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
+                    window.location = "<?= base_url() ?>inventory/delete_product/" + id;
                 } else {
                     swal("The product is safe!");
         }

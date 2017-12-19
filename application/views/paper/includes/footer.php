@@ -57,8 +57,7 @@
 
             $.notify({
                 icon: 'ti-direction',
-                message: "Welcome to <b>Paper Dashboard</b> - a beautiful Bootstrap freebie for your next project."
-
+                message: "Welcome to <b>Technoholics Admin System</b> - a beautiful Bootstrap freebie for your next project."
             },{
                 type: 'info',
                 timer: 4000

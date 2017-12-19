@@ -53,6 +53,14 @@ class Item_model extends CI_Model {
         return $query->result();
     }
 
+    function getLogWithLimit($limit, $offset) {
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('log_id', 'DESC');
+        $query = $this->db->get('user_log');
+        return $query->result();
+    }
+
     function search($table, $where, $like) {
         $this->db->like($where, $like);
         $query = $this->db->get($table);

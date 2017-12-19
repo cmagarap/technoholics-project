@@ -16,11 +16,14 @@ class Accounts extends CI_Controller {
     }
 
     public function index() { # to be changed to page()
+        $users = $this->item_model->fetch("accounts", array("status" => 1));
         $data = array(
             'title' => 'Accounts Management',
-            'heading' => 'Accounts'
+            'heading' => 'Accounts',
+            'users' => $users
         );
         $this->load->view("paper/includes/header", $data);
+        $this->load->view("paper/accounts/accounts");
         $this->load->view("paper/includes/footer");
     }
 }
