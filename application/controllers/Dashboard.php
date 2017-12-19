@@ -23,4 +23,12 @@ class Dashboard extends CI_Controller {
         $this->load->view('paper/dashboard');
         $this->load->view('paper/includes/footer');
     }
+
+    public function seej() {
+        $data = array('title' => "Admin Home", "heading" => "Dashboard");
+        # print_r($_SESSION);
+        $this->load->view('paper/includes/header', $data);
+        $this->load->view('paper/dashboard');
+        $this->load->view('paper/includes/footer');
+    }
 }
