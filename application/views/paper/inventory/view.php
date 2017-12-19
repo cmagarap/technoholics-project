@@ -15,7 +15,7 @@
                             </h4>
                             <br>
                             <p class="description text-center">
-                                <i><?= $products->product_desc ?></i>
+                                    <i><?= $products->product_desc ?></i>
                             </p>
                             <br>
                         </div>
@@ -41,6 +41,12 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <br>
+                    <div align="center">
+                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                    </div>
+                    <br>
                 </div>
             </div>
             <div class="col-lg-5 col-md-7">

@@ -84,13 +84,14 @@
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
 
             $data = array(
-                'title' => "EDIT PRODUCT",
+                'title' => "Edit Product",
+                'heading' => "Inventory",
                 'products' => $product
             );
 
-            $this->load->view('management/includes/header', $data);
-            $this->load->view('management/edit');
-            $this->load->view('management/includes/footer');
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/inventory/edit');
+            $this->load->view('paper/includes/footer');
         }
 
         public function view() {
