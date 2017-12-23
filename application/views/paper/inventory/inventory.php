@@ -6,8 +6,14 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h3 class="title"><b>Products List</b></h3>
-                        <p class="category">Here is a subtitle for this table</p>
+                        <p class="category">Here is a subtitle for this table</p><br>
+                        <a href = "#" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Add Product</a>
                     </div>
+                    <br>
+                    <!--<div align = "">
+                        <input type="text" placeholder="Search..." class = "form-control border-input" width = "30%" style="margin: 20px; margin-right: 20px">
+                    </div>-->
+
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
                     } else {

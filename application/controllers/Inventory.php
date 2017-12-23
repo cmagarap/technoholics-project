@@ -38,6 +38,7 @@
             if($this->session->userdata('type') == "General Manager" OR $this->session->userdata('type') == "Admin Assistant") {
                 $config['total_rows'] = $this->item_model->getCount('product');
                 $this->pagination->initialize($config);
+                # function getItemsWithLimit($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL)
                 $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 1));
                 $data = array(
                     'title' => 'Inventory Management',

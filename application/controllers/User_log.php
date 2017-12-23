@@ -5,7 +5,7 @@
  * Date: 12/19/2017
  * Time: 10:53 AM
  */
-
+date_default_timezone_set("Asia/Manila");
 class User_log extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -54,6 +54,22 @@ class User_log extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/user_log/user_log");
             $this->load->view("paper/includes/footer");
+        }
+        elseif($this->session->userdata('type') == "Admin Assistant") {
+            $config['total_rows'] = $this->item_model->getCount('user_log', array("user_type" => 2));
+            $this->pagination->initialize($config);
+            $logs = $this->item_model->getLogWithLimit($perpage, $this->uri->segment(3), array("user_type" => 2));
+            $data = array(
+                'title' => 'User Log Management',
+                'heading' => 'User Log',
+                'logs' => $logs,
+                'links' => $this->pagination->create_links()
+            );
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/user_log/customer_log");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home/");
         }
     }
 }

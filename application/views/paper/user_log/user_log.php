@@ -6,7 +6,7 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h3 class="title"><b>User Log</b></h3>
-                        <p class="category">Here is a subtitle for this table</p>
+                        <p class="category"><i>The activities performed by the system users.</i></p>
                     </div>
                     <?php if(!$logs) { ?>
                         <center>

@@ -53,7 +53,10 @@ class Item_model extends CI_Model {
         return $query->result();
     }
 
-    function getLogWithLimit($limit, $offset) {
+    function getLogWithLimit($limit, $offset, $where = NULL) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('log_id', 'DESC');

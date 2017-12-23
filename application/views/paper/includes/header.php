@@ -70,7 +70,13 @@
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
-                        <p>Accounts</p>
+                        <?php
+                            if($this->session->userdata('type') == "General Manager") {
+                                echo "<p>Accounts</p>";
+                            } elseif($this->session->userdata('type') == "Admin Assistant"){
+                                echo "<p>Customer Accounts</p>";
+                            }
+                            ?>
                     </a>
                 </li>
                 <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
