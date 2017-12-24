@@ -157,41 +157,55 @@ class Home extends CI_Controller {
             'status' => '1'
         );
 
-        //print_r($data1);
         $this->item_model->insertData('user_log', $data1);
-        redirect('login');
+        redirect('home');
     }
 
     public function category() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/category');
         $this->load->view('ordering/includes/footer');
     }
 
     public function register() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/register');
         $this->load->view('ordering/includes/footer');
     }
 
     public function basket() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "My Shopping Cart" # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
     }
 
     public function detail() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/detail');
         $this->load->view('ordering/includes/footer');
     }
 
     public function checkout1() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "Checkout"
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout1');
         $this->load->view('ordering/includes/footer');
