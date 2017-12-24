@@ -59,7 +59,7 @@ _________________________________________________________ -->
     <div class="container">
         <div class="navbar-header">
 
-            <a class="navbar-brand home" href="<?= base_url().'home/index_ordering'; ?>" data-animate-hover="bounce">
+            <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
                 <img src="<?= base_url().'assets/ordering/img/logo.png'; ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
             </a>
             <div class="navbar-buttons">

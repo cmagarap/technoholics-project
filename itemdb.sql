@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2017 at 03:39 AM
+-- Generation Time: Dec 19, 2017 at 07:09 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `accounts` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `home` (
 --
 
 CREATE TABLE `product` (
-  `product_id` int(11) NOT NULL,
+  `product_id` int(11) UNSIGNED NOT NULL,
   `product_category` varchar(250) NOT NULL,
   `product_name` varchar(250) NOT NULL,
   `product_desc` varchar(250) NOT NULL,
@@ -103,7 +103,7 @@ INSERT INTO `product` (`product_id`, `product_category`, `product_name`, `produc
 (59, 'Laptop', 'Lenovo - 15.6" Laptop - AMD A6-Series - 4GB Memory - 500GB Hard', 'Lenovo - 15.6" Laptop - AMD A6-Series - 4GB Memory - 500GB Hard', '15999', 3, 'd9912a8df6951210e4f05abca3653c36.jpg', 1511339440, 0, 1),
 (60, 'Laptop', 'HP 15 Core i3 6th Gen - (4 GB/1 TB HDD/Windows', 'HP 15 Core i3 6th Gen - 4 GB/1 TB HDD/Windows', '29999', 9, '17c118b2176d632dc2f04816be19963c.jpg', 1511339579, 0, 1),
 (61, 'Laptop', 'HP Spectre x360 Laptop - 15" Touch', 'HP Spectre x360 Laptop - 15" Touch', '45999', 5, '1fe9f067fc3ac5688d11efde48505220.png', 1511339618, 0, 1),
-(62, 'Laptop', 'Acer Aspire F 15" Touchscreen Laptop', 'Acer Aspire F 15" Touchscreen Laptop - Silver (Intel Core i5-7200U/1 TB HDD/ 12 GB RAM/ Windows 10) ', '15999', 5, '5215ee78b85c7955468e764d688c49eb.jpg', 1511339908, 0, 1),
+(62, 'Laptop', 'Acer Aspire F 15" Touchscreen Laptop', 'Acer Aspire F 15" Touchscreen Laptop - Silver (Intel Core i5-7200U/1 TB HDD/ 12 GB RAM/ Windows 10) ', '15999', 0, '5215ee78b85c7955468e764d688c49eb.jpg', 1511339908, 0, 1),
 (63, 'Laptop', 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz) ', 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz) ', '59999', 5, '02b9bc41bd0b7ba1778a54741126d226.jpg', 1511339965, 0, 1),
 (64, 'Laptop', 'HP Stream 11.6" Celeron Laptop', 'HP Stream 11.6" Celeron Laptop', '13999', 4, '1932e7669c5fa71154426c080995d8de.jpg', 1511340053, 0, 1),
 (65, 'Laptop', 'ACER ASPIRE ES1 332 BLACK', 'ACER ASPIRE ES1 332 BLACK', '24999', 5, '492c10069bacef7ee0b99ace91475fef.jpg', 1511340098, 0, 1),
@@ -147,7 +147,7 @@ INSERT INTO `product` (`product_id`, `product_category`, `product_name`, `produc
 --
 
 CREATE TABLE `user_log` (
-  `trans_id` int(11) NOT NULL,
+  `log_id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) NOT NULL,
   `user_type` varchar(30) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE `user_log` (
 -- Dumping data for table `user_log`
 --
 
-INSERT INTO `user_log` (`trans_id`, `user_id`, `user_type`, `username`, `date`, `action`, `status`) VALUES
+INSERT INTO `user_log` (`log_id`, `user_id`, `user_type`, `username`, `date`, `action`, `status`) VALUES
 (83, 11, '1', 'veocalimlim', '1511308371', 'veocalimlim just logged out.', 1),
 (84, 11, '1', 'veocalimlim', '1511308442', 'veocalimlim just logged in.', 1),
 (85, 11, '1', 'veocalimlim', '1511317037', 'veocalimlim just logged out.', 1),
@@ -246,7 +246,37 @@ INSERT INTO `user_log` (`trans_id`, `user_id`, `user_type`, `username`, `date`, 
 (165, 11, '1', 'veocalimlim', '1513476912', 'veocalimlim just logged out.', 1),
 (166, 15, '0', 'seej', '1513476916', 'seej just logged in.', 1),
 (167, 15, '0', 'seej', '1513476971', 'seej just logged out.', 1),
-(168, 11, '1', 'veocalimlim', '1513477038', 'veocalimlim just logged in.', 1);
+(168, 11, '1', 'veocalimlim', '1513477038', 'veocalimlim just logged in.', 1),
+(169, 11, '1', 'veocalimlim', '1513478865', 'veocalimlim just logged out.', 1),
+(170, 15, '0', 'seej', '1513485630', 'seej just logged in.', 1),
+(171, 15, '0', 'seej', '1513517167', 'seej just logged in.', 1),
+(172, 11, '1', 'veocalimlim', '1513517296', 'veocalimlim just logged in.', 1),
+(173, 15, '0', 'seej', '1513517309', 'seej just logged in.', 1),
+(174, 15, '0', 'seej', '1513517982', 'seej just logged in.', 1),
+(175, 15, '0', 'seej', '1513518137', 'seej just logged out.', 1),
+(176, 11, '1', 'veocalimlim', '1513518144', 'veocalimlim just logged in.', 1),
+(177, 11, '1', 'veocalimlim', '1513518216', 'veocalimlim just logged out.', 1),
+(178, 15, '0', 'seej', '1513518220', 'seej just logged in.', 1),
+(179, 15, '0', 'seej', '1513518633', 'seej just logged out.', 1),
+(180, 11, '1', 'veocalimlim', '1513518637', 'veocalimlim just logged in.', 1),
+(181, 15, '0', 'seej', '1513519025', 'seej just logged in.', 1),
+(182, 11, '1', 'veocalimlim', '1513549753', 'veocalimlim just logged in.', 1),
+(183, 15, '0', 'seej', '1513566751', 'seej just logged in.', 1),
+(184, 15, '0', 'seej', '1513566975', 'seej just logged out.', 1),
+(185, 15, '0', 'seej', '1513570778', 'seej just logged in.', 1),
+(186, 15, '0', 'seej', '1513570916', 'seej just logged out.', 1),
+(187, 15, '0', 'seej', '1513570939', 'seej just logged in.', 1),
+(188, 15, '0', 'seej', '1513573222', 'seej just logged out.', 1),
+(189, 15, '0', 'seej', '1513603381', 'seej just logged in.', 1),
+(190, 15, '0', 'seej', '1513603777', 'seej just logged in.', 1),
+(191, 15, '0', 'seej', '1513644641', 'seej just logged in.', 1),
+(192, 15, '0', 'seej', '1513649189', 'seej just logged out.', 1),
+(193, 15, '0', 'seej', '1513649202', 'seej just logged in.', 1),
+(194, 15, '0', 'seej', '1513650518', 'seej just logged in.', 1),
+(195, 15, '0', 'seej', '1513650737', 'seej just logged in.', 1),
+(196, 11, '1', 'veocalimlim', '1513651355', 'veocalimlim just logged in.', 1),
+(197, 15, '0', 'seej', '1513660254', 'seej just logged in.', 1),
+(198, 15, '0', 'seej', '1513663444', 'seej just logged in.', 1);
 
 --
 -- Indexes for dumped tables
@@ -276,7 +306,7 @@ ALTER TABLE `product`
 -- Indexes for table `user_log`
 --
 ALTER TABLE `user_log`
-  ADD PRIMARY KEY (`trans_id`);
+  ADD PRIMARY KEY (`log_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -286,7 +316,7 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `home`
 --
@@ -296,12 +326,12 @@ ALTER TABLE `home`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `product_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 --
 -- AUTO_INCREMENT for table `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

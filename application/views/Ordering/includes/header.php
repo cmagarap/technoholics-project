@@ -8,13 +8,10 @@
     <meta name="googlebot" content="index,follow,snippet,archive">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Technoholics | All tech you need.">
-    <meta name="author" content="Agarap | Calimlim | Leona | Mallari">
+    <meta name="author" content="Agarap, Calimlim, Leona, Mallari">
     <meta name="keywords" content="">
-
-    <title>
-        TECHNOHOLICS | All tech you need.
-    </title>
-
+    <title><?= $title ?></title>
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <meta name="keywords" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>

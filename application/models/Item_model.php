@@ -42,14 +42,25 @@ class Item_model extends CI_Model {
         return $query->num_rows();
     }
 
-    function getItemsWithLimit($limit, $offset, $orderby, $order, $where = NULL) {
+    function getItemsWithLimit($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by($orderby, $order);
-        $query = $this->db->get('product');
+        $query = $this->db->get($table);
+        return $query->result();
+    }
+
+    function getLogWithLimit($limit, $offset, $where = NULL) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('log_id', 'DESC');
+        $query = $this->db->get('user_log');
         return $query->result();
     }
 

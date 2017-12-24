@@ -5,9 +5,21 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h4 class="title"><b>Products List</b></h4>
-                        <p class="category">Here is a subtitle for this table</p>
+                        <div align = "left">
+                            <h3 class="title"><b>Products List</b></h3>
+                            <p class="category">Here is a subtitle for this table</p><br>
+                            <a href = "#" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
+                            <a href = "#" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
+                        </div>
+
+                        <div align = "right">
+                            <input type="text" name="search" placeholder="Search product...">
+                            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
+                            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+                        </div>
                     </div>
+
+                    <br>
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
                     } else {
@@ -24,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                 <?php
-                                foreach ($products as $products):?>
+                                foreach ($products as $products): ?>
                                 <tr>
                                     <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
@@ -38,7 +50,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?php $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -60,17 +72,16 @@
 
             swal({
                 title: "Are you sure you want to delete this product?",
-                // text: "Once deleted, you will not be able to recover this item!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
-                } else {
-                    swal("The product is safe!");
-        }
-        });
+                    if (willDelete) {
+                        window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
+                    } else {
+                        swal("The product is safe!");
+                    }
+                });
         });
     </script>
