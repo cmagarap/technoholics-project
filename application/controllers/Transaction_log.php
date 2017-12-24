@@ -16,7 +16,7 @@ class Transaction_log extends CI_Controller {
         }
     }
 
-    public function index() { # to be changed to page()
+    public function page() { # to be changed to page()
         $data = array(
             'title' => 'Transaction Log Management',
             'heading' => 'Transaction Log'

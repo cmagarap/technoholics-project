@@ -3,9 +3,8 @@
         function __construct() {
             parent::__construct();
             $this->load->model('item_model');
-            $this->load->library('session');
+            $this->load->library(array('session', 'form_validation'));
             $this->load->helper('form');
-            $this->load->library('form_validation');
             if (!$this->session->has_userdata('isloggedin')) {
                 redirect('/login');
             }
@@ -39,6 +38,7 @@
             if($this->session->userdata('type') == "General Manager" OR $this->session->userdata('type') == "Admin Assistant") {
                 $config['total_rows'] = $this->item_model->getCount('product');
                 $this->pagination->initialize($config);
+                # function getItemsWithLimit($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL)
                 $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 1));
                 $data = array(
                     'title' => 'Inventory Management',
@@ -66,23 +66,8 @@
             $this->load->view('management/includes/footer');
         }
 
-        public function userlogs() {
-            $allvalues = $this->item_model->fetch('user_log', array("status" => true));
-
-            $data = array(
-                'title' => "User Logs",
-                'logs' => $allvalues
-            );
-
-            $this->load->view('management/includes/header', $data);
-            $this->load->view('management/userlogs');
-            $this->load->view('management/includes/footer');
-        }
-
-
         public function edit() {
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-
             $data = array(
                 'title' => "Edit Product",
                 'heading' => "Inventory",
@@ -109,7 +94,6 @@
         }
 
         public function updateproduct() {
-            
             $data = array(
                 'product_name' => $this->input->post('product_name'),
                 'product_desc' => $this->input->post('product_desc'),
@@ -123,7 +107,7 @@
         }
 
         public function delete_product() {
-            $this->item_model->updatedata("product", array("status" => 0), array('product_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
             redirect("inventory/page");
         }
 
@@ -178,6 +162,5 @@
                 redirect("management/addproduct");
             }
         }
-
     }
 ?>

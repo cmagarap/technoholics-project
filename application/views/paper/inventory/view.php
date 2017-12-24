@@ -70,7 +70,7 @@
                                         <span class="text-muted"><small>Offline</small></span>
                                     </div>
                                     <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                        <button class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></button>
                                     </div>
                                 </div>
                             </li>

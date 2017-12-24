@@ -5,7 +5,7 @@
  * Date: 12/19/2017
  * Time: 10:53 AM
  */
-
+date_default_timezone_set("Asia/Manila");
 class User_log extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -16,7 +16,7 @@ class User_log extends CI_Controller {
         }
     }
 
-    public function page() { # to be changed to page()
+    public function page() {
         $this->load->library('pagination');
         $perpage = 20;
         $config['base_url'] = base_url()."user_log/page";
@@ -44,17 +44,32 @@ class User_log extends CI_Controller {
         if($this->session->userdata('type') == "General Manager") {
             $config['total_rows'] = $this->item_model->getCount('user_log');
             $this->pagination->initialize($config);
-            $logs = $this->item_model->getItemsWithLimit('user_log', $perpage, $this->uri->segment(3), 'log_id', 'DESC', array("status" => 1));
+            $logs = $this->item_model->getLogWithLimit($perpage, $this->uri->segment(3));
             $data = array(
                 'title' => 'User Log Management',
                 'heading' => 'User Log',
                 'logs' => $logs,
                 'links' => $this->pagination->create_links()
             );
-
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/user_log/user_log");
             $this->load->view("paper/includes/footer");
+        }
+        elseif($this->session->userdata('type') == "Admin Assistant") {
+            $config['total_rows'] = $this->item_model->getCount('user_log', array("user_type" => 2));
+            $this->pagination->initialize($config);
+            $logs = $this->item_model->getLogWithLimit($perpage, $this->uri->segment(3), array("user_type" => 2));
+            $data = array(
+                'title' => 'User Log Management',
+                'heading' => 'User Log',
+                'logs' => $logs,
+                'links' => $this->pagination->create_links()
+            );
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/user_log/customer_log");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home/");
         }
     }
 }
