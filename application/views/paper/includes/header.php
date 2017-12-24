@@ -62,6 +62,14 @@
             padding: 7px;
         }
 
+        .navtxt:hover {
+            color: #31bbe0;
+        }
+
+        .navtxt {
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -129,7 +137,7 @@
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" style = "background-color: #595959">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -138,16 +146,17 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand"><?= $heading ?></a>
+                    <a class="navbar-brand" style = "color: white"><?= $heading ?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-user"></i>
-                                <!--<p class="notification">5</p>-->
-                                <p><?= $user->firstname ?></p>
-                                <b class="caret"></b>
+                                <span class="navtxt">
+                                    <i class="ti-user"></i>
+                                    <p><?= $user->firstname ?></p>
+                                    <b class="caret"></b>
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -169,8 +178,10 @@
                         </li>
                         <li>
                             <a href="#">
+                                <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>
+                                </span>
                             </a>
                         </li>
                     </ul>

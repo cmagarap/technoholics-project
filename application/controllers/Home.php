@@ -12,14 +12,29 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need."
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/ads/front_slider');
-        $this->load->view('ordering/ads/featured_products');
-        $this->load->view('ordering/includes/footer');
+        if ($this->session->has_userdata('isloggedin')) {
+            if ($this->session->userdata("type") == "Customer") {
+                $data = array(
+                    'title' => "TECHNOHOLICS | All the tech you need."
+                );
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/ads/front_slider');
+                $this->load->view('ordering/ads/featured_products');
+                $this->load->view('ordering/includes/footer');
+            } else {
+                redirect("dashboard");
+            }
+        } else {
+            $data = array(
+                'title' => "TECHNOHOLICS | All the tech you need."
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/ads/front_slider');
+            $this->load->view('ordering/ads/featured_products');
+            $this->load->view('ordering/includes/footer');
+        }
     }
 
     public function details() {

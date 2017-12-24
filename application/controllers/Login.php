@@ -81,6 +81,7 @@ class Login extends CI_Controller {
                             } else if ($accountDetails->access_level == 2) { # 2: customer
                                 $this->session->uid = $accountDetails->user_id;
                                 $this->session->set_userdata('isloggedin', true);
+                                $this->session->set_userdata(array('type' => "Customer"), true);
                                 $this->session->set_flashdata('myflashdata', true);
                                 $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
                                 $for_log = array(

@@ -12,16 +12,20 @@ class Dashboard extends CI_Controller {
         $this->load->model('item_model');
         $this->load->library('session');
         if (!$this->session->has_userdata('isloggedin')) {
-            redirect('/login');
+            redirect('login');
         }
     }
 
     public function index() {
-        $data = array('title' => "Admin Home", "heading" => "Dashboard");
-        # print_r($_SESSION);
-        $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/dashboard');
-        $this->load->view('paper/includes/footer');
+        if($this->session->userdata("type") == "General Manager" OR $this->session->userdata("type") == "Admin Assistant") {
+            $data = array('title' => "Admin Home", "heading" => "Dashboard");
+            # print_r($_SESSION);
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/dashboard');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect("home");
+        }
     }
 
     public function seej() {

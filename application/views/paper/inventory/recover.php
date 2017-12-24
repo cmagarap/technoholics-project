@@ -12,10 +12,9 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Products List</b></h3>
-                            <p class="category">Here is a subtitle for this table</p><br>
-                            <a href = "#" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product" data-toggle="modal" data-target="#myModal">Add Product</a>
-                            <a href = "<?= $this->config->base_url() ?>inventory/recover_product" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
+                            <h3 class="title"><b>Deleted Products List</b></h3>
+                            <p class="category"><i>You can recover deleted items here.</i></p><br>
+                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
                     </div>
 
@@ -23,20 +22,20 @@
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
                     } else {
-                        ?>
-                        <div class="content table-responsive table-full-width">
-                            <table class="table table-striped">
-                                <thead>
-                                <th><b>#</b></th>
-                                <th><b>Name</b></th>
-                                <th><b>Category</b></th>
-                                <th><b>Price</b></th>
-                                <th><b>Quantity</b></th>
-                                <th><b>Actions</b></th>
-                                </thead>
-                                <tbody>
-                                <?php
-                                foreach ($products as $products): ?>
+                    ?>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-striped">
+                            <thead>
+                            <th><b>#</b></th>
+                            <th><b>Name</b></th>
+                            <th><b>Category</b></th>
+                            <th><b>Price</b></th>
+                            <th><b>Quantity</b></th>
+                            <th><b>Actions</b></th>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($products as $products): ?>
                                 <tr>
                                     <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
@@ -50,22 +49,22 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
-                                            <span class="ti-trash"></span>
+                                        <a class="btn btn-info delete" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Delete Product">
+                                            <span class="ti-back-left"></span>
                                         </a>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                            <?php echo "<div align = 'center'>" . $links . "</div>";
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php echo "<div align = 'center'>" . $links . "</div>";
                         echo '</div>';
-                     } ?>
+                        } ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <!--<div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
