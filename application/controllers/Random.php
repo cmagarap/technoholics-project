@@ -8,7 +8,8 @@
 # This is just a random controller used for debugging, etc.
 class Random extends CI_Controller {
     public function index() {
-        echo sha1('seej101');
+        echo sha1('seej101')."<br>";
+        echo sha1('customer')."<br>";
         echo $this->uri->segment(1);
     }
 }

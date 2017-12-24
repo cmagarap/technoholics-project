@@ -5,9 +5,7 @@
  * Date: 12/19/2017
  * Time: 2:27 PM
  */
-# This is just a random controller used for debugging, etc.
 class Ordering extends CI_Controller {
-
     public function __construct() {
         parent::__construct();
 

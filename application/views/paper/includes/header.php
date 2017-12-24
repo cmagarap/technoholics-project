@@ -6,7 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'  />
     <meta name="viewport" content="width=device-width" />
     <meta name="keywords" content="Technoholics, Technoholics Store, Online Philippine Store">
-    <meta name="description" content="Techonoholics Online Store">
+    <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
