@@ -12,10 +12,14 @@ class Login extends CI_Controller {
     }
 
     public function index() {
-        #$data = array('title' => 'Home');
-        $this->load->view("login/login_form");
-        #$this->load->view("login/loginform");
-        #$this->load->view("login/includes/footer");
+        $data = array(
+            'title' => "TECHNOHOLICS Login"
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/login');
+        $this->load->view('ordering/includes/footer');
+        # $this->load->view("login/login_form");
     }
 
     public function forgotpassword() {

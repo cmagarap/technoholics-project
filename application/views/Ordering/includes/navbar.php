@@ -33,7 +33,7 @@ _________________________________________________________ -->
                             </div>
                         </li>
                     <?php else: ?>
-                    <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                    <li><a href="<?= base_url().'login/'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
                     </li>
                     <li><a href="<?= base_url().'home/register'; ?>">Register</a>
                     </li>
@@ -265,7 +265,8 @@ _________________________________________________________ -->
             <div class="modal-body">
                 <form action="<?= base_url().'home/customer_orders'; ?>" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="email-modal" placeholder="email">
+                        <label for = "username">Username</label>
+                        <input type="text" class="form-control" name = "username" id="email-modal" placeholder="Enter username here...">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password-modal" placeholder="password">

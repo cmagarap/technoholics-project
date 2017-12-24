@@ -29,7 +29,7 @@
         .file:hover {
             background-color: lightblue;
         }
-        input[type=text] {
+        input[type=text].search {
             width: 200px;
             box-sizing: border-box;
             border: 2px solid #ccc;
@@ -42,9 +42,16 @@
             -webkit-transition: width 0.4s ease-in-out;
             transition: width 0.4s ease-in-out;
         }
-        input[type=text]:focus {
+        input[type=text]:focus.search {
             width: 40%;
+            background-color: lightblue;
         }
+
+        .searchbtn:hover {
+            background-color: #31bbe0;
+            color: white;
+        }
+
         button {
             width: 50px;
             box-sizing: border-box;
@@ -54,10 +61,7 @@
             background-color: white;
             padding: 7px;
         }
-        .search:hover {
-            background-color: #31bbe0;
-            color: white;
-        }
+
     </style>
 </head>
 <body>

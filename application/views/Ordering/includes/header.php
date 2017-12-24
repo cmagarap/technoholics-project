@@ -37,8 +37,6 @@
                 width: 70px;
                 margin-top: 3px;
             }
-
-
         }
 
         .dropbtn {
@@ -79,6 +77,10 @@
 
         .show {
             display: block;
+        }
+
+        input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
+            background-color: lightblue;
         }
     </style>
 </head>
