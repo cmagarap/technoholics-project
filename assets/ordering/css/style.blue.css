@@ -70,13 +70,13 @@ h1 {
   color: #999999;
 }
 #top #login-modal .modal-header {
-  background: #4993e4;
+  background: #31bbe0;
 }
 #top #login-modal .modal-header h4 {
   color: #fff;
 }
 #top #login-modal a {
-  color: #4993e4;
+  color: #31bbe0;
 }
 #top #login-modal p {
   font-weight: 300;
@@ -110,7 +110,7 @@ h1 {
   display: block;
 }
 .navbar .yamm-content ul li a:hover {
-  color: #4993e4;
+  color: white;
   text-decoration: none;
 }
 .navbar .yamm-content .banner {
@@ -151,7 +151,7 @@ h1 {
 #hot h2 {
   text-transform: uppercase;
   font-size: 36px;
-  color: #4993e4;
+  color: #31bbe0;
   font-weight: 100;
   text-align: center;
 }
@@ -179,7 +179,7 @@ h1 {
 }
 #hot .product-slider .owl-controls .owl-page.active span,
 #hot .product-slider .owl-controls.clickable .owl-page:hover span {
-  background: #4993e4;
+  background: #31bbe0;
 }
 #advantages {
   text-align: center;
@@ -243,7 +243,7 @@ h1 {
 #main-slider .owl-controls .owl-page.active span,
 .box.slideshow .owl-controls.clickable .owl-page:hover span,
 #main-slider .owl-controls.clickable .owl-page:hover span {
-  background: #4993e4;
+  background: #31bbe0;
 }
 .breadcrumb {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -318,7 +318,7 @@ h1 {
   padding: 6px 20px 6px 20px;
   margin: 30px 10px 10px -71px;
   color: #fff;
-  background-color: #4993e4;
+  background-color: #31bbe0;
   text-shadow: 0px 1px 2px #bbb;
 }
 .ribbon .theribbon:before,
@@ -677,11 +677,11 @@ h1 {
   border: solid 2px transparent;
 }
 #content #thumbs a.active {
-  border-color: #4993e4;
+  border-color: #31bbe0;
 }
 #content #checkout .nav {
   margin-bottom: 20px;
-  border-bottom: solid 1px #4993e4;
+  border-bottom: solid 1px #31bbe0;
 }
 #content #checkout .nav li {
   height: 100%;
@@ -763,7 +763,7 @@ h1 {
 #content #blog-homepage .post h2 a:hover,
 #content #blog-listing .post h4 a:hover,
 #content #blog-homepage .post h4 a:hover {
-  color: #4993e4;
+  color: #31bbe0;
 }
 #content #blog-listing .post .author-category,
 #content #blog-homepage .post .author-category {
@@ -777,7 +777,7 @@ h1 {
 }
 #content #blog-listing .post .date-comments a:hover,
 #content #blog-homepage .post .date-comments a:hover {
-  color: #4993e4;
+  color: #31bbe0;
 }
 #content #blog-listing .post .intro,
 #content #blog-homepage .post .intro {
@@ -971,7 +971,7 @@ h1 {
 /*!
  * Yamm!3
  * Yet another megamenu for Bootstrap 3
- * 
+ *
  * http://geedmo.github.com/yamm3
  */
 .yamm .nav,
@@ -1027,7 +1027,7 @@ h1 {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
-  border-color: #4993e4;
+  border-color: #31bbe0;
 }
 .nav-tabs {
   border-bottom: 1px solid #dddddd;
@@ -1053,7 +1053,7 @@ h1 {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #ffffff;
-  background-color: #4993e4;
+  background-color: #31bbe0;
 }
 .nav-tabs-justified > li > a {
   border-radius: 4px;
@@ -1270,7 +1270,7 @@ h1 {
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #555555;
-  background-color: #4993e4;
+  background-color: #31bbe0;
 }
 .navbar-default .navbar-nav > .disabled > a,
 .navbar-default .navbar-nav > .disabled > a:hover,
@@ -1294,7 +1294,7 @@ h1 {
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-  background-color: #4993e4;
+  background-color: #31bbe0;
   color: #555555;
 }
 @media (max-width: 767px) {
@@ -1310,7 +1310,7 @@ h1 {
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #555555;
-    background-color: #4993e4;
+    background-color: #31bbe0;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
@@ -1334,7 +1334,7 @@ body {
   background-color: #f0f0f0;
 }
 a {
-  color: #4993e4;
+  color: #31bbe0;
   text-decoration: none;
 }
 a:hover,
@@ -1387,8 +1387,8 @@ hr {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #4993e4;
-  border-color: #3386e1;
+  background-color: #31bbe0;
+  border-color: #31bbe0;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -1419,11 +1419,11 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-  background-color: #4993e4;
+  background-color: #31bbe0;
   border-color: #3386e1;
 }
 .btn-primary .badge {
-  color: #4993e4;
+  color: #31bbe0;
   background-color: #ffffff;
 }
 .btn-lg {
@@ -1501,7 +1501,7 @@ label {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #4993e4;
+  color: #31bbe0;
   background-color: #ffffff;
   border: 1px solid #dddddd;
 }
@@ -1521,8 +1521,8 @@ label {
 .pagination > .active > span:focus {
   z-index: 2;
   color: #ffffff;
-  background-color: #4993e4;
-  border-color: #4993e4;
+  background-color: #31bbe0;
+  border-color: #31bbe0;
 }
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,
@@ -1606,14 +1606,14 @@ ol {
   font-style: italic;
 }
 .text-primary {
-  color: #4993e4;
+  color: #31bbe0;
 }
 a.text-primary:hover {
   color: #2079da;
 }
 .bg-primary {
   color: #fff;
-  background-color: #4993e4;
+  background-color: #31bbe0;
 }
 a.bg-primary:hover {
   background-color: #2079da;
@@ -1626,7 +1626,7 @@ blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
   font-size: 14px;
-  border-left: 5px solid #4993e4;
+  border-left: 5px solid #31bbe0;
 }
 blockquote footer,
 blockquote small,
@@ -1643,25 +1643,25 @@ blockquote .small:before {
 }
 .blockquote-reverse,
 blockquote.pull-right {
-  border-right: 5px solid #4993e4;
+  border-right: 5px solid #31bbe0;
 }
 address {
   margin-bottom: 20px;
   line-height: 1.42857143;
 }
 .panel-primary {
-  border-color: #4993e4;
+  border-color: #31bbe0;
 }
 .panel-primary > .panel-heading {
   color: #ffffff;
-  background-color: #4993e4;
-  border-color: #4993e4;
+  background-color: #31bbe0;
+  border-color: #31bbe0;
 }
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #4993e4;
+  border-top-color: #31bbe0;
 }
 .panel-primary > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: #4993e4;
+  border-bottom-color: #31bbe0;
 }
 .panel-primary .panel-title {
   font-weight: 300;

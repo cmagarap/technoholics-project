@@ -1,6 +1,12 @@
 <?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
+        <div align = "right">
+            <input type="text" name="search" class = "search" placeholder="Search product...">
+            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
+            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+        </div>
+        <br>
         <div class="row">
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
@@ -10,12 +16,6 @@
                             <p class="category">Here is a subtitle for this table</p><br>
                             <a href = "#" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
                             <a href = "#" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
-                        </div>
-
-                        <div align = "right">
-                            <input type="text" name="search" placeholder="Search product...">
-                            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
-                            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
                         </div>
                     </div>
 
