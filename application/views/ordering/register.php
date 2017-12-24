@@ -8,7 +8,6 @@
                     <li>New account / Sign in</li>
                 </ul>
             </div>
-
             <div class="col-md-6">
                 <div class="box">
                     <h1>New account</h1>
