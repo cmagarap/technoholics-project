@@ -2,32 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title><?= $title ?></title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'  />
     <meta name="viewport" content="width=device-width" />
+    <meta name="keywords" content="Technoholics, Technoholics Store, Online Philippine Store">
+    <meta name="description" content="Techonoholics Online Store">
+    <meta name="author" content="Ethereal">
+    <title><?= $title ?></title>
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
+    <!-- Bootstrap core CSS -->
+    <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Animation library for notifications -->
+    <link href="<?= $this->config->base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
+    <!-- Paper Dashboard core CSS -->
+    <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
+    <!-- Fonts and icons -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         input[type=text]:focus, input[type=number]:focus {
             background-color: lightblue;
         }
+        .file:hover {
+            background-color: lightblue;
+        }
     </style>
-    <!-- Bootstrap core CSS     -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Animation library for notifications   -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
-    <!--  Paper Dashboard core CSS    -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
-    <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/demo.css" rel="stylesheet" />
-    <!--  Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <?php
@@ -41,15 +43,15 @@
             Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
         -->
         <div class="sidebar-wrapper">
-            <div class="logo">
-                <a>
-                    <img src="<?= $this->config->base_url() ?>images/logo.png" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="100%">
-                </a>
+            <div class = "logo">
+                <div align = "center">
+                    <img src="<?= $this->config->base_url() ?>images/logo2.png" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="82%">
+                </div>
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('dashboard/'); ?>">
-                        <i class="ti-pie-chart"></i> <!-- ti-panel ti-bar-chart-alt -->
+                        <i class="ti-pie-chart"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
@@ -68,7 +70,13 @@
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
-                        <p>Accounts</p>
+                        <?php
+                            if($this->session->userdata('type') == "General Manager") {
+                                echo "<p>Accounts</p>";
+                            } elseif($this->session->userdata('type') == "Admin Assistant"){
+                                echo "<p>Customer Accounts</p>";
+                            }
+                            ?>
                     </a>
                 </li>
                 <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
@@ -97,7 +105,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><?= $heading ?></a>
+                    <a class="navbar-brand"><?= $heading ?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
