@@ -194,6 +194,120 @@ class Home extends CI_Controller {
         $this->item_model->insertData('user_log', $data1);
         redirect('login');
     }
+
+    public function index_ordering() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/ads/front_slider');
+        $this->load->view('ordering/ads/featured_products');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function category() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function register() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/register');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function basket() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/basket');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function detail() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/detail');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function checkout1() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/checkout1');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function checkout2() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/checkout2');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function checkout3() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/checkout3');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function checkout4() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/checkout4');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function customer_orders() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/customer_orders');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function customer_order_view() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/customer_order_view');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function wishlist() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/wishlist');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function account() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/account');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function contact() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/contact');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function faq() {
+        $this->load->view('ordering/includes/header');
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/faq');
+        $this->load->view('ordering/includes/footer');
+    }
+
+
+
+
 }
 
 ?>
