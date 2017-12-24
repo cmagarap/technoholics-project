@@ -29,6 +29,35 @@
         .file:hover {
             background-color: lightblue;
         }
+        input[type=text] {
+            width: 200px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 7px 7px 7px 20px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+        input[type=text]:focus {
+            width: 40%;
+        }
+        button {
+            width: 50px;
+            box-sizing: border-box;
+            border: 2px solid #31bbe0;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: white;
+            padding: 7px;
+        }
+        .search:hover {
+            background-color: #31bbe0;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -120,7 +149,11 @@
                                 <li>
                                     <a href="#">
                                         <div align = "center">
-                                            <img src="<?= $this->config->base_url() ?>uploads_admin/<?= $user->image ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
+                                            <?php
+                                                $user_image = (string)$user->image;
+                                                $image_array = explode(".", $user_image);
+                                            ?>
+                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
                                             <br>
                                             <?= $user->username ?>
                                         </div>

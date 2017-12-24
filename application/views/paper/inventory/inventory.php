@@ -5,15 +5,21 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>Products List</b></h3>
-                        <p class="category">Here is a subtitle for this table</p><br>
-                        <a href = "#" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Add Product</a>
-                    </div>
-                    <br>
-                    <!--<div align = "">
-                        <input type="text" placeholder="Search..." class = "form-control border-input" width = "30%" style="margin: 20px; margin-right: 20px">
-                    </div>-->
+                        <div align = "left">
+                            <h3 class="title"><b>Products List</b></h3>
+                            <p class="category">Here is a subtitle for this table</p><br>
+                            <a href = "#" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
+                            <a href = "#" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
+                        </div>
 
+                        <div align = "right">
+                            <input type="text" name="search" placeholder="Search product...">
+                            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
+                            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+                        </div>
+                    </div>
+
+                    <br>
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
                     } else {
@@ -30,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                 <?php
-                                foreach ($products as $products):?>
+                                foreach ($products as $products): ?>
                                 <tr>
                                     <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
@@ -71,11 +77,11 @@
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                if (willDelete) {
-                    window.location = "<?= base_url() ?>inventory/delete_product/" + id;
-                } else {
-                    swal("The product is safe!");
-        }
-        });
+                    if (willDelete) {
+                        window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
+                    } else {
+                        swal("The product is safe!");
+                    }
+                });
         });
     </script>
