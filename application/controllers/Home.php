@@ -12,46 +12,14 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        $this->load->library('pagination');
-
-        $page = $this->uri->segment(3);
-        $perpage = 20;
-
-        $config['base_url'] = base_url() . "home/index";
-        $config['total_rows'] = $this->item_model->getCount("product");
-        $config['per_page'] = $perpage;
-
-        $config['full_tag_open'] = '<nav><ul class="pagination">';
-        $config['full_tag_close'] = ' </ul></nav>';
-        $config['first_link'] = 'First';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['first_url'] = '';
-        $config['last_link'] = 'Last';
-        $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
-        $config['next_link'] = '&raquo;';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['prev_link'] = '&laquo;';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-
-        $this->pagination->initialize($config);
-
-        $data['links'] = $this->pagination->create_links();
-
-        //$data['product'] = $this->item_model->getItems($page, $config['per_page']);
-
-        $data = array('title' => 'Home');
-        $data['product'] = $this->item_model->fetch('product', array('product_category' => "featured"));
-        $this->load->view("shop/includes/header", $data);
-        $this->load->view("shop/shopping_menu");
-        $this->load->view("shop/includes/footer");
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need."
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/ads/front_slider');
+        $this->load->view('ordering/ads/featured_products');
+        $this->load->view('ordering/includes/footer');
     }
 
     public function details() {
@@ -93,7 +61,6 @@ class Home extends CI_Controller {
     }
 
     function add() {
-
         $this->load->library("cart");
         $data = array(
             "id" => $_POST["product_id"],
@@ -190,49 +157,55 @@ class Home extends CI_Controller {
             'status' => '1'
         );
 
-        //print_r($data1);
         $this->item_model->insertData('user_log', $data1);
-        redirect('login');
-    }
-
-    public function index_ordering() {
-        $this->load->view('ordering/includes/header');
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/ads/front_slider');
-        $this->load->view('ordering/ads/featured_products');
-        $this->load->view('ordering/includes/footer');
+        redirect('home');
     }
 
     public function category() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/category');
         $this->load->view('ordering/includes/footer');
     }
 
     public function register() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/register');
         $this->load->view('ordering/includes/footer');
     }
 
     public function basket() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "My Shopping Cart" # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
     }
 
     public function detail() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/detail');
         $this->load->view('ordering/includes/footer');
     }
 
     public function checkout1() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "Checkout"
+        );
+        $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout1');
         $this->load->view('ordering/includes/footer');

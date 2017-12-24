@@ -6,7 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'  />
     <meta name="viewport" content="width=device-width" />
     <meta name="keywords" content="Technoholics, Technoholics Store, Online Philippine Store">
-    <meta name="description" content="Techonoholics Online Store">
+    <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
@@ -29,7 +29,7 @@
         .file:hover {
             background-color: lightblue;
         }
-        input[type=text] {
+        input[type=text].search {
             width: 200px;
             box-sizing: border-box;
             border: 2px solid #ccc;
@@ -42,9 +42,16 @@
             -webkit-transition: width 0.4s ease-in-out;
             transition: width 0.4s ease-in-out;
         }
-        input[type=text]:focus {
+        input[type=text]:focus.search {
             width: 40%;
+            background-color: lightblue;
         }
+
+        .searchbtn:hover {
+            background-color: #31bbe0;
+            color: white;
+        }
+
         button {
             width: 50px;
             box-sizing: border-box;
@@ -54,10 +61,7 @@
             background-color: white;
             padding: 7px;
         }
-        .search:hover {
-            background-color: #31bbe0;
-            color: white;
-        }
+
     </style>
 </head>
 <body>

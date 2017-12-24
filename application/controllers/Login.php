@@ -12,10 +12,14 @@ class Login extends CI_Controller {
     }
 
     public function index() {
-        #$data = array('title' => 'Home');
-        $this->load->view("login/login_form");
-        #$this->load->view("login/loginform");
-        #$this->load->view("login/includes/footer");
+        $data = array(
+            'title' => "TECHNOHOLICS Login"
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/login');
+        $this->load->view('ordering/includes/footer');
+        # $this->load->view("login/login_form");
     }
 
     public function forgotpassword() {
@@ -109,23 +113,18 @@ class Login extends CI_Controller {
         }
     }
 
-        public function passwordreset() {
+    public function passwordreset() {
         $data = array(
             'email' => $this->input->post('email'),
         );
-
         $accountDetails = $this->item_model->fetch("accounts", $data);
 
         if ($accountDetails) {
             $accountDetails = $accountDetails[0];
-
             $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
             $this->email->to($accountDetails->email);
-
             $this->email->subject('Password Reset Link');
-
             $this->email->message($this->load->view('forgot', $accountDetails, true));
-
 
             if (!$this->email->send()) {
                 
@@ -142,7 +141,6 @@ class Login extends CI_Controller {
             'title' => 'Change Password',
             'code' => $code
         );
-
         $this->form_validation->set_rules('password', "Please Enter a Password.", "required|alpha_numeric");
         $this->form_validation->set_rules('cpassword', "Please Confirm your Password.", "required|alpha_numeric|matches[password]");
         $this->form_validation->set_message('required', '{field}');
