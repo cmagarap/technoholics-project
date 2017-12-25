@@ -17,7 +17,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function index() {
-        if($this->session->userdata("type") == "General Manager" OR $this->session->userdata("type") == "Admin Assistant") {
+        if($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
             $data = array('title' => "Admin Home", "heading" => "Dashboard");
             # print_r($_SESSION);
             $this->load->view('paper/includes/header', $data);
@@ -26,13 +26,5 @@ class Dashboard extends CI_Controller {
         } else {
             redirect("home");
         }
-    }
-
-    public function seej() {
-        $data = array('title' => "Admin Home", "heading" => "Dashboard");
-        # print_r($_SESSION);
-        $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/dashboard');
-        $this->load->view('paper/includes/footer');
     }
 }

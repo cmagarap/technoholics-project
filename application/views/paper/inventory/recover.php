@@ -49,7 +49,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-info delete" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Delete Product">
+                                        <a class="btn btn-info recover" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
                                             <span class="ti-back-left"></span>
                                         </a>
                                     </td>
@@ -87,16 +87,16 @@
             var id = $(this).data('id');
 
             swal({
-                title: "Are you sure you want to delete this product?",
-                icon: "warning",
+                title: "Recover this product?",
+                icon: "success",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
+                        window.location = "<?= $this->config->base_url() ?>inventory/recover_product_exec/" + id;
                     } else {
-                        swal("The product is safe!");
+                        swal("The product has been restored.");
                     }
                 });
         });

@@ -52,7 +52,7 @@
             color: white;
         }
 
-        button {
+        /*button {
             width: 50px;
             box-sizing: border-box;
             border: 2px solid #31bbe0;
@@ -60,7 +60,7 @@
             font-size: 14px;
             background-color: white;
             padding: 7px;
-        }
+        }*/
 
         .navtxt:hover {
             color: #31bbe0;
@@ -70,6 +70,11 @@
             color: white;
         }
 
+        /* AYAW GUMANA*/
+        .recover:hover {
+            background: #7ace4c;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -112,9 +117,9 @@
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
                         <?php
-                            if($this->session->userdata('type') == "General Manager") {
+                            if($this->session->userdata('type') == 0) {
                                 echo "<p>Accounts</p>";
-                            } elseif($this->session->userdata('type') == "Admin Assistant"){
+                            } elseif($this->session->userdata('type') == 1){
                                 echo "<p>Customer Accounts</p>";
                             }
                             ?>
@@ -189,3 +194,4 @@
                 </div>
             </div>
         </nav>
+

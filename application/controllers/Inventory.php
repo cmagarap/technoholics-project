@@ -35,7 +35,7 @@
             $config['num_tag_open']='<li>';
             $config['num_tag_close']='</li>';
 
-            if($this->session->userdata('type') == "General Manager" OR $this->session->userdata('type') == "Admin Assistant") {
+            if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
                 $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1));
                 $this->pagination->initialize($config);
                 $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 1));
@@ -137,7 +137,7 @@
             $config['num_tag_open']='<li>';
             $config['num_tag_close']='</li>';
 
-            if($this->session->userdata('type') == "General Manager" OR $this->session->userdata('type') == "Admin Assistant") {
+            if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
                 $config['total_rows'] = $this->item_model->getCount('product', array("status" => 0));
                 $this->pagination->initialize($config);
                 $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 0));
@@ -152,6 +152,13 @@
                 $this->load->view("paper/inventory/recover");
                 $this->load->view("paper/includes/footer");
             }
+        }
+
+        public function recover_product_exec() {
+            /*$data = array(
+
+            );*/
+            $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
         }
 
         public function addproduct() {
@@ -179,7 +186,6 @@
                 $this->load->view('management/addproduct');
                 $this->load->view('management/includes/footer');
             } else {
-
                 $image = $this->upload->data('file_name');
                 $config2['image_library'] = 'gd2';
                 $config2['source_image'] = './uploads/' . $image;
