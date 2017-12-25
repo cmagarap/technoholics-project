@@ -14,7 +14,7 @@
                         <div align = "left">
                             <h3 class="title"><b>Deleted Products List</b></h3>
                             <p class="category"><i>You can recover deleted items here.</i></p><br>
-                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
+                            <a href = "<?= site_url('inventory/page'); ?>" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
                     </div>
 
@@ -49,7 +49,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-info recover" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
                                             <span class="ti-back-left"></span>
                                         </a>
                                     </td>
@@ -88,7 +88,7 @@
 
             swal({
                 title: "Recover this product?",
-                icon: "success",
+                icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
@@ -96,9 +96,8 @@
                     if (willDelete) {
                         window.location = "<?= $this->config->base_url() ?>inventory/recover_product_exec/" + id;
                     } else {
-                        swal("The product has been restored.");
+                        swal("The product remained inactive.");
                     }
                 });
         });
     </script>
-    <!-- Modal -->

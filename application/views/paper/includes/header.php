@@ -67,7 +67,7 @@
         }
 
         .navtxt {
-            color: white;
+            color: #38D5FF;
         }
 
         /* AYAW GUMANA*/

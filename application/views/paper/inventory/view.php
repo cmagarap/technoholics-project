@@ -6,7 +6,7 @@
                 <div class="card card-user">
                     <div class="content">
                         <div>
-                            <img src="<?= $this->config->base_url() ?>uploads/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
+                            <img src="<?= $this->config->base_url() ?>uploads_products/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
                         </div>
                         <div align = "center">
                             <br><hr><br>
