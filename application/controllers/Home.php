@@ -12,14 +12,29 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need."
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/ads/front_slider');
-        $this->load->view('ordering/ads/featured_products');
-        $this->load->view('ordering/includes/footer');
+        if ($this->session->has_userdata('isloggedin')) {
+            if ($this->session->userdata("type") == 2) {
+                $data = array(
+                    'title' => "TECHNOHOLICS | All the tech you need."
+                );
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/ads/front_slider');
+                $this->load->view('ordering/ads/featured_products');
+                $this->load->view('ordering/includes/footer');
+            } else {
+                redirect("dashboard");
+            }
+        } else {
+            $data = array(
+                'title' => "TECHNOHOLICS | All the tech you need."
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/ads/front_slider');
+            $this->load->view('ordering/ads/featured_products');
+            $this->load->view('ordering/includes/footer');
+        }
     }
 
     public function details() {
@@ -144,20 +159,17 @@ class Home extends CI_Controller {
     }
 
     public function logout() {
-        $this->session->sess_destroy();
         date_default_timezone_set("Asia/Manila");
-        $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid));
-        $userinformation = $userinformation[0];
-        $data1 = array(
-            "user_id" => $userinformation->user_id,
-            "user_type" => $userinformation->access_level,
-            "username" => $userinformation->username,
+        $for_log = array(
+            "user_id" => $this->session->uid,
+            "user_type" => $this->session->userdata('type'),
+            "username" => $this->session->userdata('username'),
             "date" => time(),
-            "action" => $userinformation->username . ' just logged out.',
+            "action" => 'Logged out.',
             'status' => '1'
         );
-
-        $this->item_model->insertData('user_log', $data1);
+        $this->item_model->insertData('user_log', $for_log);
+        $this->session->sess_destroy();
         redirect('home');
     }
 

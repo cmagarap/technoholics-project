@@ -45,53 +45,64 @@ class Login extends CI_Controller {
                             $this->index();
                         } elseif ($accountDetails->is_verified == 1) { # 1: verified
                             if ($accountDetails->access_level == 0) { # 0: head admin
+                                $for_session = array(
+                                    'username' => $accountDetails->username,
+                                    'type' => 0,
+                                    'date' => time()
+                                );
                                 $this->session->uid = $accountDetails->user_id;
+                                $this->session->set_userdata($for_session, true);
                                 $this->session->set_userdata('isloggedin', true);
-                                $this->session->set_userdata(array('type' => "General Manager"), true);
                                 $this->session->set_flashdata('myflashdata', true);
-                                $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
                                 $for_log = array(
-                                    "user_id" => $userinformation->user_id,
-                                    "user_type" => $userinformation->access_level,
-                                    "username" => $userinformation->username,
+                                    "user_id" => $this->session->uid,
+                                    "user_type" => $this->session->userdata('type'),
+                                    "username" => $this->session->userdata('username'),
                                     "date" => time(),
-                                    "action" => $userinformation->username . ' just logged in.',
+                                    "action" => 'Logged in.',
                                     'status' => '1'
                                 );
 
                                 $this->item_model->insertData('user_log', $for_log);
                                 redirect('dashboard');
                             } elseif ($accountDetails->access_level == 1) { # 1: sub-admin
+                                $for_session = array(
+                                    'username' => $accountDetails->username,
+                                    'type' => 1,
+                                    'date' => time()
+                                );
                                 $this->session->uid = $accountDetails->user_id;
+                                $this->session->set_userdata($for_session, true);
                                 $this->session->set_userdata('isloggedin', true);
-                                $this->session->set_userdata(array('type' => "Admin Assistant"), true);
                                 $this->session->set_flashdata('myflashdata', true);
-                                $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
                                 $for_log = array(
-                                    "user_id" => $userinformation->user_id,
-                                    "user_type" => $userinformation->access_level,
-                                    "username" => $userinformation->username,
+                                    "user_id" => $this->session->uid,
+                                    "user_type" => $this->session->userdata('type'),
+                                    "username" => $this->session->userdata('username'),
                                     "date" => time(),
-                                    "action" => $userinformation->username . ' just logged in.',
+                                    "action" => 'Logged in.',
                                     'status' => '1'
                                 );
-
                                 $this->item_model->insertData('user_log', $for_log);
                                 redirect('dashboard');
                             } else if ($accountDetails->access_level == 2) { # 2: customer
+                                $for_session = array(
+                                    'username' => $accountDetails->username,
+                                    'type' => 2,
+                                    'date' => time()
+                                );
                                 $this->session->uid = $accountDetails->user_id;
+                                $this->session->set_userdata($for_session, true);
                                 $this->session->set_userdata('isloggedin', true);
                                 $this->session->set_flashdata('myflashdata', true);
-                                $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
                                 $for_log = array(
-                                    "user_id" => $userinformation->user_id,
-                                    "user_type" => $userinformation->access_level,
-                                    "username" => $userinformation->username,
+                                    "user_id" => $this->session->uid,
+                                    "user_type" => $this->session->userdata('type'),
+                                    "username" => $this->session->userdata('username'),
                                     "date" => time(),
-                                    "action" => $userinformation->username . ' just logged in.',
+                                    "action" => 'Logged in.',
                                     'status' => '1'
                                 );
-
                                 $this->item_model->insertData('user_log', $for_log);
                                 redirect('home');
                             }

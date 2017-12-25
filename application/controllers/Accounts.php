@@ -16,7 +16,7 @@ class Accounts extends CI_Controller {
     }
 
     public function index() { # to be changed to page()
-        if($this->session->userdata('type') == "General Manager") {
+        if($this->session->userdata('type') == 0) {
             $users = $this->item_model->fetch("accounts", array("status" => 1));
             $data = array(
                 'title' => 'Accounts Management',
@@ -26,7 +26,7 @@ class Accounts extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
-        } elseif($this->session->userdata('type') == "Admin Assistant") {
+        } elseif($this->session->userdata('type') == 1) {
             $users = $this->item_model->fetch("accounts", array("status" => 1, "access_level" => 2));
             $data = array(
                 'title' => 'Accounts Management',
@@ -36,11 +36,13 @@ class Accounts extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/customers");
             $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
         }
     }
 
     public function view() {
-        if($this->session->userdata('type') == "General Manager") {
+        if($this->session->userdata('type') == 0) {
             $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
 
             $data = array(

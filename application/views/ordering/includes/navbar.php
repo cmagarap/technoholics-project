@@ -237,9 +237,7 @@ _________________________________________________________ -->
                 </button>
                 &nbsp;
             </div>
-
         </div>
-
         <div class="collapse clearfix" id="search">
             <form class="navbar-form" role="search">
                 <div class="input-group">
@@ -255,6 +253,7 @@ _________________________________________________________ -->
 
 <!-- *** NAVBAR END *** -->
 
+<!-- MODAL
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -271,17 +270,14 @@ _________________________________________________________ -->
                     <div class="form-group">
                         <input type="password" class="form-control" id="password-modal" placeholder="password">
                     </div>
-
                     <p class="text-center">
                         <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
                     </p>
-
                 </form>
-
                 <p class="text-center text-muted">Not registered yet?</p>
                 <p class="text-center text-muted"><a href="<?= base_url().'home/register'; ?>"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
-
             </div>
         </div>
     </div>
 </div>
+-->

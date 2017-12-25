@@ -41,7 +41,7 @@ class User_log extends CI_Controller {
         $config['num_tag_open']='<li>';
         $config['num_tag_close']='</li>';
 
-        if($this->session->userdata('type') == "General Manager") {
+        if($this->session->userdata('type') == 0) {
             $config['total_rows'] = $this->item_model->getCount('user_log');
             $this->pagination->initialize($config);
             $logs = $this->item_model->getLogWithLimit($perpage, $this->uri->segment(3));
@@ -55,7 +55,7 @@ class User_log extends CI_Controller {
             $this->load->view("paper/user_log/user_log");
             $this->load->view("paper/includes/footer");
         }
-        elseif($this->session->userdata('type') == "Admin Assistant") {
+        elseif($this->session->userdata('type') == 1) {
             $config['total_rows'] = $this->item_model->getCount('user_log', array("user_type" => 2));
             $this->pagination->initialize($config);
             $logs = $this->item_model->getLogWithLimit($perpage, $this->uri->segment(3), array("user_type" => 2));
