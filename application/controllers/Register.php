@@ -5,13 +5,14 @@ class Register extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library('email');
+        $this->load->library(array('session', 'form_validation', 'email', 'recaptcha'));
         $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('recaptcha');
+        if ($this->session->has_userdata('isloggedin')) {
+            redirect('home/');
+        }
     }
 
-    function index() {
+    /*function index() {
         $data = array('title' => 'Registration',
             'script' => $this->recaptcha->getScriptTag(),
             'widget' => $this->recaptcha->getWidget(),
@@ -20,6 +21,16 @@ class Register extends CI_Controller {
         $this->load->view('registration/includes/header', $data);
         $this->load->view('registration/registration');
         $this->load->view('registration/includes/footer');
+    }*/
+
+    public function index() {
+        $data = array(
+            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/register');
+        $this->load->view('ordering/includes/footer');
     }
 
     public function register_submit() {

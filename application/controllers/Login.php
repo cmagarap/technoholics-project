@@ -31,15 +31,15 @@ class Login extends CI_Controller {
 
     public function login_submit() {
         $accountDetails = $this->item_model->fetch("accounts", array("username" => $this->input->post("username")));
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_message('required', 'Please fill out the {field} field.');
+        $this->form_validation->set_rules('username', 'username', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if($this->form_validation->run()) {
             if ($accountDetails) { # if the user exists
                 $accountDetails = $accountDetails[0];
-                if($accountDetails->password == sha1($this->input->post("password"))) { # if passwords match
-                    if ($accountDetails->status == 1) { # if the account is active
+                if ($accountDetails->status == 1) { # if the account is active
+                    if($accountDetails->password == sha1($this->input->post("password"))) { # if passwords match
                         if ($accountDetails->is_verified == 0) { # if not yet verified
                             $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
                             $this->index();
@@ -107,12 +107,12 @@ class Login extends CI_Controller {
                                 redirect('home');
                             }
                         }
-                    } elseif($accountDetails->status == 0) { # if the account is inactive
-                        $this->session->set_flashdata('error', 'Your account is inactive.');
+                    } else { # wrong password entered
+                        $this->session->set_flashdata('error', 'You entered a wrong password.');
                         $this->index();
                     }
-                } else { # wrong password entered
-                    $this->session->set_flashdata('error', 'You entered a wrong password.');
+                } elseif($accountDetails->status == 0) { # if the account is inactive
+                    $this->session->set_flashdata('error', 'Your account is inactive.');
                     $this->index();
                 }
             } else { # if the user does not exist

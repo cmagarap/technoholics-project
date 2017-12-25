@@ -26,22 +26,32 @@
                     <form action = "<?= $this->config->base_url(); ?>login/login_submit" method = "POST">
                         <div class="form-group">
                             <label for="email">Username</label>
-                            <input type="text" class="form-control" name="username">
+                            <?php if(form_error("username")): ?>
+                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>" style = "border-color: red">
+                                <span style = 'color: red'><?= form_error("username") ?></span>
+                            <?php else: ?>
+                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>">
+                            <?php endif; ?>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <?php if(form_error("password")): ?>
+                                <input type="password" class="form-control" name="password" value = "<?= $password; ?>" style = "border-color: red">
+                                <span style = 'color: red'><?= form_error("password") ?></span>
+                            <?php else: ?>
+                                <input type="password" class="form-control" name="password" value = "<?= $password; ?>">
+                            <?php endif; ?>
                         </div>
                         <div class="form-group">
                             <a href="<?= $this->config->base_url(); ?>payroll/forgot"> Forgot password?</a>
                         </div>
-                        <font color = "red"><?php echo validation_errors(); ?>
+                        <span style = 'color: red'>
                             <?php
                             if ($this->session->flashdata('error') != '') {
-                                echo $this->session->flashdata('error');
+                                echo $this->session->flashdata('error')."<br><br>";
                             }
                             ?>
-                        </font>
+                        </span>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
                         </div>
