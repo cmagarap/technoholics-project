@@ -28,6 +28,14 @@ class Item_model extends CI_Model {
 
         $this->db->delete($table);
     }
+
+    function getDistinct($table, $column, $order) {
+        $this->db->order_by($column, $order);
+        $this->db->select($column);
+        $this->db->distinct();
+        $query = $this->db->get($table);
+        return ($query->num_rows()) ? $query->result() : FALSE;
+    }
 /*
     function getCount() {
         $query = $this->db->get('product');

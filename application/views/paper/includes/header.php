@@ -67,7 +67,7 @@
         }
 
         .navtxt {
-            color: white;
+            color: #38D5FF;
         }
 
         /* AYAW GUMANA*/
@@ -75,6 +75,7 @@
             background: #7ace4c;
             color: white;
         }
+
     </style>
 </head>
 <body>

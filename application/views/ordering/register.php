@@ -36,25 +36,23 @@
                     </form>
                 </div>
             </div>
+            <?php
+            if($_POST) {
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+            }
+            else {
+                $username = "";
+                $password = "";
+            }
+            ?>
             <div class="col-md-6">
                 <div class="box">
                     <h1>Login</h1>
-                    <p class="lead" style = "display: inline">Already our customer? </p>
+                    <p class="lead" style = "display: inline">Already a member? </p>
                     <p class="text-muted" style = "display: inline">Sign in now to start shopping.</p>
                     <hr>
-                    <form action="<?= base_url().'home/customer_orders'; ?>" method="post">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                        </div>
-                    </form>
+                    <a href = "<?= base_url().'login'; ?>" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</a>
                 </div>
             </div>
         </div> <!-- /.container -->

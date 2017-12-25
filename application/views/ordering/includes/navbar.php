@@ -33,9 +33,9 @@ _________________________________________________________ -->
                             </div>
                         </li>
                     <?php else: ?>
-                    <li><a href="<?= base_url().'login/'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
+                    <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
                     </li>
-                    <li><a href="<?= base_url().'home/register'; ?>">Register</a>
+                    <li><a href="<?= base_url().'register'; ?>">Register</a>
                     </li>
                     <?php endif; ?>
                     <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a>
