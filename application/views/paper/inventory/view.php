@@ -11,11 +11,11 @@
                         <div align = "center">
                             <br><hr><br>
                             <h4 class="title"><?= $products->product_name ?><br />
-                                <a href="#"><small><?= $products->product_category ?></small></a>
+                                <a><small><?= $products->product_category ?></small></a>
                             </h4>
                             <br>
                             <p class="description text-center">
-                                    <i><?= $products->product_desc ?></i>
+                                <i><?= $products->product_desc ?></i>
                             </p>
                             <br>
                         </div>

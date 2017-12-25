@@ -66,16 +66,76 @@
             $this->load->view('management/includes/footer');
         }
 
-        public function edit() {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: Edit Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/inventory/edit');
-            $this->load->view('paper/includes/footer');
+        public function edit_product() {
+            if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+                $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+                $data = array(
+                    'title' => "Inventory: Edit Product",
+                    'heading' => "Inventory",
+                    'products' => $product
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view('paper/inventory/edit');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect("home/");
+            }
+        }
+
+        public function edit_product_exec() {
+            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
+            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+            $this->form_validation->set_message('required', '{field}');
+
+            if ($this->form_validation->run()) {
+                $config['encrypt_name'] = TRUE;
+                $config['upload_path'] = './uploads_products/';
+                $config['allowed_types'] = "gif|jpg|png";
+                $config['max_size'] = 0;
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('product_image') == TRUE) {
+                    $image = $this->upload->data('file_name');
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './uploads_products/' . $image;
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    $data = array(
+                        'product_name' => trim($this->input->post('product_name')),
+                        'product_price' => $this->input->post('product_price'),
+                        'product_quantity' => $this->input->post('product_quantity'),
+                        'product_category' => $this->input->post('product_category'),
+                        'product_image' => $image,
+                        'supplier' => trim($this->input->post('supplier')),
+                        'updated_at' => time(),
+                        'product_desc' => $this->input->post('product_desc'),
+                        'status' => '1'
+                    );
+                } else {
+                    $data = array(
+                        'product_name' => trim($this->input->post('product_name')),
+                        'product_price' => $this->input->post('product_price'),
+                        'product_quantity' => $this->input->post('product_quantity'),
+                        'product_category' => $this->input->post('product_category'),
+                        'supplier' => trim($this->input->post('supplier')),
+                        'updated_at' => time(),
+                        'product_desc' => $this->input->post('product_desc'),
+                        'status' => '1'
+                    );
+                }
+
+                $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+                redirect("inventory/page");
+            } else {
+                $this->edit_product();
+            }
         }
 
         public function view() {
@@ -88,17 +148,6 @@
             $this->load->view('paper/includes/header', $data);
             $this->load->view('paper/inventory/view');
             $this->load->view('paper/includes/footer');
-        }
-
-        public function updateproduct() {
-            $data = array(
-                'product_name' => $this->input->post('product_name'),
-                'product_desc' => $this->input->post('product_desc'),
-                'product_price' => $this->input->post('product_price'),
-                'updated_at' => time()
-            );
-            $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
-            redirect("management/product");
         }
 
         public function delete_product() {
@@ -226,12 +275,12 @@
                 }
 
                 $data = array(
-                    'product_name' => $this->input->post('product_name'),
+                    'product_name' => trim($this->input->post('product_name')),
                     'product_price' => $this->input->post('product_price'),
                     'product_quantity' => $this->input->post('product_quantity'),
                     'product_category' => $this->input->post('product_category'),
                     'product_image' => $image,
-                    'supplier' => $this->input->post('supplier'),
+                    'supplier' => trim($this->input->post('supplier')),
                     'added_at' => time(),
                     'product_desc' => $this->input->post('product_desc'),
                     'status' => '1'
