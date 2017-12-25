@@ -10,7 +10,7 @@
             }
         }
 
-        public function page() {
+        public function page() { # This is the index
             $this->load->library('pagination');
             $perpage = 20;
             $config['base_url'] = base_url()."inventory/page";
@@ -54,16 +54,88 @@
             }
         }
 
-        public function product() {
-            $allvalues = $this->item_model->fetch('product', array("status" => true));
-
+        public function view() {
+            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
             $data = array(
-                'title' => "Product Management",
-                'products' => $allvalues
+                'title' => "Inventory: View Product",
+                'heading' => "Inventory",
+                'products' => $product
             );
-            $this->load->view('management/includes/header', $data);
-            $this->load->view('management/product_manage');
-            $this->load->view('management/includes/footer');
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/inventory/view');
+            $this->load->view('paper/includes/footer');
+        }
+
+        public function add_product() {
+            if(($this->session->userdata('type') == 0) OR ($this->session->userdata('type') == 1)) {
+                $data = array(
+                    'title' => 'Inventory: Add Product',
+                    'heading' => 'Inventory'
+                );
+
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view('paper/inventory/add_product');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('home/');
+            }
+        }
+
+        public function add_product_exec() {
+            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
+            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+            $this->form_validation->set_message('required', '{field}');
+
+            if ($this->form_validation->run()) {
+                $config['encrypt_name'] = TRUE;
+                $config['upload_path'] = './uploads_products/';
+                $config['allowed_types'] = "gif|jpg|png";
+                $config['max_size'] = 0;
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('product_image') == FALSE) {
+                    $image = "default-product.jpg";
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './uploads_products/' . $image;
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    #$this->image_lib->initialize($config2);
+                } else {
+                    $image = $this->upload->data('file_name');
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './uploads_products/' . $image;
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    #$this->image_lib->initialize($config2);
+                }
+
+                $data = array(
+                    'product_name' => trim($this->input->post('product_name')),
+                    'product_price' => $this->input->post('product_price'),
+                    'product_quantity' => $this->input->post('product_quantity'),
+                    'product_category' => $this->input->post('product_category'),
+                    'product_image' => $image,
+                    'supplier' => trim($this->input->post('supplier')),
+                    'added_at' => time(),
+                    'product_desc' => $this->input->post('product_desc'),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('product', $data);
+                redirect("inventory/page");
+            } else {
+                $this->add_product();
+            }
         }
 
         public function edit_product() {
@@ -138,18 +210,6 @@
             }
         }
 
-        public function view() {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: View Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/inventory/view');
-            $this->load->view('paper/includes/footer');
-        }
-
         public function delete_product() {
             $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
             $for_log = array(
@@ -218,78 +278,6 @@
             );
             $this->item_model->insertData('user_log', $for_log);
             redirect("inventory/recover_product");
-        }
-
-        public function add_product() {
-            if(($this->session->userdata('type') == 0) OR ($this->session->userdata('type') == 1)) {
-                $data = array(
-                    'title' => 'Inventory: Add Product',
-                    'heading' => 'Inventory'
-                );
-
-                $this->load->view('paper/includes/header', $data);
-                $this->load->view('paper/inventory/add_product');
-                $this->load->view('paper/includes/footer');
-            } else {
-                redirect('home/');
-            }
-        }
-
-        public function add_product_exec() {
-            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
-            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
-            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
-            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
-            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
-            $this->form_validation->set_message('required', '{field}');
-
-            if ($this->form_validation->run()) {
-                $config['encrypt_name'] = TRUE;
-                $config['upload_path'] = './uploads_products/';
-                $config['allowed_types'] = "gif|jpg|png";
-                $config['max_size'] = 0;
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('product_image') == FALSE) {
-                    $image = "default-product.jpg";
-                    $config2['image_library'] = 'gd2';
-                    $config2['source_image'] = './uploads_products/' . $image;
-                    $config2['create_thumb'] = TRUE;
-                    $config2['maintain_ratio'] = TRUE;
-                    $config2['width'] = 75;
-                    $config2['height'] = 50;
-                    $this->load->library('image_lib', $config2);
-                    $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
-                } else {
-                    $image = $this->upload->data('file_name');
-                    $config2['image_library'] = 'gd2';
-                    $config2['source_image'] = './uploads_products/' . $image;
-                    $config2['create_thumb'] = TRUE;
-                    $config2['maintain_ratio'] = TRUE;
-                    $config2['width'] = 75;
-                    $config2['height'] = 50;
-                    $this->load->library('image_lib', $config2);
-                    $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
-                }
-
-                $data = array(
-                    'product_name' => trim($this->input->post('product_name')),
-                    'product_price' => $this->input->post('product_price'),
-                    'product_quantity' => $this->input->post('product_quantity'),
-                    'product_category' => $this->input->post('product_category'),
-                    'product_image' => $image,
-                    'supplier' => trim($this->input->post('supplier')),
-                    'added_at' => time(),
-                    'product_desc' => $this->input->post('product_desc'),
-                    'status' => '1'
-                );
-                $this->item_model->insertData('product', $data);
-                redirect("inventory/page");
-            } else {
-                $this->add_product();
-            }
         }
     }
 ?>
