@@ -20,7 +20,7 @@
 
                     <br>
                     <?php if(!$products) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are no deleted products recorded in the database.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">
@@ -49,7 +49,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
+                                        <a class="btn btn-danger recover" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
                                             <span class="ti-back-left"></span>
                                         </a>
                                     </td>

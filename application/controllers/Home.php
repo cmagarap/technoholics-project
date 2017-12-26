@@ -1,19 +1,16 @@
 <?php
 
 class Home extends CI_Controller {
-
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->model('shopping_cart_model');
-        $this->load->library(array('email', 'session'));
-        $this->load->library('form_validation');
-        $this->load->library("cart");
+        $this->load->library(array('email', 'session', 'form_validation', 'cart'));
     }
 
     public function index() {
         if ($this->session->has_userdata('isloggedin')) {
-            if ($this->session->userdata("type") == 2) {
+            if ($this->session->userdata("type") == 2) { # if customer
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need."
                 );
@@ -22,10 +19,10 @@ class Home extends CI_Controller {
                 $this->load->view('ordering/ads/front_slider');
                 $this->load->view('ordering/ads/featured_products');
                 $this->load->view('ordering/includes/footer');
-            } else {
+            } elseif ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
                 redirect("dashboard");
             }
-        } else {
+        } else { # if not logged in
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need."
             );
@@ -156,21 +153,6 @@ class Home extends CI_Controller {
             $output = '<h3 align="center">Cart is Empty</h3>';
         }
         return $output;
-    }
-
-    public function logout() {
-        date_default_timezone_set("Asia/Manila");
-        $for_log = array(
-            "user_id" => $this->session->uid,
-            "user_type" => $this->session->userdata('type'),
-            "username" => $this->session->userdata('username'),
-            "date" => time(),
-            "action" => 'Logged out.',
-            'status' => '1'
-        );
-        $this->item_model->insertData('user_log', $for_log);
-        $this->session->sess_destroy();
-        redirect('home');
     }
 
     public function category() {

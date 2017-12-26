@@ -28,7 +28,7 @@ _________________________________________________________ -->
                                         </div>
                                     </a>
                                     <a href="#about">...</a>
-                                    <a href="<?= $this->config->base_url() ?>home/logout">Logout</a>
+                                    <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
                         </li>
