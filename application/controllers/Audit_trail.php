@@ -6,7 +6,7 @@
  * Time: 1:11 PM
  */
 
-class Transaction_log extends CI_Controller {
+class Audit_trail extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
@@ -18,8 +18,8 @@ class Transaction_log extends CI_Controller {
 
     public function page() { # to be changed to page()
         $data = array(
-            'title' => 'Transaction Log Management',
-            'heading' => 'Transaction Log'
+            'title' => 'Audit Trail Management',
+            'heading' => 'Audit Trail'
         );
         $this->load->view("paper/includes/header", $data);
         $this->load->view("paper/includes/footer");

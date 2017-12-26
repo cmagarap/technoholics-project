@@ -43,7 +43,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
-                            <a href="<?= $this->config->base_url(); ?>payroll/forgot"> Forgot password?</a>
+                            <a href="<?= $this->config->base_url(); ?>login/forgot"> Forgot password?</a>
                         </div>
                         <?php if(!validation_errors()):
                                 if ($this->session->flashdata('error') != ''): ?>

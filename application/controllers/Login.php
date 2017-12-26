@@ -19,14 +19,6 @@ class Login extends CI_Controller {
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/login');
         $this->load->view('ordering/includes/footer');
-        # $this->load->view("login/login_form");
-    }
-
-    public function forgotpassword() {
-        $data = array('title' => 'Home');
-        $this->load->view("login/includes/header", $data);
-        $this->load->view("login/forgotpass");
-        $this->load->view("login/includes/footer");
     }
 
     public function login_submit() {
@@ -36,12 +28,11 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
-        if($this->form_validation->run()) {
+        if ($this->form_validation->run()) {
             $sql = "SELECT * FROM accounts WHERE username = '" . $this->input->post('user') . "' OR email = '" . $this->input->post('user') . "'";
             $query = $this->db->query($sql);
-
-                if ($query->row()) { # if the user exists
-                    foreach ($query->result() as $query) {
+            if ($query->row()) { # if the user exists
+                foreach ($query->result() as $query) {
                     if ($query->status == 1) { # if the account is active
                         if ($query->password == sha1($this->input->post("password"))) { # if passwords match
                             if ($query->is_verified == 0) { # if not yet verified
@@ -120,17 +111,27 @@ class Login extends CI_Controller {
                         $this->index();
                     }
                 }
-                } else { # if the user does not exist
-                    $this->session->set_flashdata('error', 'No such user exists.');
-                    $this->index();
-                }
+            } else { # if the user does not exist
+                $this->session->set_flashdata('error', 'No such user exists.');
+                $this->index();
+            }
             #}
         } else { # if the validations were not met
             $this->index();
         }
     }
 
-    public function passwordreset() {
+    public function forgot() {
+        $data = array(
+            'title' => "Request for password reset"
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/forgot_password');
+        $this->load->view('ordering/includes/footer');
+    }
+
+    public function password_reset() {
         $data = array(
             'email' => $this->input->post('email'),
         );
@@ -144,7 +145,7 @@ class Login extends CI_Controller {
             $this->email->message($this->load->view('forgot', $accountDetails, true));
 
             if (!$this->email->send()) {
-                
+
             } else {
                 $this->session->set_flashdata('isreset', true);
                 redirect("login/");
