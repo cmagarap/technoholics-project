@@ -4,8 +4,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session'));
-        $this->load->library('form_validation');
+        $this->load->library(array('email', 'session', 'form_validation'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -122,34 +121,42 @@ class Login extends CI_Controller {
     }
 
     public function forgot() {
-        $data = array(
-            'title' => "Request for password reset"
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/forgot_password');
-        $this->load->view('ordering/includes/footer');
+        if (!$this->session->has_userdata('isloggedin')) {
+            $data = array(
+                'title' => "Request for password reset"
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/forgot_password');
+            $this->load->view('ordering/includes/footer');
+        } else {
+            redirect('home');
+        }
     }
 
     public function password_reset() {
-        $data = array(
-            'email' => $this->input->post('email'),
-        );
-        $accountDetails = $this->item_model->fetch("accounts", $data);
+        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
+        $this->form_validation->set_message('required', 'Please enter your {field}.');
 
-        if ($accountDetails) {
-            $accountDetails = $accountDetails[0];
-            $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
-            $this->email->to($accountDetails->email);
-            $this->email->subject('Password Reset Link');
-            $this->email->message($this->load->view('forgot', $accountDetails, true));
+        if ($this->form_validation->run()) {
+            $accountDetails = $this->item_model->fetch("accounts", array('email' => $this->input->post('email')));
 
-            if (!$this->email->send()) {
+            if ($accountDetails) {
+                $accountDetails = $accountDetails[0];
+                $this->email->from('seej.max@gmail.com', 'TECHNOHOLICS');
+                $this->email->to($accountDetails->email);
+                $this->email->subject('Password Reset Link');
+                $this->email->message("kjnkkjnknknknknk");
 
-            } else {
-                $this->session->set_flashdata('isreset', true);
-                redirect("login/");
+                if (!$this->email->send()) {
+
+                } else {
+                    $this->session->set_flashdata('isreset', true);
+                    redirect("login/");
+                }
             }
+        } else {
+            $this->forgot();
         }
     }
 
@@ -167,7 +174,7 @@ class Login extends CI_Controller {
             $this->load->view("login/changepass");
             $this->load->view("login/includes/footer");
         }
-        //success
+        // Success
         else {
             $data = array('password' => sha1($this->input->post('password')));
             $this->item_model->updatedata('accounts', $data, array('verification_code' => $code));
