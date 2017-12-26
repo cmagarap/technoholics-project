@@ -1,9 +1,12 @@
 <?php
 
 class Item_model extends CI_Model {
-    function fetch($table, $where = NULL) {
+    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
+        }
+        if (!empty($orderby) AND !empty($order)) {
+            $this->db->order_by($orderby, $order);
         }
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
@@ -92,6 +95,12 @@ class Item_model extends CI_Model {
         #$this->db->offset($offset);
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
+        return $query->result();
+    }
+
+    function getCustomerAndAdmin(){
+        $sql = "SELECT * FROM accounts WHERE access_level != 0 AND status = 1 ORDER BY username ASC";
+        $query  = $this->db->query($sql);
         return $query->result();
     }
 }
