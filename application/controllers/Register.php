@@ -66,10 +66,10 @@ class Register extends CI_Controller {
                 'verification_code' => $hash,
             );
 
-            $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
+            $this->email->from('seej.max@gmail.com', 'TECHNOHOLICS');
             $this->email->to($this->input->post('email'));
             $this->email->subject('Email Verification');
-            $this->email->message(/*$this->load->view('welcome_message', $data, true)*/ "hello");
+            $this->email->message("hello");
 
             if (!$this->email->send()) {
                 $this->email->print_debugger();
