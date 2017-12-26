@@ -11,11 +11,11 @@
             <div class = "col-md-3"></div>
             <?php
             if($_POST) {
-                $username = $_POST['username'];
+                $user = $_POST['user'];
                 $password = $_POST['password'];
             }
             else {
-                $username = "";
+                $user = "";
                 $password = "";
             }
             ?>
@@ -25,12 +25,12 @@
                     <hr>
                     <form action = "<?= $this->config->base_url(); ?>login/login_submit" method = "POST">
                         <div class="form-group">
-                            <label for="email">Username</label>
-                            <?php if(form_error("username")): ?>
-                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>" style = "border-color: red">
-                                <span style = 'color: red'><?= form_error("username") ?></span>
+                            <label for="email">Username or Email</label>
+                            <?php if(form_error("user")): ?>
+                                <input type="text" class="form-control" name="user" value = "<?= $user; ?>" style = "border-color: red">
+                                <span style = 'color: red'><?= form_error("user") ?></span>
                             <?php else: ?>
-                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>">
+                                <input type="text" class="form-control" name="user" value = "<?= $user; ?>">
                             <?php endif; ?>
                         </div>
                         <div class="form-group">

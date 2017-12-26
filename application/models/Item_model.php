@@ -39,12 +39,7 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
-/*
-    function getCount() {
-        $query = $this->db->get('product');
-        return $query->num_rows();
-    }
-*/
+
     function getCount($table, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
@@ -81,12 +76,12 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-    public function getItems($page, $noOfRows) {
+    /*public function getItems($page, $noOfRows) {
         $q = $this->db->get('product', $noOfRows, $page);
         return $q->result();
-    }
+    }*/
 
-    function getProducts($table, /*$limit, $offset,*/ $orderby, $order, $where = NULL) {
+    /*function getProducts($table, $limit, $offset, $orderby, $order, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
@@ -96,11 +91,5 @@ class Item_model extends CI_Model {
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
         return $query->result();
-    }
-
-    function getCustomerAndAdmin(){
-        $sql = "SELECT * FROM accounts WHERE access_level != 0 AND status = 1 ORDER BY username ASC";
-        $query  = $this->db->query($sql);
-        return $query->result();
-    }
+    }*/
 }
