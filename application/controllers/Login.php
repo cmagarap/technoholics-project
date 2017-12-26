@@ -7,7 +7,7 @@ class Login extends CI_Controller {
         $this->load->library(array('email', 'session'));
         $this->load->library('form_validation');
         if ($this->session->has_userdata('isloggedin')) {
-            redirect('home/');
+            redirect('home');
         }
     }
 

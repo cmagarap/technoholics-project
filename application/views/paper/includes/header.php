@@ -72,7 +72,8 @@
 
         /* AYAW GUMANA*/
         .recover:hover {
-            background: #7ace4c;
+            background-color: #7ace4c;
+            border-color: #7ace4c;
             color: white;
         }
 
@@ -179,7 +180,7 @@
                                     </a>
                                 </li>
                                 <li><a href="#">Manage my account</a></li>
-                                <li><a href="<?= $this->config->base_url() ?>home/logout">Logout</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
                         <li>

@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set("Asia/Manila");
 class Register extends CI_Controller {
 
     function __construct() {
