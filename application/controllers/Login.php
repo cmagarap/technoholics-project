@@ -4,8 +4,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session'));
-        $this->load->library('form_validation');
+        $this->load->library(array('email', 'session', 'form_validation'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -19,130 +18,145 @@ class Login extends CI_Controller {
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/login');
         $this->load->view('ordering/includes/footer');
-        # $this->load->view("login/login_form");
-    }
-
-    public function forgotpassword() {
-        $data = array('title' => 'Home');
-        $this->load->view("login/includes/header", $data);
-        $this->load->view("login/forgotpass");
-        $this->load->view("login/includes/footer");
     }
 
     public function login_submit() {
-        $accountDetails = $this->item_model->fetch("accounts", array("username" => $this->input->post("username")));
-        $this->form_validation->set_rules('username', 'username', 'required');
+        #$accountDetails = $this->item_model->fetch("accounts", array("username" => $this->input->post("username")));
+
+        $this->form_validation->set_rules('user', 'username/email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
-        if($this->form_validation->run()) {
-            if ($accountDetails) { # if the user exists
-                $accountDetails = $accountDetails[0];
-                if ($accountDetails->status == 1) { # if the account is active
-                    if($accountDetails->password == sha1($this->input->post("password"))) { # if passwords match
-                        if ($accountDetails->is_verified == 0) { # if not yet verified
-                            $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
-                            $this->index();
-                        } elseif ($accountDetails->is_verified == 1) { # 1: verified
-                            if ($accountDetails->access_level == 0) { # 0: head admin
-                                $for_session = array(
-                                    'username' => $accountDetails->username,
-                                    'type' => 0,
-                                    'date' => time()
-                                );
-                                $this->session->uid = $accountDetails->user_id;
-                                $this->session->set_userdata($for_session, true);
-                                $this->session->set_userdata('isloggedin', true);
-                                $this->session->set_flashdata('myflashdata', true);
-                                $for_log = array(
-                                    "user_id" => $this->session->uid,
-                                    "user_type" => $this->session->userdata('type'),
-                                    "username" => $this->session->userdata('username'),
-                                    "date" => time(),
-                                    "action" => 'Logged in.',
-                                    'status' => '1'
-                                );
+        if ($this->form_validation->run()) {
+            $sql = "SELECT * FROM accounts WHERE username = '" . $this->input->post('user') . "' OR email = '" . $this->input->post('user') . "'";
+            $query = $this->db->query($sql);
+            if ($query->row()) { # if the user exists
+                foreach ($query->result() as $query) {
+                    if ($query->status == 1) { # if the account is active
+                        if ($query->password == sha1($this->input->post("password"))) { # if passwords match
+                            if ($query->is_verified == 0) { # if not yet verified
+                                $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
+                                $this->index();
+                            } elseif ($query->is_verified == 1) { # 1: verified
+                                if ($query->access_level == 0) { # 0: head admin
+                                    $for_session = array(
+                                        'username' => $query->username,
+                                        'type' => 0,
+                                        'date' => time()
+                                    );
+                                    $this->session->uid = $query->user_id;
+                                    $this->session->set_userdata($for_session, true);
+                                    $this->session->set_userdata('isloggedin', true);
+                                    $this->session->set_flashdata('myflashdata', true);
+                                    $for_log = array(
+                                        "user_id" => $this->session->uid,
+                                        "user_type" => $this->session->userdata('type'),
+                                        "username" => $this->session->userdata('username'),
+                                        "date" => time(),
+                                        "action" => 'Logged in.',
+                                        'status' => '1'
+                                    );
 
-                                $this->item_model->insertData('user_log', $for_log);
-                                redirect('dashboard');
-                            } elseif ($accountDetails->access_level == 1) { # 1: sub-admin
-                                $for_session = array(
-                                    'username' => $accountDetails->username,
-                                    'type' => 1,
-                                    'date' => time()
-                                );
-                                $this->session->uid = $accountDetails->user_id;
-                                $this->session->set_userdata($for_session, true);
-                                $this->session->set_userdata('isloggedin', true);
-                                $this->session->set_flashdata('myflashdata', true);
-                                $for_log = array(
-                                    "user_id" => $this->session->uid,
-                                    "user_type" => $this->session->userdata('type'),
-                                    "username" => $this->session->userdata('username'),
-                                    "date" => time(),
-                                    "action" => 'Logged in.',
-                                    'status' => '1'
-                                );
-                                $this->item_model->insertData('user_log', $for_log);
-                                redirect('dashboard');
-                            } else if ($accountDetails->access_level == 2) { # 2: customer
-                                $for_session = array(
-                                    'username' => $accountDetails->username,
-                                    'type' => 2,
-                                    'date' => time()
-                                );
-                                $this->session->uid = $accountDetails->user_id;
-                                $this->session->set_userdata($for_session, true);
-                                $this->session->set_userdata('isloggedin', true);
-                                $this->session->set_flashdata('myflashdata', true);
-                                $for_log = array(
-                                    "user_id" => $this->session->uid,
-                                    "user_type" => $this->session->userdata('type'),
-                                    "username" => $this->session->userdata('username'),
-                                    "date" => time(),
-                                    "action" => 'Logged in.',
-                                    'status' => '1'
-                                );
-                                $this->item_model->insertData('user_log', $for_log);
-                                redirect('home');
+                                    $this->item_model->insertData('user_log', $for_log);
+                                    redirect('dashboard');
+                                } elseif ($query->access_level == 1) { # 1: sub-admin
+                                    $for_session = array(
+                                        'username' => $query->username,
+                                        'type' => 1,
+                                        'date' => time()
+                                    );
+                                    $this->session->uid = $query->user_id;
+                                    $this->session->set_userdata($for_session, true);
+                                    $this->session->set_userdata('isloggedin', true);
+                                    $this->session->set_flashdata('myflashdata', true);
+                                    $for_log = array(
+                                        "user_id" => $this->session->uid,
+                                        "user_type" => $this->session->userdata('type'),
+                                        "username" => $this->session->userdata('username'),
+                                        "date" => time(),
+                                        "action" => 'Logged in.',
+                                        'status' => '1'
+                                    );
+                                    $this->item_model->insertData('user_log', $for_log);
+                                    redirect('dashboard');
+                                } else if ($query->access_level == 2) { # 2: customer
+                                    $for_session = array(
+                                        'username' => $query->username,
+                                        'type' => 2,
+                                        'date' => time()
+                                    );
+                                    $this->session->uid = $query->user_id;
+                                    $this->session->set_userdata($for_session, true);
+                                    $this->session->set_userdata('isloggedin', true);
+                                    $this->session->set_flashdata('myflashdata', true);
+                                    $for_log = array(
+                                        "user_id" => $this->session->uid,
+                                        "user_type" => $this->session->userdata('type'),
+                                        "username" => $this->session->userdata('username'),
+                                        "date" => time(),
+                                        "action" => 'Logged in.',
+                                        'status' => '1'
+                                    );
+                                    $this->item_model->insertData('user_log', $for_log);
+                                    redirect('home');
+                                }
                             }
+                        } else { # wrong password entered
+                            $this->session->set_flashdata('error', 'You entered a wrong password.');
+                            $this->index();
                         }
-                    } else { # wrong password entered
-                        $this->session->set_flashdata('error', 'You entered a wrong password.');
+                    } elseif ($query->status == 0) { # if the account is inactive
+                        $this->session->set_flashdata('error', 'Your account is inactive.');
                         $this->index();
                     }
-                } elseif($accountDetails->status == 0) { # if the account is inactive
-                    $this->session->set_flashdata('error', 'Your account is inactive.');
-                    $this->index();
                 }
             } else { # if the user does not exist
                 $this->session->set_flashdata('error', 'No such user exists.');
                 $this->index();
             }
+            #}
         } else { # if the validations were not met
             $this->index();
         }
     }
 
-    public function passwordreset() {
-        $data = array(
-            'email' => $this->input->post('email'),
-        );
-        $accountDetails = $this->item_model->fetch("accounts", $data);
+    public function forgot() {
+        if (!$this->session->has_userdata('isloggedin')) {
+            $data = array(
+                'title' => "Request for password reset"
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/forgot_password');
+            $this->load->view('ordering/includes/footer');
+        } else {
+            redirect('home');
+        }
+    }
 
-        if ($accountDetails) {
-            $accountDetails = $accountDetails[0];
-            $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
-            $this->email->to($accountDetails->email);
-            $this->email->subject('Password Reset Link');
-            $this->email->message($this->load->view('forgot', $accountDetails, true));
+    public function password_reset() {
+        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
+        $this->form_validation->set_message('required', 'Please enter your {field}.');
 
-            if (!$this->email->send()) {
-                
-            } else {
-                $this->session->set_flashdata('isreset', true);
-                redirect("login/");
+        if ($this->form_validation->run()) {
+            $accountDetails = $this->item_model->fetch("accounts", array('email' => $this->input->post('email')));
+
+            if ($accountDetails) {
+                $accountDetails = $accountDetails[0];
+                $this->email->from('seej.max@gmail.com', 'TECHNOHOLICS');
+                $this->email->to($accountDetails->email);
+                $this->email->subject('Password Reset Link');
+                $this->email->message("kjnkkjnknknknknk");
+
+                if (!$this->email->send()) {
+
+                } else {
+                    $this->session->set_flashdata('isreset', true);
+                    redirect("login/");
+                }
             }
+        } else {
+            $this->forgot();
         }
     }
 
@@ -160,7 +174,7 @@ class Login extends CI_Controller {
             $this->load->view("login/changepass");
             $this->load->view("login/includes/footer");
         }
-        //success
+        // Success
         else {
             $data = array('password' => sha1($this->input->post('password')));
             $this->item_model->updatedata('accounts', $data, array('verification_code' => $code));

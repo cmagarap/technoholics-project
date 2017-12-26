@@ -127,10 +127,10 @@
                             ?>
                     </a>
                 </li>
-                <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('transaction_log/page'); ?>">
+                <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('audit_trail/page'); ?>">
                         <i class="ti-menu-alt"></i>
-                        <p>Transaction Log</p>
+                        <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
