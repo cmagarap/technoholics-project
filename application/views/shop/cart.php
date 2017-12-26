@@ -24,14 +24,14 @@
         <?php foreach ($product as $product): ?>
             <div class="thumbnail">
                 <div class="caption">
-                    <h4 class="list-group-item-heading"><?= $product->name ?></h4>
-                    <p class="list-group-item-text"><?= $product->description ?></p>
+                    <h4 class="list-group-item-heading"><?= $product->product_name ?></h4>
+                    <p class="list-group-item-text"><?= $product->product_desc ?></p>
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="lead"<?= $product->price?></p>
+                            <p class="lead"<?= $product->product_price?></p>
                         </div>
                         <div class="col-md-6">
-                        <button type="button" name="add_cart" class="btn btn-default add_cart" data-productname=<?=$product->name?> data-productquantity=<?=$product->quantity?> data-price=<?=$product->price?> data-productid=<?=$product->id?> />Add to Cart</button>
+                        <button type="button" name="add_cart" class="btn btn-default add_cart" data-productname=<?=$product->product_name?> data-productquantity=<?=$product->product_quantity?> data-price=<?=$product->product_price?> data-productid=<?=$product->product_id?> />Add to Cart</button>
                         </div>
                     </div>
                 </div>
