@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d17db935-f1f3-4102-81c9-73ca931dc2cc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/controllers/My_account.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/views/paper/accounts/my_account.php" />
+    <list default="true" id="d17db935-f1f3-4102-81c9-73ca931dc2cc" name="Default" comment="Improved accounts management and manage my account">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/application/views/mycontroller/fibonacci.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/application/views/mycontroller/form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/application/views/mycontroller/homepage.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/application/views/mycontroller/includes/footer.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/application/views/mycontroller/includes/header.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Accounts.php" afterPath="$PROJECT_DIR$/application/controllers/Accounts.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Login.php" afterPath="$PROJECT_DIR$/application/controllers/Login.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Random.php" afterPath="$PROJECT_DIR$/application/controllers/Random.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/ordering/includes/navbar.php" afterPath="$PROJECT_DIR$/application/views/ordering/includes/navbar.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/paper/accounts/accounts.php" afterPath="$PROJECT_DIR$/application/views/paper/accounts/accounts.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/paper/accounts/customers.php" afterPath="$PROJECT_DIR$/application/views/paper/accounts/customers.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/paper/includes/header.php" afterPath="$PROJECT_DIR$/application/views/paper/includes/header.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/itemdb.sql" afterPath="$PROJECT_DIR$/itemdb.sql" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -45,7 +45,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="My_account.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="My_account.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/My_account.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="441">
@@ -65,41 +65,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Random.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Random.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="accounts.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/accounts.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
-              <folding>
-                <marker date="1514346376360" expanded="true" signature="1615:1625" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customers.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/customers.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="29" column="61" lean-forward="false" selection-start-line="28" selection-start-column="40" selection-end-line="29" selection-end-column="61" />
-              <folding>
-                <marker date="1514346196551" expanded="true" signature="1436:1446" ph="..." />
-                <marker date="1514346196551" expanded="true" signature="1734:1784" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="header.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/paper/includes/header.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -110,31 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forgot_password.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/ordering/forgot_password.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1485">
-              <caret line="45" column="74" lean-forward="false" selection-start-line="45" selection-start-column="74" selection-end-line="45" selection-end-column="74" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Item_model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/models/Item_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2277">
+            <state relative-caret-position="804">
               <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/ordering/login.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1485">
-              <caret line="45" column="76" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="66" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -235,12 +180,12 @@
         <option value="$PROJECT_DIR$/application/views/ordering/includes/navbar.php" />
         <option value="$PROJECT_DIR$/application/controllers/Accounts.php" />
         <option value="$PROJECT_DIR$/application/controllers/My_account.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Random.php" />
         <option value="$PROJECT_DIR$/application/controllers/Login.php" />
         <option value="$PROJECT_DIR$/application/views/paper/accounts/my_account.php" />
         <option value="$PROJECT_DIR$/application/controllers/Logout.php" />
-        <option value="$PROJECT_DIR$/application/views/paper/accounts/customers.php" />
         <option value="$PROJECT_DIR$/application/views/paper/accounts/accounts.php" />
+        <option value="$PROJECT_DIR$/application/views/paper/accounts/customers.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Random.php" />
       </list>
     </option>
   </component>
@@ -411,7 +356,7 @@
       <workItem from="1514283833374" duration="1971000" />
       <workItem from="1514296845098" duration="11290000" />
       <workItem from="1514340692622" duration="28000" />
-      <workItem from="1514341503373" duration="4582000" />
+      <workItem from="1514341503373" duration="5283000" />
     </task>
     <task id="LOCAL-00001" summary="assets folder - ordering folder&#10;uploads_users folder added">
       <created>1514097149601</created>
@@ -567,11 +512,18 @@
       <option name="project" value="LOCAL" />
       <updated>1514307466159</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Improved accounts management and manage my account">
+      <created>1514346533663</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1514346533663</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93142000" />
+    <option name="totallyTimeSpent" value="93843000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1850" height="1098" extended-state="6" />
@@ -650,20 +602,14 @@
     <MESSAGE value="Login improved. User may use username or email in logging in." />
     <MESSAGE value="forgot password view and transaction_log to audit_trail" />
     <MESSAGE value="forgot password validation *" />
-    <option name="LAST_COMMIT_MESSAGE" value="forgot password validation *" />
+    <MESSAGE value="Improved accounts management and manage my account" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved accounts management and manage my account" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/ordering/css/owl.transitions.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-79">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/ordering/css/style.default.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
@@ -753,13 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="111">
           <caret line="655" column="39" lean-forward="false" selection-start-line="655" selection-start-column="29" selection-end-line="655" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/paper/inventory/recover.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="49" column="75" lean-forward="true" selection-start-line="49" selection-start-column="75" selection-end-line="49" selection-end-column="75" />
         </state>
       </provider>
     </entry>
@@ -890,30 +829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/ordering/forgot_password.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1485">
-          <caret line="45" column="74" lean-forward="false" selection-start-line="45" selection-start-column="74" selection-end-line="45" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Item_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2277">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/ordering/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1485">
-          <caret line="45" column="76" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="66" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Accounts.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
@@ -940,30 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/paper/includes/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="175" column="225" lean-forward="true" selection-start-line="171" selection-start-column="44" selection-end-line="175" selection-end-column="225" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/my_account.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="17" column="34" lean-forward="false" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/My_account.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="23" column="42" lean-forward="false" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Logout.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="363">
@@ -980,14 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Random.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Login.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -1000,22 +883,96 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/customers.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="29" column="61" lean-forward="false" selection-start-line="28" selection-start-column="40" selection-end-line="29" selection-end-column="61" />
+        <state relative-caret-position="429">
+          <caret line="31" column="44" lean-forward="false" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
           <folding>
-            <marker date="1514346196551" expanded="true" signature="1436:1446" ph="..." />
-            <marker date="1514346196551" expanded="true" signature="1734:1784" ph="..." />
+            <marker date="1514346751597" expanded="true" signature="1521:1531" ph="..." />
+            <marker date="1514346751597" expanded="true" signature="1904:1954" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/accounts.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+        <state relative-caret-position="66">
+          <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
           <folding>
-            <marker date="1514346376360" expanded="true" signature="1615:1625" ph="..." />
+            <marker date="1514346724249" expanded="true" signature="1567:1577" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Random.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/paper/inventory/recover.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="49" column="75" lean-forward="true" selection-start-line="49" selection-start-column="75" selection-end-line="49" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/paper/accounts/my_account.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="17" column="34" lean-forward="false" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/ordering/forgot_password.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="804">
+          <caret line="45" column="74" lean-forward="false" selection-start-line="45" selection-start-column="74" selection-end-line="45" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/paper/includes/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="573">
+          <caret line="175" column="225" lean-forward="true" selection-start-line="171" selection-start-column="44" selection-end-line="175" selection-end-column="225" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/ordering/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="804">
+          <caret line="45" column="76" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="66" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/email/container.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Item_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="804">
+          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/My_account.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="23" column="42" lean-forward="false" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -18,6 +18,6 @@ class Random extends CI_Controller {
         echo sha1('customer')."<br>";
         echo sha1('vvilliam')."<br>";
         echo $this->uri->segment(1);
-        $this->session->sess_destroy();
+        # $this->session->sess_destroy();
     }
 }

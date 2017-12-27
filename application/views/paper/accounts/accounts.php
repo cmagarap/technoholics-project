@@ -29,18 +29,17 @@
                                     <td><?= $users->user_id ?></td>
                                     <td>
                                         <?php
-                                            if($users->username == NULL)
-                                                echo "<i style = 'color: red'>NULL</i>";
-                                            else
-                                                echo $users->username;
+                                            if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
+                                            else echo $users->username;
                                         ?>
                                     </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
                                     <td>
-                                        <?php if($users->access_level == 0) echo "General Manager";
-                                        elseif($users->access_level == 1) echo "Admin Assistant";
-                                        elseif($users->access_level == 2) echo "Customer";
+                                        <?php
+                                            if($users->access_level == 0) echo "General Manager";
+                                            elseif($users->access_level == 1) echo "Admin Assistant";
+                                            elseif($users->access_level == 2) echo "Customer";
                                         ?>
                                     </td>
                                     <td>
