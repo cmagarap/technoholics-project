@@ -11,11 +11,11 @@
             <div class = "col-md-3"></div>
             <?php
             if($_POST) {
-                $user = $_POST['user'];
+                $username = $_POST['username'];
                 $password = $_POST['password'];
             }
             else {
-                $user = "";
+                $username = "";
                 $password = "";
             }
             ?>
@@ -25,12 +25,12 @@
                     <hr>
                     <form action = "<?= $this->config->base_url(); ?>login/login_submit" method = "POST">
                         <div class="form-group">
-                            <label for="email">Username or Email</label>
-                            <?php if(form_error("user")): ?>
-                                <input type="text" class="form-control" name="user" value = "<?= $user; ?>" style = "border-color: red">
-                                <span style = 'color: red'><?= form_error("user") ?></span>
+                            <label for="email">Username</label>
+                            <?php if(form_error("username")): ?>
+                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>" style = "border-color: red">
+                                <span style = 'color: red'><?= form_error("username") ?></span>
                             <?php else: ?>
-                                <input type="text" class="form-control" name="user" value = "<?= $user; ?>">
+                                <input type="text" class="form-control" name="username" value = "<?= $username; ?>">
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
@@ -43,7 +43,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
-                            <a href="<?= $this->config->base_url(); ?>login/forgot"> Forgot password?</a>
+                            <a href="<?= $this->config->base_url(); ?>payroll/forgot"> Forgot password?</a>
                         </div>
                         <?php if(!validation_errors()):
                                 if ($this->session->flashdata('error') != ''): ?>

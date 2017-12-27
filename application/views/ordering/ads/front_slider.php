@@ -16,9 +16,7 @@
                     <div class="item">
                         <img class="img-responsive" src="<?= base_url().'assets/ordering/img/main-slider3.jpg';?>" alt="">
                     </div>
-                    <div class="item">
-                        <img class="img-responsive" src="<?= base_url().'assets/ordering/img/main-slider4.jpg';?>" alt="">
-                    </div>
+                 
                 </div>
                 <!-- /#main-slider -->
             </div>

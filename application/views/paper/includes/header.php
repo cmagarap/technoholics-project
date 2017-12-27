@@ -127,10 +127,10 @@
                             ?>
                     </a>
                 </li>
-                <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('audit_trail/page'); ?>">
+                <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('transaction_log/page'); ?>">
                         <i class="ti-menu-alt"></i>
-                        <p>Audit Trail</p>
+                        <p>Transaction Log</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
@@ -179,7 +179,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="<?= $this->config->base_url() ?>my_account">Manage my account</a></li>
+                                <li><a href="#">Manage my account</a></li>
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>

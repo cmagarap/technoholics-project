@@ -1,3 +1,4 @@
+<?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
@@ -37,7 +38,7 @@
                                 <?php
                                 foreach ($products as $products): ?>
                                 <tr>
-                                    <td><?= $products->product_id ?></td>
+                                    <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
                                     <td><?= $products->product_category ?></td>
                                     <td>&#8369; <?= number_format($products->product_price, 2) ?></td>

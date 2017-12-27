@@ -31,7 +31,7 @@
                             <p class="lead"<?= $product->product_price?></p>
                         </div>
                         <div class="col-md-6">
-                        <button type="button" name="add_cart" class="btn btn-default add_cart" data-productname=<?=$product->product_name?> data-productquantity=<?=$product->product_quantity?> data-price=<?=$product->product_price?> data-productid=<?=$product->product_id?> />Add to Cart</button>
+                        <button type="button" name="add_cart" class="btn btn-default add_cart" data-productname="<?=$product->product_name?>" data-productquantity="<?=$product->product_quantity?>" data-price="<?=$product->product_price?>" data-productid="<?=$product->product_id?>" />Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -59,13 +59,12 @@
                 success: function (data)
                 {
                     alert("Product Added into Cart");
-                    $('#cart_details').html(data);
                     $('#' + product_id).val('');
                 }
             });
         });
 
-        $('#cart_details').load("<?php echo base_url(); ?>home/load");
+        $('#container').load("<?php echo base_url(); ?>cart/load");
 
         $(document).on('click', '.remove_inventory', function () {
             var row_id = $(this).attr("id");

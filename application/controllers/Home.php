@@ -13,7 +13,7 @@ class Home extends CI_Controller {
             if ($this->session->userdata("type") == 2) { # if customer
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need."
-                );
+                );  
                 $this->load->view('ordering/includes/header', $data);
                 $this->load->view('ordering/includes/navbar');
                 $this->load->view('ordering/ads/front_slider');
@@ -34,131 +34,50 @@ class Home extends CI_Controller {
         }
     }
 
-    public function details() {
-        $data = array('title' => 'Product Details');
-        $data['product'] = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-        $this->load->view("shop/includes/header", $data);
-        $this->load->view("shop/details");
-        $this->load->view("shop/includes/footer");
+    // Kailangan ko pa ito
+    // public function details() {
+    //     $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+    //     $data = array(
+    //         'title' => 'Product Details',
+    //         'product' => $product 
+    //     );
+    //     $this->load->view("shop/includes/header", $data);
+    //     $this->load->view("shop/details");
+    //     $this->load->view("shop/includes/footer");
 
-        if ($this->session->has_userdata('isloggedin')) {
-            date_default_timezone_set("Asia/Manila");
-            $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)))[0];
-            $data1 = array(
-                "Customer_ID" => $userinformation->user_id,
-                "User_Type" => $userinformation->access_level,
-                "Username" => $userinformation->username,
-                "Date" => time(),
-                "Action" => $userinformation->username . ' viewed the product ' . $product->product_name
-            );
-            $this->item_model->insertData('user_log', $data1);
-        }
-    }
+    //     if ($this->session->has_userdata('isloggedin')) {
+    //         date_default_timezone_set("Asia/Manila");
+    //         $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
+    //         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)))[0];
+    //         $data1 = array(
+    //             "Customer_ID" => $userinformation->user_id,
+    //             "User_Type" => $userinformation->access_level,
+    //             "Username" => $userinformation->username,
+    //             "Date" => time(),
+    //             "Action" => $userinformation->username . ' viewed the product ' . $product->product_name
+    //         );
+    //         $this->item_model->insertData('user_log', $data1);
+    //     }
 
-    public function categories() {
-        $data = array('title' => 'Home');
-        $data['product'] = $this->item_model->fetch('product', array('product_category' => $this->uri->segment(3)));
-        $this->load->view("shop/includes/header", $data);
-        $this->load->view("shop/shop");
-        $this->load->view("shop/includes/footer");
-    }
-
-    public function search() {
-        $data = array('title' => 'Home');
-        $data['product'] = $this->item_model->search("product", 'product_name', $this->input->post('search'));
-        $this->load->view("shop/includes/header", $data);
-        $this->load->view("shop/shop");
-        $this->load->view("shop/includes/footer");
-    }
-
-    function add() {
-        $this->load->library("cart");
-        $data = array(
-            "id" => $_POST["product_id"],
-            "name" => $_POST["product_name"],
-            "qty" => $_POST["min_quantity"],
-            "maxqty" => $_POST["max_quantity"],
-            "price" => $_POST["product_price"]
-        );
-        $this->cart->insert($data); //return rowid
-        echo $this->view();
-    }
-
-    function load() {
-        echo $this->view();
-        $this->load->view("shop/cart");
-    }
-
-    function remove() {
-        $this->load->library("cart");
-        $row_id = $_POST["row_id"];
-        $data = array(
-            'rowid' => $row_id,
-            'qty' => 0
-        );
-        $this->cart->update($data);
-        echo $this->view();
-    }
-
-    function clear() {
-        $this->load->library("cart");
-        $this->cart->destroy();
-        echo $this->view();
-    }
-
-//whole table of items added to cart
-    function view() {
-        $this->load->library("cart");
-        $output = '';
-        $output .= '
-  <div class="table-responsive">
-   <div align="right">
-    <button type="button" id="clear_cart" class="btn btn-warning">Clear Cart</button>
-   </div>
-   <br />
-   <table class="table table-bordered">
-    <tr>
-     <th width="40%">Name</th>
-     <th width="15%">Quantity</th>
-     <th width="15%">Price</th>
-     <th width="15%">Action</th>
-    </tr>
-  ';
-        //items added to cart
-        $count = 0;
-        foreach ($this->cart->contents() as $items) {
-            $count++;
-            // $maxqty = $this->item_model->fetch('product', array("product_id" => $items["id"]));
-            $output .= '
-    <tr> 
-    <td>' . $items["name"] . '</td>
-    <td> <input type="number" name="qty" id="product_qty" class="form-control input-lg" value="1" max="' . $items["maxqty"] . '" min="1"></td>
-    <td>' . $items["price"] . '</td>
-    <td><button type="button" name="remove" class="btn btn-danger btn-xs remove_inventory" id="' . $items["rowid"] . '">Remove</button></td>
-    </tr>
-   ';
-            //total price
-        }
-        $output .= '
-   <tr>
-    <td colspan="3" align="right">Total</td>
-    <td>' . $this->cart->total() . '</td>
-   </tr>
-  </table>
-  
-  </div>
-  ';
-        if ($count == 0) {
-            $output = '<h3 align="center">Cart is Empty</h3>';
-        }
-        return $output;
-    }
+    // public function categories() {
+    // $product = $this->item_model->fetch('product', array('product_category' => $this->uri->segment(3)));
+    //     $data = array(
+    //     'title' => 'Home',
+    //     'product' => $product
+    // );
+    //     $this->load->view('ordering/includes/header', $data);
+    //     $this->load->view('ordering/includes/navbar');
+    //     $this->load->view('ordering/category');
+    //     $this->load->view('ordering/includes/footer');
+    // }
 
     public function category() {
+        $product = $this->item_model->fetch('product', array('product_category' => $this->uri->segment(3)));
         $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
-        );
+        'title' => 'Home',
+        'product' => $product
+    );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/category');
@@ -186,8 +105,10 @@ class Home extends CI_Controller {
     }
 
     public function detail() {
+        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
         $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+            'title' => 'Product Details',
+            'product' => $product 
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');

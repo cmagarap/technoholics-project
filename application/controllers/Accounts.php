@@ -5,7 +5,6 @@
  * Date: 12/19/2017
  * Time: 1:13 PM
  */
-
 class Accounts extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -18,18 +17,17 @@ class Accounts extends CI_Controller {
 
     public function index() { # to be changed to page()
         if($this->session->userdata('type') == 0) {
-            $sql = "SELECT * FROM accounts WHERE access_level != 0 AND status = 1 ORDER BY username ASC";
-            $query  = $this->db->query($sql);
+            $users = $this->item_model->fetch("accounts", array("status" => 1));
             $data = array(
                 'title' => 'Accounts Management',
                 'heading' => 'Accounts',
-                'users' => $query->result()
+                'users' => $users
             );
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
         } elseif($this->session->userdata('type') == 1) {
-            $users = $this->item_model->fetch("accounts", array("status" => 1, "access_level" => 2), "username", "ASC");
+            $users = $this->item_model->fetch("accounts", array("status" => 1, "access_level" => 2));
             $data = array(
                 'title' => 'Accounts Management',
                 'heading' => 'Accounts',
@@ -64,12 +62,12 @@ class Accounts extends CI_Controller {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
         $data = array(
             'title' => "Edit Product",
-            'heading' => "Accounts",
+            'heading' => "Inventory",
             'products' => $product
         );
 
         $this->load->view('paper/includes/header', $data);
-        #$this->load->view('paper/inventory/edit');
+        $this->load->view('paper/inventory/edit');
         $this->load->view('paper/includes/footer');
     }
 
