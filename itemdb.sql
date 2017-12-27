@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2017 at 04:44 AM
+-- Generation Time: Dec 27, 2017 at 04:59 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -30,8 +30,9 @@ CREATE TABLE `accounts` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
+  `address` varchar(200) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `access_level` tinyint(1) NOT NULL,
   `registered_at` int(11) NOT NULL,
@@ -45,12 +46,12 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`user_id`, `firstname`, `lastname`, `username`, `password`, `status`, `access_level`, `registered_at`, `email`, `image`, `verification_code`, `is_verified`) VALUES
-(11, 'Veo', 'Calimlim', 'veocalimlim', '5fa0328a573f93df69b06a5f55ccf5ef0523e8aa', 1, 1, 1511079552, 'veocalimlim@gmail.com', '18195045_1455663144456723_8646497117616610019_n4.jpg', '2ZXGNjCedk', 1),
-(12, 'Tilted', 'Beyo', 'vvcalimlim', 'b39f008e318efd2bb988d724a161b61c6909677f', 1, 2, 1511318551, 'veocalimlim@yahoo.com', 'default-user.png', 'NRVhbl2zuO', 1),
-(13, 'William', 'Suarez', 'William', 'ac8c1966e853449ac181e21d7bf3462092813c05', 1, 1, 1511351673, 'vv.victory315@gmail.com', 'f3ebd1ab5cd39c93fd66ecb966a239e8.JPG', 'jWhVSuQq94', 0),
-(14, 'William', 'Suarez', 'suarez', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 1, 2, 1511351800, 'vavethe@hotmail.com', '52f6e78dcb0c39ac910ed31f94f3ff52.JPG', '8nG5tqKpd6', 0),
-(15, 'Chris John', 'Agarap', 'seej', '086a5f64597c1f510641b304a9f85a622754f8d1', 1, 0, 1512515685, 'chrisjohn.seej@gmail.com', 'default-user.png', 'ga1E3e21', 1);
+INSERT INTO `accounts` (`user_id`, `firstname`, `lastname`, `username`, `password`, `address`, `status`, `access_level`, `registered_at`, `email`, `image`, `verification_code`, `is_verified`) VALUES
+(11, 'Veo', 'Calimlim', 'veocalimlim', '5fa0328a573f93df69b06a5f55ccf5ef0523e8aa', NULL, 1, 1, 1511079552, 'veocalimlim@gmail.com', '18195045_1455663144456723_8646497117616610019_n4.jpg', '2ZXGNjCedk', 1),
+(12, 'Tilted', 'Beyo', NULL, 'b39f008e318efd2bb988d724a161b61c6909677f', NULL, 1, 2, 1511318551, 'veocalimlim@yahoo.com', 'default-user.png', 'NRVhbl2zuO', 1),
+(13, 'William', 'Suarez', 'William', 'ac8c1966e853449ac181e21d7bf3462092813c05', NULL, 0, 1, 1511351673, 'vv.victory315@gmail.com', 'f3ebd1ab5cd39c93fd66ecb966a239e8.JPG', 'jWhVSuQq94', 0),
+(14, 'William', 'Suarez', NULL, '85aa0de4d46bfcd9ece0c15b686f95ec57c3908e', NULL, 1, 1, 1511351800, 'vavethe@hotmail.com', '52f6e78dcb0c39ac910ed31f94f3ff52.JPG', '8nG5tqKpd6', 1),
+(15, 'Chris John', 'Agarap', 'seej', '086a5f64597c1f510641b304a9f85a622754f8d1', NULL, 1, 0, 1512515685, '', 'default-user.png', 'ga1E3e21', 1);
 
 -- --------------------------------------------------------
 
@@ -516,7 +517,74 @@ INSERT INTO `user_log` (`log_id`, `user_id`, `user_type`, `username`, `date`, `a
 (433, 15, '0', 'seej', '1514257590', 'Logged in.', 1),
 (434, 15, '0', 'seej', '1514257611', 'Logged out.', 1),
 (435, 11, '1', 'veocalimlim', '1514257787', 'Logged in.', 1),
-(436, 11, '1', 'veocalimlim', '1514258470', 'Logged out.', 1);
+(436, 11, '1', 'veocalimlim', '1514258470', 'Logged out.', 1),
+(437, 15, '0', 'seej', '1514261212', 'Logged in.', 1),
+(438, 15, '0', 'seej', '1514261249', 'Logged out.', 1),
+(439, 12, '2', 'vvcalimlim', '1514261305', 'Logged in.', 1),
+(440, 12, '2', 'vvcalimlim', '1514261312', 'Logged out.', 1),
+(441, 15, '0', 'seej', '1514263387', 'Logged in.', 1),
+(442, 15, '0', 'seej', '1514263671', 'Logged out.', 1),
+(443, 15, '0', 'seej', '1514285348', 'Logged in.', 1),
+(444, 15, '0', 'seej', '1514296876', 'Logged in.', 1),
+(445, 15, '0', 'seej', '1514296998', 'Logged in.', 1),
+(446, 15, '0', 'seej', '1514299994', 'Logged out.', 1),
+(447, 11, '1', 'veocalimlim', '1514300002', 'Logged in.', 1),
+(448, 11, '1', 'veocalimlim', '1514300183', 'Logged out.', 1),
+(449, 15, '0', 'seej', '1514300892', 'Logged in.', 1),
+(450, 15, '0', 'seej', '1514301499', 'Logged out.', 1),
+(451, 15, '0', 'seej', '1514303747', 'Logged in.', 1),
+(452, 15, '0', 'seej', '1514303753', 'Logged out.', 1),
+(453, 15, '0', 'seej', '1514303760', 'Logged in.', 1),
+(454, 15, '0', 'seej', '1514303765', 'Logged out.', 1),
+(455, 11, '1', 'veocalimlim', '1514303775', 'Logged in.', 1),
+(456, 11, '1', 'veocalimlim', '1514303783', 'Logged out.', 1),
+(457, 11, '1', 'veocalimlim', '1514303817', 'Logged in.', 1),
+(458, 11, '1', 'veocalimlim', '1514303822', 'Logged out.', 1),
+(459, 12, '2', 'vvcalimlim', '1514303921', 'Logged in.', 1),
+(460, 12, '2', 'vvcalimlim', '1514303924', 'Logged out.', 1),
+(461, 11, '1', 'veocalimlim', '1514304078', 'Logged in.', 1),
+(462, 11, '1', 'veocalimlim', '1514304082', 'Logged out.', 1),
+(463, 12, '2', 'vvcalimlim', '1514304091', 'Logged in.', 1),
+(464, 12, '2', 'vvcalimlim', '1514304095', 'Logged out.', 1),
+(465, 12, '2', 'vvcalimlim', '1514304304', 'Logged in.', 1),
+(466, 12, '2', 'vvcalimlim', '1514304307', 'Logged out.', 1),
+(467, 15, '0', 'seej', '1514304579', 'Logged in.', 1),
+(468, 15, '0', 'seej', '1514304583', 'Logged out.', 1),
+(469, 11, '1', 'veocalimlim', '1514304661', 'Logged in.', 1),
+(470, 11, '1', 'veocalimlim', '1514304671', 'Logged out.', 1),
+(471, 15, '0', 'seej', '1514305926', 'Logged in.', 1),
+(472, 15, '0', 'seej', '1514306303', 'Logged out.', 1),
+(473, 11, '1', 'veocalimlim', '1514306322', 'Logged in.', 1),
+(474, 11, '1', 'veocalimlim', '1514306329', 'Logged out.', 1),
+(475, 15, '0', 'seej', '1514306476', 'Logged in.', 1),
+(476, 15, '0', 'seej', '1514306511', 'Logged out.', 1),
+(477, 11, '1', 'veocalimlim', '1514306517', 'Logged in.', 1),
+(478, 11, '1', 'veocalimlim', '1514306521', 'Logged out.', 1),
+(479, 12, '2', 'vvcalimlim', '1514307044', 'Logged in.', 1),
+(480, 12, '2', 'vvcalimlim', '1514307053', 'Logged out.', 1),
+(481, 11, '1', 'veocalimlim', '1514307059', 'Logged in.', 1),
+(482, 11, '1', 'veocalimlim', '1514307074', 'Logged out.', 1),
+(483, 11, '1', 'veocalimlim', '1514341588', 'Logged in.', 1),
+(484, 11, '1', 'veocalimlim', '1514341601', 'Logged out.', 1),
+(485, 15, '0', 'seej', '1514341616', 'Logged in.', 1),
+(486, 15, '0', 'seej', '1514343398', 'Logged out.', 1),
+(487, 12, '2', 'vvcalimlim', '1514343406', 'Logged in.', 1),
+(488, 12, '2', 'vvcalimlim', '1514343520', 'Logged out.', 1),
+(489, 15, '0', 'seej', '1514343527', 'Logged in.', 1),
+(490, 15, '0', 'seej', '1514345526', 'Logged out.', 1),
+(491, 14, '1', 'vavethe@hotmail.com', '1514345848', 'Logged in.', 1),
+(492, 14, '1', 'vavethe@hotmail.com', '1514345884', 'Logged out.', 1),
+(493, 15, '0', 'seej', '1514345924', 'Logged in.', 1),
+(494, 15, '0', 'seej', '1514345969', 'Logged out.', 1),
+(495, 12, '2', 'veocalimlim1@yahoo.com', '1514345986', 'Logged in.', 1),
+(496, 12, '2', 'veocalimlim1@yahoo.com', '1514345996', 'Logged out.', 1),
+(497, 14, '1', 'vavethe@hotmail.com', '1514346012', 'Logged in.', 1),
+(498, 14, '1', 'vavethe@hotmail.com', '1514346202', 'Logged out.', 1),
+(499, 15, '0', 'seej', '1514346207', 'Logged in.', 1),
+(500, 15, '0', 'seej', '1514346388', 'Logged out.', 1),
+(501, 11, '1', 'veocalimlim', '1514346430', 'Logged in.', 1),
+(502, 11, '1', 'veocalimlim', '1514346478', 'Logged out.', 1),
+(503, 15, '0', 'seej', '1514346484', 'Logged in.', 1);
 
 --
 -- Indexes for dumped tables
@@ -527,8 +595,8 @@ INSERT INTO `user_log` (`log_id`, `user_id`, `user_type`, `username`, `date`, `a
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `home`
@@ -571,7 +639,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=437;
+  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=504;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
