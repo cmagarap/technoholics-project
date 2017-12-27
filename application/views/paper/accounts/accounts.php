@@ -26,8 +26,15 @@
                             <?php
                             foreach ($users as $users):?>
                                 <tr>
-                                    <td><?= $counter++ ?></td>
-                                    <td><?= $users->username ?></td>
+                                    <td><?= $users->user_id ?></td>
+                                    <td>
+                                        <?php
+                                            if($users->username == NULL)
+                                                echo "<i style = 'color: red'>NULL</i>";
+                                            else
+                                                echo $users->username;
+                                        ?>
+                                    </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
                                     <td>
@@ -40,7 +47,7 @@
                                         <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->user_id ?>" title = "View Account Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->user_id ?>" title = "Edit Product" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->user_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $users->user_id ?>" title = "Delete Product" alt = "Delete User">
