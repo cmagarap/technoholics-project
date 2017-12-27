@@ -38,9 +38,10 @@ class Login extends CI_Controller {
                                 $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
                                 $this->index();
                             } elseif ($query->is_verified == 1) { # 1: verified
+                                $user = ($query->username == NULL) ? $query->email : $query->username;
                                 if ($query->access_level == 0) { # 0: head admin
                                     $for_session = array(
-                                        'username' => $query->username,
+                                        'username' => $user,
                                         'type' => 0,
                                         'date' => time()
                                     );
@@ -61,7 +62,7 @@ class Login extends CI_Controller {
                                     redirect('dashboard');
                                 } elseif ($query->access_level == 1) { # 1: sub-admin
                                     $for_session = array(
-                                        'username' => $query->username,
+                                        'username' => $user,
                                         'type' => 1,
                                         'date' => time()
                                     );
@@ -81,7 +82,7 @@ class Login extends CI_Controller {
                                     redirect('dashboard');
                                 } else if ($query->access_level == 2) { # 2: customer
                                     $for_session = array(
-                                        'username' => $query->username,
+                                        'username' => $user,
                                         'type' => 2,
                                         'date' => time()
                                     );

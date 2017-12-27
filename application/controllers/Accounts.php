@@ -64,12 +64,12 @@ class Accounts extends CI_Controller {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
         $data = array(
             'title' => "Edit Product",
-            'heading' => "Inventory",
+            'heading' => "Accounts",
             'products' => $product
         );
 
         $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/inventory/edit');
+        #$this->load->view('paper/inventory/edit');
         $this->load->view('paper/includes/footer');
     }
 
