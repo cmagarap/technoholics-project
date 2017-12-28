@@ -10,20 +10,10 @@
     .container{padding: 50px;}
     input[type="number"]{width: 20%;}
     </style>
-    <script>
-    function updateCartItem(obj,id){
-        $.get("cartAction.php", {action:"updateCartItem", id:id, qty:obj.value}, function(data){
-            if(data == 'ok'){
-                location.reload();
-            }else{
-                alert('Cart update failed, please try again.');
-            }
-        });
-    }
-    </script>
 </head>
 </head>
 <body>
+<div id="cart_contents">
 <div class="container">
     <h1>Shopping Cart</h1>
     <table class="table">
@@ -45,13 +35,11 @@
         <tr>
             <td><?php echo $item["name"]; ?></td>
             <td><?php echo '$'.$item["price"].' USD'; ?></td>
-            
-            <td><input type="number" name="update" class="form-control text-center" value="<?php echo $item["qty"]; ?>" id="' . $item["rowid"] . '"></td>
-
+            <td><input type="number" id="update" name="update" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>"></td>
             <td><?php echo '$'.$item["subtotal"].' USD'; ?></td>
             <td>
                 <!--<a href="cartAction.php?action=updateCartItem&id=" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></a>-->
-                <td><button type="button" name="remove" class="btn btn-danger btn-xs remove_inventory" id="' . $item["rowid"] . '">Remove</button></td>
+                <td><button type="button" name="remove" class="btn btn-danger btn-xs remove_inventory" id="<?=$item["rowid"]?>">Remove</button></td>
             </td>
         </tr>
         <?php } }else{ ?>
@@ -69,6 +57,7 @@
         </tr>
     </tfoot>
     </table>
+</div>
 </div>
 </body>
 </html>
@@ -88,42 +77,37 @@
                 success: function (data)
                 {
                     alert("Product Added into Cart");
-                    $('#cart_details').html(data);
                     $('#' + product_id).val('');
                 }
             });
         });
 
-        $('#cart_details').load("<?php echo base_url(); ?>home/load");
-
         $(document).on('click', '.remove_inventory', function () {
             var row_id = $(this).attr("id");
-            if (confirm("Are you sure you want to remove this?"))
-            {
                 $.ajax({
                     url: "<?php echo base_url(); ?>cart/remove",
                     method: "POST",
                     data: {row_id: row_id},
                     success: function (data)
                     {
-                        alert("Product removed from Cart");
-                        $('#cart_details').html(data);
+                        location.reload(); 
                     }
                 });
-            } else
-            {
-                return false;
-            }
         });
 
-         $(document).on('change', '.update', function () {
-            var row_id = $(this).attr("id");
-    
-                $.ajax({
-                    url: "<?php echo base_url(); ?>cart/update",
-                    method: "POST",
-                    data: {row_id: row_id}
-                });
+            $('.update').change(function () {
+            var product_id = $(this).data("productid");
+            var product_quantity = $('#update').val();
+            $.ajax({
+                url: "<?php echo base_url(); ?>cart/update",
+                method: "POST",
+                data: {product_id: product_id, product_quantity: product_quantity},
+                success: function (data)
+                {
+                    location.reload(); 
+                    $('#' + product_id).val('');
+                }
+            });
         });
 
         $(document).on('click', '#clear_cart', function () {

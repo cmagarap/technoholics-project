@@ -25,13 +25,8 @@
                             <?php
                             foreach ($users as $users):?>
                                 <tr>
-                                    <td><?= $users->user_id ?></td>
-                                    <td>
-                                        <?php
-                                            if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
-                                            else $users->username;
-                                        ?>
-                                    </td>
+                                    <td><?= $counter++ ?></td>
+                                    <td><?= $users->username ?></td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
                                     <td>

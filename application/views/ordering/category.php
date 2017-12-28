@@ -152,235 +152,45 @@ _________________________________________________________ -->
                 </div>
 
                 <div class="row products">
-
+                <?php if (!$products): ?>
+                <h1>NO ITEMS IN TABLE</h1>
+                <?php else: ?>
+                <?php foreach ($products as $row): ?>
                     <div class="col-md-4 col-sm-6">
                         <div class="product">
                             <div class="flip-container">
                                 <div class="flipper">
                                     <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
+                                        <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                                         </a>
                                     </div>
                                     <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product1_2.jpg'; ?>" alt="" class="img-responsive">
+                                       <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
+                            <a href="<?= base_url().'home/detail/'.$row->product_id ?>" class="invisible">
+                                <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                             </a>
                             <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">Fur coat with very but very very long name</a></h3>
-                                <p class="price">$143.00</p>
+                                <h3><a href="<?= base_url().'home/detail/'.$row->product_id ?>"><?=$row->product_desc?></a></h3>
+                                <p class="price">₱<?=number_format($row->product_price)?></p>
                                 <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <a href="<?= base_url().'home/detail/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
+                                    <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                 </p>
                             </div>
                             <!-- /.text -->
-                        </div>
-                        <!-- /.product -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container">
-                                <div class="flipper">
-                                    <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                    <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product2_2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">White Blouse Armani</a></h3>
-                                <p class="price"><del>$280</del> $143.00</p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </p>
-                            </div>
-                            <!-- /.text -->
-
-                            <div class="ribbon sale">
-                                <div class="theribbon">SALE</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-
-                            <div class="ribbon new">
-                                <div class="theribbon">NEW</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-
-                            <div class="ribbon gift">
-                                <div class="theribbon">GIFT</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-                        </div>
-                        <!-- /.product -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container">
-                                <div class="flipper">
-                                    <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                    <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product3_2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">Black Blouse Versace</a></h3>
-                                <p class="price">$143.00</p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </p>
-
-                            </div>
-                            <!-- /.text -->
-                        </div>
-                        <!-- /.product -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container">
-                                <div class="flipper">
-                                    <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                    <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product3_2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">Black Blouse Versace</a></h3>
-                                <p class="price">$143.00</p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </p>
-
-                            </div>
-                            <!-- /.text -->
-                        </div>
-                        <!-- /.product -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container">
-                                <div class="flipper">
-                                    <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                    <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product2_2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">White Blouse Versace</a></h3>
-                                <p class="price">$143.00</p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </p>
-
-                            </div>
-                            <!-- /.text -->
-
-                            <div class="ribbon new">
-                                <div class="theribbon">NEW</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-                        </div>
-                        <!-- /.product -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container">
-                                <div class="flipper">
-                                    <div class="front">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                    <div class="back">
-                                        <a href="<?= base_url().'home/detail'; ?>">
-                                            <img src="<?= base_url().'assets/ordering/img/product1_2.jpg'; ?>" alt="" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="<?= base_url().'home/detail'; ?>" class="invisible">
-                                <img src="<?= base_url().'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail'; ?>">Fur coat</a></h3>
-                                <p class="price">$143.00</p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail'; ?>" class="btn btn-default">View detail</a>
-                                    <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </p>
-
-                            </div>
-                            <!-- /.text -->
-
-                            <div class="ribbon gift">
-                                <div class="theribbon">GIFT</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-
                         </div>
                         <!-- /.product -->
                     </div>
                     <!-- /.col-md-4 -->
-                </div>
+                <?php endforeach ?>
+            </div>
+        <?php endif ?>
                 <!-- /.products -->
 
                 <div class="pages">
