@@ -1,25 +1,37 @@
 <?php
 
 class Home extends CI_Controller {
-
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->model('shopping_cart_model');
-        $this->load->library(array('email', 'session'));
-        $this->load->library('form_validation');
-        $this->load->library("cart");
+        $this->load->library(array('email', 'session', 'form_validation', 'cart'));
     }
 
     public function index() {
-        $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need."
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/ads/front_slider');
-        $this->load->view('ordering/ads/featured_products');
-        $this->load->view('ordering/includes/footer');
+        if ($this->session->has_userdata('isloggedin')) {
+            if ($this->session->userdata("type") == 2) { # if customer
+                $data = array(
+                    'title' => "TECHNOHOLICS | All the tech you need."
+                );
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/ads/front_slider');
+                $this->load->view('ordering/ads/featured_products');
+                $this->load->view('ordering/includes/footer');
+            } elseif ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+                redirect("dashboard");
+            }
+        } else { # if not logged in
+            $data = array(
+                'title' => "TECHNOHOLICS | All the tech you need."
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/ads/front_slider');
+            $this->load->view('ordering/ads/featured_products');
+            $this->load->view('ordering/includes/footer');
+        }
     }
 
     public function details() {
@@ -141,24 +153,6 @@ class Home extends CI_Controller {
             $output = '<h3 align="center">Cart is Empty</h3>';
         }
         return $output;
-    }
-
-    public function logout() {
-        $this->session->sess_destroy();
-        date_default_timezone_set("Asia/Manila");
-        $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid));
-        $userinformation = $userinformation[0];
-        $data1 = array(
-            "user_id" => $userinformation->user_id,
-            "user_type" => $userinformation->access_level,
-            "username" => $userinformation->username,
-            "date" => time(),
-            "action" => $userinformation->username . ' just logged out.',
-            'status' => '1'
-        );
-
-        $this->item_model->insertData('user_log', $data1);
-        redirect('home');
     }
 
     public function category() {

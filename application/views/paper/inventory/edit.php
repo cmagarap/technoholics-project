@@ -6,12 +6,12 @@
                 <div class="card card-user">
                     <div class="content">
                         <div>
-                            <img src="<?= $this->config->base_url() ?>uploads/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
+                            <img src="<?= $this->config->base_url() ?>uploads_products/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
                         </div>
                         <div align = "center">
                             <br><hr><br>
                             <h4 class="title"><?= $products->product_name ?><br />
-
+                                <a><small><?= $products->product_category ?></small></a>
                             </h4>
                             <br>
                         </div>
@@ -39,7 +39,7 @@
                     </div>
                     <hr><br>
                     <div align="center">
-                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                     </div>
                     <br>
                 </div>
@@ -50,31 +50,38 @@
                         <h4 class="title">Edit Product</h4>
                     </div>
                     <div class="content">
-                        <form>
+                        <?php if(validation_errors()): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <?php echo validation_errors(); ?>
+                            </div>
+                        <?php endif?>
+                        <form action = "<?= $this->config->base_url() ?>inventory/edit_product_exec/<?= $this->uri->segment(3) ?>" method = "POST" enctype = "multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Supplier Company</label>
-                                        <input type="text" class="form-control border-input" disabled placeholder="Company" value="Creative Code Inc.">
+                                        <label>Supplier Company <font color="red">*</font></label>
+                                        <input type="text" class="form-control border-input" placeholder="Company name" value="<?= $products->supplier ?>" name = "supplier">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Product Name</label>
-                                        <input type="text" class="form-control border-input" placeholder="Product name" value="<?= $products->product_name ?>">
+                                        <label>Product Name <font color="red">*</font></label>
+                                        <input type="text" class="form-control border-input" placeholder="Product" value="<?= $products->product_name ?>" name = "product_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Product Category</label>
-                                        <!--<input type="text" class="form-control border-input" placeholder="Last Name" value="Faker">-->
-                                        <select name="product_category" id="" class = "form-control border-input">
-                                            <!-- options should be based on the categories in the database -->
-                                            <?php for($i = 1; $i <= 5; $i++): ?>
-                                            <option value="">Category <?= $i ?></option>
-                                            <?php endfor; ?>
+                                        <label>Product Category <font color="red">*</font></label>
+                                        <?php
+                                        $categories = $this->item_model->getDistinct('product', 'product_category', 'ASC');
+                                        ?>
+                                        <select name="product_category" id="" class = "form-control border-input file">
+                                            <?php foreach($categories as $categories): ?>
+                                                <option value="<?= $categories->product_category ?>"><?= $categories->product_category ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -82,28 +89,36 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Price</label>
-                                        <input type="number" class="form-control border-input" placeholder="Price" value="<?= $products->product_price ?>">
+                                        <label>Price <font color="red">*</font></label>
+                                        <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value="<?= $products->product_price ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Product Image</label>
-                                        <input type="file" class="form-control border-input file">
+                                        <label>Quantity <font color="red">*</font></label>
+                                        <input type="number" class="form-control border-input" placeholder="Product quantity" name = "product_quantity" value="<?= $products->product_quantity ?>">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Product Description</label>
-                                        <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" value="Mike"><?= $products->product_desc ?></textarea>
+                                        <label>Product Image</label>
+                                        <input type="file" class="form-control border-input file" name = "product_image">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Product Description <font color="red">*</font></label>
+                                        <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" name = "product_desc"><?= $products->product_desc ?></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Update Profile</button>
+                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Update Product</button>
+                                <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;">Reset</button>
                             </div>
                             <br>
                             <div class="clearfix"></div>

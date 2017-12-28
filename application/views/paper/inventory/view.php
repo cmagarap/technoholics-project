@@ -6,16 +6,16 @@
                 <div class="card card-user">
                     <div class="content">
                         <div>
-                            <img src="<?= $this->config->base_url() ?>uploads/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
+                            <img src="<?= $this->config->base_url() ?>uploads_products/<?= $products->product_image ?>" alt="<?= $products->product_name ?>" title = "<?= $products->product_name ?>" width= "100%"/>
                         </div>
                         <div align = "center">
                             <br><hr><br>
                             <h4 class="title"><?= $products->product_name ?><br />
-                                <a href="#"><small><?= $products->product_category ?></small></a>
+                                <a><small><?= $products->product_category ?></small></a>
                             </h4>
                             <br>
                             <p class="description text-center">
-                                    <i><?= $products->product_desc ?></i>
+                                <i><?= $products->product_desc ?></i>
                             </p>
                             <br>
                         </div>
@@ -44,7 +44,7 @@
                     <hr>
                     <br>
                     <div align="center">
-                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                     </div>
                     <br>
                 </div>

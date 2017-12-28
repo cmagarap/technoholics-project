@@ -24,18 +24,18 @@ _________________________________________________________ -->
                                     <a href="#">
                                         <div align = "center">
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="customer-user" width="30%" style="border-radius: 100%; margin: 1px 5px 10px 5px">
-                                            <br>Home
+                                            <br><?= $userinformation->username ?>
                                         </div>
                                     </a>
-                                    <a href="#about">...</a>
-                                    <a href="<?= $this->config->base_url() ?>home/logout">Logout</a>
+                                    <a href="<?= $this->config->base_url() ?>my_account">Manage my account</a>
+                                    <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
                         </li>
                     <?php else: ?>
-                    <li><a href="<?= base_url().'login/'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
+                    <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
                     </li>
-                    <li><a href="<?= base_url().'home/register'; ?>">Register</a>
+                    <li><a href="<?= base_url().'register'; ?>">Register</a>
                     </li>
                     <?php endif; ?>
                     <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a>
@@ -237,9 +237,7 @@ _________________________________________________________ -->
                 </button>
                 &nbsp;
             </div>
-
         </div>
-
         <div class="collapse clearfix" id="search">
             <form class="navbar-form" role="search">
                 <div class="input-group">
@@ -255,6 +253,7 @@ _________________________________________________________ -->
 
 <!-- *** NAVBAR END *** -->
 
+<!-- MODAL
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -271,17 +270,14 @@ _________________________________________________________ -->
                     <div class="form-group">
                         <input type="password" class="form-control" id="password-modal" placeholder="password">
                     </div>
-
                     <p class="text-center">
                         <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
                     </p>
-
                 </form>
-
                 <p class="text-center text-muted">Not registered yet?</p>
                 <p class="text-center text-muted"><a href="<?= base_url().'home/register'; ?>"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
-
             </div>
         </div>
     </div>
 </div>
+-->

@@ -52,7 +52,7 @@
             color: white;
         }
 
-        button {
+        /*button {
             width: 50px;
             box-sizing: border-box;
             border: 2px solid #31bbe0;
@@ -60,6 +60,21 @@
             font-size: 14px;
             background-color: white;
             padding: 7px;
+        }*/
+
+        .navtxt:hover {
+            color: #31bbe0;
+        }
+
+        .navtxt {
+            color: #38D5FF;
+        }
+
+        /* AYAW GUMANA*/
+        .recover:hover {
+            background-color: #7ace4c;
+            border-color: #7ace4c;
+            color: white;
         }
 
     </style>
@@ -104,18 +119,18 @@
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
                         <?php
-                            if($this->session->userdata('type') == "General Manager") {
+                            if($this->session->userdata('type') == 0) {
                                 echo "<p>Accounts</p>";
-                            } elseif($this->session->userdata('type') == "Admin Assistant"){
+                            } elseif($this->session->userdata('type') == 1){
                                 echo "<p>Customer Accounts</p>";
                             }
                             ?>
                     </a>
                 </li>
-                <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('transaction_log/page'); ?>">
+                <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('audit_trail/page'); ?>">
                         <i class="ti-menu-alt"></i>
-                        <p>Transaction Log</p>
+                        <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
@@ -129,7 +144,7 @@
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" style = "background-color: #595959">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -138,16 +153,17 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand"><?= $heading ?></a>
+                    <a class="navbar-brand" style = "color: white"><?= $heading ?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-user"></i>
-                                <!--<p class="notification">5</p>-->
-                                <p><?= $user->firstname ?></p>
-                                <b class="caret"></b>
+                                <span class="navtxt">
+                                    <i class="ti-user"></i>
+                                    <p><?= $user->firstname ?></p>
+                                    <b class="caret"></b>
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -163,14 +179,16 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="#">Manage my account</a></li>
-                                <li><a href="<?= $this->config->base_url() ?>home/logout">Logout</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_profile">Manage my account</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#">
+                                <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -178,3 +196,4 @@
                 </div>
             </div>
         </nav>
+
