@@ -6,7 +6,7 @@
             $this->load->library(array('session', 'form_validation'));
             $this->load->helper('form');
             if (!$this->session->has_userdata('isloggedin')) {
-                redirect('/login');
+                redirect('login');
             }
         }
 
@@ -131,7 +131,16 @@
                     'product_desc' => $this->input->post('product_desc'),
                     'status' => '1'
                 );
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Added product: ' . trim($this->input->post('product_name')),
+                    'status' => '1'
+                );
                 $this->item_model->insertData('product', $data);
+                $this->item_model->insertData('user_log', $for_log);
                 redirect("inventory/page");
             } else {
                 $this->add_product();
@@ -203,7 +212,17 @@
                     );
                 }
 
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Edited product #' . $this->uri->segment(3),
+                    'status' => '1'
+                );
+
                 $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+                $this->item_model->insertData('user_log', $for_log);
                 redirect("inventory/page");
             } else {
                 $this->edit_product();

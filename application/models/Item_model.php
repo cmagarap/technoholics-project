@@ -1,9 +1,12 @@
 <?php
 
 class Item_model extends CI_Model {
-    function fetch($table, $where = NULL) {
+    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
+        }
+        if (!empty($orderby) AND !empty($order)) {
+            $this->db->order_by($orderby, $order);
         }
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
@@ -36,12 +39,7 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
-/*
-    function getCount() {
-        $query = $this->db->get('product');
-        return $query->num_rows();
-    }
-*/
+
     function getCount($table, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
@@ -78,12 +76,12 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-    public function getItems($page, $noOfRows) {
+    /*public function getItems($page, $noOfRows) {
         $q = $this->db->get('product', $noOfRows, $page);
         return $q->result();
-    }
+    }*/
 
-    function getProducts($table, /*$limit, $offset,*/ $orderby, $order, $where = NULL) {
+    /*function getProducts($table, $limit, $offset, $orderby, $order, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
@@ -93,22 +91,5 @@ class Item_model extends CI_Model {
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
         return $query->result();
-
-    }
-
-    function getAccess($account){
-       
-        if ($account = "Admin Assistant"){
-
-            $accounts = "1";
-            return $accounts;
-        }
-        elseif ($account = "Customers"){
-
-            $accounts = "2";
-            return $accounts;
-        }
-    }
+    }*/
 }
-
-

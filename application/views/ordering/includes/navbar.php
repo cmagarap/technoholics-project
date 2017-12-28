@@ -24,10 +24,10 @@ _________________________________________________________ -->
                                     <a href="#">
                                         <div align = "center">
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="customer-user" width="30%" style="border-radius: 100%; margin: 1px 5px 10px 5px">
-                                            <br>Home
+                                            <br><?= $userinformation->username ?>
                                         </div>
                                     </a>
-                                    <a href="#about">...</a>
+                                    <a href="<?= $this->config->base_url() ?>my_account">Manage my account</a>
                                     <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
