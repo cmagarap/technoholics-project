@@ -93,5 +93,22 @@ class Item_model extends CI_Model {
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
         return $query->result();
+
+    }
+
+    function getAccess($account){
+       
+        if ($account = "Admin Assistant"){
+
+            $accounts = "1";
+            return $accounts;
+        }
+        elseif ($account = "Customers"){
+
+            $accounts = "2";
+            return $accounts;
+        }
     }
 }
+
+

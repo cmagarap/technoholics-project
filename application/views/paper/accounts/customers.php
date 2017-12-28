@@ -8,6 +8,7 @@
                         <h3 class="title"><b>List of Customers</b></h3>
                         <p class="category">Here is a subtitle for this table</p>
                     </div>
+                      
                     <?php if(!$users) {
                         echo "<center><h3><hr><br>There are no customers exist in the database.</h3><br></center><br><br>";
                     } else {

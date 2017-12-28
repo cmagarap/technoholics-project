@@ -7,7 +7,10 @@
                     <div class="header">
                         <h3 class="title"><b>List of Users</b></h3>
                         <p class="category">Here is a subtitle for this table</p>
+                            
+                        <a href = "<?= $this->config->base_url() ?>accounts/add_accounts" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert Account">Insert Account</a>
                     </div>
+
                     <?php if(!$users) {
                         echo "<center><h3><hr><br>There are no users exist in the database.</h3><br></center><br><br>";
                     } else {
