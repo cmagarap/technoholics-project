@@ -17,7 +17,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <th><b>#</b></th>
-                                <th><b>Username</b></th>
+                                <th><b>User</b></th>
                                 <th><b>Action</b></th>
                                 <th><b>User type</b></th>
                                 <th><b>Date</b></th>

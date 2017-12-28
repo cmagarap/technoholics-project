@@ -179,7 +179,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="<?= $this->config->base_url() ?>my_account">Manage my account</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_profile">Manage my account</a></li>
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
