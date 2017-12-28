@@ -29,7 +29,7 @@ class My_account extends CI_Controller {
             $this->load->view("paper/accounts/my_account");
             $this->load->view("paper/includes/footer");
         } else {
-            # AAYUSIN KO PA ITO - seej
+            $this->load->view("paper/accounts/my_account"); # AAYUSIN KO PA ITO - seej
         }
     }
 
