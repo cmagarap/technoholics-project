@@ -112,7 +112,7 @@
                 </div>
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Team Members</h4>
+                        <h4 class="title">My Recent Activities</h4>
                     </div>
                     <div class="content">
                         <ul class="list-unstyled team-members">
