@@ -86,10 +86,8 @@
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
-        <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
+        <!-- data-background-color="white | black"
+            data-active-color="primary | info | success | warning | danger" -->
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
@@ -179,7 +177,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_profile">Manage my account</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_myprofile/<?= $user->user_id; ?>">Manage my account</a></li>
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
