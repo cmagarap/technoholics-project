@@ -16,11 +16,11 @@ class My_account extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function edit_profile() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $my_account = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
             $data = array(
-                'title' => 'My Account',
+                'title' => 'Manage My Account',
                 'heading' => 'My Account',
                 'user' => $my_account
             );
@@ -31,4 +31,6 @@ class My_account extends CI_Controller {
             echo 'byye';
         }
     }
+
+
 }

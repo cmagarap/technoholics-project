@@ -8,22 +8,26 @@
                     </div>
                     <div class="content">
                         <div class="author">
-                            <?php
+                            <?php # TO ACCESS THE IMAGE THUMBNAIL:
                             $user = $user[0];
                             $user_image = (string)$user->image;
                             $image_array = explode(".", $user_image);
                             ?>
-                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user">
+                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="Admin User">
                             <h4 class="title"><?= $user->firstname . " " . $user->lastname ?> <br />
                                 <a><small><?php if($user->username == NULL) echo $user->email;
                                 else echo $user->username; ?></small></a>
                             </h4>
                         </div>
-                        <p class="description text-center">
-                            "I like the way you work it <br>
-                            No diggity <br>
-                            I wanna bag it up"
+                        <hr>
+                        <p class="description">
+                            <?php
+                                if ($user->access_level == 0) echo "General Manager";
+                                elseif ($user->access_level == 1) echo "Admin Assistant";
+                            ?>
                         </p>
+                        <a href="">Change Profile Picture</a><br>
+                        <a href="">Change Password</a>
                     </div>
                     <hr>
                     <div class="text-center">
@@ -40,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <!--<div class="card">
                     <div class="header">
                         <h4 class="title">Team Members</h4>
                     </div>
@@ -102,7 +106,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="col-lg-8 col-md-7">
                 <div class="card">
@@ -110,94 +114,56 @@
                         <h4 class="title">Edit Profile</h4>
                     </div>
                     <div class="content">
-                        <form>
+                        <hr>
+                        <form action = "<?= $this->config->base_url() ?>my_account/edit_profile" method = "POST">
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label>Company</label>
-                                        <input type="text" class="form-control border-input" disabled placeholder="Company" value="Creative Code Inc.">
+                                        <label>User Type</label>
+                                        <input type="text" class="form-control border-input" disabled placeholder="Company" value="<?php
+                                        if ($user->access_level == 0) echo "General Manager";
+                                        elseif ($user->access_level == 1) echo "Admin Assistant";
+                                        ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Username</label>
-                                        <input type="text" class="form-control border-input" placeholder="Username" value="michael23">
+                                        <label for = "username">Username</label>
+                                        <input type="text" class="form-control border-input" placeholder="Username" name = "username" value="<?= $user->username; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control border-input" placeholder="Email">
+                                        <label for="email">Email address</label>
+                                        <input type="text" name = "email" class="form-control border-input" placeholder="Email" value = "<?= $user->email ?>">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control border-input" placeholder="Company" value="Chet">
+                                        <label for = "firstaname">First Name</label>
+                                        <input type="text" class="form-control border-input" placeholder="Company" name = "firstname" value="<?= $user->firstname; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control border-input" placeholder="Last Name" value="Faker">
+                                        <label for = "lastname">Last Name</label>
+                                        <input type="text" class="form-control border-input" placeholder="Last Name" name = "lastname" value="<?= $user->lastname; ?>">
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control border-input" placeholder="Home Address" value="Melbourne, Australia">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>City</label>
-                                        <input type="text" class="form-control border-input" placeholder="City" value="Melbourne">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" class="form-control border-input" placeholder="Country" value="Australia">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Postal Code</label>
-                                        <input type="number" class="form-control border-input" placeholder="ZIP Code">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>About Me</label>
-                                        <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-You doubt I'll bother, reading into it
-I'll probably won't, left to my own devices
-But that's the difference in our opinions.</textarea>
-                                    </div>
-                                </div>
-                            </div>
+                            <hr>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
+                                <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
+                            <br>
                             <div class="clearfix"></div>
                         </form>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
