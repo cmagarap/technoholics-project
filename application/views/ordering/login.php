@@ -25,7 +25,7 @@
                     <hr>
                     <form action = "<?= $this->config->base_url(); ?>login/login_submit" method = "POST">
                         <div class="form-group">
-                            <label for="email">Username or Email</label>
+                            <label for="email">Email or Username</label>
                             <?php if(form_error("user")): ?>
                                 <input type="text" class="form-control" name="user" value = "<?= $user; ?>" style = "border-color: red">
                                 <span style = 'color: red'><?= form_error("user") ?></span>
@@ -43,7 +43,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
-                            <a href="<?= $this->config->base_url(); ?>login/forgot"> Forgot password?</a>
+                            <a href="<?= $this->config->base_url(); ?>payroll/forgot"> Forgot password?</a>
                         </div>
                         <?php if(!validation_errors()):
                                 if ($this->session->flashdata('error') != ''): ?>

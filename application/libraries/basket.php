@@ -66,7 +66,7 @@ class basket {
 		if(!is_array($item) OR count($item) === 0){
 			return FALSE;
 		}else{
-            if(!isset($item['id'], $item['name'], $item['price'], $item['qty'])){
+            if(!isset($item['id'], $item['img'], $item['name'], $item['price'], $item['qty'])){
                 return FALSE;
             }else{
                 /*

@@ -9,17 +9,6 @@
             $this->load->library('session');
             //don't mind this
 
-            $this->cart_contents = !empty($this->session->cart_contents)?$this->session->cart_contents:NULL;
-            if ($this->cart_contents === NULL){
-                // set some base values
-        
-            $cart_contents = array(
-                    'cart_total' => 0,
-                    'total_items' => 0
-            );
-    
-            $this->session->set_userdata($cart_contents);
-            }
             }
         
 
@@ -40,13 +29,13 @@
         public function ViewCart() {
 
         //$this->basket = new Cart;
-        $cart = new basket;
+        $basket = new basket;
 
         $data = array(
             'title' => "Check out",
-            'cartItems' => $cart->contents(),
-            'CT' => $cart->total(),
-            'CTI' => $cart->total_items()
+            'cartItems' => $basket->contents(),
+            'CT' => $basket->total(),
+            'CTI' => $basket->total_items()
         );
 
         $this->load->view('shop/viewcart',$data);
@@ -55,9 +44,9 @@
         
         public function CheckOut() {
 
-        //$this->basket = new Cart;
+            $basket = new basket;
 
-            if($this->basket->total_items() <= 0){
+            if($basket->total_items() <= 0){
             $this->load->view('shop/cart');
             }
             
@@ -118,17 +107,19 @@
                 }
 
         public function add() {
-            $cart = new basket;
+
+            $basket = new basket;
 
             $data = array(
                 'id' => $_POST["product_id"],
                 'name' => $_POST["product_name"],
+                'img' => $_POST["product_img"],
                 'price' => $_POST["product_price"],
                 'qty' => $_POST["min_quantity"]
                 //"maxqty" => $_POST["max_quantity"],
             );
 
-           $cart->insert($data); //return rowid
+            $basket->insert($data); //return rowid
         }
                     
         public function test() {
@@ -138,21 +129,20 @@
         }
         
         function update() {
-            
+        $basket = new basket;
+
             $data = array(
                 'rowid' => $_POST["product_id"],
-                'qty' => $_POST["quantity"]
+                'qty' => $_POST["product_quantity"]
             );
 
-            $this->cart->update($data);
-            $this->load->view('shop/cart',$data);
-        }
+            $basket->update($data);
+           }
 
         function remove() {
-
-            $deleteItem = $this->basket->remove($_POST["product_id"]);
-            $this->load->view('shop/cart');
-
+            $basket = new basket;
+            $basket->remove($_POST["row_id"]);
+            $this->load->view('shop/viewcart');
         }
 
     }

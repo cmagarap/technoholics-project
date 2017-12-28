@@ -6,7 +6,7 @@
             $this->load->library(array('session', 'form_validation'));
             $this->load->helper('form');
             if (!$this->session->has_userdata('isloggedin')) {
-                redirect('login');
+                redirect('/login');
             }
         }
 
