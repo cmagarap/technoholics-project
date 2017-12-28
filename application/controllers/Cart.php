@@ -113,6 +113,7 @@
             $data = array(
                 'id' => $_POST["product_id"],
                 'name' => $_POST["product_name"],
+                'img' => $_POST["product_img"],
                 'price' => $_POST["product_price"],
                 'qty' => $_POST["min_quantity"]
                 //"maxqty" => $_POST["max_quantity"],

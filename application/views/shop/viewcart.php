@@ -84,21 +84,15 @@
 
         $(document).on('click', '.remove_inventory', function () {
             var row_id = $(this).attr("id");
-            if (confirm("Are you sure you want to remove this?"))
-            {
                 $.ajax({
                     url: "<?php echo base_url(); ?>cart/remove",
                     method: "POST",
                     data: {row_id: row_id},
                     success: function (data)
                     {
-                        $('#cart_contents').load("<?php echo base_url(); ?>cart/viewcart");
+                        location.reload(); 
                     }
                 });
-            } else
-            {
-                return false;
-            }
         });
 
             $('.update').change(function () {
@@ -110,7 +104,7 @@
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
                 {
-                    $('#cart_contents').load("<?php echo base_url(); ?>cart/viewcart");
+                    location.reload(); 
                     $('#' + product_id).val('');
                 }
             });

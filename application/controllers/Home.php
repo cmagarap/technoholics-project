@@ -4,8 +4,7 @@ class Home extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->model('shopping_cart_model');
-        $this->load->library(array('email', 'session', 'form_validation', 'cart'));
+        $this->load->library(array('email', 'session', 'form_validation', 'basket'));
     }
 
     public function index() {
@@ -72,10 +71,10 @@ class Home extends CI_Controller {
     // }
 
     public function category() {
-        $product = $this->item_model->fetch('product', array('product_category' => $this->uri->segment(3)));
+        $product = $this->item_model->fetch('product', array("status" => true));
         $data = array(
         'title' => 'Home',
-        'product' => $product
+        'products' => $product
     );
 
         $this->load->view('ordering/includes/header', $data);
@@ -98,6 +97,16 @@ class Home extends CI_Controller {
         $data = array(
             'title' => "My Shopping Cart" # should be changed
         );
+
+        $basket = new basket;
+        
+        $data = array(
+            'title' => "Check out",
+            'cartItems' => $basket->contents(),
+            'CT' => $basket->total(),
+            'CTI' => $basket->total_items()
+        );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
