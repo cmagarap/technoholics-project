@@ -1,4 +1,3 @@
-<?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -25,8 +24,13 @@
                             <?php
                             foreach ($users as $users):?>
                                 <tr>
-                                    <td><?= $counter++ ?></td>
-                                    <td><?= $users->username ?></td>
+                                    <td><?= $users->user_id ?></td>
+                                    <td>
+                                        <?php
+                                        if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
+                                        else $users->username;
+                                        ?>
+                                    </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
                                     <td>
@@ -63,11 +67,11 @@
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/" + id;
-                    } else {
-                        swal("The product is safe!");
-                    }
-                });
+                if (willDelete) {
+                    window.location = "<?= base_url() ?>accounts/delete/" + id;
+                } else {
+                    swal("The product is safe!");
+        }
+        });
         });
     </script>
