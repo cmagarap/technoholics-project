@@ -34,11 +34,11 @@ class Login extends CI_Controller {
                 foreach ($query->result() as $query) {
                     if ($query->status == 1) { # if the account is active
                         if ($query->password == sha1($this->input->post("password"))) { # if passwords match
+                            $user = ($query->username == NULL) ? $query->email : $query->username;
                             if ($query->is_verified == 0) { # if not yet verified
                                 $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
                                 $this->index();
                             } elseif ($query->is_verified == 1) { # 1: verified
-                                $user = ($query->username == NULL) ? $query->email : $query->username;
                                 if ($query->access_level == 0) { # 0: head admin
                                     $for_session = array(
                                         'username' => $user,
