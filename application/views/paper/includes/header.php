@@ -165,7 +165,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
                                         <div align = "center">
                                             <?php
                                                 $user_image = (string)$user->image;
@@ -177,7 +177,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_myprofile/<?= $user->user_id; ?>">Manage my account</a></li>
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
