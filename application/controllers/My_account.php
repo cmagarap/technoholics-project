@@ -17,7 +17,7 @@ class My_account extends CI_Controller {
         }
     }
 
-    public function edit_myprofile() {
+    public function index() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $my_account = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
             $data = array(
@@ -26,7 +26,7 @@ class My_account extends CI_Controller {
                 'user' => $my_account
             );
             $this->load->view("paper/includes/header", $data);
-            $this->load->view("paper/accounts/my_account");
+            $this->load->view("paper/accounts/edit_myaccount");
             $this->load->view("paper/includes/footer");
         } else {
             $this->load->view("paper/accounts/my_account"); # AAYUSIN KO PA ITO - seej
@@ -53,14 +53,14 @@ class My_account extends CI_Controller {
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
-                "action" => 'Edited his/her profile' . $this->uri->segment(3),
+                "action" => 'Edited his/her profile',
                 'status' => '1'
             );
-            $this->item_model->updatedata("accounts", $data, array('user_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("accounts", $data, array('user_id' => $this->session->uid));
             $this->item_model->insertData('user_log', $for_log);
             redirect("my_account/");
         } else {
-            $this->edit_myprofile();
+            $this->index();
         }
     }
 }
