@@ -115,7 +115,7 @@
                     </div>
                     <div class="content">
                         <hr>
-                        <form action = "<?= $this->config->base_url() ?>my_account/edit_profile" method = "POST">
+                        <form action = "<?= $this->config->base_url() ?>my_account/edit_myprofile_exec/<?= $this->uri->segment(3); ?>" method = "POST">
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
