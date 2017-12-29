@@ -78,6 +78,21 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
+
+     function getAccess($account){
+       
+        if ($account = "Admin Assistant"){
+
+            $accounts = "1";
+            return $accounts;
+        }
+        elseif ($account = "Customers"){
+
+            $accounts = "2";
+            return $accounts;
+        }
+    }
+    
     public function getItems($page, $noOfRows) {
         $q = $this->db->get('product', $noOfRows, $page);
         return $q->result();
