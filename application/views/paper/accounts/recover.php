@@ -10,15 +10,16 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Users</b></h3>
-                        <p class="category">Here is a subtitle for this table</p>
-                        <br>
-                        <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
-                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Accounts">Recover Users</a>
+                        <div align = "left">
+                            <h3 class="title"><b>Deleted Accounts List</b></h3>
+                            <p class="category"><i>You can recover deleted accounts here.</i></p><br>
+                            <a href = "<?= site_url('accounts/page'); ?>" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
+                        </div>
                     </div>
+
                     <br>
                     <?php if(!$users) {
-                        echo "<center><h3><hr><br>There are no users exist in the database.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are no deleted accounts recorded in the database.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">
@@ -58,15 +59,15 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->user_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->user_id ?>" title = "Delete User" alt = "Delete User">
-                                            <span class="ti-trash"></span>
+                                        <a class="btn btn-danger recover" href="#" data-id="<?= $users->user_id ?>" title = "Recover Account" alt = "Reactivate this Account" style = "color: #7ace4c; background: white; border-color: #7ace4c">
+                                            <span class="ti-back-left"></span>
                                         </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <?php echo "<div align = 'center'>" . $links . "</div>";
+                        <?php #echo "<div align = 'center'>" . $links . "</div>";
                         echo '</div>';
                         } ?>
                     </div>
@@ -74,21 +75,38 @@
             </div>
         </div>
     </div>
+    <!--<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This is a large modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');
 
             swal({
-                title: "Are you sure you want to delete this account?",
+                title: "Reactivate this account?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/" + id;
+                        window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/" + id;
                     } else {
-                        swal("The account is safe!");
+                        swal("The account remained inactive.");
                     }
                 });
         });

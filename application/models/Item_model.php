@@ -1,9 +1,12 @@
 <?php
 
 class Item_model extends CI_Model {
-    function fetch($table, $where = NULL) {
+    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
+        }
+        if (!empty($orderby) AND !empty($order)) {
+            $this->db->order_by($orderby, $order);
         }
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;

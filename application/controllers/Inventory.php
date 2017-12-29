@@ -10,6 +10,10 @@
             }
         }
 
+        public function index() {
+            redirect('inventory/page');
+        }
+
         public function page() { # This is the index
             $this->load->library('pagination');
             $perpage = 20;
@@ -55,15 +59,19 @@
         }
 
         public function view() {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: View Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/inventory/view');
-            $this->load->view('paper/includes/footer');
+            if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+                $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+                $data = array(
+                    'title' => "Inventory: View Product",
+                    'heading' => "Inventory",
+                    'products' => $product
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view('paper/inventory/view');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('home');
+            }
         }
 
         public function add_product() {

@@ -18,23 +18,59 @@ class Accounts extends CI_Controller {
         }
     }
 
-    public function index() { # to be changed to page()
-        if ($this->session->userdata('type') == 0) {
-            $users = $this->item_model->fetch("accounts", array("status" => 1));
+    public function index() {
+        redirect('accounts/page');
+    }
+
+    public function page() {
+        $this->load->library('pagination');
+        $perpage = 20;
+        $config['base_url'] = base_url()."accounts/page";
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close']= ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url']='';
+        $config['last_link']='Last';
+        $config['last_tag_open']='<li>';
+        $config['last_tag_close']='</li>';
+        $config['next_link']='&raquo;';
+        $config['next_tag_open']='<li>';
+        $config['next_tag_close']='</li>';
+        $config['prev_link'] ='&laquo;';
+        $config['prev_tag_open']='<li>';
+        $config['prev_tag_close']='</li>';
+        $config['cur_tag_open']='<li class="active"><a href="#">';
+        $config['cur_tag_close']='</a></li>';
+        $config['num_tag_open']='<li>';
+        $config['num_tag_close']='</li>';
+
+        if($this->session->userdata('type') == 0) {
+            $config['total_rows'] = $this->item_model->getCount('accounts', "access_level != 0 AND status = 1");
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', "access_level != 0 AND status = 1");
+
             $data = array(
                 'title' => 'Accounts Management',
                 'heading' => 'Accounts',
-                'users' => $users
+                'users' => $accounts, # $query->result()
+                'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
-        } elseif ($this->session->userdata('type') == 1) {
-            $users = $this->item_model->fetch("accounts", array("status" => 1, "access_level" => 2));
+        } elseif($this->session->userdata('type') == 1) {
+            $config['total_rows'] = $this->item_model->getCount('accounts', "access_level = 2");
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', "access_level = 2");
+
             $data = array(
                 'title' => 'Accounts Management',
                 'heading' => 'Accounts',
-                'users' => $users
+                'users' => $accounts,
+                'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/customers");
@@ -44,20 +80,23 @@ class Accounts extends CI_Controller {
         }
     }
 
-    public function view() {
-        if ($this->session->userdata('type') == 0) {
-            $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
+    public function view()
+    {
+        #if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+        $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
 
-            $data = array(
-                'title' => "View User Info",
-                'heading' => "Accounts",
-                'account' => $account
-            );
+        $data = array(
+            'title' => "View User Info",
+            'heading' => "Accounts",
+            'account' => $account
+        );
 
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/accounts/view');
-            $this->load->view('paper/includes/footer');
-        }
+        $this->load->view('paper/includes/header', $data);
+        $this->load->view('paper/accounts/view');
+        $this->load->view('paper/includes/footer');
+        /*} else {
+            redirect('home');
+        }*/
     }
 
     public function add_account() {
@@ -185,8 +224,66 @@ class Accounts extends CI_Controller {
     }
 
     public function delete() {
-        $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
-        redirect("inventory/page");
+        $this->item_model->updatedata("accounts", array("status" => false), array('user_id' => $this->uri->segment(3)));
+        redirect("accounts");
+    }
+
+    public function recover_account() {
+        $this->load->library('pagination');
+        $perpage = 20;
+        $config['base_url'] = base_url()."accounts/recover_account";
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close']= ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url']='';
+        $config['last_link']='Last';
+        $config['last_tag_open']='<li>';
+        $config['last_tag_close']='</li>';
+        $config['next_link']='&raquo;';
+        $config['next_tag_open']='<li>';
+        $config['next_tag_close']='</li>';
+        $config['prev_link'] ='&laquo;';
+        $config['prev_tag_open']='<li>';
+        $config['prev_tag_close']='</li>';
+        $config['cur_tag_open']='<li class="active"><a href="#">';
+        $config['cur_tag_close']='</a></li>';
+        $config['num_tag_open']='<li>';
+        $config['num_tag_close']='</li>';
+
+        if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $config['total_rows'] = $this->item_model->getCount('accounts', array("status" => 0));
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', array("status" => 0));
+            $data = array(
+                'title' => 'Accounts: Reactivate Accounts',
+                'heading' => 'Accounts',
+                'users' => $accounts,
+                'links' => $this->pagination->create_links()
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/accounts/recover");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function recover_account_exec() {
+        $this->item_model->updatedata("account", array("status" => 1), array('user_id' => $this->uri->segment(3)));
+        $for_log = array(
+            "user_id" => $this->session->uid,
+            "user_type" => $this->session->userdata('type'),
+            "username" => $this->session->userdata('username'),
+            "date" => time(),
+            "action" => 'Reactivated account #' . $this->uri->segment(3),
+            'status' => '1'
+        );
+        $this->item_model->insertData('user_log', $for_log);
+        redirect("accounts/recover_account");
     }
 
 }
