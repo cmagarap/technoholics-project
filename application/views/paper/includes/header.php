@@ -81,8 +81,8 @@
 </head>
 <body>
 <?php
-    $user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
-    $user = $user[0];
+$user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
+$user = $user[0];
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
@@ -117,12 +117,12 @@
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
                         <?php
-                            if($this->session->userdata('type') == 0) {
-                                echo "<p>Accounts</p>";
-                            } elseif($this->session->userdata('type') == 1){
-                                echo "<p>Customer Accounts</p>";
-                            }
-                            ?>
+                        if($this->session->userdata('type') == 0) {
+                            echo "<p>Accounts</p>";
+                        } elseif($this->session->userdata('type') == 1){
+                            echo "<p>Customer Accounts</p>";
+                        }
+                        ?>
                     </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
@@ -168,8 +168,8 @@
                                     <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
                                         <div align = "center">
                                             <?php
-                                                $user_image = (string)$user->image;
-                                                $image_array = explode(".", $user_image);
+                                            $user_image = (string)$user->image;
+                                            $image_array = explode(".", $user_image);
                                             ?>
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
                                             <br>

@@ -69,17 +69,17 @@
             var id = $(this).data('id');
 
             swal({
-                title: "Are you sure you want to delete this product?",
+                title: "Are you sure you want to delete this account?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                if (willDelete) {
-                    window.location = "<?= base_url() ?>account/delete/" + id;
-                } else {
-                    swal("The product is safe!");
-        }
-        });
+                    if (willDelete) {
+                        window.location = "<?= base_url() ?>account/delete/" + id;
+                    } else {
+                        swal("The account is safe!");
+                    }
+                });
         });
     </script>
