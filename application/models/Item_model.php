@@ -1,9 +1,12 @@
 <?php
 
 class Item_model extends CI_Model {
-    function fetch($table, $where = NULL) {
+    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
+        }
+        if (!empty($orderby) AND !empty($order)) {
+            $this->db->order_by($orderby, $order);
         }
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
@@ -79,7 +82,7 @@ class Item_model extends CI_Model {
     }
 
 
-     function getAccess($account){
+     /*function getAccess($account){
        
         if ($account = "Admin Assistant"){
 
@@ -98,7 +101,7 @@ class Item_model extends CI_Model {
         return $q->result();
     }
 
-    function getProducts($table, /*$limit, $offset,*/ $orderby, $order, $where = NULL) {
+    function getProducts($table, /*$limit, $offset, $orderby, $order, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
@@ -108,5 +111,5 @@ class Item_model extends CI_Model {
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
         return $query->result();
-    }
+    } */
 }

@@ -18,7 +18,6 @@
                             <a href = "<?= $this->config->base_url() ?>inventory/recover_product" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
                         </div>
                     </div>
-
                     <br>
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
