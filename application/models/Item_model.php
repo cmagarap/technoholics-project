@@ -79,7 +79,7 @@ class Item_model extends CI_Model {
     }
 
 
-     function getAccess($account){
+     /*function getAccess($account){
        
         if ($account = "Admin Assistant"){
 
@@ -98,7 +98,7 @@ class Item_model extends CI_Model {
         return $q->result();
     }
 
-    function getProducts($table, /*$limit, $offset,*/ $orderby, $order, $where = NULL) {
+    function getProducts($table, /*$limit, $offset, $orderby, $order, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
@@ -108,5 +108,5 @@ class Item_model extends CI_Model {
         $this->db->order_by($orderby, $order);
         $query = $this->db->get($table);
         return $query->result();
-    }
+    } */
 }

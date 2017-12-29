@@ -5,23 +5,21 @@
  * Date: 12/19/2017
  * Time: 1:13 PM
  */
+
 class Accounts extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-       
-        $this->load->library('upload');
-       
-        $this->load->helper(array('string', 'form'));
-         $this->load->library(array('form_validation', 'session', 'email'));
-     
+        $this->load->helper(array('form'));
+        $this->load->library(array('form_validation', 'session', 'email'));
+
         if (!$this->session->has_userdata('isloggedin')) {
             redirect('/login');
         }
     }
 
     public function index() { # to be changed to page()
-        if($this->session->userdata('type') == 0) {
+        if ($this->session->userdata('type') == 0) {
             $users = $this->item_model->fetch("accounts", array("status" => 1));
             $data = array(
                 'title' => 'Accounts Management',
@@ -31,7 +29,7 @@ class Accounts extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
-        } elseif($this->session->userdata('type') == 1) {
+        } elseif ($this->session->userdata('type') == 1) {
             $users = $this->item_model->fetch("accounts", array("status" => 1, "access_level" => 2));
             $data = array(
                 'title' => 'Accounts Management',
@@ -47,7 +45,7 @@ class Accounts extends CI_Controller {
     }
 
     public function view() {
-        if($this->session->userdata('type') == 0) {
+        if ($this->session->userdata('type') == 0) {
             $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
 
             $data = array(
@@ -59,51 +57,46 @@ class Accounts extends CI_Controller {
             $this->load->view('paper/includes/header', $data);
             $this->load->view('paper/accounts/view');
             $this->load->view('paper/includes/footer');
-
         }
     }
-    public function add_accounts() {
-            if(($this->session->userdata('type') == 0) OR ($this->session->userdata('type') == 1)) {
-                $data = array(
-                    'title' => 'Accounts: Add Account',
-                    'heading' => 'Accounts'
-                );
 
-                $this->load->view('paper/includes/header', $data);
-                $this->load->view('paper/accounts/add_accounts');
-                $this->load->view('paper/includes/footer');
-            } else {
-                redirect('home/');
-            }
-     }
-     public function add_accounts_exec() {
+    public function add_account() {
+        if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+            $data = array(
+                'title' => 'Accounts: Add Account',
+                'heading' => 'Accounts'
+            );
 
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/accounts/add_accounts');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect('home');
+        }
+    }
 
-        $this->load->helper('string');
-        $code = random_string('alnum', 15);
+    public function add_account_exec() {
+        $this->form_validation->set_rules('first_name', "first name", "required");
+        $this->form_validation->set_rules('last_name', "last name", "required");
+        $this->form_validation->set_rules('username', "username", "is_unique[accounts.username]");
+        $this->form_validation->set_rules('password', "password", "required");
+        $this->form_validation->set_rules('confirm_password', "password confirm", "required|matches[password]");
+        $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[accounts.email]');
+        $this->form_validation->set_message('required', 'Please enter your {field}.');
 
-
-             $this->form_validation->set_rules('first_name', "Please enter your firstname.", "required|alpha_numeric");
-        $this->form_validation->set_rules('last_name', "Please enter your surname.", "required|alpha_numeric");
-        $this->form_validation->set_rules('username', "Please enter a username.", "required|alpha|is_unique[accounts.username]");
-        $this->form_validation->set_rules('password', "Please enter a password.", "required|alpha_numeric");
-        $this->form_validation->set_rules('confirm_password', "Please confirm your password.", "required|alpha_numeric|matches[password]");
-        $this->form_validation->set_rules('email_address', "Please enter an email address.", 'required|valid_email|is_unique[accounts.email]');
-
-         $account = $this->item_model->getAccess(($this->input->post('account')));
-            
-         // Checking if rules are met.
-        if ($this->form_validation->run()){
+        if ($this->form_validation->run()) {
             $config['encrypt_name'] = TRUE;
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = './uploads_users/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = 0;
             $this->load->library('upload', $config);
+            $this->load->helper('string');
+            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
+            $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
+            $is_verified = ($user_type == 1) ? 1 : 0;
+            $hash = random_string('alnum', 15);
 
-                }
-
-            else {
-            if ($this->upload->do_upload('userfile') == FALSE) {
+            if ($this->upload->do_upload('user_image') == FALSE) {
                 $image = "default-user.png";
                 $config2['image_library'] = 'gd2';
                 $config2['source_image'] = './uploads_users/' . $image;
@@ -111,8 +104,9 @@ class Accounts extends CI_Controller {
                 $config2['maintain_ratio'] = TRUE;
                 $config2['width'] = 75;
                 $config2['height'] = 50;
-                $this->load->library('image_lib');
+                $this->load->library('image_lib', $config2);
                 $this->image_lib->resize();
+                $this->image_lib->initialize($config2);
             } else {
                 $image = $this->upload->data('file_name');
                 $config2['image_library'] = 'gd2';
@@ -121,38 +115,32 @@ class Accounts extends CI_Controller {
                 $config2['maintain_ratio'] = TRUE;
                 $config2['width'] = 75;
                 $config2['height'] = 50;
-                $this->load->library('image_lib');
+                $this->load->library('image_lib', $config2);
                 $this->image_lib->resize();
+                $this->image_lib->initialize($config2);
             }
-            $this->image_lib->initialize($config2);
-              /*  $userSession = $this->Session->read('account_type');
-
-                if($userSession = "General Manager") {
-                    $account = 0;
-                }
-                elseif($userSession = "Admin Assistant") {
-                    $account = 1;
-                }
-                 elseif($userSession = "Customer") {
-                    $account = 2;
-                }
-                */
-
-            
 
             $data = array(
-                'username' => trim($this->input->post('username')),
+                'username' => $username,
                 'password' => sha1($this->input->post('password')), # to be changed
                 'firstname' => trim(ucwords($this->input->post('first_name'))),
                 'lastname' => trim(ucwords($this->input->post('last_name'))),
-                'email' => trim($this->input->post('email_address')),
+                'email' => trim($this->input->post('email')),
                 'registered_at' => time(),
-                'access_level' => $account,
-                'verification_code' => $code,
-                'image' => $image
+                'access_level' => $user_type,
+                'verification_code' => $hash,
+                'image' => $image,
+                'is_verified' => $is_verified
             );
-
-            $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name')),
+                'status' => '1'
+            );
+            /*$this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
             $this->email->to($this->input->post('email'));
 
             $this->email->subject('Email Verification');
@@ -161,11 +149,14 @@ class Accounts extends CI_Controller {
 
             if (!$this->email->send()) {
                 $this->email->print_debugger();
-            } 
-             $this->item_model->insertData('accounts', $data);
-                redirect("accounts/add_accounts");
-             }
+            }*/
+            $this->item_model->insertData('accounts', $data);
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("accounts/");
+        } else {
+            $this->add_account();
         }
+    }
 
     public function edit() {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
@@ -188,7 +179,7 @@ class Accounts extends CI_Controller {
             'updated_at' => time()
         );
 
-        $this->item_model->updatedata("product",$data, array('product_id' => $this->uri->segment(3)));
+        $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
 
         redirect("management/product");
     }
@@ -197,4 +188,5 @@ class Accounts extends CI_Controller {
         $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
         redirect("inventory/page");
     }
+
 }

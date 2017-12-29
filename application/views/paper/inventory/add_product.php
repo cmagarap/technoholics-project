@@ -1,10 +1,8 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-1 col-md-5">
-
-            </div>
-            <div class="col-lg-10 col-md-7">
+            <div class="col-lg-2 col-md-5"></div>
+            <div class="col-lg-8 col-md-7">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h4 class="title"><b>Add a Product</b></h4>

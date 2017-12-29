@@ -77,7 +77,7 @@
                 $this->load->view('paper/inventory/add_product');
                 $this->load->view('paper/includes/footer');
             } else {
-                redirect('home/');
+                redirect('home');
             }
         }
 
@@ -106,7 +106,7 @@
                     $config2['height'] = 50;
                     $this->load->library('image_lib', $config2);
                     $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
+                    $this->image_lib->initialize($config2);
                 } else {
                     $image = $this->upload->data('file_name');
                     $config2['image_library'] = 'gd2';
@@ -117,7 +117,7 @@
                     $config2['height'] = 50;
                     $this->load->library('image_lib', $config2);
                     $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
+                    $this->image_lib->initialize($config2);
                 }
 
                 $data = array(

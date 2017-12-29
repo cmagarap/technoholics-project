@@ -1,15 +1,22 @@
 <div class="content">
     <div class="container-fluid">
+        <div align = "right">
+            <input type="text" name="search" class = "search" placeholder="Search account...">
+            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
+            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+        </div>
+        <br>
         <div class="row">
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h3 class="title"><b>List of Users</b></h3>
                         <p class="category">Here is a subtitle for this table</p>
-                            
-                        <a href = "<?= $this->config->base_url() ?>accounts/add_accounts" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert Account">Insert Account</a>
+                        <br>
+                        <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Accounts">Recover Users</a>
                     </div>
-
+                    <br>
                     <?php if(!$users) {
                         echo "<center><h3><hr><br>There are no users exist in the database.</h3><br></center><br><br>";
                     } else {
