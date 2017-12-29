@@ -46,13 +46,13 @@
                             <a href="<?= $this->config->base_url(); ?>login/forgot"> Forgot password?</a>
                         </div>
                         <?php if(!validation_errors()):
-                                if ($this->session->flashdata('error') != ''): ?>
-                                    <div class="alert alert-danger" role="alert" style = "border-color: red; color: red">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <?php echo $this->session->flashdata('error'); ?>
-                                    </div>
-                        <?php endif;
-                            endif; ?>
+                            if ($this->session->flashdata('error') != ''): ?>
+                                <div class="alert alert-danger" role="alert" style = "border-color: red; color: red">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <?php echo $this->session->flashdata('error'); ?>
+                                </div>
+                            <?php endif;
+                        endif; ?>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
                         </div>

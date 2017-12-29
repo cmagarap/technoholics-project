@@ -116,6 +116,7 @@ _________________________________________________________ -->
 <script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
 <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
 <script>
+
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function myFunction() {
@@ -136,6 +137,80 @@ _________________________________________________________ -->
             }
         }
     }
+
+    // Veo's AJAX
+    $(document).ready(function () {
+
+        $('.add_cart').click(function () {
+            var product_id = $(this).data("productid");
+            var product_name = $(this).data("productname");
+            var product_img = $(this).data("productimg");
+            var product_price = $(this).data("price");
+            var product_quantity = $(this).data("productquantity");
+            var minimum_quantity = 1;
+            $.ajax({
+                url: "<?php echo base_url(); ?>cart/add",
+                method: "POST",
+                data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
+                success: function (data)
+                {
+                    alert("Product Added into Cart");
+                    $('#' + product_id).val('');
+                }
+            });
+        });
+
+        $(document).on('click', '.remove_inventory', function () {
+            var row_id = $(this).attr("id");
+                $.ajax({
+                    url: "<?php echo base_url(); ?>cart/remove",
+                    method: "POST",
+                    data: {row_id: row_id},
+                    success: function (data)
+                    {
+                        location.reload(); 
+                    }
+                });
+        });
+
+            $('.update').change(function () {
+            var product_id = $(this).data("productid");
+            var product_quantity = $('#update').val();
+            $.ajax({
+                url: "<?php echo base_url(); ?>cart/update",
+                method: "POST",
+                data: {product_id: product_id, product_quantity: product_quantity},
+                success: function (data)
+                {
+                    location.reload(); 
+                    $('#' + product_id).val('');
+                }
+            });
+        });
+
+        $(document).on('click', '#clear_cart', function () {
+            if (confirm("Are you sure you want to clear cart?"))
+            {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>cart/clear",
+                    success: function (data)
+                    {
+                        alert("Your cart has been cleared...");
+                        $('#cart_details').html(data);
+                    }
+                });
+            } else
+            {
+                return false;
+            }
+        });
+
+        $(window).load(function() {
+            NProgress.start();
+            setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
+        });
+
+    });
 </script>
 </body>
 </html>
