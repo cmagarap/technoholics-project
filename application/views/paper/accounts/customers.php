@@ -7,6 +7,7 @@
                         <h3 class="title"><b>List of Customers</b></h3>
                         <p class="category">Here is a subtitle for this table</p>
                     </div>
+                      
                     <?php if(!$users) {
                         echo "<center><h3><hr><br>There are no customers exist in the database.</h3><br></center><br><br>";
                     } else {
@@ -61,17 +62,17 @@
             var id = $(this).data('id');
 
             swal({
-                title: "Are you sure you want to delete this product?",
+                title: "Are you sure you want to delete this account?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                if (willDelete) {
-                    window.location = "<?= base_url() ?>accounts/delete/" + id;
-                } else {
-                    swal("The product is safe!");
-        }
-        });
+                    if (willDelete) {
+                        window.location = "<?= base_url() ?>accounts/delete/" + id;
+                    } else {
+                        swal("The account is safe!");
+                    }
+                });
         });
     </script>
