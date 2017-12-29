@@ -16,14 +16,14 @@
                             <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="Admin User">
                             <h4 class="title"><?= $user->firstname . " " . $user->lastname ?> <br />
                                 <a><small><?php if($user->username == NULL) echo $user->email;
-                                else echo $user->username; ?></small></a>
+                                        else echo $user->username; ?></small></a>
                             </h4>
                         </div>
                         <hr>
                         <p class="description">
                             <?php
-                                if ($user->access_level == 0) echo "General Manager";
-                                elseif ($user->access_level == 1) echo "Admin Assistant";
+                            if ($user->access_level == 0) echo "General Manager";
+                            elseif ($user->access_level == 1) echo "Admin Assistant";
                             ?>
                         </p>
                         <a href="">Change Profile Picture</a><br>
