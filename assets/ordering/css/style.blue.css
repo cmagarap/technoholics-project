@@ -467,6 +467,8 @@ h1 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  width: 255px;
+  height: 375px;
   margin-bottom: 30px;
   /* entire container, keeps perspective */
   /* flip speed goes here */
@@ -487,6 +489,17 @@ h1 {
 @media (max-width: 767px) {
   #content .product .flip-container img.img-responsive {
     min-width: 100%;
+  }
+  #content .product{
+    padding: 10px;
+    background: #fff;
+    border: solid 1px #e6e6e6;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 255px;
+    height: 420px;
+    margin-bottom: 30px;
   }
 }
 #content .product .flip-container,
