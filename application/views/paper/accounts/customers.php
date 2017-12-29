@@ -1,4 +1,3 @@
-<?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -29,8 +28,8 @@
                                     <td><?= $users->user_id ?></td>
                                     <td>
                                         <?php
-                                            if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
-                                            else $users->username;
+                                        if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
+                                        else $users->username;
                                         ?>
                                     </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
@@ -63,7 +62,7 @@
             var id = $(this).data('id');
 
             swal({
-                title: "Are you sure you want to delete this product?",
+                title: "Are you sure you want to delete this account?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -72,7 +71,7 @@
                     if (willDelete) {
                         window.location = "<?= base_url() ?>accounts/delete/" + id;
                     } else {
-                        swal("The product is safe!");
+                        swal("The account is safe!");
                     }
                 });
         });

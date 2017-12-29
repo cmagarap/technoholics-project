@@ -81,15 +81,13 @@
 </head>
 <body>
 <?php
-    $user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
-    $user = $user[0];
+$user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
+$user = $user[0];
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
-        <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
+        <!-- data-background-color="white | black"
+            data-active-color="primary | info | success | warning | danger" -->
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
@@ -119,12 +117,12 @@
                     <a href="<?= site_url('accounts'); ?>">
                         <i class="ti-user"></i>
                         <?php
-                            if($this->session->userdata('type') == 0) {
-                                echo "<p>Accounts</p>";
-                            } elseif($this->session->userdata('type') == 1){
-                                echo "<p>Customer Accounts</p>";
-                            }
-                            ?>
+                        if($this->session->userdata('type') == 0) {
+                            echo "<p>Accounts</p>";
+                        } elseif($this->session->userdata('type') == 1){
+                            echo "<p>Customer Accounts</p>";
+                        }
+                        ?>
                     </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
@@ -167,11 +165,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
                                         <div align = "center">
                                             <?php
-                                                $user_image = (string)$user->image;
-                                                $image_array = explode(".", $user_image);
+                                            $user_image = (string)$user->image;
+                                            $image_array = explode(".", $user_image);
                                             ?>
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
                                             <br>
@@ -179,7 +177,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="<?= $this->config->base_url() ?>my_account/edit_profile">Manage my account</a></li>
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>

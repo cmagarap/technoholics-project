@@ -15,6 +15,7 @@
     <meta name="keywords" content="">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     <!-- styles -->
+    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/font-awesome.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/bootstrap.min.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/animate.min.css'; ?>" rel="stylesheet">
@@ -25,6 +26,8 @@
     <!-- your stylesheet with modifications -->
     <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <script src="<?= base_url().'assets/ordering/js/respond.min.js'; ?>"></script>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <link rel="shortcut icon" href="<?= base_url().'assets/ordering/img/mobile_logo.png';?>">
     <style>
 

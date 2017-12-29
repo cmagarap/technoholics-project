@@ -24,19 +24,18 @@ _________________________________________________________ -->
                                     <a href="#">
                                         <div align = "center">
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="customer-user" width="30%" style="border-radius: 100%; margin: 1px 5px 10px 5px">
-                                            <br><?= $userinformation->username ?>
+                                            <br>Home
                                         </div>
                                     </a>
-                                    <a href="<?= $this->config->base_url() ?>my_account">Manage my account</a>
                                     <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
                         </li>
                     <?php else: ?>
-                    <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
-                    </li>
-                    <li><a href="<?= base_url().'register'; ?>">Register</a>
-                    </li>
+                        <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
+                        </li>
+                        <li><a href="<?= base_url().'register'; ?>">Register</a>
+                        </li>
                     <?php endif; ?>
                     <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a>
                     </li>
@@ -62,7 +61,7 @@ _________________________________________________________ -->
                     <i class="fa fa-search"></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i> 
+                    <i class="fa fa-shopping-cart"></i>
                     <span class="hidden-xs">3 items in cart</span>
                 </a>
             </div>
@@ -72,51 +71,37 @@ _________________________________________________________ -->
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
                 </li>
                 <li class="dropdown yamm-fw">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Men <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <div class="yamm-content">
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <h5>Clothing</h5>
+                                        <h5>Smartphones</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Shirts</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Asus</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
-                                        <h5>Shoes</h5>
+                                        <h5>Tablets</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
-                                        <h5>Accessories</h5>
+                                        <h5>Laptops</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
+                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -148,7 +133,7 @@ _________________________________________________________ -->
                 </li>
 
                 <li class="dropdown yamm-fw">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Ladies <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">SERVICES <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <div class="yamm-content">
