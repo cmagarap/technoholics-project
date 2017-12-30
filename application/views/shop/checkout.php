@@ -46,21 +46,19 @@
         <tr>
             <td colspan="3"></td>
             <?php if($CTI > 0){ ?>
-            <td class="text-center"><strong>Total <?php echo '$'.$cart->total().' USD'; ?></strong></td>
+            <td class="text-center"><strong>Total <?php echo '$'.$total.' USD'; ?></strong></td>
             <?php } ?>
         </tr>
     </tfoot>
     </table>
     <div class="shipAddr">
         <h4>Shipping Details</h4>
-        <p><?php echo $custRow['name']; ?></p>
-        <p><?php echo $custRow['email']; ?></p>
-        <p><?php echo $custRow['phone']; ?></p>
-        <p><?php echo $custRow['address']; ?></p>
+        <p><?php echo $custRow->firstname; ?></p>
+        <p><?php echo $custRow->email; ?></p>
     </div>
     <div class="footBtn">
         <a href="index.php" class="btn btn-warning"><i class="glyphicon glyphicon-menu-left"></i> Continue Shopping</a>
-        <a href="cartAction.php?action=placeOrder" class="btn btn-success orderBtn">Place Order <i class="glyphicon glyphicon-menu-right"></i></a>
+        <a href="<?php echo base_url(); ?>cart/placeorder" class="btn btn-success orderBtn">Place Order <i class="glyphicon glyphicon-menu-right"></i></a>
     </div>
 </div>
 </body>

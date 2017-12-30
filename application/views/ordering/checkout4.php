@@ -33,46 +33,47 @@
                                     <thead>
                                     <tr>
                                         <th colspan="2">Product</th>
+                                        <th></th>
                                         <th>Quantity</th>
                                         <th>Unit price</th>
-                                        <th>Discount</th>
-                                        <th>Total</th>
+                                        <th>Subtotal</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                    if($CTI > 0){
+                                        //get cart items from session
+                                        foreach($cartItems as $item){
+                                    ?>
                                     <tr>
-                                        <td>
-                                            <a href="#">
-                                                <img src="img/detailsquare.jpg" alt="White Blouse Armani">
-                                            </a>
-                                        </td>
-                                        <td><a href="#">White Blouse Armani</a>
-                                        </td>
-                                        <td>2</td>
-                                        <td>$123.00</td>
-                                        <td>$0.00</td>
-                                        <td>$246.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">
-                                                <img src="img/basketsquare.jpg" alt="Black Blouse Armani">
-                                            </a>
-                                        </td>
-                                        <td><a href="#">Black Blouse Armani</a>
-                                        </td>
-                                        <td>1</td>
-                                        <td>$200.00</td>
-                                        <td>$0.00</td>
-                                        <td>$200.00</td>
-                                    </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th colspan="5">Total</th>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    </tfoot>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
+                                        </a>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td><a href="#"><?= $item["name"] ?></a>
+                                    </td>
+                                    <td>
+                                        <?= $item["qty"]; ?>
+                                    </td>
+                                    <td><?php echo '₱'.number_format($item["price"],2)?> </td>
+                                    <!-- <td>$0.00</td> -->
+                                    <td><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                </tr>
+                                    <?php } }else{ ?>
+                                    <tr><td colspan="5"><p>Your cart is empty.....</p></td>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                <?php if($CTI > 0){ ?>
+                                    <th colspan="5">Total</th>
+                                    <th colspan="2"><?='₱'.number_format($CT,2)?></th>
+                                    <?php } ?>
+                                </tr>
+                                </tfoot>
                                 </table>
 
                             </div>
@@ -85,8 +86,10 @@
                                 <a href="<?= base_url().'home/checkout3'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Payment method</a>
                             </div>
                             <div class="pull-right">
+                            <a href="<?= base_url().'home/placeorder'; ?>">
                                 <button type="submit" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
-                                </button>
+                            </a>
+                            </button>
                             </div>
                         </div>
                     </form>

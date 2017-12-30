@@ -94,17 +94,12 @@ class Home extends CI_Controller {
     }
 
     public function basket() {
-        $data = array(
-            'title' => "My Shopping Cart" # should be changed
-        );
-
-        $basket = new basket;
         
         $data = array(
-            'title' => "Check out",
-            'cartItems' => $basket->contents(),
-            'CT' => $basket->total(),
-            'CTI' => $basket->total_items()
+            'title' => "My Shopping Cart",
+            'cartItems' =>  $this->basket->contents(),
+            'CT' =>  $this->basket->total(),
+            'CTI' =>  $this->basket->total_items()
         );
 
         $this->load->view('ordering/includes/header', $data);
@@ -114,7 +109,9 @@ class Home extends CI_Controller {
     }
 
     public function detail() {
+
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+        
         $data = array(
             'title' => 'Product Details',
             'product' => $product 
@@ -124,6 +121,31 @@ class Home extends CI_Controller {
         $this->load->view('ordering/detail');
         $this->load->view('ordering/includes/footer');
     }
+
+      public function CheckOut() {
+
+             
+
+            if( $this->basket->total_items() <= 0){
+            $this->load->view('shop/cart');
+            }
+
+            $cust = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
+
+            $data = array(
+                'title' => "Checkout",
+                'custRow' => $cust,
+                'cartItems' =>  $this->basket->contents(),
+                'CTI' =>  $this->basket->total_items(),
+                'total' =>  $this->basket->total()
+            );
+
+            $this->load->view('shop/checkout',$data);
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/checkout1');
+            $this->load->view('ordering/includes/footer');
+        }
 
     public function checkout1() {
         $data = array(
@@ -150,7 +172,15 @@ class Home extends CI_Controller {
     }
 
     public function checkout4() {
-        $this->load->view('ordering/includes/header');
+
+        $data = array(
+            'title' => "My Shopping Cart",
+            'cartItems' =>  $this->basket->contents(),
+            'CT' =>  $this->basket->total(),
+            'CTI' =>  $this->basket->total_items()
+        );
+
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout4');
         $this->load->view('ordering/includes/footer');
@@ -201,9 +231,58 @@ class Home extends CI_Controller {
         $this->load->view('ordering/faq');
         $this->load->view('ordering/includes/footer');
     }
+        
+    public function add() {
 
+        $data = array(
+            'id' => $_POST["product_id"],
+            'name' => $_POST["product_name"],
+            'img' => $_POST["product_img"],
+            'price' => $_POST["product_price"],
+            'qty' => $_POST["min_quantity"]
+            //"maxqty" => $_POST["max_quantity"],
+        );
 
+            $this->basket->insert($data); //return rowid
+    }
 
+    function update() {
+
+        $data = array(
+            'rowid' => $_POST["product_id"],
+            'qty' => $_POST["product_quantity"]
+        );
+
+            $this->basket->update($data);
+        }
+
+    function remove() {
+
+            $this->basket->remove($_POST["row_id"]);
+    }
+
+    public function PlaceOrder() {
+        
+                $data = array(
+                    'customer_id' => $this->session->uid,
+                    'total_price' =>  $this->basket->total(),
+                    'created' => time()
+                );
+
+                    $orderID = $this->item_model->insert_id('orders', $data);//must put a unique numbers
+
+                // get cart items
+                    $basketItems =  $this->basket->contents();
+                // loop
+                    foreach($basketItems as $item){
+                    $data = array(
+                        'order_id' => $orderID,
+                        'product_id' => $item['id'],
+                        'quantity' => $item['qty']
+                    );
+                $this->item_model->insertData('order_items', $data);
+                    }
+            }
 
 }
 

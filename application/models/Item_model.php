@@ -9,6 +9,11 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
+    function insert_id($table, $data) {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
     function insertData($table, $arrayData) {
         $this->db->insert($table, $arrayData);
     }

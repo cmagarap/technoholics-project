@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+    
     <meta charset="utf-8">
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
@@ -21,6 +21,8 @@
     <link href="<?= base_url().'assets/ordering/css/animate.min.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/owl.carousel.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/owl.theme.css'; ?>" rel="stylesheet">
+    <link href="<?= base_url().'assets/ordering/css/style.css'; ?>" rel="stylesheet">
+
     <!-- theme stylesheet -->
     <link href="<?= base_url().'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <!-- your stylesheet with modifications -->
