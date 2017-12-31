@@ -30,10 +30,11 @@
             background-color: lightblue;
         }
         input[type=text].search {
-            width: 200px;
+            width: 180px;
+            height: 40px;
             box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px 0px 0px 20px;
             font-size: 14px;
             background-color: white;
             background-position: 10px 10px;
@@ -43,7 +44,7 @@
             transition: width 0.4s ease-in-out;
         }
         input[type=text]:focus.search {
-            width: 40%;
+            /*width: 50%;*/
             background-color: lightblue;
         }
 
@@ -81,8 +82,13 @@
 </head>
 <body>
 <?php
-$user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
-$user = $user[0];
+if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+    $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
+    $user = $user[0];
+} elseif ($this->session->userdata("type") == 2) {
+    $user = $this->item_model->fetch("customer", array("customer_id" => $this->session->uid));
+    $user = $user[0];
+}
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
