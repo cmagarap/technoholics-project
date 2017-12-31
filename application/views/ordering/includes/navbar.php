@@ -1,12 +1,9 @@
 <!-- *** TOPBAR ***
 _________________________________________________________ -->
-
-
 <!-- *** TOP BAR END *** -->
-
 <!-- *** NAVBAR ***
 _________________________________________________________ -->
-<?php $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0]; ?>
+<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top">
         <div class="container">

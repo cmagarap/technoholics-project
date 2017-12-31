@@ -1,9 +1,18 @@
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
-            <input type="text" name="search" class = "search" placeholder="Search account...">
-            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
-            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+            <form action = "" method = "POST">
+                <div class="input-group">
+                    <input type="text" name="search" class = "search" placeholder="Search account...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type = "submit" style = "border-color: #ccc">
+                            <i class="ti-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
+                <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+            </form>
         </div>
         <br>
         <div class="row">
