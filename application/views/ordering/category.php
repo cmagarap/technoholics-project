@@ -5,9 +5,15 @@
 
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
+                    <li><a href="<?= base_url().'home'; ?>">Home</a>
                     </li>
-                    <li>Ladies</li>
+                    <li>
+                    <?php 
+                    if ($page == "category"){
+                        echo "Products";
+                    }
+                    ?>
+                    </li>
                 </ul>
             </div>
 
@@ -22,42 +28,50 @@ _________________________________________________________ -->
 
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
-                            <li>
-                                <a href="<?= base_url().'home/category'; ?>">Men <span class="badge pull-right">42</span></a>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Shirts</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
-                                    </li>
-                                </ul>
-                            </li>
+                    <?php if($category == "smartphone") : ?>
                             <li class="active">
-                                <a href="<?= base_url().'home/category'; ?>">Ladies  <span class="badge pull-right">123</span></a>
+                    <?php else : ?>
+                            <li>
+                    <?php endif; ?>
+                                <a href="<?= base_url().'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right">42</span></a>
                                 <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/apple'; ?>">Apple</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Skirts</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/samsung'; ?>">Samsung</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/asus'; ?>">Asus</a>
                                     </li>
                                 </ul>
                             </li>
+                        <?php if($category == "tablet") : ?>
+                            <li class="active">
+                        <?php else : ?>
                             <li>
-                                <a href="<?= base_url().'home/category'; ?>">Kids  <span class="badge pull-right">11</span></a>
+                        <?php endif; ?>
+                                <a href="<?= base_url().'home/category/tablet'; ?>">Tablets<span class="badge pull-right">123</span></a>
                                 <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/apple'; ?>">Apple</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Skirts</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/samsung'; ?>">Samsung</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/asus'; ?>">Asus</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+                                </ul>
+                            </li>
+                            <?php if($category == "laptop") : ?>
+                                <li class="active">
+                            <?php else : ?>
+                                <li>
+                            <?php endif; ?>
+                                <a href="<?= base_url().'home/category/laptop'; ?>">Laptops<span class="badge pull-right">11</span></a>
+                                <ul>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Lenovo</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Sony</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">HP</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Dell</a>
                                     </li>
                                 </ul>
                             </li>
@@ -67,7 +81,9 @@ _________________________________________________________ -->
                     </div>
                 </div>
 
-                <div class="panel panel-default sidebar-menu">
+                <!-- I don't know what to do with this? -->
+
+                <!-- <div class="panel panel-default sidebar-menu">
 
                     <div class="panel-heading">
                         <h3 class="panel-title">Brands <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
@@ -104,7 +120,7 @@ _________________________________________________________ -->
                         </form>
 
                     </div>
-                </div>
+                </div> -->
 
                 <!-- *** MENUS AND FILTERS END *** -->
 
@@ -161,26 +177,26 @@ _________________________________________________________ -->
                             <div class="flip-container" style="padding: 10px;">
                                 <div class="flipper">
                                     <div class="front"><center>
-                                        <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                        <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                         </a></center>
                                     </div>
                                     <div class="back"><center>
-                                       <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                       <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                         </a></center>
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?= base_url().'home/detail/'.$row->product_id ?>" class="invisible">
-                                <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                            <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>" class="invisible">
+                                <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                             </a>
                             <div class="text">
-                                <h3><a href="<?= base_url().'home/detail/'.$row->product_id ?>"><?=$row->product_desc?></a></h3>
+                                <h3><a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"><?=$row->product_desc?></a></h3>
                                 <p class="price">₱<?=number_format($row->product_price,2)?></p>
                                 <p class="buttons">
-                                    <a href="<?= base_url().'home/detail/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
-                                    <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                    <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
+                                    <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image1?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                 </p>
                             </div>
                             <!-- /.text -->

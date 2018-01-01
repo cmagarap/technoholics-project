@@ -11,7 +11,8 @@ class Home extends CI_Controller {
         if ($this->session->has_userdata('isloggedin')) {
             if ($this->session->userdata("type") == 2) { # if customer
                 $data = array(
-                    'title' => "TECHNOHOLICS | All the tech you need."
+                    'title' => "TECHNOHOLICS | All the tech you need.",
+                    'page' => "Home" // active column identifier
                 );  
                 $this->load->view('ordering/includes/header', $data);
                 $this->load->view('ordering/includes/navbar');
@@ -23,7 +24,8 @@ class Home extends CI_Controller {
             }
         } else { # if not logged in
             $data = array(
-                'title' => "TECHNOHOLICS | All the tech you need."
+                'title' => "TECHNOHOLICS | All the tech you need.",
+                'page' => "Home"
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
@@ -71,16 +73,65 @@ class Home extends CI_Controller {
     // }
 
     public function category() {
-        $product = $this->item_model->fetch('product', array("status" => true));
-        $data = array(
-        'title' => 'Home',
-        'products' => $product
-    );
+        $page = $this->uri->segment(2);
+        $cat = $this->uri->segment(3);
+        $brand = $this->uri->segment(4);
+        $id = $this->uri->segment(5);
 
+        if($id){
+        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
+                
+        $data = array(
+            'title' => 'Home',
+            'product' => $product,
+            'page' => $page,
+            'category' => $cat, //category identifier
+            'brand' => $brand,
+            'id' => $id
+        );
+        
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/detail');
+        $this->load->view('ordering/includes/footer');
+        
+        }
+
+        elseif($brand){
+        $product = $this->item_model->fetch('product', array("product_quantity >" => 0 ,"product_category" => $cat, "product_brand" => $brand ));
+            
+        $data = array(
+                'title' => 'Home',
+                'products' => $product,
+                'page' => $page,
+                'category' => $cat, //category identifier
+                'brand' => $brand
+            );
+        
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/category');
         $this->load->view('ordering/includes/footer');
+
+        }
+
+        else{
+        $product = $this->item_model->fetch('product', array("product_quantity >" => 0, "product_category" => $cat ));
+        
+        $data = array(
+                'title' => 'Home',
+                'products' => $product,
+                'page' => $page,
+                'category' => $cat 
+            );
+        
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
+
+        }
+
     }
 
     public function register() {
@@ -109,7 +160,6 @@ class Home extends CI_Controller {
     }
 
     public function detail() {
-
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
         
         $data = array(
@@ -268,9 +318,8 @@ class Home extends CI_Controller {
                     'total_price' =>  $this->basket->total(),
                     'created' => time()
                 );
-
-                    $orderID = $this->item_model->insert_id('orders', $data);//must put a unique numbers
-
+                //must put a unique numbers
+                    $orderID = $this->item_model->insert_id('orders', $data);
                 // get cart items
                     $basketItems =  $this->basket->contents();
                 // loop

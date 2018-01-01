@@ -204,13 +204,21 @@ _________________________________________________________ -->
                 return false;
             }
         });
-
-        $(window).load(function() {
-            NProgress.start();
-            setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
-        });
-
     });
+
+    NProgress.start();
+
+    var interval = setInterval(function() { NProgress.inc(); }, 1000);        
+
+    jQuery(window).load(function () {
+        clearInterval(interval);
+        NProgress.done();
+    });
+
+    jQuery(window).unload(function () {
+        NProgress.start();
+    });
+
 </script>
 </body>
 </html>

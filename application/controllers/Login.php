@@ -15,7 +15,8 @@ class Login extends CI_Controller {
 
     public function index() {
         $data = array(
-            'title' => "TECHNOHOLICS Login"
+            'title' => "TECHNOHOLICS Login",
+            'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
