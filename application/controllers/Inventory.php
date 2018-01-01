@@ -10,6 +10,10 @@
             }
         }
 
+        public function index() {
+            redirect('inventory/page');
+        }
+
         public function page() { # This is the index
             $this->load->library('pagination');
             $perpage = 20;
@@ -55,15 +59,19 @@
         }
 
         public function view() {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: View Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/inventory/view');
-            $this->load->view('paper/includes/footer');
+            if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+                $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+                $data = array(
+                    'title' => "Inventory: View Product",
+                    'heading' => "Inventory",
+                    'products' => $product
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view('paper/inventory/view');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('home');
+            }
         }
 
         public function add_product() {
@@ -77,7 +85,7 @@
                 $this->load->view('paper/inventory/add_product');
                 $this->load->view('paper/includes/footer');
             } else {
-                redirect('home/');
+                redirect('home');
             }
         }
 
@@ -106,7 +114,7 @@
                     $config2['height'] = 50;
                     $this->load->library('image_lib', $config2);
                     $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
+                    $this->image_lib->initialize($config2);
                 } else {
                     $image = $this->upload->data('file_name');
                     $config2['image_library'] = 'gd2';
@@ -117,7 +125,7 @@
                     $config2['height'] = 50;
                     $this->load->library('image_lib', $config2);
                     $this->image_lib->resize();
-                    #$this->image_lib->initialize($config2);
+                    $this->image_lib->initialize($config2);
                 }
 
                 $data = array(

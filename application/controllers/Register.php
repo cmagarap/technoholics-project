@@ -50,7 +50,7 @@ class Register extends CI_Controller {
         $this->form_validation->set_rules('address', "home address", "required");
         $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
         $this->form_validation->set_rules('password', "password", "required|alpha_numeric");
-        $this->form_validation->set_rules('confirm_password', "confirm password", "required|alpha_numeric|matches[password]");
+        $this->form_validation->set_rules('confirm_password', "password confirm", "required|alpha_numeric|matches[password]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         # Checking if rules are met.
