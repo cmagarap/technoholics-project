@@ -150,7 +150,8 @@ class Home extends CI_Controller {
             'title' => "My Shopping Cart",
             'cartItems' =>  $this->basket->contents(),
             'CT' =>  $this->basket->total(),
-            'CTI' =>  $this->basket->total_items()
+            'CTI' =>  $this->basket->total_items(),
+            'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header', $data);
@@ -164,7 +165,8 @@ class Home extends CI_Controller {
         
         $data = array(
             'title' => 'Product Details',
-            'product' => $product 
+            'product' => $product,
+            'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -174,10 +176,8 @@ class Home extends CI_Controller {
 
       public function CheckOut() {
 
-             
-
             if( $this->basket->total_items() <= 0){
-            $this->load->view('shop/cart');
+            $this->load->view('home/');
             }
 
             $cust = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
@@ -199,7 +199,8 @@ class Home extends CI_Controller {
 
     public function checkout1() {
         $data = array(
-            'title' => "Checkout"
+            'title' => "Checkout",
+            'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -208,14 +209,22 @@ class Home extends CI_Controller {
     }
 
     public function checkout2() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "Checkout",
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout2');
         $this->load->view('ordering/includes/footer');
     }
 
     public function checkout3() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'title' => "Checkout",
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
@@ -227,7 +236,8 @@ class Home extends CI_Controller {
             'title' => "My Shopping Cart",
             'cartItems' =>  $this->basket->contents(),
             'CT' =>  $this->basket->total(),
-            'CTI' =>  $this->basket->total_items()
+            'CTI' =>  $this->basket->total_items(),
+            'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header',$data);
@@ -237,7 +247,10 @@ class Home extends CI_Controller {
     }
 
     public function customer_orders() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
         $this->load->view('ordering/customer_orders');
@@ -245,7 +258,10 @@ class Home extends CI_Controller {
     }
 
     public function customer_order_view() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
         $this->load->view('ordering/customer_order_view');
@@ -253,7 +269,10 @@ class Home extends CI_Controller {
     }
 
     public function wishlist() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
         $this->load->view('ordering/wishlist');
@@ -261,7 +280,10 @@ class Home extends CI_Controller {
     }
 
     public function account() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
         $this->load->view('ordering/account');
@@ -269,14 +291,20 @@ class Home extends CI_Controller {
     }
 
     public function contact() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/contact');
         $this->load->view('ordering/includes/footer');
     }
 
     public function faq() {
-        $this->load->view('ordering/includes/header');
+        $data = array(
+            'page' => "Home"
+        );
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/faq');
         $this->load->view('ordering/includes/footer');
