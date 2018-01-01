@@ -44,12 +44,7 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
-/*
-    function getCount() {
-        $query = $this->db->get('product');
-        return $query->num_rows();
-    }
-*/
+
     function getCount($table, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);

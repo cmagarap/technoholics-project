@@ -84,7 +84,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/" + id;
+                        window.location = "<?= base_url() ?>accounts/delete/customer/" + id;
                     } else {
                         swal("The account is safe!");
                     }

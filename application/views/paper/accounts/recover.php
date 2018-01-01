@@ -36,7 +36,7 @@
                             <?php
                             foreach ($users as $users):?>
                                 <tr>
-                                    <td><?= $users->user_id ?></td>
+                                    <td><?= $users->admin_id ?></td>
                                     <td>
                                         <?php
                                         if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
@@ -53,13 +53,13 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->user_id ?>" title = "View Account Info" alt = "View Account Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->user_id ?>" title = "Manage Account" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger recover" href="#" data-id="<?= $users->user_id ?>" title = "Recover Account" alt = "Reactivate this Account" style = "color: #7ace4c; background: white; border-color: #7ace4c">
+                                        <a class="btn btn-danger recover" href="#" data-id="<?= $users->admin_id ?>" title = "Recover Account" alt = "Reactivate this Account" style = "color: #7ace4c; background: white; border-color: #7ace4c">
                                             <span class="ti-back-left"></span>
                                         </a>
                                     </td>
@@ -93,7 +93,7 @@
     </div>-->
 
     <script>
-        $(".delete").click(function () {
+        $(".recover").click(function () {
             var id = $(this).data('id');
 
             swal({
@@ -104,7 +104,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/" + id;
+                        window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/admin/" + id;
                     } else {
                         swal("The account remained inactive.");
                     }

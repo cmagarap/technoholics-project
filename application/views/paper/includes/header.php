@@ -30,7 +30,7 @@
             background-color: lightblue;
         }
         input[type=text].search {
-            width: 180px;
+            width: 245px;
             height: 40px;
             box-sizing: border-box;
             border: 1px solid #ccc;
