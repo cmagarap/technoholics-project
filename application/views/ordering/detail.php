@@ -167,9 +167,13 @@ _________________________________________________________ -->
             <div class="col-md-9">
 
                 <div class="row" id="productMain">
+                <?php if (!$product): ?>
+                <h1>NO ITEMS IN TABLE</h1>
+                <?php else: ?>
+                    <?php foreach ($product as $row): ?>
                     <div class="col-sm-6">
                         <div id="mainImage">
-                            <img src="<?= base_url().'assets/ordering/img/detailbig1.jpg'; ?>" alt="" class="img-responsive">
+                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                         </div>
 
                         <div class="ribbon sale">
@@ -187,10 +191,10 @@ _________________________________________________________ -->
                     </div>
                     <div class="col-sm-6">
                         <div class="box">
-                            <h1 class="text-center">White Blouse Armani</h1>
+                            <h1 class="text-center"><?=$row->product_name?></h1>
                             <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product details, material & care and sizing</a>
                             </p>
-                            <p class="price">$124.00</p>
+                            <p class="price">₱<?=number_format($row->product_price)?></p>
 
                             <p class="text-center buttons">
                                 <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>
@@ -202,18 +206,18 @@ _________________________________________________________ -->
 
                         <div class="row" id="thumbs">
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig1.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image?>"  class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                                 </a>
                             </div>
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig2.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare2.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image?>" class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
                                 </a>
                             </div>
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig3.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare3.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image?>" class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image?>"alt="" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -252,7 +256,9 @@ _________________________________________________________ -->
                             <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
                         </p>
                     </div>
+                    <?php endforeach ?>
                 </div>
+                <?php endif ?>
 
                 <div class="row same-height-row">
                     <div class="col-md-3 col-sm-6">

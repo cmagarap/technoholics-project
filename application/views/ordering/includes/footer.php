@@ -149,7 +149,7 @@ _________________________________________________________ -->
             var product_quantity = $(this).data("productquantity");
             var minimum_quantity = 1;
             $.ajax({
-                url: "<?php echo base_url(); ?>cart/add",
+                url: "<?php echo base_url(); ?>home/add",
                 method: "POST",
                 data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
                 success: function (data)
@@ -163,7 +163,7 @@ _________________________________________________________ -->
         $(document).on('click', '.remove_inventory', function () {
             var row_id = $(this).attr("id");
                 $.ajax({
-                    url: "<?php echo base_url(); ?>cart/remove",
+                    url: "<?php echo base_url(); ?>home/remove",
                     method: "POST",
                     data: {row_id: row_id},
                     success: function (data)
@@ -175,9 +175,9 @@ _________________________________________________________ -->
 
             $('.update').change(function () {
             var product_id = $(this).data("productid");
-            var product_quantity = $('#update').val();
+            var product_quantity = $(this).val();
             $.ajax({
-                url: "<?php echo base_url(); ?>cart/update",
+                url: "<?php echo base_url(); ?>home/update",
                 method: "POST",
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
@@ -192,7 +192,7 @@ _________________________________________________________ -->
             if (confirm("Are you sure you want to clear cart?"))
             {
                 $.ajax({
-                    url: "<?php echo base_url(); ?>cart/clear",
+                    url: "<?php echo base_url(); ?> home/clear",
                     success: function (data)
                     {
                         alert("Your cart has been cleared...");

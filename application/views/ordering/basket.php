@@ -47,9 +47,9 @@
                                     <td>
                                         <input type="number" id="update" name="update" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
                                     </td>
-                                    <td><?php echo '₱'.$item["price"] ?></td>
+                                    <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
-                                    <td><?php echo '₱'.$item["subtotal"] ?></td>
+                                    <td><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
                                     <td>
                                     <button type="button" name="remove" class="btn btn-danger btn-xs remove_inventory" id="<?=$item["rowid"]?>">Remove</button>
                                     </td>
@@ -62,7 +62,7 @@
                                 <tr>
                                 <?php if($CTI > 0){ ?>
                                     <th colspan="5">Total</th>
-                                    <th colspan="2"><?='₱'.$CT?></th>
+                                    <th colspan="2"><?='₱'.number_format($CT,2)?></th>
                                     <?php } ?>
                                 </tr>
                                 </tfoot>
