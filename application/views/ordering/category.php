@@ -176,25 +176,25 @@ _________________________________________________________ -->
                             <div class="flip-container" style="padding: 10px;">
                                 <div class="flipper">
                                     <div class="front"><center>
-                                        <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
+                                        <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
                                             <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                         </a></center>
                                     </div>
                                     <div class="back"><center>
-                                       <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
+                                       <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
                                             <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                         </a></center>
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>" class="invisible">
+                            <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>" class="invisible">
                                 <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                             </a>
                             <div class="text">
-                                <h3><a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"><?=$row->product_desc?></a></h3>
+                                <h3><a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"><?=$row->product_name?></a></h3>
                                 <p class="price">₱<?=number_format($row->product_price,2)?></p>
                                 <p class="buttons">
-                                    <a href="<?= base_url().'home/category/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
+                                    <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
                                     <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image1?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                 </p>
                             </div>
@@ -214,22 +214,9 @@ _________________________________________________________ -->
                         <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
                     </p>
 
-                    <ul class="pagination">
-                        <li><a href="#">&laquo;</a>
-                        </li>
-                        <li class="active"><a href="#">1</a>
-                        </li>
-                        <li><a href="#">2</a>
-                        </li>
-                        <li><a href="#">3</a>
-                        </li>
-                        <li><a href="#">4</a>
-                        </li>
-                        <li><a href="#">5</a>
-                        </li>
-                        <li><a href="#">&raquo;</a>
-                        </li>
-                    </ul>
+                    <?php echo "<div align = 'center'>" . $links . "</div>";
+                    echo '</div>';
+                    ?>
                 </div>
 
 

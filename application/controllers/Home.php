@@ -76,60 +76,70 @@ class Home extends CI_Controller {
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
-        $id = $this->uri->segment(5);
 
-        if($id){
-        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
-                
-        $data = array(
-            'title' => 'Home',
-            'product' => $product,
-            'page' => $page,
-            'category' => $cat, //category identifier
-            'brand' => $brand,
-            'id' => $id
-        );
-        
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/detail');
-        $this->load->view('ordering/includes/footer');
-        
-        }
+        $this->load->library('pagination');
+        $perpage = 12;
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close']= ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url']='';
+        $config['last_link']='Last';
+        $config['last_tag_open']='<li>';
+        $config['last_tag_close']='</li>';
+        $config['next_link']='&raquo;';
+        $config['next_tag_open']='<li>';
+        $config['next_tag_close']='</li>';
+        $config['prev_link'] ='&laquo;';
+        $config['prev_tag_open']='<li>';
+        $config['prev_tag_close']='</li>';
+        $config['cur_tag_open']='<li class="active"><a href="#">';
+        $config['cur_tag_close']='</a></li>';
+        $config['num_tag_open']='<li>';
+        $config['num_tag_close']='</li>';
 
-        elseif($brand){
-        $product = $this->item_model->fetch('product', array("product_quantity >" => 0 ,"product_category" => $cat, "product_brand" => $brand ));
-            
-        $data = array(
-                'title' => 'Home',
+        if($brand == "apple" || $brand == "samsung" || $brand == "asus" || $brand == "lenovo" || $brand == "sony" || $brand == "hp" || $brand == "dell"){
+            $config['base_url'] = base_url()."home/category/".$cat."/".$brand;
+            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0));
+            $this->pagination->initialize($config);
+            $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat ,"product_brand" => $brand ));
+            $data = array(
+                'title' => 'Category',
                 'products' => $product,
                 'page' => $page,
                 'category' => $cat, //category identifier
-                'brand' => $brand
+                'brand' => $brand,
+                'links' => $this->pagination->create_links()
             );
-        
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/category');
-        $this->load->view('ordering/includes/footer');
-
+            
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/category');
+            $this->load->view('ordering/includes/footer');
+    
         }
 
         else{
-        $product = $this->item_model->fetch('product', array("product_quantity >" => 0, "product_category" => $cat ));
-        
-        $data = array(
-                'title' => 'Home',
+            $config['base_url'] = base_url()."home/category/".$cat;    
+            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0));
+            $this->pagination->initialize($config);
+            $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat));
+            $data = array(
+                'title' => 'Category',
                 'products' => $product,
                 'page' => $page,
-                'category' => $cat 
+                'category' => $cat, //category identifier
+                'brand' => $brand,
+                'links' => $this->pagination->create_links()
             );
-        
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/category');
-        $this->load->view('ordering/includes/footer');
-
+            
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/category');
+            $this->load->view('ordering/includes/footer');
+    
         }
 
     }
@@ -161,12 +171,19 @@ class Home extends CI_Controller {
     }
 
     public function detail() {
-        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-        
+        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
+        $page = $this->uri->segment(2);
+        $cat = $this->uri->segment(3);
+        $brand = $this->uri->segment(4);
+        $id = $this->uri->segment(5);
+
         $data = array(
-            'title' => 'Product Details',
+            'title' => 'Home',
             'product' => $product,
-            'page' => "Home"
+            'page' => $page,
+            'category' => $cat, //category identifier
+            'brand' => $brand,
+            'id' => $id
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
