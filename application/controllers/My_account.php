@@ -6,6 +6,7 @@
  * Time: 10:52 AM
  */
 
+date_default_timezone_set("Asia/Manila");
 class My_account extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -19,11 +20,13 @@ class My_account extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $my_account = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
+            $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
+            $user_log = $this->item_model->fetch("user_log", array("user_id" => $this->session->uid), "log_id", "DESC", 3);
             $data = array(
                 'title' => 'Manage My Account',
                 'heading' => 'My Account',
-                'user' => $my_account
+                'user' => $my_account,
+                'logs' => $user_log
             );
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/edit_myaccount");
@@ -36,7 +39,7 @@ class My_account extends CI_Controller {
     public function edit_myprofile_exec() {
         $this->form_validation->set_rules('lastname', "last name", "required");
         $this->form_validation->set_rules('firstname', "first name", "required");
-        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
+        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[admin.email]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
         $username = ($this->input->post('username') == NULL) ? NULL : $this->input->post('username'); # because having a username is optional
 
@@ -56,7 +59,7 @@ class My_account extends CI_Controller {
                 "action" => 'Edited his/her profile',
                 'status' => '1'
             );
-            $this->item_model->updatedata("accounts", $data, array('user_id' => $this->session->uid));
+            $this->item_model->updatedata("admin", $data, array('admin_id' => $this->session->uid));
             $this->item_model->insertData('user_log', $for_log);
             redirect("my_account/");
         } else {

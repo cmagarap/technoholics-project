@@ -68,6 +68,9 @@
                                     <div class="form-group">
                                         <label for = "username">Username</label>
                                         <input type="text" class="form-control border-input" placeholder="Username" name = "username" value="<?= $user->username; ?>">
+                                        <?php if(validation_errors('username')):
+                                            echo "<span style = 'color: red'>" . form_error("username") . "</span>";
+                                        endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -112,29 +115,28 @@
                 </div>
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">My Recent Activities</h4>
+                        <h4 class="title"><b>My Recent Activities</b></h4><br>
                     </div>
                     <div class="content">
                         <ul class="list-unstyled team-members">
+                            <?php foreach($logs as $logs): ?>
                             <li>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <div class="avatar">
-                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                        </div>
+                                        #<?= $logs->log_id ?>
                                     </div>
                                     <div class="col-xs-6">
-                                        DJ Khaled
-                                        <br />
-                                        <span class="text-muted"><small>Offline</small></span>
+                                        <?= $logs->action ?>
+                                        <br/>
+                                        <span class="text-muted"><small style = "color: #CCCCCC"><?= date("F j, Y", $logs->date) ?></small></span>
                                     </div>
-
                                     <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                        <font color="#31bbe0"><?= date("h:i A", $logs->date) ?></font>
                                     </div>
                                 </div>
                             </li>
-                            <li>
+                            <?php endforeach; ?>
+                            <!--<li>
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <div class="avatar">
@@ -169,7 +171,7 @@
                                         <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                 </div>

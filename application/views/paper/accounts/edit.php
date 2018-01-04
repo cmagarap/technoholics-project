@@ -11,7 +11,10 @@
                         <div align = "center">
                             <br><hr><br>
                             <h4 class="title"><?= $accounts->lastname.", ".$accounts->firstname ?><br />
-                                <a><small><?= $accounts->username ?></small></a>
+                                <a><small><?php
+                                        if($accounts->username == NULL) echo $accounts->email;
+                                        else echo $accounts->username;
+                                        ?></small></a>
                             </h4>
                         </div>
                     </div>
@@ -34,7 +37,7 @@
                     </div>
                     <br>
                     <div align="center">
-                        <a href = "<?= base_url() ?>accounts/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                     </div>
                     <br>
                 </div>
@@ -45,7 +48,10 @@
                         <h4 class="title"><b>Edit Account</b></h4>
                     </div>
                     <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>accounts/edit_exec" method = "POST" enctype="multipart/form-data">
+                        <?php $user_type = ($this->uri->segment(3) == "customer") ? "customer" : "admin";
+                        $user_id = ($this->uri->segment(3) == "customer") ? $accounts->customer_id : $accounts->admin_id;
+                        ?>
+                        <form action = "<?= $this->config->base_url() ?>accounts/edit_exec/<?= $user_type; ?>/<?= $user_id ?>" method = "POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -104,9 +110,8 @@
                                 </div>
                             </div>
                             <div class="text-center">
+                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Update Account</button>
                                 <button type="submit" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
-                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
-                                <a href = "<?= base_url() ?>accounts" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
                             <div class="clearfix"></div>
                         </form>

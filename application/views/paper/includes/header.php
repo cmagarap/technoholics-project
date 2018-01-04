@@ -78,6 +78,15 @@
             color: white;
         }
 
+        div.box-shadow {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+        }
+
+        .image-shadow {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        }
+
     </style>
 </head>
 <body>
@@ -120,16 +129,17 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('accounts'); ?>">
-                        <i class="ti-user"></i>
                         <?php
-                        if($this->session->userdata('type') == 0) {
-                            echo "<p>Accounts</p>";
-                        } elseif($this->session->userdata('type') == 1){
-                            echo "<p>Customer Accounts</p>";
+                        if($this->session->userdata('type') == 0) { ?>
+                            <a href="<?= site_url('accounts/admin'); ?>">
+                                <i class="ti-user"></i>
+                            <?php echo "<p>Accounts</p></a>";
+                        } elseif($this->session->userdata('type') == 1){ ?>
+                                <a href="<?= site_url('accounts/customer'); ?>">
+                                    <i class="ti-user"></i>
+                            <?php echo "<p>Customer Accounts</p></a>";
                         }
                         ?>
-                    </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail/page'); ?>">
