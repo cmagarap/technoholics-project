@@ -127,12 +127,11 @@
                                     </div>
                                     <div class="col-xs-6">
                                         <?= $logs->action ?>
-                                        <br />
-                                        <span class="text-muted"><small><?= date("h:i A", $logs->date) ?></small></span>
+                                        <br/>
+                                        <span class="text-muted"><small style = "color: #CCCCCC"><?= date("F j, Y", $logs->date) ?></small></span>
                                     </div>
-
                                     <div class="col-xs-3 text-right">
-                                        <font color = "#31bbe0"><?= date("F j, Y", $logs->date) ?></font>
+                                        <font color="#31bbe0"><?= date("h:i A", $logs->date) ?></font>
                                     </div>
                                 </div>
                             </li>

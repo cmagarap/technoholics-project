@@ -407,7 +407,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
-                $this->load->view("paper/accounts/recover");
+                $this->load->view("paper/accounts/recover_admin");
                 $this->load->view("paper/includes/footer");
             } else {
                 redirect('home');
@@ -449,7 +449,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
-                $this->load->view("paper/accounts/recover");
+                $this->load->view("paper/accounts/recover_customer");
                 $this->load->view("paper/includes/footer");
             } else {
                 redirect('home');

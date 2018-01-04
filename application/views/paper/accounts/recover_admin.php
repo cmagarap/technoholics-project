@@ -26,7 +26,6 @@
 
                     <br>
                     <?php
-                    if ($this->uri->segment(3) == "admin") {
                         if (!$users) {
                             echo "<center><h3><hr><br>There are no deleted accounts recorded in the database.</h3><br></center><br><br>";
                         } else {
@@ -38,6 +37,7 @@
                                 <th><b>Username</b></th>
                                 <th><b>Full Name</b></th>
                                 <th><b>Email Address</b></th>
+                                <th><b>Contact No.</b></th>
                                 <th><b>User Type</b></th>
                                 <th><b>Actions</b></th>
                                 </thead>
@@ -55,6 +55,12 @@
                                         </td>
                                         <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                         <td><?= $users->email ?></td>
+                                        <td>
+                                            <?php
+                                            if($users->contact_no == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";
+                                            else echo $users->contact_no;
+                                            ?>
+                                        </td>
                                         <td>
                                             <?php
                                             if ($users->access_level == 0)
@@ -83,9 +89,6 @@
                             <?php
                             echo "<div align = 'center'>" . $links . "</div>";
                             }
-                        } else {
-                            redirect("accounts");
-                        }
                         ?>
                     </div>
                 </div>
