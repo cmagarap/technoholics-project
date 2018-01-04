@@ -11,14 +11,29 @@ class Random extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library('session');
+        $this->load->helper('string');
     }
 
     public function index() {
-        echo sha1('seej101')."<br>";
+        $this->load->library('encryption');
+        $hash = random_string('alnum', 20);
+        echo "<b>SHA1: </b>".sha1('seej101')."<br>";
+        echo "<b>SHA1: </b>".sha1('seej101')."<br>";
         echo sha1('customer')."<br>";
         echo sha1('vvilliam')."<br>";
+        echo "<b>MD5: </b>".md5('phpsucksforever')."<br>";
+        echo "<b>CRYPT: </b>".crypt('phpsucksforever', $hash)."<br>";
+        echo "<b>PASSWORD_HASH (bycrypt): </b>".password_hash('phpsucksforever', PASSWORD_BCRYPT)."<br>";
+        echo "<b>PASSWORD_HASH (default): </b>".password_hash('phpsucksforever', PASSWORD_DEFAULT)."<br>";
+        echo "<b>PASSWORD_HASH (default): </b>".password_hash('phpsucksforever', PASSWORD_DEFAULT)."<br>";
         echo $this->uri->segment(1);
         # $this->session->sess_destroy();
-        echo "test";
+        echo "test<br><hr>";
+
+        $plain_text = 'This is a plain-text message!';
+        $ciphertext = $this->encryption->encrypt($plain_text);
+
+        // Outputs: This is a plain-text message! (decrypt())
+        echo $this->encryption->decrypt($ciphertext);
     }
 }

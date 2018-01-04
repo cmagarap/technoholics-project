@@ -129,7 +129,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
-            $accountDetails = $this->item_model->fetch("accounts", array('email' => $this->input->post('email')));
+            $accountDetails = $this->item_model->fetch("customer", array('email' => $this->input->post('email')));
 
             if ($accountDetails) {
                 $accountDetails = $accountDetails[0];
@@ -139,10 +139,11 @@ class Login extends CI_Controller {
                 $this->email->message("kjnkkjnknknknknk");
 
                 if (!$this->email->send()) {
-
+                        echo 'sent';
                 } else {
+                    echo 'not sent pakkyu';
                     $this->session->set_flashdata('isreset', true);
-                    redirect("login/");
+                    #redirect("login/");
                 }
             }
         } else {
