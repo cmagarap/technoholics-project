@@ -67,12 +67,12 @@
                                 </tbody>
                             </table>
                             <?php echo "<div align = 'center'>" . $links . "</div>";
-                        echo '</div>';
                      } ?>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
     <script>
         $(".delete").click(function () {

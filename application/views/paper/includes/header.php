@@ -129,16 +129,19 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('accounts'); ?>">
-                        <i class="ti-user"></i>
+
                         <?php
-                        if($this->session->userdata('type') == 0) {
-                            echo "<p>Accounts</p>";
-                        } elseif($this->session->userdata('type') == 1){
-                            echo "<p>Customer Accounts</p>";
+                        if($this->session->userdata('type') == 0) { ?>
+                            <a href="<?= site_url('accounts/admin'); ?>">
+                                <i class="ti-user"></i>
+                            <?php echo "<p>Accounts</p></a>";
+                        } elseif($this->session->userdata('type') == 1){ ?>
+                                <a href="<?= site_url('accounts/customer'); ?>">
+                                    <i class="ti-user"></i>
+                            <?php echo "<p>Customer Accounts</p></a>";
                         }
                         ?>
-                    </a>
+
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail/page'); ?>">

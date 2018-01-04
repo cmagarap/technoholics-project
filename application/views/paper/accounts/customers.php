@@ -10,8 +10,6 @@
                         </button>
                     </div>
                 </div>
-                <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
-                <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
             </form>
         </div>
         <br>
@@ -20,7 +18,13 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h3 class="title"><b>List of Customers</b></h3>
-                        <p class="category"><i>For admin accounts, <a href = "<?= $this->config->base_url() ?>accounts/page">click here</a>.</i></p>
+                        <?php if($this->session->userdata('type') == 0) { ?>
+                            <p class="category"><i>For admin accounts,
+                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.</i>
+                        <?php } elseif($this->session->userdata('type') == 1) { ?>
+                            <p class="category"><i>Here are the list of customers as of <?= date("F j, Y"); ?>.</i></p>
+                        <?php } ?>
+                        </p>
                         <br>
                         <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
                         <a href = "<?= $this->config->base_url() ?>accounts/recover_account/customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
@@ -63,13 +67,13 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/customer/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Product Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/customer/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/customer/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Product">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/customer/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->customer_id ?>" title = "Delete Product" alt = "Delete Product">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->customer_id ?>" title = "Delete Account" alt = "Delete Product">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -85,6 +89,7 @@
             </div>
         </div>
     </div>
+</div>
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');

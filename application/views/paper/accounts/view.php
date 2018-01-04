@@ -32,8 +32,11 @@
                                 <h5>
                                     <b>
                                         <?php
-                                            if($account->access_level == 1) { echo "Admin Assistant"; }
-                                            elseif($account->access_level == 2) { echo "Customer"; }
+                                        if($this->uri->segment(3) == "admin") {
+                                            if ($account->access_level == 1) {
+                                                echo "Admin Assistant";
+                                            }
+                                        } elseif($this->uri->segment(3) == "customer") { echo "Customer"; }
                                         ?>
                                     </b>
                                     <br>
@@ -60,31 +63,61 @@
                     <div class="content">
                         <ul class="list-unstyled team-members">
                             <?php
-                            if($this->uri->segment(3) == "admin"):
-                                if($logs):
-                                    foreach($logs as $logs): ?>
+                            if($this->uri->segment(3) == "admin") {
+                                if ($logs) {
+                                    foreach ($logs as $logs) { ?>
                                         <li>
                                             <div class="row">
                                                 <div class="col-xs-3">
-                                                    <?= "#".$logs->log_id ?>
+                                                    <?= "#" . $logs->log_id ?>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <?= $logs->action ?>
-                                                    <br />
+                                                    <br/>
                                                     <span class="text-muted"><small><?= date("h:i A", $logs->date) ?></small></span>
                                                 </div>
                                                 <div class="col-xs-3 text-right">
-                                                    <font color = "#31bbe0"><?= date("F j, Y", $logs->date) ?></font>
+                                                    <font color="#31bbe0"><?= date("F j, Y", $logs->date) ?></font>
                                                 </div>
                                             </div>
                                         </li>
-                                <?php endforeach;
-                                else: ?>
-                                    <div align = "center">
-                                    <br><i>There are no activities recorded by this user.</i><br><br>
+                                    <?php }
+                                }
+
+                                else { ?>
+                                        <div align="center">
+                                            <br><i>There are no activities recorded by this user.</i><br><br>
+                                        </div>
+                                        <?php
+                                    }
+
+                            } elseif($this->uri->segment(3) == "customer") {
+                                if ($logs) {
+                                    foreach ($logs as $logs) { ?>
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <?= "#" . $logs->log_id ?>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <?= $logs->action ?>
+                                                    <br/>
+                                                    <span class="text-muted"><small><?= date("h:i A", $logs->date) ?></small></span>
+                                                </div>
+                                                <div class="col-xs-3 text-right">
+                                                    <font color="#31bbe0"><?= date("F j, Y", $logs->date) ?></font>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php }
+                                }
+                                else { ?>
+                                    <div align="center">
+                                        <br><i>There are no activities recorded by this user.</i><br><br>
                                     </div>
-                                <?php endif;
-                            endif; ?>
+                                    <?php
+                                }
+                            } ?>
                         </ul>
                     </div> <!-- content -->
                 </div> <!-- card -->

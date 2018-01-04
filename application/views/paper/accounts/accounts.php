@@ -75,7 +75,7 @@
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/admin/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->admin_id ?>" title = "Delete User" alt = "Delete User">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->admin_id ?>" title = "Delete Account" alt = "Delete User">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -91,6 +91,7 @@
             </div>
         </div>
     </div>
+</div>
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');
