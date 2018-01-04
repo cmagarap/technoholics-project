@@ -38,6 +38,7 @@
                             <th><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
+                            <th><b>Contact No.</b></th>
                             <th><b>User Type</b></th>
                             <th><b>Actions</b></th>
                             </thead>
@@ -48,12 +49,18 @@
                                     <td><?= $users->admin_id ?></td>
                                     <td>
                                         <?php
-                                        if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
+                                        if($users->username == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";
                                         else echo $users->username;
                                         ?>
                                     </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
+                                    <td>
+                                        <?php
+                                        if($users->contact_no == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";
+                                        else echo $users->contact_no;
+                                    ?>
+                                    </td>
                                     <td>
                                         <?php
                                         if($users->access_level == 0) echo "General Manager";

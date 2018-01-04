@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: Seeeeej
  * Date: 12/19/2017
  * Time: 1:13 PM
  */
+
+date_default_timezone_set("Asia/Manila");
 class Accounts extends CI_Controller {
 
     function __construct() {
@@ -67,22 +68,73 @@ class Accounts extends CI_Controller {
         }
     }
 
+    public function customer() {
+        $this->load->library('pagination');
+        $perpage = 20;
+        $config['base_url'] = base_url() . "accounts/customer";
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $config['total_rows'] = $this->item_model->getCount('customer', "status = 1");
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 1");
+
+            $data = array(
+                'title' => 'Accounts Management',
+                'heading' => 'Accounts',
+                'users' => $accounts, # $query->result()
+                'links' => $this->pagination->create_links()
+            );
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/accounts/customers");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
     public function view() {
-        #if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-        $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            if($this->uri->segment(3) == "admin") {
+                $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
+                $user_log = $this->item_model->fetch('user_log', array('user_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+                $data = array(
+                    'title' => "Accounts: View User Info",
+                    'heading' => "Accounts",
+                    'account' => $account,
+                    'logs' => $user_log
+                );
+            }
+            elseif($this->uri->segment(3) == "customer")
+                $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
 
-        $data = array(
-            'title' => "View User Info",
-            'heading' => "Accounts",
-            'account' => $account
-        );
 
-        $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/accounts/view');
-        $this->load->view('paper/includes/footer');
-        /* } else {
-          redirect('home');
-          } */
+
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/accounts/view');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect("home");
+        }
     }
 
     public function add_account() {
@@ -196,11 +248,11 @@ class Accounts extends CI_Controller {
             $this->load->view('paper/accounts/edit');
             $this->load->view('paper/includes/footer');
         } elseif ($this->uri->segment(3) == "customer") {
-            $admin = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
+            $customer = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
             $data = array(
-                'title' => "Accounts: Edit Admin",
+                'title' => "Accounts: Edit Customer",
                 'heading' => "Accounts",
-                'products' => $admin
+                'accounts' => $customer
             );
 
             $this->load->view('paper/includes/header', $data);
@@ -213,12 +265,13 @@ class Accounts extends CI_Controller {
         if ($this->uri->segment(3) == "admin") {
             $this->form_validation->set_rules('first_name', "first name", "required");
             $this->form_validation->set_rules('last_name', "last name", "required");
-            $this->form_validation->set_rules('username', "username", "is_unique[accounts.username]");
-            $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[accounts.email]');
-            $this->form_validation->set_rules('contact_no', "contact number", "required");
+            $this->form_validation->set_rules('username', "username", "is_unique[admin.username]");
+            $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[admin.email]');
+            # $this->form_validation->set_rules('contact_no', "contact number", "required");
             $this->form_validation->set_rules('status', "system status", "required|numeric");
             $this->form_validation->set_message('required', 'Please enter the {field}.');
             $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
+            $contact_no = ($this->input->post('contact_no') == "") ? NULL : trim($this->input->post('contact_no'));
 
             if ($this->form_validation->run()) {
                 $data = array(
@@ -226,7 +279,7 @@ class Accounts extends CI_Controller {
                     'firstname' => trim(ucwords($this->input->post('first_name'))),
                     'lastname' => trim(ucwords($this->input->post('last_name'))),
                     'email' => trim($this->input->post('email')),
-                    'contact_no' => trim($this->input->post('contact_no')),
+                    'contact_no' => $contact_no,
                     'status' => $this->input->post('status')
                 );
                 $for_log = array(
@@ -234,12 +287,46 @@ class Accounts extends CI_Controller {
                     "user_type" => $this->session->userdata('type'),
                     "username" => $this->session->userdata('username'),
                     "date" => time(),
-                    "action" => 'Edited Account #' . $this->uri->segment(4),
+                    "action" => 'Edited Admin Account #' . $this->uri->segment(4),
                     'status' => '1'
                 );
                 $this->item_model->insertData('user_log', $for_log);
                 $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
                 redirect("accounts");
+            } else {
+                $this->edit();
+            }
+        } elseif ($this->uri->segment(3) == "customer") {
+            $this->form_validation->set_rules('first_name', "first name", "required");
+            $this->form_validation->set_rules('last_name', "last name", "required");
+            $this->form_validation->set_rules('username', "username", "is_unique[customer.username]");
+            $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[customer.email]');
+            # $this->form_validation->set_rules('contact_no', "contact number", "required");
+            $this->form_validation->set_rules('status', "system status", "required|numeric");
+            $this->form_validation->set_message('required', 'Please enter the {field}.');
+            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
+            $contact_no = ($this->input->post('contact_no') == "") ? NULL : trim($this->input->post('contact_no'));
+
+            if ($this->form_validation->run()) {
+                $data = array(
+                    'username' => $username,
+                    'firstname' => trim(ucwords($this->input->post('first_name'))),
+                    'lastname' => trim(ucwords($this->input->post('last_name'))),
+                    'email' => trim($this->input->post('email')),
+                    'contact_no' => $contact_no,
+                    'status' => $this->input->post('status')
+                );
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Edited Customer Account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+                $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                redirect("accounts/customer");
             } else {
                 $this->edit();
             }
