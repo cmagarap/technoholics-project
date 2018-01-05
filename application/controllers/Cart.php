@@ -11,104 +11,87 @@
 
             }
         
+            public function index() {
+                $allvalues = $this->item_model->fetch('product', array("status" => true));
+    
+                $data = array(
+                    'title' => "Technoholics",
+                    'product' => $allvalues
+                );
+    
+    
+                $this->load->view('shop/cart',$data);
+                // include database configuration file
+    
+            }
 
-        public function index() {
-            $allvalues = $this->item_model->fetch('product', array("status" => true));
-
+            public function ViewCart() {
+    
             $data = array(
-                'title' => "Technoholics",
-                'product' => $allvalues
+                'title' => "Check out",
+                'cartItems' =>  $this->basket->contents(),
+                'CT' =>  $this->basket->total(),
+                'CTI' =>  $this->basket->total_items()
             );
+    
+            $this->load->view('shop/viewcart',$data);
+    
+            }
 
+            public function CheckOut() {
 
-            $this->load->view('shop/cart',$data);
-            // include database configuration file
-
-        }
-
-        public function ViewCart() {
-
-        //$this->basket = new Cart;
-        $basket = new basket;
-
-        $data = array(
-            'title' => "Check out",
-            'cartItems' => $basket->contents(),
-            'CT' => $basket->total(),
-            'CTI' => $basket->total_items()
-        );
-
-        $this->load->view('shop/viewcart',$data);
-
-        }
-        
-        public function CheckOut() {
-
-            $basket = new basket;
-
-            if($basket->total_items() <= 0){
+            if( $this->basket->total_items() <= 0){
             $this->load->view('shop/cart');
             }
-            
-            //$query = $db->query("SELECT * FROM customers WHERE id = ".$_SESSION['sessCustomerID']);
-            $query = $this->item_model->fetch('customers', array("id" => $_SESSION['sessCustomerID']));
 
+            //$query = $db->query("SELECT * FROM customers WHERE id = ".$_SESSION['sessCustomerID']);
+            $cust = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
 
             $data = array(
                 'title' => "Check out",
-                'custRow' => $query->fetch_assoc(),
-                'cartItems' => $this->basket->contents(),
-                'CTI' => $this->basket->total_items()
+                'custRow' => $cust,
+                'cartItems' =>  $this->basket->contents(),
+                'CTI' =>  $this->basket->total_items(),
+                'total' =>  $this->basket->total()
             );
 
-            
             $this->load->view('shop/checkout',$data);
         }
 
-        public function PlaceOrder() {
             
-                   // $this->basket = new Cart;
+
+            public function PlaceOrder() {
             
-                    $data = array(
-                        'customer_id' => $_SESSION['sessCustomerID'],
-                        'total_price' => $this->basket->total(),
-                        'created' => date("Y-m-d H:i:s"),
-                        'modified' => date("Y-m-d H:i:s")
-                    );
-                    
-                    $this->item_model->insertData('orders', $data);
+             
     
-                    if($data){
-                        $orderID =  $this->item_model->insert_id;
-                        $sql = '';
+                    $data = array(
+                        'customer_id' => $this->session->uid,
+                        'total_price' =>  $this->basket->total(),
+                        'created' => time()
+                    );
+
+                        echo "TEST";
+
+                        $orderID = $this->item_model->insert_id('orders', $data);//must put a unique numbers 
                         // get cart items
-                        $this->basketItems = $this->basket->contents();
-                        foreach($this->basketItems as $item){
+                        $basketItems =  $this->basket->contents();
+                        // loop
+                        foreach($basketItems as $item){
                             $data = array(
                                 'order_id' => $orderID,
                                 'product_id' => $item['id'],
                                 'quantity' => $item['qty']
                             );
-                            
+                            print_r($data);
                             $this->item_model->insertData('order_items', $data);
+                            // need to insert every item to database but won't work?
                         }
                         // insert order items into database
-                        $insertOrderItems =  $this->item_model->multi_query($sql);
-                        if($insertOrderItems){
-                            $this->basket->destroy();
-                            header("Location: orderSuccess.php?id=$orderID");
-                        }else{
+                            // $this->basket->destroy();
                             //header("Location: checkout.php");
-                            $this->load->view('shop/cart',$data);
-                        }
-
-                    }
-
                 }
 
         public function add() {
-
-            $basket = new basket;
 
             $data = array(
                 'id' => $_POST["product_id"],
@@ -119,30 +102,22 @@
                 //"maxqty" => $_POST["max_quantity"],
             );
 
-            $basket->insert($data); //return rowid
-        }
-                    
-        public function test() {
-            $cart = new basket;
-
-           print_r($cart->contents());
+             $this->basket->insert($data); //return rowid
         }
         
         function update() {
-        $basket = new basket;
 
             $data = array(
                 'rowid' => $_POST["product_id"],
                 'qty' => $_POST["product_quantity"]
             );
 
-            $basket->update($data);
+             $this->basket->update($data);
            }
 
         function remove() {
-            $basket = new basket;
-            $basket->remove($_POST["row_id"]);
-            $this->load->view('shop/viewcart');
+
+             $this->basket->remove($_POST["row_id"]);
         }
 
     }

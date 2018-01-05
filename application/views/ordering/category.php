@@ -158,26 +158,26 @@ _________________________________________________________ -->
                 <?php foreach ($products as $row): ?>
                     <div class="col-md-4 col-sm-6">
                         <div class="product">
-                            <div class="flip-container">
+                            <div class="flip-container" style="padding: 10px;">
                                 <div class="flipper">
-                                    <div class="front">
+                                    <div class="front"><center>
                                         <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
-                                        </a>
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                        </a></center>
                                     </div>
-                                    <div class="back">
+                                    <div class="back"><center>
                                        <a href="<?= base_url().'home/detail/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
-                                        </a>
+                                            <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                        </a></center>
                                     </div>
                                 </div>
                             </div>
                             <a href="<?= base_url().'home/detail/'.$row->product_id ?>" class="invisible">
-                                <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive">
+                                <img src="<?= base_url().'uploads_products/'.$row->product_image?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                             </a>
                             <div class="text">
                                 <h3><a href="<?= base_url().'home/detail/'.$row->product_id ?>"><?=$row->product_desc?></a></h3>
-                                <p class="price">₱<?=number_format($row->product_price)?></p>
+                                <p class="price">₱<?=number_format($row->product_price,2)?></p>
                                 <p class="buttons">
                                     <a href="<?= base_url().'home/detail/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
                                     <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>

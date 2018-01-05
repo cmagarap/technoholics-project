@@ -1,12 +1,15 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Seeeeej
  * Date: 12/19/2017
  * Time: 1:13 PM
  */
+date_default_timezone_set("Asia/Manila");
 
 class Accounts extends CI_Controller {
+
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
@@ -19,38 +22,42 @@ class Accounts extends CI_Controller {
     }
 
     public function index() {
-        redirect('accounts/page');
+        if ($this->session->userdata('type') == 0) { # The GM can manage all users
+            redirect('accounts/admin');
+        } elseif ($this->session->userdata('type') == 1) { # The Admin Assistant can only manage the accounts of customers
+            redirect('accounts/customer');
+        }
     }
 
-    public function page() {
-        $this->load->library('pagination');
-        $perpage = 20;
-        $config['base_url'] = base_url()."accounts/page";
-        $config['per_page'] = $perpage;
-        $config['full_tag_open'] = '<nav><ul class="pagination">';
-        $config['full_tag_close']= ' </ul></nav>';
-        $config['first_link'] = 'First';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['first_url']='';
-        $config['last_link']='Last';
-        $config['last_tag_open']='<li>';
-        $config['last_tag_close']='</li>';
-        $config['next_link']='&raquo;';
-        $config['next_tag_open']='<li>';
-        $config['next_tag_close']='</li>';
-        $config['prev_link'] ='&laquo;';
-        $config['prev_tag_open']='<li>';
-        $config['prev_tag_close']='</li>';
-        $config['cur_tag_open']='<li class="active"><a href="#">';
-        $config['cur_tag_close']='</a></li>';
-        $config['num_tag_open']='<li>';
-        $config['num_tag_close']='</li>';
+    public function admin() { # Accessible by the GM only.
+        if ($this->session->userdata('type') == 0) {
+            $this->load->library('pagination');
+            $perpage = 20;
+            $config['base_url'] = base_url() . "accounts/admin";
+            $config['per_page'] = $perpage;
+            $config['full_tag_open'] = '<nav><ul class="pagination">';
+            $config['full_tag_close'] = ' </ul></nav>';
+            $config['first_link'] = 'First';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['first_url'] = '';
+            $config['last_link'] = 'Last';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo;';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo;';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
 
-        if($this->session->userdata('type') == 0) {
-            $config['total_rows'] = $this->item_model->getCount('accounts', "access_level != 0 AND status = 1");
+            $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 1");
             $this->pagination->initialize($config);
-            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', "access_level != 0 AND status = 1");
+            $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 1");
 
             $data = array(
                 'title' => 'Accounts Management',
@@ -61,15 +68,45 @@ class Accounts extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
-        } elseif($this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('accounts', "access_level = 2");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function customer() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $this->load->library('pagination');
+            $perpage = 20;
+            $config['base_url'] = base_url() . "accounts/customer";
+            $config['per_page'] = $perpage;
+            $config['full_tag_open'] = '<nav><ul class="pagination">';
+            $config['full_tag_close'] = ' </ul></nav>';
+            $config['first_link'] = 'First';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['first_url'] = '';
+            $config['last_link'] = 'Last';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo;';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo;';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+
+            $config['total_rows'] = $this->item_model->getCount('customer', "status = 1");
             $this->pagination->initialize($config);
-            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', "access_level = 2");
+            $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 1");
 
             $data = array(
                 'title' => 'Accounts Management',
                 'heading' => 'Accounts',
-                'users' => $accounts,
+                'users' => $accounts, # $query->result()
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
@@ -80,23 +117,29 @@ class Accounts extends CI_Controller {
         }
     }
 
-    public function view()
-    {
-        #if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-        $account = $this->item_model->fetch('accounts', array('user_id' => $this->uri->segment(3)));
-
-        $data = array(
-            'title' => "View User Info",
-            'heading' => "Accounts",
-            'account' => $account
-        );
-
-        $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/accounts/view');
-        $this->load->view('paper/includes/footer');
-        /*} else {
-            redirect('home');
-        }*/
+    public function view() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            if ($this->uri->segment(3) == "admin") {
+                $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
+                $user_log = $this->item_model->fetch('user_log', array('user_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+            } elseif ($this->uri->segment(3) == "customer") {
+                $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
+                $user_log = $this->item_model->fetch('user_log', array('user_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+            } else {
+                redirect('accounts');
+            }
+            $data = array(
+                'title' => "Accounts: View User Info",
+                'heading' => "Accounts",
+                'account' => $account,
+                'logs' => $user_log
+            );
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/accounts/view');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect("home");
+        }
     }
 
     public function add_account() {
@@ -179,16 +222,16 @@ class Accounts extends CI_Controller {
                 "action" => 'Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name')),
                 'status' => '1'
             );
-            /*$this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
-            $this->email->to($this->input->post('email'));
+            /* $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
+              $this->email->to($this->input->post('email'));
 
-            $this->email->subject('Email Verification');
+              $this->email->subject('Email Verification');
 
-            $this->email->message($this->load->view('welcome_message', $data, true));
+              $this->email->message($this->load->view('welcome_message', $data, true));
 
-            if (!$this->email->send()) {
-                $this->email->print_debugger();
-            }*/
+              if (!$this->email->send()) {
+              $this->email->print_debugger();
+              } */
             $this->item_model->insertData('accounts', $data);
             $this->item_model->insertData('user_log', $for_log);
             redirect("accounts/");
@@ -198,92 +241,250 @@ class Accounts extends CI_Controller {
     }
 
     public function edit() {
-        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-        $data = array(
-            'title' => "Edit Product",
-            'heading' => "Inventory",
-            'products' => $product
-        );
+        if ($this->uri->segment(3) == "admin") {
+            $admin = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
+            $data = array(
+                'title' => "Accounts: Edit Admin",
+                'heading' => "Accounts",
+                'accounts' => $admin
+            );
 
-        $this->load->view('paper/includes/header', $data);
-        $this->load->view('paper/inventory/edit');
-        $this->load->view('paper/includes/footer');
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/accounts/edit');
+            $this->load->view('paper/includes/footer');
+        } elseif ($this->uri->segment(3) == "customer") {
+            $customer = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
+            $data = array(
+                'title' => "Accounts: Edit Customer",
+                'heading' => "Accounts",
+                'accounts' => $customer
+            );
+
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/accounts/edit');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect('accounts');
+        }
     }
 
-    public function updateproduct() {
-        $data = array(
-            'product_name' => $this->input->post('product_name'),
-            'product_desc' => $this->input->post('product_desc'),
-            'product_price' => $this->input->post('product_price'),
-            'updated_at' => time()
-        );
+    public function edit_exec() {
+        if ($this->uri->segment(3) == "admin") {
+            $this->form_validation->set_rules('first_name', "first name", "required");
+            $this->form_validation->set_rules('last_name', "last name", "required");
+            $this->form_validation->set_rules('username', "username", "is_unique[admin.username]");
+            $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[admin.email]');
+            # $this->form_validation->set_rules('contact_no', "contact number", "required");
+            $this->form_validation->set_rules('status', "system status", "required|numeric");
+            $this->form_validation->set_message('required', 'Please enter the {field}.');
+            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
+            $contact_no = ($this->input->post('contact_no') == "") ? NULL : trim($this->input->post('contact_no'));
 
-        $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+            if ($this->form_validation->run()) {
+                $data = array(
+                    'username' => $username,
+                    'firstname' => trim(ucwords($this->input->post('first_name'))),
+                    'lastname' => trim(ucwords($this->input->post('last_name'))),
+                    'email' => trim($this->input->post('email')),
+                    'contact_no' => $contact_no,
+                    'status' => $this->input->post('status')
+                );
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Edited Admin Account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+                $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
+                redirect("accounts");
+            } else {
+                $this->edit();
+            }
+        } elseif ($this->uri->segment(3) == "customer") {
+            $this->form_validation->set_rules('first_name', "first name", "required");
+            $this->form_validation->set_rules('last_name', "last name", "required");
+            $this->form_validation->set_rules('username', "username", "is_unique[customer.username]");
+            $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[customer.email]');
+            # $this->form_validation->set_rules('contact_no', "contact number", "required");
+            $this->form_validation->set_rules('status', "system status", "required|numeric");
+            $this->form_validation->set_message('required', 'Please enter the {field}.');
+            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
+            $contact_no = ($this->input->post('contact_no') == "") ? NULL : trim($this->input->post('contact_no'));
 
-        redirect("management/product");
+            if ($this->form_validation->run()) {
+                $data = array(
+                    'username' => $username,
+                    'firstname' => trim(ucwords($this->input->post('first_name'))),
+                    'lastname' => trim(ucwords($this->input->post('last_name'))),
+                    'email' => trim($this->input->post('email')),
+                    'contact_no' => $contact_no,
+                    'status' => $this->input->post('status')
+                );
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Edited Customer Account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+                $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                redirect("accounts/customer");
+            } else {
+                $this->edit();
+            }
+        }
     }
 
     public function delete() {
-        $this->item_model->updatedata("accounts", array("status" => false), array('user_id' => $this->uri->segment(3)));
-        redirect("accounts");
+        if ($this->uri->segment(3) == "admin") {
+            $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Deleted account #' . $this->uri->segment(4),
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("accounts/admin");
+        } elseif ($this->uri->segment(3) == "customer") {
+            $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Deleted account #' . $this->uri->segment(4),
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("accounts/customer");
+        }
     }
 
     public function recover_account() {
-        $this->load->library('pagination');
-        $perpage = 20;
-        $config['base_url'] = base_url()."accounts/recover_account";
-        $config['per_page'] = $perpage;
-        $config['full_tag_open'] = '<nav><ul class="pagination">';
-        $config['full_tag_close']= ' </ul></nav>';
-        $config['first_link'] = 'First';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['first_url']='';
-        $config['last_link']='Last';
-        $config['last_tag_open']='<li>';
-        $config['last_tag_close']='</li>';
-        $config['next_link']='&raquo;';
-        $config['next_tag_open']='<li>';
-        $config['next_tag_close']='</li>';
-        $config['prev_link'] ='&laquo;';
-        $config['prev_tag_open']='<li>';
-        $config['prev_tag_close']='</li>';
-        $config['cur_tag_open']='<li class="active"><a href="#">';
-        $config['cur_tag_close']='</a></li>';
-        $config['num_tag_open']='<li>';
-        $config['num_tag_close']='</li>';
+        if ($this->uri->segment(3) == "admin") {
+            if ($this->session->userdata('type') == 0) {
+                $this->load->library('pagination');
+                $perpage = 20;
+                $config['base_url'] = base_url() . "accounts/recover_account/admin";
+                $config['per_page'] = $perpage;
+                $config['full_tag_open'] = '<nav><ul class="pagination">';
+                $config['full_tag_close'] = ' </ul></nav>';
+                $config['first_link'] = 'First';
+                $config['first_tag_open'] = '<li>';
+                $config['first_tag_close'] = '</li>';
+                $config['first_url'] = '';
+                $config['last_link'] = 'Last';
+                $config['last_tag_open'] = '<li>';
+                $config['last_tag_close'] = '</li>';
+                $config['next_link'] = '&raquo;';
+                $config['next_tag_open'] = '<li>';
+                $config['next_tag_close'] = '</li>';
+                $config['prev_link'] = '&laquo;';
+                $config['prev_tag_open'] = '<li>';
+                $config['prev_tag_close'] = '</li>';
+                $config['cur_tag_open'] = '<li class="active"><a href="#">';
+                $config['cur_tag_close'] = '</a></li>';
+                $config['num_tag_open'] = '<li>';
+                $config['num_tag_close'] = '</li>';
 
-        if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('accounts', array("status" => 0));
-            $this->pagination->initialize($config);
-            $accounts = $this->item_model->getItemsWithLimit('accounts', $perpage, $this->uri->segment(3), 'user_id', 'ASC', array("status" => 0));
-            $data = array(
-                'title' => 'Accounts: Reactivate Accounts',
-                'heading' => 'Accounts',
-                'users' => $accounts,
-                'links' => $this->pagination->create_links()
-            );
 
-            $this->load->view("paper/includes/header", $data);
-            $this->load->view("paper/accounts/recover");
-            $this->load->view("paper/includes/footer");
+                $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
+                $this->pagination->initialize($config);
+                $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
+                $data = array(
+                    'title' => 'Accounts: Reactivate Admin Accounts',
+                    'heading' => 'Accounts',
+                    'users' => $accounts,
+                    'links' => $this->pagination->create_links()
+                );
+
+                $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/accounts/recover_admin");
+                $this->load->view("paper/includes/footer");
+            } else {
+                redirect('home');
+            }
+        } elseif ($this->uri->segment(3) == "customer") { # Both GM and assistant admin can access this
+            if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+                $this->load->library('pagination');
+                $perpage = 20;
+                $config['base_url'] = base_url() . "accounts/recover_account/customer";
+                $config['per_page'] = $perpage;
+                $config['full_tag_open'] = '<nav><ul class="pagination">';
+                $config['full_tag_close'] = ' </ul></nav>';
+                $config['first_link'] = 'First';
+                $config['first_tag_open'] = '<li>';
+                $config['first_tag_close'] = '</li>';
+                $config['first_url'] = '';
+                $config['last_link'] = 'Last';
+                $config['last_tag_open'] = '<li>';
+                $config['last_tag_close'] = '</li>';
+                $config['next_link'] = '&raquo;';
+                $config['next_tag_open'] = '<li>';
+                $config['next_tag_close'] = '</li>';
+                $config['prev_link'] = '&laquo;';
+                $config['prev_tag_open'] = '<li>';
+                $config['prev_tag_close'] = '</li>';
+                $config['cur_tag_open'] = '<li class="active"><a href="#">';
+                $config['cur_tag_close'] = '</a></li>';
+                $config['num_tag_open'] = '<li>';
+                $config['num_tag_close'] = '</li>';
+
+                $config['total_rows'] = $this->item_model->getCount('customer', "status = 0");
+                $this->pagination->initialize($config);
+                $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 0");
+                $data = array(
+                    'title' => 'Accounts: Reactivate Customer Accounts',
+                    'heading' => 'Accounts',
+                    'users' => $accounts,
+                    'links' => $this->pagination->create_links()
+                );
+
+                $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/accounts/recover_customer");
+                $this->load->view("paper/includes/footer");
+            } else {
+                redirect('home');
+            }
         } else {
-            redirect('home');
+            redirect('accounts');
         }
     }
 
     public function recover_account_exec() {
-        $this->item_model->updatedata("account", array("status" => 1), array('user_id' => $this->uri->segment(3)));
-        $for_log = array(
-            "user_id" => $this->session->uid,
-            "user_type" => $this->session->userdata('type'),
-            "username" => $this->session->userdata('username'),
-            "date" => time(),
-            "action" => 'Reactivated account #' . $this->uri->segment(3),
-            'status' => '1'
-        );
-        $this->item_model->insertData('user_log', $for_log);
-        redirect("accounts/recover_account");
+        if ($this->uri->segment(3) == "admin") {
+            $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Reactivated account #' . $this->uri->segment(4),
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("accounts/recover_account/admin");
+        } elseif ($this->uri->segment(3) == "customer") {
+            $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Reactivated account #' . $this->uri->segment(4),
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("accounts/recover_account/customer");
+        }
     }
 
 }

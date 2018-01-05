@@ -2,9 +2,18 @@
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
-            <input type="text" name="search" class = "search" placeholder="Search product...">
+            <form action = "" method = "POST">
+                <div class="input-group">
+                    <input type="text" name="search" class = "search" placeholder="Search product...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type = "submit" style = "border-color: #ccc">
+                            <i class="ti-search"></i>
+                        </button>
+                    </div>
+                </div>
             <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
             <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
+            </form>
         </div>
         <br>
         <div class="row">
@@ -58,30 +67,13 @@
                                 </tbody>
                             </table>
                             <?php echo "<div align = 'center'>" . $links . "</div>";
-                        echo '</div>';
                      } ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <!--<div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                    <p>This is a large modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
+</div>
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');
@@ -101,4 +93,3 @@
                 });
         });
     </script>
-    <!-- Modal -->

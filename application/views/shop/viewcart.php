@@ -52,7 +52,7 @@
             <td colspan="2"></td>
             <?php if($CTI > 0){ ?>
             <td class="text-center"><strong>Total <?php echo '$'.$CT.' USD'; ?></strong></td>
-            <td><a href="checkout.php" class="btn btn-success btn-block">Checkout <i class="glyphicon glyphicon-menu-right"></i></a></td>
+            <td><a href="<?php echo base_url(); ?>cart/checkout" class="btn btn-success btn-block">Checkout <i class="glyphicon glyphicon-menu-right"></i></a></td>
             <?php } ?>
         </tr>
     </tfoot>
@@ -104,7 +104,7 @@
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
                 {
-                    location.reload(); 
+                    $('#cart_contents').load("<?php echo base_url(); ?>cart/viewcart");
                     $('#' + product_id).val('');
                 }
             });

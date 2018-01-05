@@ -1,15 +1,23 @@
 <?php
 
 class Item_model extends CI_Model {
-    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL) {
+    function fetch($table, $where = NULL, $orderby = NULL, $order = NULL, $limit = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
         if (!empty($orderby) AND !empty($order)) {
             $this->db->order_by($orderby, $order);
         }
+        if (!empty($limit)) {
+            $this->db->limit($limit);
+        }
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
+    }
+
+    function insert_id($table, $data) {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
     }
 
     function insertData($table, $arrayData) {
@@ -39,12 +47,7 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
-/*
-    function getCount() {
-        $query = $this->db->get('product');
-        return $query->num_rows();
-    }
-*/
+
     function getCount($table, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);

@@ -4,13 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class basket {
 	
 	protected $cart_contents = array();
-	
+	protected $CI;
+
     public function __construct(){
-        // get the shopping cart array from the session
-        $this->cart_contents = !empty($_SESSION['cart_contents'])?$_SESSION['cart_contents']:NULL;
+		$this->CI =& get_instance();
+		$this->CI->load->library('session');
+        $this->cart_contents = !empty($this->CI->session->cart_contents)?$this->CI->session->cart_contents:NULL;
 		if ($this->cart_contents === NULL){
 			// set some base values
-			$this->cart_contents = array('cart_total' => 0, 'total_items' => 0);
+		$this->cart_contents  = array(
+			'cart_total' => 0, 
+			'total_items' => 0
+		);
 		}
     }
     
@@ -66,7 +71,7 @@ class basket {
 		if(!is_array($item) OR count($item) === 0){
 			return FALSE;
 		}else{
-            if(!isset($item['id'], $item['img'], $item['name'], $item['price'], $item['qty'])){
+            if(!isset($item['id'], $item['name'], $item['price'], $item['qty'])){
                 return FALSE;
             }else{
                 /*
@@ -156,10 +161,10 @@ class basket {
 		
 		// if cart empty, delete it from the session
 		if(count($this->cart_contents) <= 2){
-			unset($_SESSION['cart_contents']);
+			$this->CI->session->unset_userdata('cart_contents');
 			return FALSE;
 		}else{
-			$_SESSION['cart_contents'] = $this->cart_contents;
+			$this->CI->session->cart_contents = $this->cart_contents;
 			return TRUE;
 		}
     }
@@ -182,6 +187,6 @@ class basket {
 	 */
 	public function destroy(){
 		$this->cart_contents = array('cart_total' => 0, 'total_items' => 0);
-		unset($_SESSION['cart_contents']);
+		$this->CI->session->unset_userdata('cart_contents');
 	}
 }
