@@ -20,7 +20,7 @@
                         <div align = "left">
                             <h3 class="title"><b>Deleted <?= ucwords($this->uri->segment(3)) ?> List</b></h3>
                             <p class="category"><i>You can recover deleted accounts here.</i></p><br>
-                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
+                            <a href = "<?= base_url() ?>accounts/customer" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
                     </div>
 

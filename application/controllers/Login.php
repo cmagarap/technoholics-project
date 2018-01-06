@@ -61,11 +61,11 @@ class Login extends CI_Controller {
                             redirect('home');
                         }
                     } else { # wrong password entered
-                        $this->session->set_flashdata('error', 'The password you entered is incorrect.');
+                        $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                         $this->index();
                     }
                 } elseif ($customer->status == 0) { # if the account is inactive
-                    $this->session->set_flashdata('error', 'Your account is inactive.');
+                    $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                     $this->index();
                 }
             } elseif ($admin) { # if admin
@@ -94,15 +94,15 @@ class Login extends CI_Controller {
                         $this->item_model->insertData('user_log', $for_log);
                         redirect('dashboard');
                     } else { # wrong password entered
-                        $this->session->set_flashdata('error', 'The password you entered is incorrect.');
+                        $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                         $this->index();
                     }
                 } elseif ($admin->status == 0) { # if the account is inactive
-                    $this->session->set_flashdata('error', 'Your account is inactive.');
+                    $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                     $this->index();
                 }
             } else { # if the user does not exist
-                $this->session->set_flashdata('error', 'No such user exists.');
+                $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                 $this->index();
             }
         } else { # if the validations were not met

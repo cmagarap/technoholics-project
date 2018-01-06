@@ -27,7 +27,7 @@
                             ?>
                         </p>
                         <a href="">Change Profile Picture</a><br>
-                        <a href="">Change Password</a>
+                        <a href="<?= $this->config->base_url() ?>my_account/change_password">Change Password</a>
                     </div>
                     <hr>
                     <div class="text-center">

@@ -289,16 +289,19 @@ class Accounts extends CI_Controller {
                     'contact_no' => $contact_no,
                     'status' => $this->input->post('status')
                 );
-                $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Edited Admin Account #' . $this->uri->segment(4),
-                    'status' => '1'
-                );
-                $this->item_model->insertData('user_log', $for_log);
-                $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
+                $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
+                if ($update) {
+                    $for_log = array(
+                        "user_id" => $this->session->uid,
+                        "user_type" => $this->session->userdata('type'),
+                        "username" => $this->session->userdata('username'),
+                        "date" => time(),
+                        "action" => 'Edited Admin Account #' . $this->uri->segment(4),
+                        'status' => '1'
+                    );
+                    $this->item_model->insertData('user_log', $for_log);
+                    # echo "<script>demo.showNotification('top','center')</script>";
+                }
                 redirect("accounts");
             } else {
                 $this->edit();
@@ -323,16 +326,18 @@ class Accounts extends CI_Controller {
                     'contact_no' => $contact_no,
                     'status' => $this->input->post('status')
                 );
-                $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Edited Customer Account #' . $this->uri->segment(4),
-                    'status' => '1'
-                );
-                $this->item_model->insertData('user_log', $for_log);
-                $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                $update = $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                if ($update) {
+                    $for_log = array(
+                        "user_id" => $this->session->uid,
+                        "user_type" => $this->session->userdata('type'),
+                        "username" => $this->session->userdata('username'),
+                        "date" => time(),
+                        "action" => 'Edited Customer Account #' . $this->uri->segment(4),
+                        'status' => '1'
+                    );
+                    $this->item_model->insertData('user_log', $for_log);
+                }
                 redirect("accounts/customer");
             } else {
                 $this->edit();
@@ -342,28 +347,32 @@ class Accounts extends CI_Controller {
 
     public function delete() {
         if ($this->uri->segment(3) == "admin") {
-            $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Deleted account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Deleted account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/admin");
         } elseif ($this->uri->segment(3) == "customer") {
-            $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Deleted account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Deleted account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/customer");
         }
     }
@@ -461,28 +470,32 @@ class Accounts extends CI_Controller {
 
     public function recover_account_exec() {
         if ($this->uri->segment(3) == "admin") {
-            $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Reactivated account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Reactivated account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/recover_account/admin");
         } elseif ($this->uri->segment(3) == "customer") {
-            $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Reactivated account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Reactivated account #' . $this->uri->segment(4),
+                    'status' => '1'
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/recover_account/customer");
         }
     }

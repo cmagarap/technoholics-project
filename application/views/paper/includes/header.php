@@ -23,7 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
-        input[type=text]:focus, input[type=number]:focus {
+        input[type=text]:focus, input[type=number], input[type=password]:focus {
             background-color: lightblue;
         }
         .file:hover {
@@ -101,8 +101,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
-        <!-- data-background-color="white | black"
-            data-active-color="primary | info | success | warning | danger" -->
+        <!-- data-background-color="white | black" :: data-active-color="primary | info | success | warning | danger" -->
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
