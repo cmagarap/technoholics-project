@@ -26,8 +26,9 @@ class Random extends CI_Controller {
         echo "<b>CRYPT: </b>".crypt('phpsucksforever', $hash)."<br>";
         echo "<b>PASSWORD_HASH (bycrypt): </b>".password_hash('phpsucksforever', PASSWORD_BCRYPT)."<br>";
         echo "<b>PASSWORD_HASH (default): </b>".password_hash('phpsucksforever', PASSWORD_DEFAULT)."<br>";
-        echo "<b>PASSWORD_HASH (default): </b>".password_hash('phpsucksforever', PASSWORD_DEFAULT)."<br>";
-        echo $this->uri->segment(1);
+        # echo "<b>PASSWORD_HASH (argon): </b>".password_hash('phpsucksforever', PASSWORD_ARGON2I)."<br>";
+
+        echo "<br>".$this->uri->segment(1);
         # $this->session->sess_destroy();
         echo "test<br><hr>";
 

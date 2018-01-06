@@ -46,20 +46,20 @@ class My_account extends CI_Controller {
         # Checking if rules are met.
         if ($this->form_validation->run()) {
             $data = array(
-                'email' => trim($this->input->post('email')),
-                'firstname' => trim(ucwords($this->input->post('firstname'))),
-                'lastname' => trim(ucwords($this->input->post('lastname'))),
-                'username' => trim($username)
+                'email' => $this->db->escape_str(trim($this->input->post('email'))),
+                'firstname' => $this->db->escape_str(trim(ucwords($this->input->post('firstname')))),
+                'lastname' => $this->db->escape_str(trim(ucwords($this->input->post('lastname')))),
+                'username' => $this->db->escape_str(trim($username))
             );
             $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->session->uid));
             if ($update) {
                 $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Edited his/her profile',
-                    'status' => '1'
+                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                    "username" => $this->db->escape_str($this->session->userdata('username')),
+                    "date" => $this->db->escape_str(time()),
+                    "action" => $this->db->escape_str('Edited his/her profile'),
+                    'status' => $this->db->escape_str('1')
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }
@@ -98,12 +98,12 @@ class My_account extends CI_Controller {
                 $update = $this->item_model->updatedata("admin", array('password' => sha1($this->input->post('new_password'))), array("admin_id" => $this->session->uid));
                 if ($update) {
                     $for_log = array(
-                        "user_id" => $this->session->uid,
-                        "user_type" => $this->session->userdata('type'),
-                        "username" => $this->session->userdata('username'),
-                        "date" => time(),
-                        "action" => 'Changed his/her password',
-                        'status' => '1'
+                        "user_id" => $this->db->escape_str($this->session->uid),
+                        "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                        "username" => $this->db->escape_str($this->session->userdata('username')),
+                        "date" => $this->db->escape_str(time()),
+                        "action" => $this->db->escape_str('Changed his/her password'),
+                        'status' => $this->db->escape_str('1')
                     );
                     $this->item_model->insertData('user_log', $for_log);
                 }

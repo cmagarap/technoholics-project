@@ -176,7 +176,9 @@ class Accounts extends CI_Controller {
             $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
             $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
             $is_verified = ($user_type == 1) ? 1 : 0;
-            $hash = random_string('alnum', 15);
+            # $hash = random_string('alnum', 15);
+            $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
+            $hash = bin2hex($bytes);
 
             if ($this->upload->do_upload('user_image') == FALSE) {
                 $image = "default-user.png";
@@ -203,24 +205,24 @@ class Accounts extends CI_Controller {
             }
 
             $data = array(
-                'username' => $username,
-                'password' => sha1($this->input->post('password')), # to be changed
-                'firstname' => trim(ucwords($this->input->post('first_name'))),
-                'lastname' => trim(ucwords($this->input->post('last_name'))),
-                'email' => trim($this->input->post('email')),
-                'registered_at' => time(),
-                'access_level' => $user_type,
-                'verification_code' => $hash,
-                'image' => $image,
-                'is_verified' => $is_verified
+                'username' => $this->db->escape_str($username),
+                'password' => $this->db->escape_str(sha1($this->input->post('password'))), # to be changed
+                'firstname' => $this->db->escape_str(trim(ucwords($this->input->post('first_name')))),
+                'lastname' => $this->db->escape_str(trim(ucwords($this->input->post('last_name')))),
+                'email' => $this->db->escape_str(trim($this->input->post('email'))),
+                'registered_at' => $this->db->escape_str(time()),
+                'access_level' => $this->db->escape_str($user_type),
+                'verification_code' => $this->db->escape_str($hash),
+                'image' => $this->db->escape_str($image),
+                'is_verified' => $this->db->escape_str($is_verified)
             );
             $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name')),
-                'status' => '1'
+                "user_id" => $this->db->escape_str($this->session->uid),
+                "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                "username" => $this->db->escape_str($this->session->userdata('username')),
+                "date" => $this->db->escape_str(time()),
+                "action" => $this->db->escape_str('Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name'))),
+                'status' => $this->db->escape_str('1')
             );
             /* $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
               $this->email->to($this->input->post('email'));
@@ -282,22 +284,22 @@ class Accounts extends CI_Controller {
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'username' => $username,
-                    'firstname' => trim(ucwords($this->input->post('first_name'))),
-                    'lastname' => trim(ucwords($this->input->post('last_name'))),
-                    'email' => trim($this->input->post('email')),
-                    'contact_no' => $contact_no,
-                    'status' => $this->input->post('status')
+                    'username' => $this->db->escape_str($username),
+                    'firstname' => $this->db->escape_str(trim(ucwords($this->input->post('first_name')))),
+                    'lastname' => $this->db->escape_str(trim(ucwords($this->input->post('last_name')))),
+                    'email' => $this->db->escape_str(trim($this->input->post('email'))),
+                    'contact_no' => $this->db->escape_str($contact_no),
+                    'status' => $this->db->escape_str($this->input->post('status'))
                 );
                 $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
                 if ($update) {
                     $for_log = array(
-                        "user_id" => $this->session->uid,
-                        "user_type" => $this->session->userdata('type'),
-                        "username" => $this->session->userdata('username'),
-                        "date" => time(),
-                        "action" => 'Edited Admin Account #' . $this->uri->segment(4),
-                        'status' => '1'
+                        "user_id" => $this->db->escape_str($this->session->uid),
+                        "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                        "username" => $this->db->escape_str($this->session->userdata('username')),
+                        "date" => $this->db->escape_str(time()),
+                        "action" => $this->db->escape_str('Edited Admin Account #' . $this->uri->segment(4)),
+                        'status' => $this->db->escape_str('1')
                     );
                     $this->item_model->insertData('user_log', $for_log);
                     # echo "<script>demo.showNotification('top','center')</script>";
@@ -319,22 +321,22 @@ class Accounts extends CI_Controller {
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'username' => $username,
-                    'firstname' => trim(ucwords($this->input->post('first_name'))),
-                    'lastname' => trim(ucwords($this->input->post('last_name'))),
-                    'email' => trim($this->input->post('email')),
-                    'contact_no' => $contact_no,
-                    'status' => $this->input->post('status')
+                    'username' => $this->db->escape_str($username),
+                    'firstname' => $this->db->escape_str(trim(ucwords($this->input->post('first_name')))),
+                    'lastname' => $this->db->escape_str(trim(ucwords($this->input->post('last_name')))),
+                    'email' => $this->db->escape_str(trim($this->input->post('email'))),
+                    'contact_no' => $this->db->escape_str($contact_no),
+                    'status' => $this->db->escape_str($this->input->post('status'))
                 );
                 $update = $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
                 if ($update) {
                     $for_log = array(
-                        "user_id" => $this->session->uid,
-                        "user_type" => $this->session->userdata('type'),
-                        "username" => $this->session->userdata('username'),
-                        "date" => time(),
-                        "action" => 'Edited Customer Account #' . $this->uri->segment(4),
-                        'status' => '1'
+                        "user_id" => $this->db->escape_str($this->session->uid),
+                        "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                        "username" => $this->db->escape_str($this->session->userdata('username')),
+                        "date" => $this->db->escape_str(time()),
+                        "action" => $this->db->escape_str('Edited Customer Account #' . $this->uri->segment(4)),
+                        'status' => $this->db->escape_str('1')
                     );
                     $this->item_model->insertData('user_log', $for_log);
                 }
@@ -350,12 +352,12 @@ class Accounts extends CI_Controller {
             $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
             if ($update) {
                 $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Deleted account #' . $this->uri->segment(4),
-                    'status' => '1'
+                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                    "username" => $this->db->escape_str($this->session->userdata('username')),
+                    "date" => $this->db->escape_str(time()),
+                    "action" => $this->db->escape_str('Deleted account #' . $this->uri->segment(4)),
+                    'status' => $this->db->escape_str('1')
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }
@@ -364,12 +366,12 @@ class Accounts extends CI_Controller {
             $update = $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
             if ($update) {
                 $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Deleted account #' . $this->uri->segment(4),
-                    'status' => '1'
+                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                    "username" => $this->db->escape_str($this->session->userdata('username')),
+                    "date" => $this->db->escape_str(time()),
+                    "action" => $this->db->escape_str('Deleted account #' . $this->uri->segment(4)),
+                    'status' => $this->db->escape_str('1')
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }
@@ -403,8 +405,6 @@ class Accounts extends CI_Controller {
                 $config['cur_tag_close'] = '</a></li>';
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
-
-
                 $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
                 $this->pagination->initialize($config);
                 $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
@@ -446,7 +446,6 @@ class Accounts extends CI_Controller {
                 $config['cur_tag_close'] = '</a></li>';
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
-
                 $config['total_rows'] = $this->item_model->getCount('customer', "status = 0");
                 $this->pagination->initialize($config);
                 $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 0");
@@ -473,12 +472,12 @@ class Accounts extends CI_Controller {
             $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
             if ($update) {
                 $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Reactivated account #' . $this->uri->segment(4),
-                    'status' => '1'
+                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "user_type" => ($this->session->userdata('type')),
+                    "username" => $this->db->escape_str($this->session->userdata('username')),
+                    "date" => $this->db->escape_str(time()),
+                    "action" => $this->db->escape_str('Reactivated account #' . $this->uri->segment(4)),
+                    'status' => $this->db->escape_str('1')
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }
@@ -487,12 +486,12 @@ class Accounts extends CI_Controller {
             $update = $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
             if ($update) {
                 $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Reactivated account #' . $this->uri->segment(4),
-                    'status' => '1'
+                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                    "username" => $this->db->escape_str($this->session->userdata('username')),
+                    "date" => $this->db->escape_str(time()),
+                    "action" => $this->db->escape_str('Reactivated account #' . $this->uri->segment(4)),
+                    'status' => $this->db->escape_str('1')
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }

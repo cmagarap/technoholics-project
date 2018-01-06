@@ -50,12 +50,12 @@ class Login extends CI_Controller {
                             $this->session->set_userdata('isloggedin', true);
                             $this->session->set_flashdata('myflashdata', true);
                             $for_log = array(
-                                "user_id" => $this->session->uid,
-                                "user_type" => $this->session->userdata('type'),
-                                "username" => $this->session->userdata('username'),
-                                "date" => time(),
-                                "action" => 'Logged in.',
-                                'status' => '1'
+                                "user_id" => $this->db->escape_str($this->session->uid),
+                                "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                                "username" => $this->db->escape_str($this->session->userdata('username')),
+                                "date" => $this->db->escape_str(time()),
+                                "action" => $this->db->escape_str('Logged in.'),
+                                'status' => $this->db->escape_str('1')
                             );
                             $this->item_model->insertData('user_log', $for_log);
                             redirect('home');
@@ -84,12 +84,12 @@ class Login extends CI_Controller {
                         $this->session->set_userdata('isloggedin', true);
                         $this->session->set_flashdata('myflashdata', true);
                         $for_log = array(
-                            "user_id" => $this->session->uid,
-                            "user_type" => $this->session->userdata('type'),
-                            "username" => $this->session->userdata('username'),
-                            "date" => time(),
-                            "action" => 'Logged in.',
-                            'status' => '1'
+                            "user_id" => $this->db->escape_str($this->session->uid),
+                            "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                            "username" => $this->db->escape_str($this->session->userdata('username')),
+                            "date" => $this->db->escape_str(time()),
+                            "action" => $this->db->escape_str('Logged in.'),
+                            'status' => $this->db->escape_str('1')
                         );
                         $this->item_model->insertData('user_log', $for_log);
                         redirect('dashboard');
