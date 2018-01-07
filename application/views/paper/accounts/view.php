@@ -18,23 +18,6 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="text-center">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-1"><h5></h5></div>
-                            <div class="col-md-6">
-                                <h5><b><?php
-                                        if($this->uri->segment(3) == "admin") {
-                                            if ($account->access_level == 1) {
-                                                echo "Admin Assistant";
-                                            }
-                                        } elseif($this->uri->segment(3) == "customer") { echo "Customer"; }
-                                        ?></b><br>
-                                    <small>User type</small>
-                                </h5>
-                            </div>
-                            <div class="col-md-1"><h5></h5></div>
-                        </div>
-                    </div>
                     <br>
                     <div align="center">
                         <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>

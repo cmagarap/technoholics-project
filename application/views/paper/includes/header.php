@@ -23,7 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
-        input[type=text]:focus, input[type=number], input[type=password]:focus {
+        input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
             background-color: lightblue;
         }
         .file:hover {

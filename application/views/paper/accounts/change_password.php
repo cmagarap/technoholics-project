@@ -26,8 +26,8 @@
                         $conf_pass = "";
                     }
                     ?>
+                    <hr>
                     <div class="content">
-                        <hr>
                         <form action = "<?= $this->config->base_url() ?>my_account/change_password_exec" method = "POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
@@ -76,7 +76,6 @@
                             </div>
                             <div class="clearfix"></div>
                         </form>
-
                     </div> <!-- content -->
                 </div> <!-- div-card -->
             </div> <!-- col-lg-8 col-md-7 -->

@@ -89,8 +89,8 @@ class Item_model extends CI_Model {
         return ($query->row()->$column); # to be sha1() or not?
     }
 
-    function setPassword($string, $table, $column, $table_id, $id) {
-        $salt = $this->getSalt($table, $column, $table_id, $id);
+    function setPassword($string, $salt /*$table, $column, $table_id, $id*/) {
+        #  $salt = $this->getSalt($table, $column, $table_id, $id);
         $string = password_hash($salt.$string, PASSWORD_DEFAULT);
         return $string;
     }

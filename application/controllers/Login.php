@@ -34,7 +34,8 @@ class Login extends CI_Controller {
             if ($customer) { # if customer
                 $customer = $customer[0];
                 if ($customer->status == 1) { # if the account is active
-                    if ($customer->password == sha1($this->input->post("password"))) { # if passwords match
+                    $salt = $this->item_model->getSalt("customer", "verification_code", "customer_id", $customer->customer_id);
+                    if (password_verify($salt.$this->input->post("password"), $customer->password)) { # if passwords match
                         $user = ($customer->username == NULL) ? $customer->email : $customer->username;
                         if ($customer->is_verified == 0) { # if not yet verified
                             $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
@@ -71,7 +72,8 @@ class Login extends CI_Controller {
             } elseif ($admin) { # if admin
                 $admin = $admin[0];
                 if ($admin->status == 1) { # if the account is active
-                    if ($admin->password == sha1($this->input->post("password"))) { # if passwords match
+                    $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", $admin->admin_id);
+                    if (password_verify($salt.$this->input->post("password"), $admin->password)) { # if passwords match
                         $user_type = ($admin->access_level == 1) ? 1 : 0;
                         $user = ($admin->username == NULL) ? $admin->email : $admin->username;
                         $for_session = array(

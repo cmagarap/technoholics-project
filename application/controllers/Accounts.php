@@ -163,7 +163,7 @@ class Accounts extends CI_Controller {
         $this->form_validation->set_rules('username', "username", "is_unique[accounts.username]");
         $this->form_validation->set_rules('password', "password", "required");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|matches[password]");
-        $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[accounts.email]');
+        $this->form_validation->set_rules('email', "email address", "required|valid_email|is_unique[admin.email]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
@@ -173,9 +173,10 @@ class Accounts extends CI_Controller {
             $config['max_size'] = 0;
             $this->load->library('upload', $config);
             $this->load->helper('string');
-            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
-            $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
-            $is_verified = ($user_type == 1) ? 1 : 0;
+            $username = ($this->input->post('username') != "") ? trim($this->input->post('username')) : NULL;
+            $contact_no = ($this->input->post('contact_no') != "") ? trim($this->input->post('contact_no')) : NULL;
+            # $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
+            # $is_verified = ($user_type == 1) ? 1 : 0;
             # $hash = random_string('alnum', 15);
             $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
             $hash = bin2hex($bytes);
@@ -205,17 +206,19 @@ class Accounts extends CI_Controller {
             }
 
             $data = array(
-                'username' => $this->db->escape_str($username),
-                'password' => $this->db->escape_str(sha1($this->input->post('password'))), # to be changed
+                'email' => $this->db->escape_str(trim($this->input->post('email'))),
+                'password' => $this->db->escape_str($this->item_model->setPassword($this->input->post('password'), $hash)),
                 'firstname' => $this->db->escape_str(trim(ucwords($this->input->post('first_name')))),
                 'lastname' => $this->db->escape_str(trim(ucwords($this->input->post('last_name')))),
-                'email' => $this->db->escape_str(trim($this->input->post('email'))),
-                'registered_at' => $this->db->escape_str(time()),
-                'access_level' => $this->db->escape_str($user_type),
-                'verification_code' => $this->db->escape_str($hash),
+                'username' => $this->db->escape_str($username),
+                'contact_no' => $this->db->escape_str($contact_no),
+                'access_level' => $this->db->escape_str("1"),
                 'image' => $this->db->escape_str($image),
-                'is_verified' => $this->db->escape_str($is_verified)
+                'status' => $this->db->escape_str("1"),
+                'registered_at' => $this->db->escape_str(time()),
+                'verification_code' => $this->db->escape_str($hash)
             );
+
             $for_log = array(
                 "user_id" => $this->db->escape_str($this->session->uid),
                 "user_type" => $this->db->escape_str($this->session->userdata('type')),
@@ -234,7 +237,7 @@ class Accounts extends CI_Controller {
               if (!$this->email->send()) {
               $this->email->print_debugger();
               } */
-            $this->item_model->insertData('accounts', $data);
+            $this->item_model->insertData('admin', $data);
             $this->item_model->insertData('user_log', $for_log);
             redirect("accounts/");
         } else {

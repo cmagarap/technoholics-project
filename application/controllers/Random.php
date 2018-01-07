@@ -40,16 +40,16 @@ class Random extends CI_Controller {
         echo $this->encryption->decrypt($ciphertext)."<br>";
         // ==========================================================================================
 
-        # To set the password:
-        # setPassword($passwordString, $user_table, $saltFromDB, $columnForUserID, $user_id)
-        $password = $this->item_model->setPassword("qwertyuiop123", "admin", "verification_code", "admin_id", 2);
-        echo "<b>This is the password:</b> $password<br>";
 
         # To check, get the salt first:
         # getSalt($user_table, $saltFromDB, $columnForUserID, $user_id)
         $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", 2);
         echo "<b>This is the salt:</b> $salt<br>";
 
+        # To set the password:
+        # setPassword($passwordString, $user_table, $saltFromDB, $columnForUserID, $user_id)
+        $password = $this->item_model->setPassword("qwertyuiop123", $salt);
+        echo "<b>This is the password:</b> $password<br>";
         # To verify:
         # password_verify($stringToBeTested, $actualPassword)
         if(password_verify($salt."qwertyuiop123", $password)) {

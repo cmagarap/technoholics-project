@@ -7,6 +7,7 @@
                     <div class="header">
                         <h4 class="title"><b>Add a Product</b></h4>
                     </div>
+                    <hr>
                     <div class="content">
                         <?php
                         if(isset($_POST['enter'])) {
@@ -104,6 +105,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>

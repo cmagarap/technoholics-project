@@ -8,12 +8,8 @@
                     </div>
                     <div class="content">
                         <div class="author">
-                            <?php # TO ACCESS THE IMAGE THUMBNAIL:
-                            $user = $user[0];
-                            $user_image = (string)$user->image;
-                            $image_array = explode(".", $user_image);
-                            ?>
-                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="Admin User">
+                            <?php $user = $user[0]; ?>
+                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $user->image ?>" alt="admin-user" title="Admin User">
                             <h4 class="title"><?= $user->firstname . " " . $user->lastname ?> <br />
                                 <a><small><?php if($user->username == NULL) echo $user->email;
                                         else echo $user->username; ?></small></a>
@@ -49,7 +45,7 @@
             <div class="col-lg-8 col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Edit Profile</h4>
+                        <h4 class="title"><b>Edit Profile</b></h4>
                     </div>
                     <div class="content">
                         <hr>
@@ -109,7 +105,6 @@
                                 <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
                             <br>
-                            <!--<div class="clearfix"></div>-->
                         </form>
                     </div>
                 </div>
