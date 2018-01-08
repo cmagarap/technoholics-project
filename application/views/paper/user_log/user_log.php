@@ -20,6 +20,7 @@
                                 <th><b>User</b></th>
                                 <th><b>Action</b></th>
                                 <th><b>User type</b></th>
+                                <th><b>User ID</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Time</b></th>
                             </thead>
@@ -36,6 +37,12 @@
                                         elseif($logs->user_type == 2) echo "Customer";
                                         ?>
                                     </td>
+                                    <td><?php if($logs->user_type == 2) {
+                                            if($logs->customer_id == NULL) { echo "<i style = 'color: #CCCCCC'>NULL</i>"; } else { echo $logs->customer_id; }
+                                        } elseif($logs->user_type == 1 OR $logs->user_type == 0) {
+                                            if ($logs->admin_id == NULL) { echo "<i style = 'color: #CCCCCC'>NULL</i>"; } else { echo $logs->admin_id; }
+                                        }
+                                        ?></td>
                                     <td><?= date("F j, Y", $logs->date) ?></td>
                                     <td><?= date("h:i A", $logs->date) ?></td>
                                 </tr>

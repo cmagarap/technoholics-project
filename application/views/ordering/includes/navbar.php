@@ -58,16 +58,23 @@ _________________________________________________________ -->
                     <i class="fa fa-search"></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="hidden-xs">3 items in cart</span>
+                    <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
                 </a>
             </div>
         </div> <!--/.navbar-header -->
         <div class="navbar-collapse collapse" id="navigation">
             <ul class="nav navbar-nav navbar-left">
+            <?php if($page == "Home") : ?>
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
+            <?php else : ?>
+                <li><a href="<?= base_url().'home'; ?>">Home</a>
+            <?php endif; ?>
                 </li>
+            <?php if($page == "category") : ?>
+                <li class="active dropdown yamm-fw">
+            <?php else : ?>
                 <li class="dropdown yamm-fw">
+            <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -76,29 +83,29 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <h5>Smartphones</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Samsung</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Asus</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Asus</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Tablets</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/tablet'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/tablet'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Laptops</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/laptop'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/laptop'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>

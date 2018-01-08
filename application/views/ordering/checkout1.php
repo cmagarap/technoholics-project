@@ -14,12 +14,10 @@
             <div class="col-md-9" id="checkout">
 
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout2'; ?>">
+                    <form method="post" action="<?= base_url().'home/checkout3'; ?>">
                         <h1>Checkout</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a>
-                            </li>
-                            <li class="disabled"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
                             </li>
                             <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
@@ -32,13 +30,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="firstname">Firstname</label>
-                                        <input type="text" class="form-control" id="firstname">
+                                        <input type="text" class="form-control" id="firstname" name="firstname">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="lastname">Lastname</label>
-                                        <input type="text" class="form-control" id="lastname">
+                                        <input type="text" class="form-control" id="lastname" name="lastname">
                                     </div>
                                 </div>
                             </div>
@@ -47,14 +45,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="company">Company</label>
-                                        <input type="text" class="form-control" id="company">
+                                        <label for="address">Complete Address</label>
+                                        <input type="text" class="form-control" id="address" name="address">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="street">Street</label>
-                                        <input type="text" class="form-control" id="street">
+                                        <label for="province">Province</label>
+                                        <input type="text" class="form-control" id="province" name="province">
                                     </div>
                                 </div>
                             </div>
@@ -63,39 +61,32 @@
                             <div class="row">
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
-                                        <label for="city">Company</label>
-                                        <input type="text" class="form-control" id="city">
+                                        <label for="cm">City Municipality</label>
+                                        <input type="text" class="form-control" id="city" name="city">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label for="barangay">Barangay</label>
+                                        <input type="text" class="form-control" id="barangay" name="barangay">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label for="zip">ZIP</label>
-                                        <input type="text" class="form-control" id="zip">
+                                        <input type="text" class="form-control" id="zip" name="zip">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
-                                        <label for="state">State</label>
-                                        <select class="form-control" id="state"></select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-3">
-                                    <div class="form-group">
-                                        <label for="country">Country</label>
-                                        <select class="form-control" id="country"></select>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="phone">Telephone</label>
-                                        <input type="text" class="form-control" id="phone">
+                                        <label for="contact">Contact Number</label>
+                                        <input type="text" class="form-control" id="contact" name="contact">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email">
+                                        <input type="text" class="form-control" id="email" name="email">
                                     </div>
                                 </div>
 
@@ -108,7 +99,7 @@
                                 <a href="<?= base_url().'home/basket'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to basket</a>
                             </div>
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary">Continue to Delivery Method<i class="fa fa-chevron-right"></i>
+                                <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
                                 </button>
                             </div>
                         </div>

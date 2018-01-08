@@ -9,6 +9,7 @@
     <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
+    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,6 +21,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
@@ -110,7 +112,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('dashboard/'); ?>">
+                    <a href="<?= site_url('dashboard'); ?>">
                         <i class="ti-pie-chart"></i>
                         <p>Dashboard</p>
                     </a>
@@ -141,13 +143,13 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                         ?>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('audit_trail/page'); ?>">
+                    <a href="<?= site_url('audit_trail'); ?>">
                         <i class="ti-menu-alt"></i>
                         <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('user_log/page'); ?>">
+                    <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>

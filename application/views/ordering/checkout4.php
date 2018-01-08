@@ -19,8 +19,6 @@
                         <ul class="nav nav-pills nav-justified">
                             <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
                             </li>
-                            <li><a href="<?= base_url().'home/checkout2'; ?>"><i class="fa fa-truck"></i><br>Delivery Method</a>
-                            </li>
                             <li><a href="<?= base_url().'home/checkout3'; ?>"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
                             <li class="active"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
@@ -87,7 +85,7 @@
                             </div>
                             <div class="pull-right">
                             <a href="<?= base_url().'home/placeorder'; ?>">
-                                <button type="submit" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
+                            <a href="<?= base_url().'home/checkout3'; ?>" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i></a>
                             </a>
                             </button>
                             </div>

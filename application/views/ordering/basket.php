@@ -1,8 +1,6 @@
 <div id="all">
-
     <div id="content">
         <div class="container">
-
             <div class="col-md-12">
                 <ul class="breadcrumb">
                     <li><a href="#">Home</a>
@@ -10,11 +8,8 @@
                     <li>Shopping cart</li>
                 </ul>
             </div>
-
             <div class="col-md-9" id="basket">
-
                 <div class="box">
-
                     <form method="post" action="<?= base_url().'home/checkout1'; ?>">
 
                         <h1>Shopping cart</h1>
@@ -45,13 +40,13 @@
                                     <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <input type="number" id="update" name="update" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
                                     <td><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
                                     <td>
-                                    <button type="button" name="remove" class="btn btn-danger btn-xs remove_inventory" id="<?=$item["rowid"]?>">Remove</button>
+                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>
                                 </tr>
                                     <?php } }else{ ?>
@@ -177,13 +172,9 @@
                         </div>
                         <!-- /.product -->
                     </div>
-
                 </div>
-
-
             </div>
             <!-- /.col-md-9 -->
-
             <div class="col-md-3">
                 <div class="box" id="order-summary">
                     <div class="box-header">
@@ -244,3 +235,4 @@
         <!-- /.container -->
     </div>
     <!-- /#content -->
+</div>
