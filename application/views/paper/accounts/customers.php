@@ -26,7 +26,6 @@
                         <?php } ?>
                         </p>
                         <br>
-                        <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
                         <a href = "<?= $this->config->base_url() ?>accounts/recover_account/customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
                     </div>
                     <br>
