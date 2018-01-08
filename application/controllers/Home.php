@@ -155,7 +155,6 @@ class Home extends CI_Controller {
     }
 
     public function basket() {
-        
         $data = array(
             'title' => "My Shopping Cart",
             'cartItems' =>  $this->basket->contents(),
@@ -164,7 +163,7 @@ class Home extends CI_Controller {
             'page' => "Home"
         );
 
-        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
@@ -334,8 +333,8 @@ class Home extends CI_Controller {
             'name' => $_POST["product_name"],
             'img' => $_POST["product_img"],
             'price' => $_POST["product_price"],
-            'qty' => $_POST["min_quantity"]
-            //"maxqty" => $_POST["max_quantity"],
+            'qty' => $_POST["min_quantity"],
+            'maxqty' => $_POST["max_quantity"]
         );
 
             $this->basket->insert($data); //return rowid
@@ -349,10 +348,15 @@ class Home extends CI_Controller {
         );
 
             $this->basket->update($data);
+            // $item = $this->basket->get_item($_POST["product_id"]);
+            // $value = number_format($item['subtotal'], 2);
+            // echo json_encode(array(
+            //     'key' => $_POST["product_id"],
+            //     'value' => $value
+            // ));
         }
 
     function remove() {
-
             $this->basket->remove($_POST["row_id"]);
     }
 
@@ -364,18 +368,33 @@ class Home extends CI_Controller {
                     'created' => time()
                 );
                 //must put a unique numbers
-                    $orderID = $this->item_model->insert_id('orders', $data);
+                //ask seej about the database
+                $orderID = $this->item_model->insert_id('orders', $data);
                 // get cart items
-                    $basketItems =  $this->basket->contents();
+                $basketItems =  $this->basket->contents();
                 // loop
-                    foreach($basketItems as $item){
-                    $data = array(
-                        'order_id' => $orderID,
-                        'product_id' => $item['id'],
-                        'quantity' => $item['qty']
-                    );
+                foreach($basketItems as $item){
+
+                $data = array(
+                    'order_id' => $orderID,
+                    'product_id' => $item['id'],
+                    'quantity' => $item['qty']
+                );
+                
                 $this->item_model->insertData('order_items', $data);
-                    }
+
+                $stock = $item['maxqty'] - $item['qty'];
+
+                $data1 = array(
+                    'product_quantity' => $stock
+                );
+                
+                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+
+                }
+
+                $this->basket->destroy();
+
             }
 
 }

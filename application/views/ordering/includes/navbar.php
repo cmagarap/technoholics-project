@@ -58,8 +58,7 @@ _________________________________________________________ -->
                     <i class="fa fa-search"></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="hidden-xs">3 items in cart</span>
+                    <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
                 </a>
             </div>
         </div> <!--/.navbar-header -->

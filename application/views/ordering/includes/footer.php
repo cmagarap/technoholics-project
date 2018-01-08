@@ -181,8 +181,9 @@ _________________________________________________________ -->
                 method: "POST",
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
-                {
-                    location.reload(); 
+                {   
+                    location.reload();
+                    // $('#basket').load("<?php echo base_url(); ?>home/basket");
                     $('#' + product_id).val('');
                 }
             });
@@ -206,18 +207,20 @@ _________________________________________________________ -->
         });
     });
 
-    NProgress.start();
+    // NProgress.configure({ showSpinner: false });
 
-    var interval = setInterval(function() { NProgress.inc(); }, 1000);        
-
-    jQuery(window).load(function () {
-        clearInterval(interval);
-        NProgress.done();
-    });
-
-    jQuery(window).unload(function () {
         NProgress.start();
-    });
+
+        var interval = setInterval(function() { NProgress.inc(); }, 1000);        
+
+        jQuery(window).load(function () {
+            clearInterval(interval);
+            NProgress.done();
+        });
+
+        jQuery(window).unload(function () {
+            NProgress.start();
+        });
 
 </script>
 </body>
