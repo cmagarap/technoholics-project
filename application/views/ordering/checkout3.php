@@ -20,8 +20,6 @@
                         <ul class="nav nav-pills nav-justified">
                             <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
                             </li>
-                            <li><a href="<?= base_url().'home/checkout2'; ?>"><i class="fa fa-truck"></i><br>Delivery Method</a>
-                            </li>
                             <li class="active"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
                             <li class="disabled"><a href="<?= base_url().'home/checkout4'; ?>"><i class="fa fa-eye"></i><br>Order Review</a>
@@ -78,7 +76,7 @@
 
                         <div class="box-footer">
                             <div class="pull-left">
-                                <a href="<?= base_url().'home/checkout2'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Shipping method</a>
+                                <a href="<?= base_url().'home/checkout1'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
                             </div>
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-primary">Continue to Order review<i class="fa fa-chevron-right"></i>
