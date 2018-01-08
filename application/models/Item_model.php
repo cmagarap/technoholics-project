@@ -28,15 +28,13 @@ class Item_model extends CI_Model {
         if (!empty($where)) {
             $this->db->where($where);
         }
-
-        $this->db->update($table, $data);
+        return $this->db->update($table, $data); # true or false
     }
 
     function delete($table, $where = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
-
         $this->db->delete($table);
     }
 
@@ -84,35 +82,17 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-
-     /*function getAccess($account){
-       
-        if ($account = "Admin Assistant"){
-
-            $accounts = "1";
-            return $accounts;
-        }
-        elseif ($account = "Customers"){
-
-            $accounts = "2";
-            return $accounts;
-        }
-    }
-    
-    public function getItems($page, $noOfRows) {
-        $q = $this->db->get('product', $noOfRows, $page);
-        return $q->result();
+    function getSalt($table, $column, $table_id, $id) {
+        # salt from the column should be unique
+        $query_string = "SELECT $column FROM $table WHERE $table_id = $id";
+        $query = $this->db->query($query_string);
+        return ($query->row()->$column); # to be sha1() or not?
     }
 
-    function getProducts($table, /*$limit, $offset, $orderby, $order, $where = NULL) {
-        if (!empty($where)) {
-            $this->db->where($where);
-        }
+    function setPassword($string, $salt /*$table, $column, $table_id, $id*/) {
+        #  $salt = $this->getSalt($table, $column, $table_id, $id);
+        $string = password_hash($salt.$string, PASSWORD_DEFAULT);
+        return $string;
+    }
 
-        #$this->db->limit($limit);
-        #$this->db->offset($offset);
-        $this->db->order_by($orderby, $order);
-        $query = $this->db->get($table);
-        return $query->result();
-    } */
 }

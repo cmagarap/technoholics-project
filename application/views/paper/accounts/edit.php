@@ -37,7 +37,7 @@
                     </div>
                     <br>
                     <div align="center">
-                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                     </div>
                     <br>
                 </div>
@@ -47,6 +47,7 @@
                     <div class="header">
                         <h4 class="title"><b>Edit Account</b></h4>
                     </div>
+                    <hr>
                     <div class="content">
                         <?php $user_type = ($this->uri->segment(3) == "customer") ? "customer" : "admin";
                         $user_id = ($this->uri->segment(3) == "customer") ? $accounts->customer_id : $accounts->admin_id;
@@ -109,9 +110,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Update Account</button>
-                                <button type="submit" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
+                                <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
                             </div>
                             <div class="clearfix"></div>
                         </form>

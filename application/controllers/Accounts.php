@@ -163,7 +163,7 @@ class Accounts extends CI_Controller {
         $this->form_validation->set_rules('username', "username", "is_unique[accounts.username]");
         $this->form_validation->set_rules('password', "password", "required");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|matches[password]");
-        $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[accounts.email]');
+        $this->form_validation->set_rules('email', "email address", "required|valid_email|is_unique[admin.email]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
@@ -173,10 +173,13 @@ class Accounts extends CI_Controller {
             $config['max_size'] = 0;
             $this->load->library('upload', $config);
             $this->load->helper('string');
-            $username = ($this->input->post('username') == "") ? NULL : trim($this->input->post('username'));
-            $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
-            $is_verified = ($user_type == 1) ? 1 : 0;
-            $hash = random_string('alnum', 15);
+            $username = ($this->input->post('username') != "") ? trim($this->input->post('username')) : NULL;
+            $contact_no = ($this->input->post('contact_no') != "") ? trim($this->input->post('contact_no')) : NULL;
+            # $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
+            # $is_verified = ($user_type == 1) ? 1 : 0;
+            # $hash = random_string('alnum', 15);
+            $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
+            $hash = bin2hex($bytes);
 
             if ($this->upload->do_upload('user_image') == FALSE) {
                 $image = "default-user.png";
@@ -203,24 +206,26 @@ class Accounts extends CI_Controller {
             }
 
             $data = array(
-                'username' => $username,
-                'password' => sha1($this->input->post('password')), # to be changed
-                'firstname' => trim(ucwords($this->input->post('first_name'))),
-                'lastname' => trim(ucwords($this->input->post('last_name'))),
-                'email' => trim($this->input->post('email')),
-                'registered_at' => time(),
-                'access_level' => $user_type,
-                'verification_code' => $hash,
-                'image' => $image,
-                'is_verified' => $is_verified
+                'email' => html_escape(trim($this->input->post('email'))),
+                'password' => html_escape($this->item_model->setPassword($this->input->post('password'), $hash)),
+                'firstname' => html_escape(trim(ucwords($this->input->post('first_name')))),
+                'lastname' => html_escape(trim(ucwords($this->input->post('last_name')))),
+                'username' => html_escape($username),
+                'contact_no' => html_escape($contact_no),
+                'access_level' => html_escape("1"),
+                'image' => html_escape($image),
+                'status' => html_escape("1"),
+                'registered_at' => html_escape(time()),
+                'verification_code' => html_escape($hash)
             );
+
             $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name')),
-                'status' => '1'
+                "user_id" => html_escape($this->session->uid),
+                "user_type" => html_escape($this->session->userdata('type')),
+                "username" => html_escape($this->session->userdata('username')),
+                "date" => html_escape(time()),
+                "action" => html_escape('Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name'))),
+                'status' => html_escape('1')
             );
             /* $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
               $this->email->to($this->input->post('email'));
@@ -232,7 +237,7 @@ class Accounts extends CI_Controller {
               if (!$this->email->send()) {
               $this->email->print_debugger();
               } */
-            $this->item_model->insertData('accounts', $data);
+            $this->item_model->insertData('admin', $data);
             $this->item_model->insertData('user_log', $for_log);
             redirect("accounts/");
         } else {
@@ -282,23 +287,26 @@ class Accounts extends CI_Controller {
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'username' => $username,
-                    'firstname' => trim(ucwords($this->input->post('first_name'))),
-                    'lastname' => trim(ucwords($this->input->post('last_name'))),
-                    'email' => trim($this->input->post('email')),
-                    'contact_no' => $contact_no,
-                    'status' => $this->input->post('status')
+                    'username' => html_escape($username),
+                    'firstname' => html_escape(trim(ucwords($this->input->post('first_name')))),
+                    'lastname' => html_escape(trim(ucwords($this->input->post('last_name')))),
+                    'email' => html_escape(trim($this->input->post('email'))),
+                    'contact_no' => html_escape($contact_no),
+                    'status' => html_escape($this->input->post('status'))
                 );
-                $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Edited Admin Account #' . $this->uri->segment(4),
-                    'status' => '1'
-                );
-                $this->item_model->insertData('user_log', $for_log);
-                $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
+                $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
+                if ($update) {
+                    $for_log = array(
+                        "user_id" => html_escape($this->session->uid),
+                        "user_type" => html_escape($this->session->userdata('type')),
+                        "username" => html_escape($this->session->userdata('username')),
+                        "date" => html_escape(time()),
+                        "action" => html_escape('Edited Admin Account #' . $this->uri->segment(4)),
+                        'status' => html_escape('1')
+                    );
+                    $this->item_model->insertData('user_log', $for_log);
+                    # echo "<script>demo.showNotification('top','center')</script>";
+                }
                 redirect("accounts");
             } else {
                 $this->edit();
@@ -316,23 +324,25 @@ class Accounts extends CI_Controller {
 
             if ($this->form_validation->run()) {
                 $data = array(
-                    'username' => $username,
-                    'firstname' => trim(ucwords($this->input->post('first_name'))),
-                    'lastname' => trim(ucwords($this->input->post('last_name'))),
-                    'email' => trim($this->input->post('email')),
-                    'contact_no' => $contact_no,
-                    'status' => $this->input->post('status')
+                    'username' => html_escape($username),
+                    'firstname' => html_escape(trim(ucwords($this->input->post('first_name')))),
+                    'lastname' => html_escape(trim(ucwords($this->input->post('last_name')))),
+                    'email' => html_escape(trim($this->input->post('email'))),
+                    'contact_no' => html_escape($contact_no),
+                    'status' => html_escape($this->input->post('status'))
                 );
-                $for_log = array(
-                    "user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Edited Customer Account #' . $this->uri->segment(4),
-                    'status' => '1'
-                );
-                $this->item_model->insertData('user_log', $for_log);
-                $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                $update = $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
+                if ($update) {
+                    $for_log = array(
+                        "user_id" => html_escape($this->session->uid),
+                        "user_type" => html_escape($this->session->userdata('type')),
+                        "username" => html_escape($this->session->userdata('username')),
+                        "date" => html_escape(time()),
+                        "action" => html_escape('Edited Customer Account #' . $this->uri->segment(4)),
+                        'status' => html_escape('1')
+                    );
+                    $this->item_model->insertData('user_log', $for_log);
+                }
                 redirect("accounts/customer");
             } else {
                 $this->edit();
@@ -342,28 +352,32 @@ class Accounts extends CI_Controller {
 
     public function delete() {
         if ($this->uri->segment(3) == "admin") {
-            $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Deleted account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => html_escape($this->session->uid),
+                    "user_type" => html_escape($this->session->userdata('type')),
+                    "username" => html_escape($this->session->userdata('username')),
+                    "date" => html_escape(time()),
+                    "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
+                    'status' => html_escape('1')
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/admin");
         } elseif ($this->uri->segment(3) == "customer") {
-            $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Deleted account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => html_escape($this->session->uid),
+                    "user_type" => html_escape($this->session->userdata('type')),
+                    "username" => html_escape($this->session->userdata('username')),
+                    "date" => html_escape(time()),
+                    "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
+                    'status' => html_escape('1')
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/customer");
         }
     }
@@ -394,8 +408,6 @@ class Accounts extends CI_Controller {
                 $config['cur_tag_close'] = '</a></li>';
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
-
-
                 $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
                 $this->pagination->initialize($config);
                 $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
@@ -437,7 +449,6 @@ class Accounts extends CI_Controller {
                 $config['cur_tag_close'] = '</a></li>';
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
-
                 $config['total_rows'] = $this->item_model->getCount('customer', "status = 0");
                 $this->pagination->initialize($config);
                 $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 0");
@@ -461,28 +472,32 @@ class Accounts extends CI_Controller {
 
     public function recover_account_exec() {
         if ($this->uri->segment(3) == "admin") {
-            $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Reactivated account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => html_escape($this->session->uid),
+                    "user_type" => ($this->session->userdata('type')),
+                    "username" => html_escape($this->session->userdata('username')),
+                    "date" => html_escape(time()),
+                    "action" => html_escape('Reactivated account #' . $this->uri->segment(4)),
+                    'status' => html_escape('1')
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/recover_account/admin");
         } elseif ($this->uri->segment(3) == "customer") {
-            $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Reactivated account #' . $this->uri->segment(4),
-                'status' => '1'
-            );
-            $this->item_model->insertData('user_log', $for_log);
+            $update = $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
+            if ($update) {
+                $for_log = array(
+                    "user_id" => html_escape($this->session->uid),
+                    "user_type" => html_escape($this->session->userdata('type')),
+                    "username" => html_escape($this->session->userdata('username')),
+                    "date" => html_escape(time()),
+                    "action" => html_escape('Reactivated account #' . $this->uri->segment(4)),
+                    'status' => html_escape('1')
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             redirect("accounts/recover_account/customer");
         }
     }

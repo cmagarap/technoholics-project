@@ -5,8 +5,9 @@
             <div class="col-lg-8 col-md-7">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h4 class="title"><b>Add an Account</b></h4>
+                        <h4 class="title"><b>Add an Admin Account</b></h4>
                     </div>
+                    <hr>
                     <div class="content">
                         <?php
                         if(isset($_POST['enter'])) {
@@ -14,35 +15,35 @@
                             $last_name = $_POST['last_name'];
                             $email = $_POST['email'];
                             $username= $_POST['username'];
-                            $user_type = $_POST['user_type'];
                             $password = $_POST['password'];
                             $confirm_password = $_POST['confirm_password'];
                             $username = $_POST['username'];
+                            $contact_no = $_POST['contact_no'];
                         } elseif(isset($_POST['reset'])) {
                             $first_name = "";
                             $last_name = "";
                             $email = "";
                             $username= "";
-                            $user_type = "";
                             $password = "";
                             $confirm_password = "";
                             $username = "";
+                            $contact_no = "";
                         } else {
                             $first_name = "";
                             $last_name = "";
                             $email = "";
                             $username= "";
-                            $user_type = "";
                             $password = "";
                             $confirm_password = "";
                             $username = "";
+                            $contact_no = "";
                         }
                         ?>
                         <form action = "<?= $this->config->base_url() ?>accounts/add_account_exec" method = "POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label> First Name <span style = "color: red">*</span></label>
+                                        <label>First Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="First Name" name = "first_name" value = "<?= $first_name ?>">
                                         <?php if(validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("first_name") . "</span>";
@@ -52,7 +53,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                    <label> Last Name <span style = "color: red">*</span></label>
+                                    <label>Last Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="Last Name" name = "last_name" value = "<?= $last_name ?>">
                                         <?php if(validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("last_name") . "</span>";
@@ -64,19 +65,27 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label> Username</label>
-                                        <input type="text" class="form-control border-input" placeholder="Username" name = "username" value = "<?= $username?>">
+                                        <label>Email Address <span style = "color: red">*</span></label>
+                                        <input type="text" class="form-control border-input" placeholder="Email Address" name = "email" value = "<?= $email ?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("username") . "</span>";
+                                            echo "<span style = 'color: red'>" . form_error("email") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label> Email Address <span style = "color: red">*</span></label>
-                                        <input type="text" class="form-control border-input" placeholder="Email Address" name = "email" value = "<?= $email ?>">
+                                        <label>Contact no. </label>
+                                        <input type="text" class="form-control border-input" placeholder="Contact number" name = "contact_no" value = "<?= $contact_no ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label> Username</label>
+                                        <input type="text" class="form-control border-input" placeholder="Username" name = "username" value = "<?= $username?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("email") . "</span>";
+                                            echo "<span style = 'color: red'>" . form_error("username") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
@@ -104,22 +113,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Account Type <span style = "color: red">*</span></label>
-                                        <select name="user_type" id="" class = "form-control border-input file">
-                                            <option value="Admin Assistant">Admin Assistant</option>
-                                            <option value="Customer">Customer</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>User Image</label>
                                         <input type="file" name = "user_image" class="form-control border-input file">
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
