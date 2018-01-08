@@ -112,7 +112,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('dashboard/'); ?>">
+                    <a href="<?= site_url('dashboard'); ?>">
                         <i class="ti-pie-chart"></i>
                         <p>Dashboard</p>
                     </a>
@@ -143,13 +143,13 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                         ?>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('audit_trail/page'); ?>">
+                    <a href="<?= site_url('audit_trail'); ?>">
                         <i class="ti-menu-alt"></i>
                         <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('user_log/page'); ?>">
+                    <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>
