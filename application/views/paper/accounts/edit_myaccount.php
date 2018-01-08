@@ -8,12 +8,8 @@
                     </div>
                     <div class="content">
                         <div class="author">
-                            <?php # TO ACCESS THE IMAGE THUMBNAIL:
-                            $user = $user[0];
-                            $user_image = (string)$user->image;
-                            $image_array = explode(".", $user_image);
-                            ?>
-                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="Admin User">
+                            <?php $user = $user[0]; ?>
+                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $user->image ?>" alt="admin-user" title="Admin User">
                             <h4 class="title"><?= $user->firstname . " " . $user->lastname ?> <br />
                                 <a><small><?php if($user->username == NULL) echo $user->email;
                                         else echo $user->username; ?></small></a>
@@ -27,7 +23,7 @@
                             ?>
                         </p>
                         <a href="">Change Profile Picture</a><br>
-                        <a href="">Change Password</a>
+                        <a href="<?= $this->config->base_url() ?>my_account/change_password">Change Password</a>
                     </div>
                     <hr>
                     <div class="text-center">
@@ -49,7 +45,7 @@
             <div class="col-lg-8 col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Edit Profile</h4>
+                        <h4 class="title"><b>Edit Profile</b></h4>
                     </div>
                     <div class="content">
                         <hr>
@@ -68,6 +64,9 @@
                                     <div class="form-group">
                                         <label for = "username">Username</label>
                                         <input type="text" class="form-control border-input" placeholder="Username" name = "username" value="<?= $user->username; ?>">
+                                        <?php if(validation_errors('username')):
+                                            echo "<span style = 'color: red'>" . form_error("username") . "</span>";
+                                        endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -106,35 +105,33 @@
                                 <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
                             <br>
-                            <!--<div class="clearfix"></div>-->
                         </form>
                     </div>
                 </div>
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">My Recent Activities</h4>
+                        <h4 class="title"><b>My Recent Activities</b></h4><br>
                     </div>
                     <div class="content">
                         <ul class="list-unstyled team-members">
+                            <?php foreach($logs as $logs): ?>
                             <li>
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <div class="avatar">
-                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                        </div>
+                                        #<?= $logs->log_id ?>
                                     </div>
                                     <div class="col-xs-6">
-                                        DJ Khaled
-                                        <br />
-                                        <span class="text-muted"><small>Offline</small></span>
+                                        <?= $logs->action ?>
+                                        <br/>
+                                        <span class="text-muted"><small style = "color: #CCCCCC"><?= date("F j, Y", $logs->date) ?></small></span>
                                     </div>
-
                                     <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                        <font color="#31bbe0"><?= date("h:i A", $logs->date) ?></font>
                                     </div>
                                 </div>
                             </li>
-                            <li>
+                            <?php endforeach; ?>
+                            <!--<li>
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <div class="avatar">
@@ -169,7 +166,7 @@
                                         <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                 </div>

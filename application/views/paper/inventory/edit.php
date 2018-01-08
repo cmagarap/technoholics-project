@@ -47,9 +47,10 @@
             <div class="col-lg-8 col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Edit Product</h4>
+                        <h4 class="title"><b>Edit Product</b></h4>
                     </div>
                     <div class="content">
+                        <hr>
                         <?php if(validation_errors()): ?>
                             <div class="alert alert-danger" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -116,6 +117,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Update Product</button>
                                 <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;">Reset</button>

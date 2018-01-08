@@ -1,3 +1,4 @@
+<?php # This view can be accessed by only the General Manager ?>
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
@@ -19,11 +20,11 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Users</b></h3>
-                        <p class="category">Here is a subtitle for this table</p>
+                        <h3 class="title"><b>List of Admin Users</b></h3>
+                        <p class="category"><i>For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</i></p>
                         <br>
                         <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
-                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Accounts">Recover Users</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account/admin" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Admin Accounts">Recover Users</a>
                     </div>
                     <br>
                     <?php if(!$users) {
@@ -37,6 +38,7 @@
                             <th><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
+                            <th><b>Contact No.</b></th>
                             <th><b>User Type</b></th>
                             <th><b>Actions</b></th>
                             </thead>
@@ -44,15 +46,21 @@
                             <?php
                             foreach ($users as $users):?>
                                 <tr>
-                                    <td><?= $users->user_id ?></td>
+                                    <td><?= $users->admin_id ?></td>
                                     <td>
                                         <?php
-                                        if($users->username == NULL) echo "<i style = 'color: red'>NULL</i>";
+                                        if($users->username == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";
                                         else echo $users->username;
                                         ?>
                                     </td>
                                     <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
+                                    <td>
+                                        <?php
+                                        if($users->contact_no == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";
+                                        else echo $users->contact_no;
+                                    ?>
+                                    </td>
                                     <td>
                                         <?php
                                         if($users->access_level == 0) echo "General Manager";
@@ -61,13 +69,13 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->user_id ?>" title = "View Account Info" alt = "View Account Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/admin/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->user_id ?>" title = "Manage Account" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/admin/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->user_id ?>" title = "Delete User" alt = "Delete User">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $users->admin_id ?>" title = "Delete Account" alt = "Delete User">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -76,13 +84,13 @@
                             </tbody>
                         </table>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
-                        echo '</div>';
                         } ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');
@@ -95,7 +103,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/" + id;
+                        window.location = "<?= base_url() ?>accounts/delete/admin/" + id;
                     } else {
                         swal("The account is safe!");
                     }

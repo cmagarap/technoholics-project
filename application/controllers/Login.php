@@ -35,7 +35,8 @@ class Login extends CI_Controller {
             if ($customer) { # if customer
                 $customer = $customer[0];
                 if ($customer->status == 1) { # if the account is active
-                    if ($customer->password == sha1($this->input->post("password"))) { # if passwords match
+                    $salt = $this->item_model->getSalt("customer", "verification_code", "customer_id", $customer->customer_id);
+                    if (password_verify($salt.$this->input->post("password"), $customer->password)) { # if passwords match
                         $user = ($customer->username == NULL) ? $customer->email : $customer->username;
                         if ($customer->is_verified == 0) { # if not yet verified
                             $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
@@ -51,28 +52,29 @@ class Login extends CI_Controller {
                             $this->session->set_userdata('isloggedin', true);
                             $this->session->set_flashdata('myflashdata', true);
                             $for_log = array(
-                                "user_id" => $this->session->uid,
-                                "user_type" => $this->session->userdata('type'),
-                                "username" => $this->session->userdata('username'),
-                                "date" => time(),
-                                "action" => 'Logged in.',
-                                'status' => '1'
+                                "user_id" => $this->db->escape_str($this->session->uid),
+                                "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                                "username" => $this->db->escape_str($this->session->userdata('username')),
+                                "date" => $this->db->escape_str(time()),
+                                "action" => $this->db->escape_str('Logged in.'),
+                                'status' => $this->db->escape_str('1')
                             );
                             $this->item_model->insertData('user_log', $for_log);
                             redirect('home');
                         }
                     } else { # wrong password entered
-                        $this->session->set_flashdata('error', 'The password you entered is incorrect.');
+                        $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                         $this->index();
                     }
                 } elseif ($customer->status == 0) { # if the account is inactive
-                    $this->session->set_flashdata('error', 'Your account is inactive.');
+                    $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                     $this->index();
                 }
             } elseif ($admin) { # if admin
                 $admin = $admin[0];
                 if ($admin->status == 1) { # if the account is active
-                    if ($admin->password == sha1($this->input->post("password"))) { # if passwords match
+                    $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", $admin->admin_id);
+                    if (password_verify($salt.$this->input->post("password"), $admin->password)) { # if passwords match
                         $user_type = ($admin->access_level == 1) ? 1 : 0;
                         $user = ($admin->username == NULL) ? $admin->email : $admin->username;
                         $for_session = array(
@@ -85,25 +87,25 @@ class Login extends CI_Controller {
                         $this->session->set_userdata('isloggedin', true);
                         $this->session->set_flashdata('myflashdata', true);
                         $for_log = array(
-                            "user_id" => $this->session->uid,
-                            "user_type" => $this->session->userdata('type'),
-                            "username" => $this->session->userdata('username'),
-                            "date" => time(),
-                            "action" => 'Logged in.',
-                            'status' => '1'
+                            "user_id" => $this->db->escape_str($this->session->uid),
+                            "user_type" => $this->db->escape_str($this->session->userdata('type')),
+                            "username" => $this->db->escape_str($this->session->userdata('username')),
+                            "date" => $this->db->escape_str(time()),
+                            "action" => $this->db->escape_str('Logged in.'),
+                            'status' => $this->db->escape_str('1')
                         );
                         $this->item_model->insertData('user_log', $for_log);
                         redirect('dashboard');
                     } else { # wrong password entered
-                        $this->session->set_flashdata('error', 'The password you entered is incorrect.');
+                        $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                         $this->index();
                     }
                 } elseif ($admin->status == 0) { # if the account is inactive
-                    $this->session->set_flashdata('error', 'Your account is inactive.');
+                    $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                     $this->index();
                 }
             } else { # if the user does not exist
-                $this->session->set_flashdata('error', 'No such user exists.');
+                $this->session->set_flashdata('error', 'You entered an invalid username or password.');
                 $this->index();
             }
         } else { # if the validations were not met
@@ -130,7 +132,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
-            $accountDetails = $this->item_model->fetch("accounts", array('email' => $this->input->post('email')));
+            $accountDetails = $this->item_model->fetch("customer", array('email' => $this->input->post('email')));
 
             if ($accountDetails) {
                 $accountDetails = $accountDetails[0];
@@ -140,10 +142,11 @@ class Login extends CI_Controller {
                 $this->email->message("kjnkkjnknknknknk");
 
                 if (!$this->email->send()) {
-
+                        echo 'sent';
                 } else {
+                    echo 'not sent pakkyu';
                     $this->session->set_flashdata('isreset', true);
-                    redirect("login/");
+                    #redirect("login/");
                 }
             }
         } else {

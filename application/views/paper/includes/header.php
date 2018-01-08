@@ -25,14 +25,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
-        input[type=text]:focus, input[type=number]:focus {
+        input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
             background-color: lightblue;
         }
         .file:hover {
             background-color: lightblue;
         }
         input[type=text].search {
-            width: 180px;
+            width: 245px;
             height: 40px;
             box-sizing: border-box;
             border: 1px solid #ccc;
@@ -80,6 +80,15 @@
             color: white;
         }
 
+        div.box-shadow {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+        }
+
+        .image-shadow {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        }
+
     </style>
 </head>
 <body>
@@ -94,8 +103,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
-        <!-- data-background-color="white | black"
-            data-active-color="primary | info | success | warning | danger" -->
+        <!-- data-background-color="white | black" :: data-active-color="primary | info | success | warning | danger" -->
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
@@ -122,16 +130,17 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('accounts'); ?>">
-                        <i class="ti-user"></i>
                         <?php
-                        if($this->session->userdata('type') == 0) {
-                            echo "<p>Accounts</p>";
-                        } elseif($this->session->userdata('type') == 1){
-                            echo "<p>Customer Accounts</p>";
+                        if($this->session->userdata('type') == 0) { ?>
+                            <a href="<?= site_url('accounts/admin'); ?>">
+                                <i class="ti-user"></i>
+                            <?php echo "<p>Accounts</p></a>";
+                        } elseif($this->session->userdata('type') == 1){ ?>
+                                <a href="<?= site_url('accounts/customer'); ?>">
+                                    <i class="ti-user"></i>
+                            <?php echo "<p>Customer Accounts</p></a>";
                         }
                         ?>
-                    </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail/page'); ?>">
