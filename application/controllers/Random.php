@@ -65,5 +65,7 @@ class Random extends CI_Controller {
         # var_dump($crypto_strong);
         echo $hex."</pre>";
 
+
+
     }
 }

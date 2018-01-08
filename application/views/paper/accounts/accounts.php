@@ -84,7 +84,6 @@
                             </tbody>
                         </table>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
-                        echo '</div>';
                         } ?>
                     </div>
                 </div>
