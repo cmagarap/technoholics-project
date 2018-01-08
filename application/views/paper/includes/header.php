@@ -9,6 +9,7 @@
     <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
+    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,6 +21,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
