@@ -90,7 +90,7 @@
         }
 
         public function add_product_exec() {
-            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+         #   $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
             $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
             $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
             $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
@@ -104,7 +104,7 @@
                 $config['max_size'] = 0;
                 $this->load->library('upload', $config);
 
-                if ($this->upload->do_upload('product_image') == FALSE) {
+                if ($this->upload->do_upload('product_image1') == FALSE) {
                     $image = "default-product.jpg";
                     $config2['image_library'] = 'gd2';
                     $config2['source_image'] = './uploads_products/' . $image;
@@ -133,7 +133,7 @@
                     'product_price' => $this->input->post('product_price'),
                     'product_quantity' => $this->input->post('product_quantity'),
                     'product_category' => $this->input->post('product_category'),
-                    'product_image' => $image,
+                    'product_image1' => $image,
                     'supplier' => trim($this->input->post('supplier')),
                     'added_at' => time(),
                     'product_desc' => $this->input->post('product_desc'),
