@@ -26,7 +26,8 @@ class Register extends CI_Controller {
 
     public function index() {
         $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+            'title' => "TECHNOHOLICS | All the tech you need.",# should be changed
+            'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');

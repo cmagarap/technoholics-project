@@ -13,8 +13,9 @@ class Logout extends CI_Controller {
         $this->load->library('session');
     }
     public function index() {
+        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
         $for_log = array(
-            "user_id" => $this->db->escape_str($this->session->uid),
+            "$user_id" => $this->db->escape_str($this->session->uid),
             "user_type" => $this->db->escape_str($this->session->userdata('type')),
             "username" => $this->db->escape_str($this->session->userdata('username')),
             "date" => $this->db->escape_str(time()),

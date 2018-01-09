@@ -16,6 +16,10 @@ class User_log extends CI_Controller {
         }
     }
 
+    public function index() {
+        $this->page();
+    }
+
     public function page() {
         $this->load->library('pagination');
         $perpage = 20;

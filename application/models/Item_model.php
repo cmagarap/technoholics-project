@@ -21,7 +21,7 @@ class Item_model extends CI_Model {
     }
 
     function insertData($table, $arrayData) {
-        $this->db->insert($table, $arrayData);
+        return $this->db->insert($table, $arrayData);
     }
 
     function updatedata($table, $data, $where = NULL) {
