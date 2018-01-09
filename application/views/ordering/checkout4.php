@@ -14,7 +14,7 @@
             <div class="col-md-9" id="checkout">
 
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout4'; ?>">
+                    <form method="post" action="<?= base_url().'home/placeorder'; ?>">
                         <h1>Checkout - Order review</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -90,6 +90,15 @@
                             </button>
                             </div>
                         </div>
+                        <input type="hidden" name="firstname" value="<?=$fname?>">
+                        <input type="hidden" name="lastname" value="<?=$lname?>">
+                        <input type="hidden" name="address" value="<?=$address?>">
+                        <input type="hidden" name="province" value="<?=$province?>">
+                        <input type="hidden" name="city" value="<?=$city?>">
+                        <input type="hidden" name="barangay" value="<?=$barangay?>">
+                        <input type="hidden" name="zip" value="<?=$zip?>">
+                        <input type="hidden" name="email" value="<?=$email?>">
+                        <input type="hidden" name="payment" value="<?=$payment?>">
                     </form>
                 </div>
                 <!-- /.box -->

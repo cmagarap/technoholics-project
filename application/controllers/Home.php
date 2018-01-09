@@ -238,7 +238,17 @@ class Home extends CI_Controller {
     public function checkout3() {
         $data = array(
             'title' => "Checkout",
-            'page' => "Home"
+            'page' => "Home",
+            'fname' => $this->input->post('firstname'),
+            'lname' => $this->input->post('lasttname'),
+            'address' => $this->input->post('address'),
+            'province' => $this->input->post('province'),
+            'city' => $this->input->post('city'),
+            'barangay' => $this->input->post('barangay'),
+            'zip' => $this->input->post('zip'),
+            'contact' => $this->input->post('contact'),
+            'email' => $this->input->post('email')
+
         );
         $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
@@ -253,6 +263,7 @@ class Home extends CI_Controller {
             'cartItems' =>  $this->basket->contents(),
             'CT' =>  $this->basket->total(),
             'CTI' =>  $this->basket->total_items(),
+            'payment' => $this->input->post('payment'),
             'page' => "Home"
         );
 
@@ -361,41 +372,75 @@ class Home extends CI_Controller {
     }
 
     public function PlaceOrder() {
+    // if logged in
+        if($this->session->has_userdata('isloggedin'))
+        {
+            $data = array(
+                'customer_id' => $this->session->uid,
+                'total_price' =>  $this->basket->total(),
+                'order_quantity' => $this->basket->total_items(),
+                'transaction_date' => date(),
+                'delivery_date' => date(),
+                'shipping_address' => $this->input->post('address'),
+                'payment' => $this->input->post('payment')
+                );
+        }
+    // if not
+        else
+        {
+            //must put username and password
+            $account = array(
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lasttname'),
+                'complete_address' => $this->input->post('address'),
+                'province' => $this->input->post('province'),
+                'city_municipality' => $this->input->post('city'),
+                'barangay' => $this->input->post('barangay'),
+                'zip_code' => $this->input->post('zip'),
+                'contact_no' => $this->input->post('contact'),
+                'email' => $this->input->post('email')
+            );
+            //returns the id of last query
+            $customer_id = $this->item_model->insert_id('customer', $account);
+
+            $data = array(
+                'customer_id' => $customer_id,
+                'total_price' =>  $this->basket->total(),
+                'order_quantity' => $this->basket->total_items(),
+                'transaction_date' => date(),
+                'delivery_date' => date(),
+                'shipping_address' => $this->input->post('address'),
+                'payment' => $this->input->post('payment')
+            );
+        }
+
+        $this->item_model->insertData('orders', $data);
+        // get cart items
+        $basketItems =  $this->basket->contents();
+        // loop
+        foreach($basketItems as $item){
+                
+        $data = array(
+            'product_id' => $item['id'],
+            'product_name' => $item['name'],
+            'quantity' => $item['qty']
+        );
         
-                $data = array(
-                    'customer_id' => $this->session->uid,
-                    'total_price' =>  $this->basket->total(),
-                    'created' => time()
-                );
-                //must put a unique numbers
-                //ask seej about the database
-                $orderID = $this->item_model->insert_id('orders', $data);
-                // get cart items
-                $basketItems =  $this->basket->contents();
-                // loop
-                foreach($basketItems as $item){
+        $this->item_model->insertData('order_items', $data);
 
-                $data = array(
-                    'order_id' => $orderID,
-                    'product_id' => $item['id'],
-                    'quantity' => $item['qty']
-                );
-                
-                $this->item_model->insertData('order_items', $data);
+        $stock = $item['maxqty'] - $item['qty'];
 
-                $stock = $item['maxqty'] - $item['qty'];
+        $data1 = array(
+            'product_quantity' => $stock
+        );
+        
+        $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
 
-                $data1 = array(
-                    'product_quantity' => $stock
-                );
-                
-                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+        }
 
-                }
+        $this->basket->destroy();
 
-                $this->basket->destroy();
-
-            }
+        }
 
 }
 
