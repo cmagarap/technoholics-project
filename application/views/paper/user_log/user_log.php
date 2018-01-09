@@ -20,7 +20,7 @@
                                 <th><b>User</b></th>
                                 <th><b>Action</b></th>
                                 <th><b>User type</b></th>
-                                <th><b>User ID</b></th>
+                                <th><b>ID #</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Time</b></th>
                             </thead>
