@@ -19,7 +19,7 @@
             <div class="col-md-3">
                 <!-- *** MENUS AND FILTERS ***
 _________________________________________________________ -->
-                <div class="panel panel-default sidebar-menu">
+<div class="panel panel-default sidebar-menu">
 
                     <div class="panel-heading">
                         <h3 class="panel-title">Categories</h3>
@@ -27,42 +27,50 @@ _________________________________________________________ -->
 
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
-                            <li>
-                                <a href="<?= base_url().'home/category'; ?>">Men <span class="badge pull-right">42</span></a>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Shirts</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
-                                    </li>
-                                </ul>
-                            </li>
+                    <?php if($category == "smartphone") : ?>
                             <li class="active">
-                                <a href="<?= base_url().'home/category'; ?>">Ladies  <span class="badge pull-right">123</span></a>
+                    <?php else : ?>
+                            <li>
+                    <?php endif; ?>
+                                <a href="<?= base_url().'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right">42</span></a>
                                 <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/apple'; ?>">Apple</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Skirts</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/samsung'; ?>">Samsung</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+                                    <li><a href="<?= base_url().'home/category/smartphone/asus'; ?>">Asus</a>
                                     </li>
                                 </ul>
                             </li>
+                        <?php if($category == "tablet") : ?>
+                            <li class="active">
+                        <?php else : ?>
                             <li>
-                                <a href="<?= base_url().'home/category'; ?>">Kids  <span class="badge pull-right">11</span></a>
+                        <?php endif; ?>
+                                <a href="<?= base_url().'home/category/tablet'; ?>">Tablets<span class="badge pull-right">123</span></a>
                                 <ul>
-                                    <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/apple'; ?>">Apple</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Skirts</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/samsung'; ?>">Samsung</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
+                                    <li><a href="<?= base_url().'home/category/tablet/asus'; ?>">Asus</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+                                </ul>
+                            </li>
+                            <?php if($category == "laptop") : ?>
+                                <li class="active">
+                            <?php else : ?>
+                                <li>
+                            <?php endif; ?>
+                                <a href="<?= base_url().'home/category/laptop'; ?>">Laptops<span class="badge pull-right">11</span></a>
+                                <ul>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Lenovo</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Sony</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">HP</a>
+                                    </li>
+                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Dell</a>
                                     </li>
                                 </ul>
                             </li>
@@ -71,7 +79,7 @@ _________________________________________________________ -->
 
                     </div>
                 </div>
-
+<!-- 
                 <div class="panel panel-default sidebar-menu">
 
                     <div class="panel-heading">
@@ -109,7 +117,7 @@ _________________________________________________________ -->
                         </form>
 
                     </div>
-                </div>
+                </div> -->
 
                 <div class="panel panel-default sidebar-menu">
 
@@ -167,9 +175,13 @@ _________________________________________________________ -->
             <div class="col-md-9">
 
                 <div class="row" id="productMain">
+                <?php if (!$product): ?>
+                <h1>NO ITEMS IN TABLE</h1>
+                <?php else: ?>
+                    <?php foreach ($product as $row): ?>
                     <div class="col-sm-6">
                         <div id="mainImage">
-                            <img src="<?= base_url().'assets/ordering/img/detailbig1.jpg'; ?>" alt="" class="img-responsive">
+                            <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive">
                         </div>
 
                         <div class="ribbon sale">
@@ -187,10 +199,10 @@ _________________________________________________________ -->
                     </div>
                     <div class="col-sm-6">
                         <div class="box">
-                            <h1 class="text-center">White Blouse Armani</h1>
+                            <h1 class="text-center"><?=$row->product_name?></h1>
                             <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product details, material & care and sizing</a>
                             </p>
-                            <p class="price">$124.00</p>
+                            <p class="price">₱<?=number_format($row->product_price)?></p>
 
                             <p class="text-center buttons">
                                 <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>
@@ -202,18 +214,18 @@ _________________________________________________________ -->
 
                         <div class="row" id="thumbs">
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig1.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image1?>"  class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive">
                                 </a>
                             </div>
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig2.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare2.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image1?>" class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive">
                                 </a>
                             </div>
                             <div class="col-xs-4">
-                                <a href="<?= base_url().'assets/ordering/img/detailbig3.jpg'; ?>" class="thumb">
-                                    <img src="<?= base_url().'assets/ordering/img/detailsquare3.jpg'; ?>" alt="" class="img-responsive">
+                                <a href="<?= base_url().'uploads_products/'.$row->product_image1?>" class="thumb">
+                                    <img src="<?= base_url().'uploads_products/'.$row->product_image1?>"alt="" class="img-responsive">
                                 </a>
                             </div>
                         </div>
@@ -252,7 +264,9 @@ _________________________________________________________ -->
                             <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
                         </p>
                     </div>
+                    <?php endforeach ?>
                 </div>
+                <?php endif ?>
 
                 <div class="row same-height-row">
                     <div class="col-md-3 col-sm-6">

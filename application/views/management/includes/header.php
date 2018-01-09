@@ -32,7 +32,8 @@ $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this
         <!-- //lined-icons -->
         <script src="<?php echo $this->config->base_url() ?>assets/js/jquery-1.10.2.min.js"></script>
 
-    <div class="page-container">
+
+        <div class="page-container">
         <div class="left-content">
             <div class="inner-content">
                 <!-- header-starts -->

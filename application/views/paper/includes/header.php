@@ -9,6 +9,7 @@
     <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
+    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,20 +21,22 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
-        input[type=text]:focus, input[type=number]:focus {
+        input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
             background-color: lightblue;
         }
         .file:hover {
             background-color: lightblue;
         }
         input[type=text].search {
-            width: 200px;
+            width: 245px;
+            height: 40px;
             box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px 0px 0px 20px;
             font-size: 14px;
             background-color: white;
             background-position: 10px 10px;
@@ -43,7 +46,7 @@
             transition: width 0.4s ease-in-out;
         }
         input[type=text]:focus.search {
-            width: 40%;
+            /*width: 50%;*/
             background-color: lightblue;
         }
 
@@ -52,7 +55,7 @@
             color: white;
         }
 
-        button {
+        /*button {
             width: 50px;
             box-sizing: border-box;
             border: 2px solid #31bbe0;
@@ -60,21 +63,47 @@
             font-size: 14px;
             background-color: white;
             padding: 7px;
+        }*/
+
+        .navtxt:hover {
+            color: #31bbe0;
+        }
+
+        .navtxt {
+            color: #38D5FF;
+        }
+
+        /* AYAW GUMANA*/
+        .recover:hover {
+            background-color: #7ace4c;
+            border-color: #7ace4c;
+            color: white;
+        }
+
+        div.box-shadow {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+        }
+
+        .image-shadow {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
         }
 
     </style>
 </head>
 <body>
 <?php
-    $user = $this->item_model->fetch("accounts", array("user_id" => $this->session->uid));
+if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+    $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
     $user = $user[0];
+} elseif ($this->session->userdata("type") == 2) {
+    $user = $this->item_model->fetch("customer", array("customer_id" => $this->session->uid));
+    $user = $user[0];
+}
 ?>
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="info">
-        <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
+        <!-- data-background-color="white | black" :: data-active-color="primary | info | success | warning | danger" -->
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
@@ -83,7 +112,7 @@
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('dashboard/'); ?>">
+                    <a href="<?= site_url('dashboard'); ?>">
                         <i class="ti-pie-chart"></i>
                         <p>Dashboard</p>
                     </a>
@@ -101,25 +130,26 @@
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('accounts'); ?>">
-                        <i class="ti-user"></i>
                         <?php
-                            if($this->session->userdata('type') == "General Manager") {
-                                echo "<p>Accounts</p>";
-                            } elseif($this->session->userdata('type') == "Admin Assistant"){
-                                echo "<p>Customer Accounts</p>";
-                            }
-                            ?>
-                    </a>
+                        if($this->session->userdata('type') == 0) { ?>
+                            <a href="<?= site_url('accounts/admin'); ?>">
+                                <i class="ti-user"></i>
+                            <?php echo "<p>Accounts</p></a>";
+                        } elseif($this->session->userdata('type') == 1){ ?>
+                                <a href="<?= site_url('accounts/customer'); ?>">
+                                    <i class="ti-user"></i>
+                            <?php echo "<p>Customer Accounts</p></a>";
+                        }
+                        ?>
                 </li>
-                <li <?php if($heading == "Transaction Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('transaction_log/page'); ?>">
+                <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('audit_trail'); ?>">
                         <i class="ti-menu-alt"></i>
-                        <p>Transaction Log</p>
+                        <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('user_log/page'); ?>">
+                    <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>
@@ -129,7 +159,7 @@
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" style = "background-color: #595959">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -138,24 +168,25 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand"><?= $heading ?></a>
+                    <a class="navbar-brand" style = "color: white"><?= $heading ?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-user"></i>
-                                <!--<p class="notification">5</p>-->
-                                <p><?= $user->firstname ?></p>
-                                <b class="caret"></b>
+                                <span class="navtxt">
+                                    <i class="ti-user"></i>
+                                    <p><?= $user->firstname ?></p>
+                                    <b class="caret"></b>
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
                                         <div align = "center">
                                             <?php
-                                                $user_image = (string)$user->image;
-                                                $image_array = explode(".", $user_image);
+                                            $user_image = (string)$user->image;
+                                            $image_array = explode(".", $user_image);
                                             ?>
                                             <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
                                             <br>
@@ -163,14 +194,15 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li><a href="#">Manage my account</a></li>
-                                <li><a href="<?= $this->config->base_url() ?>home/logout">Logout</a></li>
+                                <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#">
+                                <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -178,3 +210,4 @@
                 </div>
             </div>
         </nav>
+

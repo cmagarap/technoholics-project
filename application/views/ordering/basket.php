@@ -1,8 +1,6 @@
 <div id="all">
-
     <div id="content">
         <div class="container">
-
             <div class="col-md-12">
                 <ul class="breadcrumb">
                     <li><a href="#">Home</a>
@@ -10,15 +8,12 @@
                     <li>Shopping cart</li>
                 </ul>
             </div>
-
             <div class="col-md-9" id="basket">
-
                 <div class="box">
-
                     <form method="post" action="<?= base_url().'home/checkout1'; ?>">
 
                         <h1>Shopping cart</h1>
-                        <p class="text-muted">You currently have 3 item(s) in your cart.</p>
+                        <p class="text-muted">You currently have <?=$CTI?> item(s) in your cart.</p>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -26,66 +21,60 @@
                                     <th colspan="2">Product</th>
                                     <th>Quantity</th>
                                     <th>Unit price</th>
-                                    <th>Discount</th>
-                                    <th colspan="2">Total</th>
+                                    <!-- <th>Discount</th> -->
+                                    <th colspan="2">Subtotal</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    if($CTI > 0){
+                                        //get cart items from session
+                                        foreach($cartItems as $item){
+                                    ?>
                                 <tr>
                                     <td>
                                         <a href="#">
-                                            <img src="<?= base_url().'assets/ordering/img/detailsquare.jpg'; ?>" alt="White Blouse Armani">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
                                         </a>
                                     </td>
-                                    <td><a href="#">White Blouse Armani</a>
+                                    <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <input type="number" value="2" class="form-control">
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
                                     </td>
-                                    <td>$123.00</td>
-                                    <td>$0.00</td>
-                                    <td>$246.00</td>
-                                    <td><a href="#"><i class="fa fa-trash-o"></i></a>
+                                    <td><?php echo '₱'.number_format($item["price"],2)?> </td>
+                                    <!-- <td>$0.00</td> -->
+                                    <td><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                    <td>
+                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#">
-                                            <img src="<?= base_url().'assets/ordering/img/basketsquare.jpg'; ?>" alt="Black Blouse Armani">
-                                        </a>
-                                    </td>
-                                    <td><a href="#">Black Blouse Armani</a>
-                                    </td>
-                                    <td>
-                                        <input type="number" value="1" class="form-control">
-                                    </td>
-                                    <td>$200.00</td>
-                                    <td>$0.00</td>
-                                    <td>$200.00</td>
-                                    <td><a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
+                                    <?php } }else{ ?>
+                                    <tr><td colspan="5"><p>Your cart is empty.....</p></td>
+                                    <?php } ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                <?php if($CTI > 0){ ?>
                                     <th colspan="5">Total</th>
-                                    <th colspan="2">$446.00</th>
+                                    <th colspan="2"><?='₱'.number_format($CT,2)?></th>
+                                    <?php } ?>
                                 </tr>
                                 </tfoot>
                             </table>
 
                         </div>
                         <!-- /.table-responsive -->
-
                         <div class="box-footer">
                             <div class="pull-left">
                                 <a href="<?= base_url().'home/category'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
                             </div>
+                            <?php if($CTI > 0){ ?>
                             <div class="pull-right">
-                                <a href="<?= base_url().'home/category' ;?>" class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</button></a>
                                 <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i>
                                 </button>
                             </div>
+                            <?php } ?>
                         </div>
 
                     </form>
@@ -183,13 +172,9 @@
                         </div>
                         <!-- /.product -->
                     </div>
-
                 </div>
-
-
             </div>
             <!-- /.col-md-9 -->
-
             <div class="col-md-3">
                 <div class="box" id="order-summary">
                     <div class="box-header">
@@ -250,3 +235,4 @@
         <!-- /.container -->
     </div>
     <!-- /#content -->
+</div>

@@ -1,21 +1,16 @@
+
 <footer class="footer">
     <div class="container-fluid">
         <nav class="pull-left">
             <ul>
                 <li>
-                    <a href="http://www.creative-tim.com">
-                        Creative Tim
-                    </a>
+
                 </li>
                 <li>
-                    <a href="http://blog.creative-tim.com">
-                        Blog
-                    </a>
+
                 </li>
                 <li>
-                    <a href="http://www.creative-tim.com/license">
-                        Licenses
-                    </a>
+
                 </li>
             </ul>
         </nav>
@@ -24,6 +19,7 @@
         </div>
     </div>
 </footer>
+
 </body>
 
 <!--   Core JS Files   -->
@@ -66,5 +62,39 @@
         });
     </script>
 <?php endif; ?>
+<script>
+$(document).ready(function() {
+    var max_fields      = 4; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+    
+    var x = 1; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            $(wrapper).append('<div><input type="file" class="form-control border-input file" name ="user_file[]"><a href="#" class="remove_field">Remove</a></div>'); //add input box
+        }
+    });
+    
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
+
+NProgress.start();
+
+    var interval = setInterval(function() { NProgress.inc(); }, 1000);        
+
+    jQuery(window).load(function () {
+        clearInterval(interval);
+        NProgress.done();
+    });
+
+    jQuery(window).unload(function () {
+        NProgress.start();
+    });
+    
+</script>
 
 </html>
