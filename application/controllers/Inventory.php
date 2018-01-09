@@ -90,6 +90,15 @@
         }
 
         public function add_product_exec() {
+            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
+            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+            $this->form_validation->set_message('required', '{field}');
+
+        if ($this->form_validation->run()) {
+            
             $this->load->library('upload');
             $dataInfo = array();
             $files = $_FILES;
@@ -122,8 +131,23 @@
                 'status' => '1'
             );
 
-             print_r($dataInfo);
-             $result = $this->item_model->insertData('product', $data);
+            $for_log = array(
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Added product: ' . trim($this->input->post('product_name')),
+                'status' => '1'
+            );
+
+             $this->item_model->insertData('product', $data);
+             $this->item_model->insertData('user_log', $for_log);
+             redirect("inventory/page");
+
+        }
+
+        else {
+                $this->add_product();
         }
 
         public function edit_product() {
