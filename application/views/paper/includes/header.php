@@ -133,16 +133,22 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Sales") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('sales'); ?>">
-                        <i class="ti-shopping-cart-full"></i>
-                        <p>Sales</p>
-                    </a>
-                </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('inventory/page'); ?>">
                         <i class="ti-archive"></i> <!-- ti-package -->
                         <p>Inventory</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Orders") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('orders'); ?>">
+                        <i class="ti-shopping-cart-full"></i> <!-- ti-package -->
+                        <p>Orders</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Sales") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('sales'); ?>">
+                        <i class="ti-stats-up"></i>
+                        <p>Sales</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
