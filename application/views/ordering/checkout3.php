@@ -83,6 +83,15 @@
                                 </button>
                             </div>
                         </div>
+                        <input type="hidden" name="firstname" value="<?=$fname?>">
+                        <input type="hidden" name="lastname" value="<?=$lname?>">
+                        <input type="hidden" name="address" value="<?=$address?>">
+                        <input type="hidden" name="province" value="<?=$province?>">
+                        <input type="hidden" name="city" value="<?=$city?>">
+                        <input type="hidden" name="barangay" value="<?=$barangay?>">
+                        <input type="hidden" name="zip" value="<?=$zip?>">
+                        <input type="hidden" name="email" value="<?=$email?>">
+                        <input type="hidden" name="contact" value="<?=$contact?>">
                     </form>
                 </div>
                 <!-- /.box -->
