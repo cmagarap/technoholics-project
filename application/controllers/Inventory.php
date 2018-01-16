@@ -99,7 +99,6 @@ class Inventory extends CI_Controller {
         $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
-
             $this->load->library('upload');
             $dataInfo = array();
             $files = $_FILES;
@@ -139,100 +138,100 @@ class Inventory extends CI_Controller {
                 "action" => 'Added product: ' . trim($this->input->post('product_name')),
                 'status' => '1'
             );
-
             $this->item_model->insertData('product', $data);
             $this->item_model->insertData('user_log', $for_log);
-            redirect("inventory/page");
-        } else {
-            $this->add_product();
+        }
+
+        else {
+                $this->add_product();
         }
     }
-
-    public function edit_product() {
-        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: Edit Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/inventory/edit');
-            $this->load->view('paper/includes/footer');
-        } else {
-            redirect("home/");
-        }
-    }
-
-    public function edit_product_exec() {
-        $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
-        $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
-        $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
-        $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
-        $this->form_validation->set_message('required', '{field}');
-
-        if ($this->form_validation->run()) {
-            $config['encrypt_name'] = TRUE;
-            $config['upload_path'] = './uploads_products/';
-            $config['allowed_types'] = "gif|jpg|png";
-            $config['max_size'] = 0;
-            $this->load->library('upload', $config);
-
-            if ($this->upload->do_upload('user_file') == TRUE) {
-                $image = $this->upload->data('file_name');
-                $config2['image_library'] = 'gd2';
-                $config2['source_image'] = './uploads_products/' . $image;
-                $config2['create_thumb'] = TRUE;
-                $config2['maintain_ratio'] = TRUE;
-                $config2['width'] = 75;
-                $config2['height'] = 50;
-                $this->load->library('image_lib', $config2);
-                $this->image_lib->resize();
+        public function edit_product() {
+            if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+                $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
                 $data = array(
-                    'product_name' => trim($this->input->post('product_name')),
-                    'product_price' => $this->input->post('product_price'),
-                    'product_quantity' => $this->input->post('product_quantity'),
-                    'product_category' => $this->input->post('product_category'),
-                    'user_file' => $image,
-                    'supplier' => trim($this->input->post('supplier')),
-                    'updated_at' => time(),
-                    'product_desc' => $this->input->post('product_desc'),
-                    'status' => '1'
+                    'title' => "Inventory: Edit Product",
+                    'heading' => "Inventory",
+                    'products' => $product
                 );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view('paper/inventory/edit');
+                $this->load->view('paper/includes/footer');
             } else {
-                $data = array(
-                    'product_name' => trim($this->input->post('product_name')),
-                    'product_price' => $this->input->post('product_price'),
-                    'product_quantity' => $this->input->post('product_quantity'),
-                    'product_category' => $this->input->post('product_category'),
-                    'supplier' => trim($this->input->post('supplier')),
-                    'updated_at' => time(),
-                    'product_desc' => $this->input->post('product_desc'),
+                redirect("home/");
+            }
+        }
+
+        public function edit_product_exec() {
+            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
+            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+            $this->form_validation->set_message('required', '{field}');
+
+            if ($this->form_validation->run()) {
+                $config['encrypt_name'] = TRUE;
+                $config['upload_path'] = './uploads_products/';
+                $config['allowed_types'] = "gif|jpg|png";
+                $config['max_size'] = 0;
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('user_file') == TRUE) {
+                    $image = $this->upload->data('file_name');
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './uploads_products/' . $image;
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    $data = array(
+                        'product_name' => trim($this->input->post('product_name')),
+                        'product_price' => $this->input->post('product_price'),
+                        'product_quantity' => $this->input->post('product_quantity'),
+                        'product_category' => $this->input->post('product_category'),
+                        'user_file' => $image,
+                        'supplier' => trim($this->input->post('supplier')),
+                        'updated_at' => time(),
+                        'product_desc' => $this->input->post('product_desc'),
+                        'status' => '1'
+                    );
+                } else {
+                    $data = array(
+                        'product_name' => trim($this->input->post('product_name')),
+                        'product_price' => $this->input->post('product_price'),
+                        'product_quantity' => $this->input->post('product_quantity'),
+                        'product_category' => $this->input->post('product_category'),
+                        'supplier' => trim($this->input->post('supplier')),
+                        'updated_at' => time(),
+                        'product_desc' => $this->input->post('product_desc'),
+                        'status' => '1'
+                    );
+                }
+
+                $for_log = array(
+                    "user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Edited product #' . $this->uri->segment(3),
                     'status' => '1'
                 );
+
+                $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+                $this->item_model->insertData('user_log', $for_log);
+                redirect("inventory/page");
+
+            } else {
+                $this->edit_product();
             }
-
-            $for_log = array(
-                "user_id" => $this->session->uid,
-                "user_type" => $this->session->userdata('type'),
-                "username" => $this->session->userdata('username'),
-                "date" => time(),
-                "action" => 'Edited product #' . $this->uri->segment(3),
-                'status' => '1'
-            );
-
-            $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
-            $this->item_model->insertData('user_log', $for_log);
-            redirect("inventory/page");
-        } else {
-            $this->edit_product();
         }
-    }
 
-    public function delete_product() {
-        $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
-        $for_log = array(
+        public function delete_product() {
+            $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+            $for_log = array(
             "user_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
             "username" => $this->session->userdata('username'),
