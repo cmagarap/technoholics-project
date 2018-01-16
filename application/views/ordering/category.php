@@ -1,17 +1,17 @@
 <div id="all">
-<div id="content">
+    <div id="content">
         <div class="container">
 
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="<?= base_url().'home'; ?>">Home</a>
+                    <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                     </li>
                     <li>
-                    <?php 
-                    if ($page == "category"){
-                        echo "Products";
-                    }
-                    ?>
+                        <?php
+                        if ($page == "category") {
+                            echo "Products";
+                        }
+                        ?>
                     </li>
                 </ul>
             </div>
@@ -27,56 +27,75 @@ _________________________________________________________ -->
 
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
-                    <?php if($category == "smartphone") : ?>
+
+                            <?php if ($category == "accessories") : ?>
                             <li class="active">
-                    <?php else : ?>
-                            <li>
-                    <?php endif; ?>
-                                <a href="<?= base_url().'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right">42</span></a>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/smartphone/apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/smartphone/samsung'; ?>">Samsung</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/smartphone/asus'; ?>">Asus</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        <?php if($category == "tablet") : ?>
-                            <li class="active">
-                        <?php else : ?>
-                            <li>
-                        <?php endif; ?>
-                                <a href="<?= base_url().'home/category/tablet'; ?>">Tablets<span class="badge pull-right">123</span></a>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/tablet/apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/tablet/samsung'; ?>">Samsung</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/tablet/asus'; ?>">Asus</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <?php if($category == "laptop") : ?>
-                                <li class="active">
                             <?php else : ?>
                                 <li>
-                            <?php endif; ?>
-                                <a href="<?= base_url().'home/category/laptop'; ?>">Laptops<span class="badge pull-right">11</span></a>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Accessories'"); ?></span></a>
+                                </li>
+
+                            <?php if ($category == "chargers") : ?>
+                            <li class="active">
+                            <?php else : ?>
+                                <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Chargers'"); ?></span></a>
+                                </li>
+
+                            <?php if ($category == "laptop") : ?>
+                            <li class="active">
+                            <?php else : ?>
+                                <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Laptop'"); ?></span></a>
+                                    <ul>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            <?php if ($category == "smartphone") : ?>
+                            <li class="active">
+                            <?php else : ?>
+                                <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Smartphone'"); ?></span></a>
+                                    <ul>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            <?php if ($category == "tablet") : ?>
+                            <li class="active">
+                                <?php else : ?>
+                            <li>
+                                <?php endif; ?>
+                                <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Tablet'"); ?></span></a>
                                 <ul>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Lenovo</a>
+                                    <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Sony</a>
+                                    <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">HP</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Dell</a>
+                                    <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
                                     </li>
                                 </ul>
                             </li>
-
                         </ul>
-
                     </div>
                 </div>
 
@@ -125,15 +144,15 @@ _________________________________________________________ -->
 
                 <div class="banner">
                     <a href="#">
-                        <img src="<?= base_url().'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
+                        <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
                     </a>
                 </div>
             </div>
 
             <div class="col-md-9">
                 <div class="box">
-                    <h1><?=$category?></h1>
-                 </div>
+                    <h1><?= $this->uri->segment(4) . " " . ucwords($category) . "s" ?></h1>
+                </div>
 
                 <div class="box info-bar">
                     <div class="row">
@@ -166,45 +185,49 @@ _________________________________________________________ -->
                 </div>
 
                 <div class="row products">
-                <?php if (!$products): ?>
-                <h1>NO ITEMS IN TABLE</h1>
-                <?php else: ?>
-                <?php foreach ($products as $row): ?>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="product">
-                            <div class="flip-container" style="padding: 10px;">
-                                <div class="flipper">
-                                    <div class="front"><center>
-                                        <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                        </a></center>
-                                    </div>
-                                    <div class="back"><center>
-                                       <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>">
-                                            <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                        </a></center>
+                    <?php if (!$products): ?>
+                        <div class="col-md-12">
+                            <div class="box" align = "center">
+                                <h3>Oops! There are no products existing for what you are looking for.</h3>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                    <?php foreach ($products as $row): ?>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="product">
+                                <div class="flip-container" style="padding: 10px;">
+                                    <div class="flipper">
+                                        <div class="front"><center>
+                                                <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>">
+                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                                </a></center>
+                                        </div>
+                                        <div class="back"><center>
+                                                <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>">
+                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                                </a></center>
+                                        </div>
                                     </div>
                                 </div>
+                                <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>" class="invisible">
+                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                </a>
+                                <div class="text">
+                                    <h3><a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>"><?= $row->product_name ?></a></h3>
+                                    <p class="price">₱<?= number_format($row->product_price, 2) ?></p>
+                                    <p class="buttons">
+                                        <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>"  class="btn btn-default">View detail</a>
+                                        <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                    </p>
+                                </div>
+                                <!-- /.text -->
                             </div>
-                            <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>" class="invisible">
-                                <img src="<?= base_url().'uploads_products/'.$row->product_image1?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                            </a>
-                            <div class="text">
-                                <h3><a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"><?=$row->product_name?></a></h3>
-                                <p class="price">₱<?=number_format($row->product_price,2)?></p>
-                                <p class="buttons">
-                                    <a href="<?= base_url().'home/detail/'.$row->product_category.'/'.$row->product_brand.'/'.$row->product_id ?>"  class="btn btn-default">View detail</a>
-                                    <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?=$row->product_name?>" data-productimg="<?=$row->product_image1?>"  data-productquantity="<?=$row->product_quantity?>" data-price="<?=$row->product_price?>" data-productid="<?=$row->product_id?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                </p>
-                            </div>
-                            <!-- /.text -->
+                            <!-- /.product -->
                         </div>
-                        <!-- /.product -->
-                    </div>
-                    <!-- /.col-md-4 -->
-                <?php endforeach ?>
-            </div>
-        <?php endif ?>
+                        <!-- /.col-md-4 -->
+                    <?php endforeach ?>
+                </div>
+                <?php endif ?>
                 <!-- /.products -->
 
                 <div class="pages">
@@ -213,7 +236,8 @@ _________________________________________________________ -->
                         <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
                     </p>
 
-                    <?php echo "<div align = 'center'>" . $links . "</div>";
+                    <?php
+                    echo "<div align = 'center'>" . $links . "</div>";
                     echo '</div>';
                     ?>
                 </div>

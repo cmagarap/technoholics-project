@@ -139,7 +139,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                         <p>Inventory</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Orders") { echo 'class="active"'; } ?>>
+                <li <?php if($heading == "Orders Management") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('orders'); ?>">
                         <i class="ti-shopping-cart-full"></i> <!-- ti-package -->
                         <p>Orders</p>

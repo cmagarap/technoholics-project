@@ -99,7 +99,7 @@ class Home extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        if ($brand == "apple" || $brand == "samsung" || $brand == "asus" || $brand == "lenovo" || $brand == "sony" || $brand == "hp" || $brand == "dell") {
+        if ($brand == "apple" || $brand == "samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer") {
             $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
             $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
             $this->pagination->initialize($config);
@@ -108,7 +108,7 @@ class Home extends CI_Controller {
                 'title' => 'Category',
                 'products' => $product,
                 'page' => $page,
-                'category' => $cat, //category identifier
+                'category' => $cat, // category identifier
                 'brand' => $brand,
                 'links' => $this->pagination->create_links()
             );
@@ -126,7 +126,7 @@ class Home extends CI_Controller {
                 'title' => 'Category',
                 'products' => $product,
                 'page' => $page,
-                'category' => $cat, //category identifier
+                'category' => $cat, // category identifier
                 'brand' => $brand,
                 'links' => $this->pagination->create_links()
             );
@@ -431,7 +431,6 @@ class Home extends CI_Controller {
         $basketItems = $this->basket->contents();
         // loop
         foreach ($basketItems as $item) {
-
             $data = array(
                 'order_id' => $order_id,
                 'product_id' => $item['id'],
@@ -440,13 +439,10 @@ class Home extends CI_Controller {
             );
 
             $this->item_model->insertData('order_items', $data);
-
             $stock = $item['maxqty'] - $item['qty'];
-
             $data1 = array(
                 'product_quantity' => $stock
             );
-
             $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
         }
 
