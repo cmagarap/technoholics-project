@@ -102,7 +102,7 @@ class Home extends CI_Controller {
 
         if($brand == "apple" || $brand == "samsung" || $brand == "asus" || $brand == "lenovo" || $brand == "sony" || $brand == "hp" || $brand == "dell"){
             $config['base_url'] = base_url()."home/category/".$cat."/".$brand;
-            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0));
+            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
             $this->pagination->initialize($config);
             $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat ,"product_brand" => $brand ));
             $data = array(
@@ -123,7 +123,7 @@ class Home extends CI_Controller {
 
         else{
             $config['base_url'] = base_url()."home/category/".$cat;    
-            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0));
+            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat));
             $this->pagination->initialize($config);
             $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat));
             $data = array(
@@ -240,7 +240,7 @@ class Home extends CI_Controller {
             'title' => "Checkout",
             'page' => "Home",
             'fname' => $this->input->post('firstname'),
-            'lname' => $this->input->post('lasttname'),
+            'lname' => $this->input->post('lastname'),
             'address' => $this->input->post('address'),
             'province' => $this->input->post('province'),
             'city' => $this->input->post('city'),
@@ -264,6 +264,15 @@ class Home extends CI_Controller {
             'CT' =>  $this->basket->total(),
             'CTI' =>  $this->basket->total_items(),
             'payment' => $this->input->post('payment'),
+            'fname' => $this->input->post('firstname'),
+            'lname' => $this->input->post('lastname'),
+            'address' => $this->input->post('address'),
+            'province' => $this->input->post('province'),
+            'city' => $this->input->post('city'),
+            'barangay' => $this->input->post('barangay'),
+            'zip' => $this->input->post('zip'),
+            'contact' => $this->input->post('contact'),
+            'email' => $this->input->post('email'),
             'page' => "Home"
         );
 
@@ -294,6 +303,7 @@ class Home extends CI_Controller {
         $this->load->view('ordering/customer_order_view');
         $this->load->view('ordering/includes/footer');
     }
+
 
     public function wishlist() {
         $data = array(
@@ -371,34 +381,46 @@ class Home extends CI_Controller {
             $this->basket->remove($_POST["row_id"]);
     }
 
-    public function PlaceOrder() {
+    public function placeorder() {
+    date_default_timezone_set("Asia/Manila");
     // if logged in
         if($this->session->has_userdata('isloggedin'))
         {
+            $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+
             $data = array(
                 'customer_id' => $this->session->uid,
                 'total_price' =>  $this->basket->total(),
                 'order_quantity' => $this->basket->total_items(),
-                'transaction_date' => date(),
-                'delivery_date' => date(),
-                'shipping_address' => $this->input->post('address'),
-                'payment' => $this->input->post('payment')
+                'transaction_date' => time(),
+                'delivery_date' => time() + 259200,
+                'shipping_address' => $userinformation->complete_address,
+                'payment_method' => $this->input->post('payment')
                 );
         }
     // if not
         else
         {
+            $bytes_code = openssl_random_pseudo_bytes(30, $crypto_strong);
+            $hash_code = bin2hex($bytes_code);
+            $user_and_pass = substr($this->input->post('firstname'), 0, 1).substr($this->input->post('lastname'), 0, 1).time();
+
             //must put username and password
             $account = array(
+                'email' => $this->input->post('email'),
+                'username' => $user_and_pass,
+                'password' => $this->item_model->setPassword($user_and_pass, $hash_code),
                 'firstname' => $this->input->post('firstname'),
-                'lastname' => $this->input->post('lasttname'),
+                'lastname' => $this->input->post('lastname'),
                 'complete_address' => $this->input->post('address'),
                 'province' => $this->input->post('province'),
                 'city_municipality' => $this->input->post('city'),
                 'barangay' => $this->input->post('barangay'),
                 'zip_code' => $this->input->post('zip'),
                 'contact_no' => $this->input->post('contact'),
-                'email' => $this->input->post('email')
+                'image' => "default-user.png",
+                'status' => "1",
+                'verification_code' => $hash_code
             );
             //returns the id of last query
             $customer_id = $this->item_model->insert_id('customer', $account);
@@ -407,20 +429,21 @@ class Home extends CI_Controller {
                 'customer_id' => $customer_id,
                 'total_price' =>  $this->basket->total(),
                 'order_quantity' => $this->basket->total_items(),
-                'transaction_date' => date(),
-                'delivery_date' => date(),
+                'transaction_date' => time(),
+                'delivery_date' => time() + 259200,
                 'shipping_address' => $this->input->post('address'),
-                'payment' => $this->input->post('payment')
+                'payment_method' => $this->input->post('payment')
             );
         }
 
-        $this->item_model->insertData('orders', $data);
+        $order_id = $this->item_model->insert_id('orders', $data);
         // get cart items
         $basketItems =  $this->basket->contents();
         // loop
         foreach($basketItems as $item){
                 
         $data = array(
+            'order_id' => $order_id,
             'product_id' => $item['id'],
             'product_name' => $item['name'],
             'quantity' => $item['qty']

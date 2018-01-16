@@ -14,7 +14,7 @@
             <div class="col-md-9" id="checkout">
 
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/placeorder'; ?>">
+                    <form method="post" action="<?= base_url().'home/placeorder';?>">
                         <h1>Checkout - Order review</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -84,12 +84,11 @@
                                 <a href="<?= base_url().'home/checkout3'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Payment method</a>
                             </div>
                             <div class="pull-right">
-                            <a href="<?= base_url().'home/placeorder'; ?>">
-                            <a href="<?= base_url().'home/checkout3'; ?>" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i></a>
-                            </a>
-                            </button>
+                            <button type="submit" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
+                                </button>
                             </div>
                         </div>
+
                         <input type="hidden" name="firstname" value="<?=$fname?>">
                         <input type="hidden" name="lastname" value="<?=$lname?>">
                         <input type="hidden" name="address" value="<?=$address?>">
@@ -98,6 +97,7 @@
                         <input type="hidden" name="barangay" value="<?=$barangay?>">
                         <input type="hidden" name="zip" value="<?=$zip?>">
                         <input type="hidden" name="email" value="<?=$email?>">
+                        <input type="hidden" name="contact" value="<?=$contact?>">
                         <input type="hidden" name="payment" value="<?=$payment?>">
                     </form>
                 </div>

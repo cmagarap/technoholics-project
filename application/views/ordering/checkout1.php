@@ -14,7 +14,7 @@
             <div class="col-md-9" id="checkout">
 
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout3'; ?>">
+                    <form method="post" action="<?= base_url().'home/checkout3';?>">
                         <h1>Checkout</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a>
