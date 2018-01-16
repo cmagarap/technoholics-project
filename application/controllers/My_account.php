@@ -21,7 +21,7 @@ class My_account extends CI_Controller {
     public function index() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
-            $user_log = $this->item_model->fetch("user_log", array("user_id" => $this->session->uid), "log_id", "DESC", 4);
+            $user_log = $this->item_model->fetch("user_log", array("admin_id" => $this->session->uid), "log_id", "DESC", 4);
             $data = array(
                 'title' => 'Manage My Account',
                 'heading' => 'My Account',
@@ -53,8 +53,9 @@ class My_account extends CI_Controller {
             );
             $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->session->uid));
             if ($update) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => $this->db->escape_str($this->session->uid),
+                    "$user_id" => $this->db->escape_str($this->session->uid),
                     "user_type" => $this->db->escape_str($this->session->userdata('type')),
                     "username" => $this->db->escape_str($this->session->userdata('username')),
                     "date" => $this->db->escape_str(time()),
@@ -94,11 +95,19 @@ class My_account extends CI_Controller {
         $my_account = $my_account[0];
 
         if ($this->form_validation->run()) {
-            if($my_account->password == sha1($this->input->post('old_password'))) {
-                $update = $this->item_model->updatedata("admin", array('password' => sha1($this->input->post('new_password'))), array("admin_id" => $this->session->uid));
+            $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", $my_account->admin_id);
+            if(password_verify($salt.$this->input->post('old_password'), $my_account->password)) {
+                $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
+                $hash = bin2hex($bytes);
+                $data = array(
+                    'password' => html_escape($this->item_model->setPassword($this->input->post('new_password'), $hash)),
+                    'verification_code' => $hash
+                );
+                $update = $this->item_model->updatedata("admin", $data, array("admin_id" => $this->session->uid));
                 if ($update) {
+                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                     $for_log = array(
-                        "user_id" => $this->db->escape_str($this->session->uid),
+                        "$user_id" => $this->db->escape_str($this->session->uid),
                         "user_type" => $this->db->escape_str($this->session->userdata('type')),
                         "username" => $this->db->escape_str($this->session->userdata('username')),
                         "date" => $this->db->escape_str(time()),

@@ -121,10 +121,10 @@ class Accounts extends CI_Controller {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             if ($this->uri->segment(3) == "admin") {
                 $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
-                $user_log = $this->item_model->fetch('user_log', array('user_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+                $user_log = $this->item_model->fetch('user_log', array('admin_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
             } elseif ($this->uri->segment(3) == "customer") {
                 $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
-                $user_log = $this->item_model->fetch('user_log', array('user_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+                $user_log = $this->item_model->fetch('user_log', array('customer_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
             } else {
                 redirect('accounts');
             }
@@ -218,15 +218,20 @@ class Accounts extends CI_Controller {
                 'registered_at' => html_escape(time()),
                 'verification_code' => html_escape($hash)
             );
+            $insert = $this->item_model->insertData('admin', $data);
 
-            $for_log = array(
-                "user_id" => html_escape($this->session->uid),
-                "user_type" => html_escape($this->session->userdata('type')),
-                "username" => html_escape($this->session->userdata('username')),
-                "date" => html_escape(time()),
-                "action" => html_escape('Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name'))),
-                'status' => html_escape('1')
-            );
+            if($insert) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+                $for_log = array(
+                    "$user_id" => html_escape($this->session->uid),
+                    "user_type" => html_escape($this->session->userdata('type')),
+                    "username" => html_escape($this->session->userdata('username')),
+                    "date" => html_escape(time()),
+                    "action" => html_escape('Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name'))),
+                    'status' => html_escape('1')
+                );
+                $this->item_model->insertData('user_log', $for_log);
+            }
             /* $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
               $this->email->to($this->input->post('email'));
 
@@ -237,8 +242,7 @@ class Accounts extends CI_Controller {
               if (!$this->email->send()) {
               $this->email->print_debugger();
               } */
-            $this->item_model->insertData('admin', $data);
-            $this->item_model->insertData('user_log', $for_log);
+
             redirect("accounts/");
         } else {
             $this->add_account();
@@ -296,8 +300,9 @@ class Accounts extends CI_Controller {
                 );
                 $update = $this->item_model->updatedata("admin", $data, array('admin_id' => $this->uri->segment(4)));
                 if ($update) {
+                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                     $for_log = array(
-                        "user_id" => html_escape($this->session->uid),
+                        "$user_id" => html_escape($this->session->uid),
                         "user_type" => html_escape($this->session->userdata('type')),
                         "username" => html_escape($this->session->userdata('username')),
                         "date" => html_escape(time()),
@@ -333,8 +338,9 @@ class Accounts extends CI_Controller {
                 );
                 $update = $this->item_model->updatedata("customer", $data, array('customer_id' => $this->uri->segment(4)));
                 if ($update) {
+                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                     $for_log = array(
-                        "user_id" => html_escape($this->session->uid),
+                        "$user_id" => html_escape($this->session->uid),
                         "user_type" => html_escape($this->session->userdata('type')),
                         "username" => html_escape($this->session->userdata('username')),
                         "date" => html_escape(time()),
@@ -367,9 +373,11 @@ class Accounts extends CI_Controller {
             redirect("accounts/admin");
         } elseif ($this->uri->segment(3) == "customer") {
             $update = $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(4)));
+
             if ($update) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => html_escape($this->session->uid),
+                    "$user_id" => html_escape($this->session->uid),
                     "user_type" => html_escape($this->session->userdata('type')),
                     "username" => html_escape($this->session->userdata('username')),
                     "date" => html_escape(time()),
@@ -474,8 +482,9 @@ class Accounts extends CI_Controller {
         if ($this->uri->segment(3) == "admin") {
             $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(4)));
             if ($update) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => html_escape($this->session->uid),
+                    "$user_id" => html_escape($this->session->uid),
                     "user_type" => ($this->session->userdata('type')),
                     "username" => html_escape($this->session->userdata('username')),
                     "date" => html_escape(time()),
@@ -488,8 +497,9 @@ class Accounts extends CI_Controller {
         } elseif ($this->uri->segment(3) == "customer") {
             $update = $this->item_model->updatedata("customer", array("status" => 1), array('customer_id' => $this->uri->segment(4)));
             if ($update) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => html_escape($this->session->uid),
+                    "$user_id" => html_escape($this->session->uid),
                     "user_type" => html_escape($this->session->userdata('type')),
                     "username" => html_escape($this->session->userdata('username')),
                     "date" => html_escape(time()),
