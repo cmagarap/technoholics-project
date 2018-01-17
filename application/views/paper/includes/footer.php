@@ -59,8 +59,9 @@ $(document).ready(function() {
         e.preventDefault(); $(this).parent('div').remove(); x--;
     })
 });
-
-NProgress.start();
+    NProgress.configure({ showSpinner: false });
+    
+    NProgress.start();  
 
     var interval = setInterval(function() { NProgress.inc(); }, 1000);        
 
