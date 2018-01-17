@@ -90,13 +90,15 @@ class Inventory extends CI_Controller {
         }
     }
 
-    public function add_product_exec() {
-        $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
-        $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
-        $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
-        $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
-        $this->form_validation->set_message('required', '{field}');
+
+        public function add_product_exec() {
+            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            $this->form_validation->set_rules('product_brand', "Please put the product brand.", "required");
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+            $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+            $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
+            $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+            $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
             $this->load->library('upload');
@@ -117,6 +119,7 @@ class Inventory extends CI_Controller {
 
             $data = array(
                 'product_name' => trim($this->input->post('product_name')),
+                'product_brand' => $this->input->post('product_brand'),
                 'product_price' => $this->input->post('product_price'),
                 'product_quantity' => $this->input->post('product_quantity'),
                 'product_category' => $this->input->post('product_category'),
@@ -138,8 +141,13 @@ class Inventory extends CI_Controller {
                 "action" => 'Added product: ' . trim($this->input->post('product_name')),
                 'status' => '1'
             );
-            $this->item_model->insertData('product', $data);
+
+            $insert = $this->item_model->insertData('product', $data);
             $this->item_model->insertData('user_log', $for_log);
+            $statusMsg = $insert? '<b>'.trim($this->input->post('product_name')).'</b>'.' has been added successfully.':'Some problem occured, please try again.';
+            $this->session->set_flashdata('statusMsg',$statusMsg);
+
+            redirect("inventory/page");
         }
 
         else {

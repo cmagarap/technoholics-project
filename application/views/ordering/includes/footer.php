@@ -182,9 +182,8 @@ _________________________________________________________ -->
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
                 {   
-                    location.reload();
-                    // $('#basket').load("<?php echo base_url(); ?>home/basket");
-                    $('#' + product_id).val('');
+                    $('#basket').load("<?php echo base_url(); ?>home/basket");
+                   // $('#' + product_id).val('');
                 }
             });
         });
@@ -207,10 +206,8 @@ _________________________________________________________ -->
         });
     });
 
-    // NProgress.configure({ showSpinner: false });
-
+        NProgress.configure({ showSpinner: false });
         NProgress.start();
-
         var interval = setInterval(function() { NProgress.inc(); }, 1000);        
 
         jQuery(window).load(function () {
