@@ -75,9 +75,11 @@
                                             $categories = $this->item_model->getDistinct('product', 'product_category', 'ASC');
                                         ?>
                                         <select name="product_category" id="" class = "form-control border-input file">
-                                            <?php foreach($categories as $categories): ?>
-                                                <option value="<?= $categories->product_category ?>"><?= $categories->product_category ?></option>
-                                            <?php endforeach; ?>
+                                           <option value="Chargers">Chargers</option>
+                                           <option value="Accessories">Accessories</option>
+                                            <option value="Featured">Feature</option>
+                                            <option value="Laptop">Laptop</option> 
+                                             <option value="Cellphone">Cellphone</option> 
                                         </select>
                                     </div>
                                 </div>

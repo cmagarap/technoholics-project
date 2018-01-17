@@ -19,7 +19,7 @@ class Sales extends CI_Controller {
     public function index() { # to be changed to page()
         $data = array(
             'title' => 'Sales Management',
-            'heading' => 'Sales'
+            'heading' => 'Sales Management'
         );
         $this->load->view("paper/includes/header", $data);
         $this->load->view("paper/includes/footer");

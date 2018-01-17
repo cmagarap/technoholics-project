@@ -16,6 +16,10 @@ class Audit_trail extends CI_Controller {
         }
     }
 
+    public function index() {
+        $this->page();
+    }
+
     public function page() { # to be changed to page()
         $data = array(
             'title' => 'Audit Trail Management',

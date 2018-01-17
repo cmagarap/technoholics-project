@@ -128,21 +128,27 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('dashboard/'); ?>">
+                    <a href="<?= site_url('dashboard'); ?>">
                         <i class="ti-pie-chart"></i>
                         <p>Dashboard</p>
-                    </a>
-                </li>
-                <li <?php if($heading == "Sales") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('sales'); ?>">
-                        <i class="ti-shopping-cart-full"></i>
-                        <p>Sales</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('inventory/page'); ?>">
                         <i class="ti-archive"></i> <!-- ti-package -->
                         <p>Inventory</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Orders Management") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('orders'); ?>">
+                        <i class="ti-shopping-cart-full"></i> <!-- ti-package -->
+                        <p>Orders</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Sales Management") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('sales'); ?>">
+                        <i class="ti-stats-up"></i>
+                        <p>Sales</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
@@ -159,13 +165,13 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                         ?>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('audit_trail/page'); ?>">
+                    <a href="<?= site_url('audit_trail'); ?>">
                         <i class="ti-menu-alt"></i>
                         <p>Audit Trail</p>
                     </a>
                 </li>
                 <li <?php if($heading == "User Log") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('user_log/page'); ?>">
+                    <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
                     </a>
