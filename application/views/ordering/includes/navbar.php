@@ -83,29 +83,45 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <h5>Smartphones</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">ASUS</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone'; ?>">Asus</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/Huawei'; ?>">Huawei</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/smartphone/OPPO'; ?>">OPPO</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/smartphone/Samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Tablets</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/tablet'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/Apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/tablet'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/Samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Laptops</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/laptop'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/Acer'; ?>">Acer</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/laptop'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/Apple'; ?>">Apple</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/ASUS'; ?>">ASUS</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/Dell'; ?>">Dell</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/HP'; ?>">HP</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/Lenovo'; ?>">Lenovo</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/Samsung'; ?>">Samsung</a>
+                                            </li>
+                                            <li><a href="<?= base_url().'home/category/laptop/Sony'; ?>">Sony</a>
                                             </li>
                                         </ul>
                                     </div>

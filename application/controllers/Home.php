@@ -99,7 +99,7 @@ class Home extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        if ($brand == "apple" || $brand == "samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer") {
+        if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
             $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
             $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
             $this->pagination->initialize($config);
@@ -184,44 +184,45 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function CheckOut() {
-
-        if ($this->basket->total_items() <= 0) {
-            $this->load->view('home/');
+    public function checkout1() {
+        if($this->session->has_userdata('isloggedin')) {
+            $this->checkout2();
+        } else {
+            $data = array(
+                'title' => "Checkout",
+                'page' => "Home"
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/checkout1');
+            $this->load->view('ordering/includes/footer');
         }
-
-        $cust = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
-
-        $data = array(
-            'title' => "Checkout",
-            'custRow' => $cust,
-            'cartItems' => $this->basket->contents(),
-            'CTI' => $this->basket->total_items(),
-            'total' => $this->basket->total()
-        );
-
-        $this->load->view('shop/checkout', $data);
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout1');
-        $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout1() {
+    public function checkouty() {
         $data = array(
             'title' => "Checkout",
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout1');
+        $this->load->view('ordering/checkouty');
         $this->load->view('ordering/includes/footer');
     }
 
     public function checkout2() {
         $data = array(
             'title' => "Checkout",
-            'page' => "Home"
+            'page' => "Home",
+            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+            'address' => html_escape(trim(ucwords($this->input->post('address')))),
+            'province' => html_escape(trim(ucwords($this->input->post('province')))),
+            'city' => html_escape(trim(ucwords($this->input->post('city')))),
+            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+            'zip' => html_escape(trim($this->input->post('zip'))),
+            'contact' => html_escape(trim($this->input->post('contact'))),
+            'email' => html_escape(trim($this->input->post('email')))
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -231,47 +232,26 @@ class Home extends CI_Controller {
 
     public function checkout3() {
         $data = array(
-            'title' => "Checkout",
-            'page' => "Home",
-            'fname' => $this->input->post('firstname'),
-            'lname' => $this->input->post('lastname'),
-            'address' => $this->input->post('address'),
-            'province' => $this->input->post('province'),
-            'city' => $this->input->post('city'),
-            'barangay' => $this->input->post('barangay'),
-            'zip' => $this->input->post('zip'),
-            'contact' => $this->input->post('contact'),
-            'email' => $this->input->post('email')
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout3');
-        $this->load->view('ordering/includes/footer');
-    }
-
-    public function checkout4() {
-
-        $data = array(
             'title' => "My Shopping Cart",
             'cartItems' => $this->basket->contents(),
             'CT' => $this->basket->total(),
             'CTI' => $this->basket->total_items(),
-            'payment' => $this->input->post('payment'),
-            'fname' => $this->input->post('firstname'),
-            'lname' => $this->input->post('lastname'),
-            'address' => $this->input->post('address'),
-            'province' => $this->input->post('province'),
-            'city' => $this->input->post('city'),
-            'barangay' => $this->input->post('barangay'),
-            'zip' => $this->input->post('zip'),
-            'contact' => $this->input->post('contact'),
-            'email' => $this->input->post('email'),
+            'payment' => html_escape($this->input->post('payment')),
+            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+            'address' => html_escape(trim(ucwords($this->input->post('address')))),
+            'province' => html_escape(trim(ucwords($this->input->post('province')))),
+            'city' => html_escape(trim(ucwords($this->input->post('city')))),
+            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+            'zip' => html_escape(trim($this->input->post('zip'))),
+            'contact' => html_escape(trim($this->input->post('contact'))),
+            'email' => html_escape(trim($this->input->post('email'))),
             'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout4');
+        $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
     }
 
@@ -385,8 +365,9 @@ class Home extends CI_Controller {
                 'order_quantity' => $this->basket->total_items(),
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,
-                'shipping_address' => $userinformation->complete_address,
-                'payment_method' => $this->input->post('payment')
+                'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
+                'payment_method' => html_escape($this->input->post('payment')),
+                'shipper_id' => 801
             );
         }
         // if not
@@ -422,7 +403,8 @@ class Home extends CI_Controller {
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,
                 'shipping_address' => $this->input->post('address'),
-                'payment_method' => $this->input->post('payment')
+                'payment_method' => $this->input->post('payment'),
+                'shipper_id' => 801
             );
         }
 
@@ -447,6 +429,7 @@ class Home extends CI_Controller {
         }
 
         $this->basket->destroy();
+        $this->index(); # not yet sure
     }
 
 }

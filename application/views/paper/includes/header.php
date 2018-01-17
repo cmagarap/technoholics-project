@@ -17,7 +17,16 @@
     <link href="<?= $this->config->base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
     <!-- Paper Dashboard core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
+    <!-- CALENDAR (Lumino)
+    <link href="<?= $this->config->base_url()?>assets/css/datepicker3.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/css/forcalendar.css" rel="stylesheet">
+    -->
+
+    <link rel="stylesheet" href="<?= $this->config->base_url()?>assets/caleandar-master/css/demo.css"/>
+    <link rel="stylesheet" href="<?= $this->config->base_url()?>assets/caleandar-master/css/theme2.css"/>
+
     <!-- Fonts and icons -->
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">-->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
@@ -38,6 +47,7 @@
     <script src="<?= $this->config->base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
+
 
 
     <style>
@@ -104,6 +114,8 @@
         .image-shadow {
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
         }
+
+
 
     </style>
 </head>
