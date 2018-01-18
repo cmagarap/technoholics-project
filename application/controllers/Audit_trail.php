@@ -26,6 +26,7 @@ class Audit_trail extends CI_Controller {
             'heading' => 'Audit Trail'
         );
         $this->load->view("paper/includes/header", $data);
+        $this->load->view("paper/includes/navbar");
         $this->load->view("paper/includes/footer");
     }
 }
