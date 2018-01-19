@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-</div>
+
     <script>
         $(".delete").click(function () {
             var id = $(this).data('id');
