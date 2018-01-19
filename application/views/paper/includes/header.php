@@ -46,12 +46,14 @@
     <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
 
     <style>
+
         input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
             background-color: lightblue;
         }
         .file:hover {
             background-color: lightblue;
         }
+
         input[type=text].search {
             width: 245px;
             height: 40px;

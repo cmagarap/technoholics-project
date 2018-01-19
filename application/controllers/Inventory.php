@@ -101,7 +101,11 @@ class Inventory extends CI_Controller {
             $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
-            $this->load->library('upload');
+            $config['encrypt_name'] = TRUE;
+            $config['upload_path'] = './uploads_products/';
+            $config['allowed_types'] = "gif|jpg|png";
+            $config['max_size'] = 0;
+            $this->load->library('upload', $config);
             $dataInfo = array();
             $files = $_FILES;
             $cpt = count($_FILES['user_file']['name']);
@@ -112,9 +116,18 @@ class Inventory extends CI_Controller {
                 $_FILES['user_file']['error'] = $files['user_file']['error'][$i];
                 $_FILES['user_file']['size'] = $files['user_file']['size'][$i];
 
-                $this->upload->initialize($this->set_upload_options());
                 $this->upload->do_upload('user_file');
-                $dataInfo[] = $this->upload->data();
+                $dataInfo[] = $this->upload->data('file_name');
+                $config2['image_library'] = 'gd2';
+                $config2['source_image'] = './uploads_products/' . $dataInfo[$i];
+                $config2['create_thumb'] = TRUE;
+                $config2['maintain_ratio'] = TRUE;
+                $config2['width'] = 75;
+                $config2['height'] = 50;
+                $this->load->library('image_lib', $config2);
+                $this->image_lib->resize();
+                $this->image_lib->initialize($config2);
+
             }
 
             $data = array(
@@ -123,10 +136,10 @@ class Inventory extends CI_Controller {
                 'product_price' => $this->input->post('product_price'),
                 'product_quantity' => $this->input->post('product_quantity'),
                 'product_category' => $this->input->post('product_category'),
-                'product_image1' => $dataInfo[0]['file_name'],
-                'product_image2' => $dataInfo[1]['file_name'],
-                'product_image3' => $dataInfo[2]['file_name'],
-                'product_image4' => $dataInfo[3]['file_name'],
+                'product_image1' => $dataInfo[0],
+                'product_image2' => $dataInfo[1],
+                'product_image3' => $dataInfo[2],
+                'product_image4' => $dataInfo[3],
                 'supplier' => trim($this->input->post('supplier')),
                 'added_at' => time(),
                 'product_desc' => $this->input->post('product_desc'),
@@ -146,7 +159,6 @@ class Inventory extends CI_Controller {
             $this->item_model->insertData('user_log', $for_log);
             $statusMsg = $insert? '<b>'.trim($this->input->post('product_name')).'</b>'.' has been added successfully.':'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg',$statusMsg);
-
             redirect("inventory/page");
         }
 
@@ -184,40 +196,44 @@ class Inventory extends CI_Controller {
                 $config['allowed_types'] = "gif|jpg|png";
                 $config['max_size'] = 0;
                 $this->load->library('upload', $config);
+                $dataInfo = array();
+                $files = $_FILES;
+                $cpt = count($_FILES['user_file']['name']);
+                for ($i = 0; $i < $cpt; $i++) {
+                    $_FILES['user_file']['name'] = $files['user_file']['name'][$i];
+                    $_FILES['user_file']['type'] = $files['user_file']['type'][$i];
+                    $_FILES['user_file']['tmp_name'] = $files['user_file']['tmp_name'][$i];
+                    $_FILES['user_file']['error'] = $files['user_file']['error'][$i];
+                    $_FILES['user_file']['size'] = $files['user_file']['size'][$i];
 
-                if ($this->upload->do_upload('user_file') == TRUE) {
-                    $image = $this->upload->data('file_name');
+                    $this->upload->do_upload('user_file');
+                    $dataInfo[] = $this->upload->data('file_name');
                     $config2['image_library'] = 'gd2';
-                    $config2['source_image'] = './uploads_products/' . $image;
+                    $config2['source_image'] = './uploads_products/' . $dataInfo[$i];
                     $config2['create_thumb'] = TRUE;
                     $config2['maintain_ratio'] = TRUE;
                     $config2['width'] = 75;
                     $config2['height'] = 50;
                     $this->load->library('image_lib', $config2);
                     $this->image_lib->resize();
-                    $data = array(
-                        'product_name' => trim($this->input->post('product_name')),
-                        'product_price' => $this->input->post('product_price'),
-                        'product_quantity' => $this->input->post('product_quantity'),
-                        'product_category' => $this->input->post('product_category'),
-                        'user_file' => $image,
-                        'supplier' => trim($this->input->post('supplier')),
-                        'updated_at' => time(),
-                        'product_desc' => $this->input->post('product_desc'),
-                        'status' => '1'
-                    );
-                } else {
-                    $data = array(
-                        'product_name' => trim($this->input->post('product_name')),
-                        'product_price' => $this->input->post('product_price'),
-                        'product_quantity' => $this->input->post('product_quantity'),
-                        'product_category' => $this->input->post('product_category'),
-                        'supplier' => trim($this->input->post('supplier')),
-                        'updated_at' => time(),
-                        'product_desc' => $this->input->post('product_desc'),
-                        'status' => '1'
-                    );
+                    $this->image_lib->initialize($config2);
                 }
+
+                    $data = array(
+                        'product_name' => trim($this->input->post('product_name')),
+                        'product_brand' => $this->input->post('product_brand'),
+                        'product_price' => $this->input->post('product_price'),
+                        'product_quantity' => $this->input->post('product_quantity'),
+                        'product_category' => $this->input->post('product_category'),
+                        'product_image1' => $dataInfo[0],
+                        'product_image2' => $dataInfo[1],
+                        'product_image3' => $dataInfo[2],
+                        'product_image4' => $dataInfo[3],
+                        'supplier' => trim($this->input->post('supplier')),
+                        'added_at' => time(),
+                        'product_desc' => $this->input->post('product_desc'),
+                        'status' => '1'
+                    );
 
                 $for_log = array(
                     "user_id" => $this->session->uid,
@@ -305,17 +321,6 @@ class Inventory extends CI_Controller {
         );
         $this->item_model->insertData('user_log', $for_log);
         redirect("inventory/recover_product");
-    }
-
-    private function set_upload_options() {
-        //upload an image options
-        $config = array();
-        $config['upload_path'] = './uploads_products/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '0';
-        $config['overwrite'] = FALSE;
-
-        return $config;
     }
 
 }

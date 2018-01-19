@@ -82,6 +82,25 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
+    function getCountsearch($table, $where, $like) {
+        if (!empty($where)) {
+            $this->db->like($where, $like);
+        }
+        $query = $this->db->get($table);
+        return $query->num_rows();
+    }
+
+    function getItemsWithLimitSearch($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL, $like) {
+        if (!empty($where)) {
+            $this->db->like($where, $like);
+        }
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by($orderby, $order);
+        $query = $this->db->get($table);
+        return $query->result();
+    }
+
     function getSalt($table, $column, $table_id, $id) {
         # salt from the column should be unique
         $query_string = "SELECT $column FROM $table WHERE $table_id = $id";

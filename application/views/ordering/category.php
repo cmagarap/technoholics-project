@@ -73,13 +73,9 @@ _________________________________________________________ -->
                                     <ul>
                                         <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
                                         </li>
-                                        <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">ASUS</a>
-                                        </li>
-                                        <li><a href="<?= base_url().'home/category/smartphone/Huawei'; ?>">Huawei</a>
-                                        </li>
-                                        <li><a href="<?= base_url() . 'home/category/smartphone/OPPO'; ?>">OPPO</a>
-                                        </li>
                                         <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -155,7 +151,7 @@ _________________________________________________________ -->
 
             <div class="col-md-9">
                 <div class="box">
-                    <h1><?= $this->uri->segment(4) . " " . ucwords($category); ?></h1>
+                    <h1><?= ucwords($this->uri->segment(4)) . " " . ucwords($category) . "s" ?></h1>
                 </div>
 
                 <div class="box info-bar">

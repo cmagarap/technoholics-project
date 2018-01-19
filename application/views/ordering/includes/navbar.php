@@ -83,52 +83,37 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <h5>Smartphones</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">ASUS</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/samsung';
+                                            ?>">Samsung</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/Huawei'; ?>">Huawei</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/OPPO'; ?>">OPPO</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/asus'; ?>">Asus</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Tablets</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/tablet/Apple'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/tablet/Samsung'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Laptops</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/laptop/Acer'; ?>">Acer</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/Apple'; ?>">Apple</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/ASUS'; ?>">ASUS</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/Dell'; ?>">Dell</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/HP'; ?>">HP</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/Lenovo'; ?>">Lenovo</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/Samsung'; ?>">Samsung</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/Sony'; ?>">Sony</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Featured</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
+                                            <li><a href="<?= base_url().'home/category/'; ?>">Trainers</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
                                             </li>
@@ -244,9 +229,9 @@ _________________________________________________________ -->
             </div>
         </div>
         <div class="collapse clearfix" id="search">
-            <form class="navbar-form" role="search">
+            <form class="navbar-form" role="form" action="<?= $this->config->base_url() ?>home/search" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" name="search">
                     <span class="input-group-btn">
 			            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                     </span>

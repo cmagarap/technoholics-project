@@ -33,7 +33,7 @@
                             $product_desc = "";
                         }
                         ?>
-                        <form action = "<?= $this->config->base_url() ?>inventory/add_product_exec" method = "POST" enctype="multipart/form-data">
+                        <form action = "<?= $this->config->base_url() ?>inventory/add_product_exec" method = "POST" enctype="multipart/form-data" target="uploadTarget">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -88,7 +88,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Price <span style = "color: red">*</span> </label>
-                                        <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value = "<?= $product_price ?>">
+                                        <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value = "<?= $product_price ?>" >
                                         <?php if(validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("product_price") . "</span>";
                                         endif; ?>
@@ -108,13 +108,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Product Image</label>
-                                        <div class="input_fields_wrap">
-                                            <button class="add_field_button">Add More Fields</button>
-                                            <div><input type="file" class="form-control border-input file" name ="user_file[]"></div>
+                                        <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>           
+                                            <input type="button" id="add_more" class="upload" value="Add More Files"/>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
