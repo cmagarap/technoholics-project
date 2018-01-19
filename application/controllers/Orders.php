@@ -5,6 +5,7 @@
  * Date: 12/19/2017
  * Time: 2:27 PM
  */
+
 class Orders extends CI_Controller {
     public function __construct() {
         parent::__construct();
@@ -42,9 +43,9 @@ class Orders extends CI_Controller {
         $config['num_tag_close'] = '</li>';
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('orders');
+            $config['total_rows'] = $this->item_model->getCount('orders', "status = 1");
             $this->pagination->initialize($config);
-            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC');
+            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', "status = 1");
             $data = array(
                 'title' => 'Orders Management',
                 'heading' => 'Orders Management',
@@ -75,6 +76,33 @@ class Orders extends CI_Controller {
         } else {
             redirect('home');
         }
+    }
+
+    public function track_exec() {
+        #$this->form_validation->set_rules('shipper', "Please put the  company.", "required");
+        #$this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        # $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
+        #$this->form_validation->set_message('required', '{field}');
+
+        $data = array(
+            "shipper_id" => $this->input->post("shipper"),
+            # "delivery_date" =>
+            "process_status" => $this->input->post("progress")
+        );
+        $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
+        $order = $order[0];
+        if($order->process_status == 3) {
+            $for_sales = array(
+                "sales_detail" => "sales detail...",
+                "income" => $order->total_price,
+                "sales_date" => time(),
+                "admin_id" => $this->session->uid
+            );
+            $this->item_model->insertData("sales", $for_sales);
+            $this->item_model->updatedata("orders", array("status" => 0), "order_id = " . $this->uri->segment(3));
+        }
+        redirect("orders/");
     }
 }
  ?>

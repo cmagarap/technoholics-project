@@ -54,7 +54,7 @@
                         <hr>
                     </div>
                     <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>orders/track_exec" method = "POST" enctype="multipart/form-data">
+                        <form action = "<?= $this->config->base_url() ?>orders/track_exec/<?= $order->order_id ?>" method = "POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <!-- SHOULD BE CALENDAR -->
                                         <label for="shipper">Change Delivery Date</label>
-                                        <select name="shipper" id="" class = "form-control border-input file">
+                                        <select name="delivery_date" id="" class = "form-control border-input file">
                                             <option value="Chargers">Chargers</option>
                                             <option value="Accessories">Accessories</option>
                                             <option value="Featured">Feature</option>
@@ -94,9 +94,9 @@
                                     <div class="form-group">
                                         <label for="progress">Order Progress</label>
                                         <select name="progress" class = "form-control border-input file">
-                                            <option value="1">Processing</option>
-                                            <option value="2">Shipping</option>
-                                            <option value="3">Delivered</option>
+                                            <option value="1" <?php if($for_order->process_status == 1) echo "selected"; ?>>Processing</option>
+                                            <option value="2" <?php if($for_order->process_status == 2) echo "selected"; ?>>Shipping</option>
+                                            <option value="3" <?php if($for_order->process_status == 3) echo "selected"; ?>>Delivered</option>
                                         </select>
                                     </div>
                                 </div>

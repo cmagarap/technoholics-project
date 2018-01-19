@@ -41,9 +41,9 @@
                                 <tr>
                                     <td>
                                         <p style = "font-size: 12px"><?php
-                                            if($orders->status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px'></span>";
-                                            elseif($orders->status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px'></span>";
-                                            elseif($orders->status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px'></span>";
+                                            if($orders->process_status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px'></span>";
+                                            elseif($orders->process_status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px'></span>";
+                                            elseif($orders->process_status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px'></span>";
                                             endif;
                                             ?></p>
                                     </td>
