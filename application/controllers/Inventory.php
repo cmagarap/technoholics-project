@@ -52,6 +52,7 @@ class Inventory extends CI_Controller {
             );
 
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/inventory/inventory");
             $this->load->view("paper/includes/footer");
         } else {
@@ -68,6 +69,7 @@ class Inventory extends CI_Controller {
                 'products' => $product
             );
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/inventory/view');
             $this->load->view('paper/includes/footer');
         } else {
@@ -83,6 +85,7 @@ class Inventory extends CI_Controller {
             );
 
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/inventory/add_product');
             $this->load->view('paper/includes/footer');
         } else {
@@ -175,6 +178,7 @@ class Inventory extends CI_Controller {
                     'products' => $product
                 );
                 $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
                 $this->load->view('paper/inventory/edit');
                 $this->load->view('paper/includes/footer');
             } else {
@@ -304,6 +308,7 @@ class Inventory extends CI_Controller {
             );
 
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/inventory/recover");
             $this->load->view("paper/includes/footer");
         }
