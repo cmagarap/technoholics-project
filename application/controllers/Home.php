@@ -117,6 +117,7 @@ class Home extends CI_Controller {
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/category');
             $this->load->view('ordering/includes/footer');
+
         } else {
             $config['base_url'] = base_url() . "home/category/" . $cat;
             $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat));
@@ -136,6 +137,52 @@ class Home extends CI_Controller {
             $this->load->view('ordering/category');
             $this->load->view('ordering/includes/footer');
         }
+    }
+
+    public function search() {
+
+        $this->load->library('pagination');
+        $perpage = 12;
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $config['base_url'] = base_url() . "home/search/";
+        $config['total_rows'] = $this->item_model->getCountsearch('product', array("product_quantity >" => 0 ,'product_name' => $this->input->post('search') ));
+        $this->pagination->initialize($config);
+        $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("product_quantity >" => 0, "product_name" => $this->input->post('search') ));
+    
+        
+        $data = array(
+            'title' => 'Home',
+            'products' => $product,
+            'page' => "test",
+            'category' => "test", // category identifier
+            'brand' => "test",
+            'links' => $this->pagination->create_links()
+        );
+
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
     }
 
     public function register() {

@@ -48,39 +48,72 @@
 <?php endif; ?>
 
 <script>
+
+var abc = 0; //Declaring and defining global increement variable
+var max_fields = 4;
+var counter = 1;
+
 $(document).ready(function() {
-    var max_fields      = 4; //maximum input boxes allowed
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
-    
-    var x = 1; //initlal text box count
-    $(add_button).click(function(e){ //on add input button click
-        e.preventDefault();
-        if(x < max_fields){ //max input box allowed
-            x++; //text box increment
-            $(wrapper).append('<div><input type="file" class="form-control border-input file" name ="user_file[]"><a href="#" class="remove_field">Remove</a></div>'); //add input box
+
+//To add new input file field dynamically, on click of "Add More Files" button below function will be executed
+
+    $('#add_more').click(function() {
+    if(counter < max_fields){ //max input box allowed
+    counter++;
+    $(this).before($("<div/>", {id: 'filediv'}).fadeIn('slow').append(
+        $("<input/>", {name: 'user_file[]', type: 'file', id: 'file'}),        
+        $("<br/>")
+        ));
+    }
+    });
+
+//following function will executes on change event of file input to select different file	
+$('body').on('change', '#file', function(){
+            if (this.files && this.files[0]) {
+                 abc += 1; //increementing global variable by 1
+				
+				var z = abc - 1;
+                var x = $(this).parent().find('#previewimg' + z).remove();
+                $(this).before("<div id='abcd"+ abc +"' class='abcd'><img id='previewimg" + abc + "' src=''/></div>");
+               
+			    var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+               
+			    $(this).hide();
+                $("#abcd"+ abc).append($("<button>Remove</button>",{id: 'button', alt: 'delete'}).click(function() {
+                counter--;
+                $(this).parent().parent().remove();
+                }));
+            }
+        });
+
+//To preview image     
+    function imageIsLoaded(e) {
+        $('#previewimg' + abc).attr('src', e.target.result);
+    };
+
+    $('#upload').click(function(e) {
+        var name = $(":file").val();
+        if (!name)
+        {
+            alert("First Image Must Be Selected");
+            e.preventDefault();
         }
     });
-    
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
 });
-    NProgress.configure({ showSpinner: false });
-    
-    NProgress.start();  
 
-    var interval = setInterval(function() { NProgress.inc(); }, 1000);        
+NProgress.configure({ showSpinner: false });
+NProgress.start();  
+var interval = setInterval(function() { NProgress.inc(); }, 1000);        
+jQuery(window).load(function () {
+    clearInterval(interval);
+    NProgress.done();
+});
+jQuery(window).unload(function () {
+    NProgress.start();
+});
 
-    jQuery(window).load(function () {
-        clearInterval(interval);
-        NProgress.done();
-    });
-
-    jQuery(window).unload(function () {
-        NProgress.start();
-    });
-    
 </script>
 
 </html>

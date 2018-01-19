@@ -105,7 +105,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Image</label>
-                                        <input type="file" class="form-control border-input file" name = "product_image">
+                                        <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>           
+                                            <input type="button" id="add_more" class="upload" value="Add More Files"/>
                                     </div>
                                 </div>
                             </div>
