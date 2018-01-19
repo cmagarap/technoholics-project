@@ -22,6 +22,7 @@ class Sales extends CI_Controller {
             'heading' => 'Sales Management'
         );
         $this->load->view("paper/includes/header", $data);
+        $this->load->view("paper/includes/navbar");
         $this->load->view("paper/includes/footer");
     }
 }

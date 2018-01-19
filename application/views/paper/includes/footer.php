@@ -3,7 +3,7 @@
         <nav class="pull-left">
             <ul>
                 <li>
-
+                    <!-- Kung ano anong stuff -->
                 </li>
                 <li>
 
@@ -20,8 +20,6 @@
 </footer>
 
 </body>
-<script type="text/javascript" src="<?= $this->config->base_url()?>assets/caleandar-master/js/caleandar.js"></script>
-<script type="text/javascript" src="<?= $this->config->base_url()?>assets/caleandar-master/js/demo.js"></script>
 <!--
 <script src="assets/js/jquery-1.11.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -48,6 +46,7 @@
         });
     </script>
 <?php endif; ?>
+
 <script>
 $(document).ready(function() {
     var max_fields      = 4; //maximum input boxes allowed

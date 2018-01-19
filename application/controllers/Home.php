@@ -417,6 +417,8 @@ class Home extends CI_Controller {
                 'order_id' => $order_id,
                 'product_id' => $item['id'],
                 'product_name' => $item['name'],
+                'product_price' => $item['price'],
+                'product_image1' => $item['img'],
                 'quantity' => $item['qty']
             );
 

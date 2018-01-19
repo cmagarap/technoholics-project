@@ -66,6 +66,7 @@ class Accounts extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
         } else {
@@ -110,6 +111,7 @@ class Accounts extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/customers");
             $this->load->view("paper/includes/footer");
         } else {
@@ -135,6 +137,7 @@ class Accounts extends CI_Controller {
                 'logs' => $user_log
             );
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/accounts/view');
             $this->load->view('paper/includes/footer');
         } else {
@@ -150,6 +153,7 @@ class Accounts extends CI_Controller {
             );
 
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/accounts/add_accounts');
             $this->load->view('paper/includes/footer');
         } else {
@@ -259,6 +263,7 @@ class Accounts extends CI_Controller {
             );
 
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/accounts/edit');
             $this->load->view('paper/includes/footer');
         } elseif ($this->uri->segment(3) == "customer") {
@@ -270,6 +275,7 @@ class Accounts extends CI_Controller {
             );
 
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/accounts/edit');
             $this->load->view('paper/includes/footer');
         } else {
@@ -427,6 +433,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/includes/navbar");
                 $this->load->view("paper/accounts/recover_admin");
                 $this->load->view("paper/includes/footer");
             } else {
@@ -468,6 +475,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/includes/navbar");
                 $this->load->view("paper/accounts/recover_customer");
                 $this->load->view("paper/includes/footer");
             } else {

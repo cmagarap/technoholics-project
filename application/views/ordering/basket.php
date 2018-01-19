@@ -49,7 +49,7 @@
                                     </td>
                                 </tr>
                                     <?php } }else{ ?>
-                                    <tr><td colspan="5"><p>Your cart is empty.....</p></td>
+                                    <tr><td colspan="5"><p>Your cart is empty.</p></td>
                                     <?php } ?>
                                 </tbody>
                                 <tfoot>
