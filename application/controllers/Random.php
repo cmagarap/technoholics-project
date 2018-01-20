@@ -16,13 +16,6 @@ class Random extends CI_Controller {
     }
 
     public function index() {
-        /*$this->db->select("product_quantity");
-        $data = $this->item_model->fetch('product', NULL, NULL, NULL, 7);
-
-        $new = array(
-            'data' => $data
-        );*/
-
         $this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
@@ -75,8 +68,11 @@ class Random extends CI_Controller {
         # var_dump($crypto_strong);
         #echo $hex."</pre>";
 
-
         */
+        $sample = $this->item_model->fetch("user_log");
+        $sample = $sample[0];
+        echo date("F j, Y", 1516409137);
+
     }
 
     public function getProductdata() {

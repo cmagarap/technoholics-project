@@ -41,9 +41,9 @@
                                 <tr>
                                     <td>
                                         <p style = "font-size: 12px"><?php
-                                            if($orders->process_status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px'></span>";
-                                            elseif($orders->process_status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px'></span>";
-                                            elseif($orders->process_status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px'></span>";
+                                            if($orders->process_status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px; color: #dc2f54'></span>";
+                                            elseif($orders->process_status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px; color: #F3BB45'></span>";
+                                            elseif($orders->process_status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px; color: green'></span>";
                                             endif;
                                             ?></p>
                                     </td>
@@ -55,10 +55,10 @@
                                     <td><?= date("n-j-Y", $orders->delivery_date) ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
+                                        <a class="btn btn-warning <?php if($orders->process_status == 3) echo 'disabled'; ?>" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
                                             <span class="ti-shopping-cart"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="#" title = "Cancel order" alt = "Cancel order">
+                                        <a class="btn btn-danger cancel <?php if($orders->process_status == 3) echo 'disabled'; ?>" href="#" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order">
                                             <span class="ti-close"></span>
                                         </a>
                                     </td>
@@ -74,4 +74,23 @@
         </div>
     </div>
 </div>
+<script>
+    $(".cancel").click(function () {
+        var id = $(this).data('id');
 
+        swal({
+            title: "Are you sure you want to cancel this order?",
+            text: "You will not be able to undo this action once cancelled.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "<?= $this->config->base_url() ?>orders/cancel/" + id;
+                } else {
+                    swal("This order is safe!");
+                }
+            });
+    });
+</script>

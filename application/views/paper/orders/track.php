@@ -54,7 +54,7 @@
                         <hr>
                     </div>
                     <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>orders/track_exec/<?= $order->order_id ?>" method = "POST" enctype="multipart/form-data">
+                        <form action = "<?= $this->config->base_url() ?>orders/track_exec/<?= $order->order_id ?>" method = "POST">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
