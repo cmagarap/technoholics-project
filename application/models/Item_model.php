@@ -82,18 +82,23 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-    function getCountsearch($table, $where, $like) {
-        if (!empty($where)) {
-            $this->db->like($where, $like);
+    function getCountsearch($table, $where = NULL, $like) {
+        
+        if (!empty($like && $where)) {
+            $this->db->like($where,$like);
         }
+
         $query = $this->db->get($table);
         return $query->num_rows();
     }
-
+    
     function getItemsWithLimitSearch($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL, $like) {
-        if (!empty($where)) {
-            $this->db->like($where, $like);
+        
+        if (!empty($like && $where)) {
+            $this->db->like($where,$like);
         }
+
+
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by($orderby, $order);
