@@ -1,24 +1,20 @@
 <footer class="footer">
     <div class="container-fluid">
-        <nav class="pull-left">
+        <!--<nav class="pull-left">
             <ul>
-                <li>
-                    <!-- Kung ano anong stuff -->
-                </li>
-                <li>
-
-                </li>
-                <li>
-
-                </li>
+                <li></li>
+                <li></li>
+                <li></li>
             </ul>
-        </nav>
+        </nav>-->
+        <div class="copyright pull-left">
+        Template made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com" target = "_blank">Creative Tim</a>
+        </div>
         <div class="copyright pull-right">
             &copy; <script>document.write(new Date().getFullYear())</script> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS
         </div>
     </div>
 </footer>
-
 </body>
 <!--
 <script src="assets/js/jquery-1.11.1.min.js"></script>
@@ -115,5 +111,4 @@ jQuery(window).unload(function () {
 });
 
 </script>
-
 </html>
