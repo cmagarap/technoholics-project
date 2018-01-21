@@ -93,7 +93,6 @@ class Inventory extends CI_Controller {
         }
     }
 
-
         public function add_product_exec() {
             $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
             $this->form_validation->set_rules('product_brand', "Please put the product brand.", "required");
