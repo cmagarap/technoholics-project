@@ -1,8 +1,8 @@
 <?php
-class Inventory extends CI_Controller
-{
-    function __construct()
-    {
+
+class Inventory extends CI_Controller {
+
+    function __construct() {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session', 'form_validation'));
@@ -12,13 +12,11 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function index()
-    {
+    public function index() {
         redirect('inventory/page');
     }
 
-    public function page()
-    { # This is the index
+    public function page() {
         $this->load->library('pagination');
         $perpage = 20;
         $config['base_url'] = base_url() . "inventory/page";
@@ -62,8 +60,7 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function view()
-    {
+    public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
             $data = array(
@@ -79,9 +76,8 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function add_product()
-    {
-        if (($this->session->userdata('type') == 0) OR ($this->session->userdata('type') == 1)) {
+    public function add_product() {
+        if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
             $data = array(
                 'title' => 'Inventory: Add Product',
                 'heading' => 'Inventory'
@@ -95,8 +91,7 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function add_product_exec()
-    {
+    public function add_product_exec() {
         $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
         $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
@@ -105,7 +100,6 @@ class Inventory extends CI_Controller
         $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
-
             $this->load->library('upload');
             $dataInfo = array();
             $files = $_FILES;
@@ -145,18 +139,14 @@ class Inventory extends CI_Controller
                 "action" => 'Added product: ' . trim($this->input->post('product_name')),
                 'status' => '1'
             );
-
             $this->item_model->insertData('product', $data);
             $this->item_model->insertData('user_log', $for_log);
-            redirect("inventory/page");
-
         } else {
             $this->add_product();
         }
     }
 
-    public function edit_product()
-    {
+    public function edit_product() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
             $data = array(
@@ -172,8 +162,7 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function edit_product_exec()
-    {
+    public function edit_product_exec() {
         $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
         $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
@@ -227,36 +216,15 @@ class Inventory extends CI_Controller
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
-                "action" => 'Edited product #' . $this->uri->segment(3),
+                "action" => 'Deleted product #' . $this->uri->segment(3),
                 'status' => '1'
             );
-
-            $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
             $this->item_model->insertData('user_log', $for_log);
             redirect("inventory/page");
-
-        } else {
-            $this->edit_product();
         }
     }
 
-    public function delete_product()
-    {
-        $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
-        $for_log = array(
-            "user_id" => $this->session->uid,
-            "user_type" => $this->session->userdata('type'),
-            "username" => $this->session->userdata('username'),
-            "date" => time(),
-            "action" => 'Deleted product #' . $this->uri->segment(3),
-            'status' => '1'
-        );
-        $this->item_model->insertData('user_log', $for_log);
-        redirect("inventory/page");
-    }
-
-    public function recover_product()
-    {
+    public function recover_product() {
         $this->load->library('pagination');
         $perpage = 20;
         $config['base_url'] = base_url() . "inventory/recover_product";
@@ -298,8 +266,7 @@ class Inventory extends CI_Controller
         }
     }
 
-    public function recover_product_exec()
-    {
+    public function recover_product_exec() {
         $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
         $for_log = array(
             "user_id" => $this->session->uid,
@@ -313,8 +280,7 @@ class Inventory extends CI_Controller
         redirect("inventory/recover_product");
     }
 
-    private function set_upload_options()
-    {
+    private function set_upload_options() {
         //upload an image options
         $config = array();
         $config['upload_path'] = './uploads_products/';
@@ -324,6 +290,5 @@ class Inventory extends CI_Controller
 
         return $config;
     }
-}
 
-?>
+}
