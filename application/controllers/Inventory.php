@@ -1,6 +1,7 @@
 <?php
 
 class Inventory extends CI_Controller {
+
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
@@ -58,7 +59,6 @@ class Inventory extends CI_Controller {
             redirect("home/");
         }
     }
-
 
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
@@ -141,31 +141,28 @@ class Inventory extends CI_Controller {
             );
             $this->item_model->insertData('product', $data);
             $this->item_model->insertData('user_log', $for_log);
-
         } else {
             $this->add_product();
         }
     }
-  
-        public function edit_product() {
-            if($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-                $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-                $data = array(
-                    'title' => "Inventory: Edit Product",
-                    'heading' => "Inventory",
-                    'products' => $product
-                );
-                $this->load->view('paper/includes/header', $data);
-                $this->load->view('paper/inventory/edit');
-                $this->load->view('paper/includes/footer');
-            } else {
-                redirect("home/");
-            }
+
+    public function edit_product() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+            $data = array(
+                'title' => "Inventory: Edit Product",
+                'heading' => "Inventory",
+                'products' => $product
+            );
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view('paper/inventory/edit');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect("home/");
         }
     }
 
-    public function edit_product_exec()
-    {
+    public function edit_product_exec() {
         $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
         $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
@@ -215,15 +212,16 @@ class Inventory extends CI_Controller {
             }
 
             $for_log = array(
-            "user_id" => $this->session->uid,
-            "user_type" => $this->session->userdata('type'),
-            "username" => $this->session->userdata('username'),
-            "date" => time(),
-            "action" => 'Deleted product #' . $this->uri->segment(3),
-            'status' => '1'
-        );
-        $this->item_model->insertData('user_log', $for_log);
-        redirect("inventory/page");
+                "user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Deleted product #' . $this->uri->segment(3),
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+            redirect("inventory/page");
+        }
     }
 
     public function recover_product() {
@@ -292,4 +290,5 @@ class Inventory extends CI_Controller {
 
         return $config;
     }
+
 }
