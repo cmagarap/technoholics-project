@@ -66,11 +66,11 @@ _________________________________________________________ -->
                                 <ul>
                                     <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Lenovo</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Sony</a>
+                                    <li><a href="<?= base_url().'home/category/laptop/acer'; ?>">Acer</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">HP</a>
+                                    <li><a href="<?= base_url().'home/category/laptop/asus'; ?>">Asus</a>
                                     </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/lenovo'; ?>">Dell</a>
+                                    <li><a href="<?= base_url().'home/category/laptop/HP'; ?>">Hp</a>
                                     </li>
                                 </ul>
                             </li>

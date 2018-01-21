@@ -63,7 +63,8 @@
                                            <option value="Accessories">Accessories</option>
                                             <option value="Featured">Feature</option>
                                             <option value="Laptop">Laptop</option> 
-                                             <option value="Cellphone">Cellphone</option> 
+                                             <option value="Smartphone">Smartphone</option>
+                                             <option value="Tablet">Tablet</option>  
                                         </select>
                                     </div>
                                 </div>

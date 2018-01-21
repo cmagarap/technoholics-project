@@ -104,8 +104,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Product Image</label>
-                                        <input type="file" class="form-control border-input file" name = "product_image">
+                                       <label>Product Image</label>
+                                        <div class="input_fields_wrap">
+                                            <button class="add_field_button">Add More Fields</button>
+                                            <div><input type="file" class="form-control border-input file" name ="user_file[]"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

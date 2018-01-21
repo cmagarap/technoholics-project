@@ -284,7 +284,7 @@ class Inventory extends CI_Controller {
         //upload an image options
         $config = array();
         $config['upload_path'] = './uploads_products/';
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = '0';
         $config['overwrite'] = FALSE;
 
