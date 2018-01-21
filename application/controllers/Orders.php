@@ -132,9 +132,20 @@ class Orders extends CI_Controller {
                 "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
                 "sales_date" => time(),
-                "admin_id" => $this->session->uid
+                "admin_id" => $this->session->uid,
+                "order_id" => $order->order_id
             );
             $this->item_model->insertData("sales", $for_sales);
+
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+            $for_log = array(
+                "$user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Edited order #' . $this->uri->segment(3) . "'s status to 'delivered'."
+            );
+            $this->item_model->insertData("user_log", $for_log);
         }
         redirect("orders/");
     }

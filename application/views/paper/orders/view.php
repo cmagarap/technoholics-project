@@ -49,7 +49,7 @@
                     <hr>
                     <div class="row">
                         <div class="text-center">
-                            <a href = "<?= base_url() ?>orders" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                         </div>
                     </div>
                 </div>

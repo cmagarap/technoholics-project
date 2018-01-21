@@ -85,7 +85,7 @@
 
         swal({
             title: "Are you sure you want to cancel this order?",
-            text: "You will not be able to undo this action once cancelled.",
+            text: "You won't be able to undo this action once cancelled.",
             icon: "warning",
             buttons: true,
             dangerMode: true,

@@ -46,7 +46,7 @@
                                     <td>&#8369;<?= number_format($sales->income, 2) ?></td>
                                     <td><?= date("m-j-Y", $sales->sales_date) ?>
                                     </td>
-                                    <td></td>
+                                    <td><u><a href = "<?= $this->config->base_url() ?>orders/view/<?= $sales->order_id ?>"><?= $sales->order_id ?></a></u></td>
                                     <td>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title = "Delete" alt = "Delete">
                                             <span class="ti-trash"></span>
