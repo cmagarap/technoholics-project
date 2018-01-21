@@ -30,10 +30,11 @@
                             <thead>
                             <th></th>
                             <th><b>#</b></th>
-                            <th><b>Order #</b></th>
+                            <th><b>Details</b></th>
                             <th><b>Income</b></th>
-                            <th><b>Sales Date</b></th>
-                            <th><b>Actions</b></th>
+                            <th><b>Date</b></th>
+                            <th><b>Order</b></th>
+                            <th></th>
                             </thead>
                             <tbody>
                             <?php
@@ -41,14 +42,12 @@
                                 <tr>
                                     <td><p style = "font-size: 12px"><span class='ti-money' style = 'font-size: 15px; color: green'></span></p></td>
                                     <td><?= $sales->sales_id ?></td>
-                                    <td></td>
+                                    <td><i><?= $sales->sales_detail ?></i></td>
                                     <td>&#8369;<?= number_format($sales->income, 2) ?></td>
-                                    <td><?= date("n-j-Y", $sales->sales_date) ?>
+                                    <td><?= date("m-j-Y", $sales->sales_date) ?>
                                     </td>
+                                    <td></td>
                                     <td>
-                                        <a class="btn btn-info" href = "<?= base_url() ?>sales/view/<?= $sales->sales_id ?>" title = "View Sales" alt = "View Sales">
-                                            <span class="ti-eye"></span>
-                                        </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title = "Delete" alt = "Delete">
                                             <span class="ti-trash"></span>
                                         </a>
@@ -70,17 +69,17 @@
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to cancel this order?",
-            text: "You will not be able to undo this action once cancelled.",
+            title: "Are you sure you want to delete this?",
+            // text: "You will not be able to undo this action once cancelled.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>orders/cancel/" + id;
+                    window.location = "<?= $this->config->base_url() ?>sales/delete/" + id;
                 } else {
-                    swal("This order is safe!");
+                    // swal("This order is safe!");
                 }
             });
     });

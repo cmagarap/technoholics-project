@@ -61,6 +61,28 @@ class Orders extends CI_Controller {
         }
     }
 
+    public function view() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));
+            if($order_items) {
+                $data = array(
+                    'title' => "Orders: View Order",
+                    'heading' => "Orders Management",
+                    'order_items' => $order_items
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/orders/view');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('orders');
+            }
+            #$order = $this->item_model->fetch('orders', array('order_id' => $this->uri->segment(3)));
+        } else {
+            redirect('home');
+        }
+    }
+
     public function track() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));

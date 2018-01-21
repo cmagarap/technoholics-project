@@ -52,12 +52,17 @@
                                     $customers = $customers[0]; ?>
                                     <td><?= $customers->username ?></td>
                                     <td>&#8369;<?= number_format($orders->total_price, 2) ?></td>
-                                    <td><?= date("n-j-Y", $orders->delivery_date) ?>
+                                    <td><?= date("m-j-Y", $orders->delivery_date) ?>
                                     </td>
-                                    <td>
-                                        <a class="btn btn-warning <?php if($orders->process_status == 3) echo 'disabled'; ?>" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
+                                    <td><?php if($orders->process_status == 3) { ?>
+                                        <a class="btn btn-info" href = "<?= base_url() ?>orders/view/<?= $orders->order_id ?>" title = "View Order" alt = "View Order">
+                                            <span class="ti-eye"></span>
+                                        </a>
+                                        <?php } else { ?>
+                                        <a class="btn btn-warning" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
                                             <span class="ti-shopping-cart"></span>
                                         </a>
+                                        <?php } ?>
                                         <a class="btn btn-danger cancel <?php if($orders->process_status == 3) echo 'disabled'; ?>" href="#" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order">
                                             <span class="ti-close"></span>
                                         </a>

@@ -63,4 +63,20 @@ class Sales extends CI_Controller {
             redirect("home/");
         }
     }
+
+    public function delete() {
+        $delete = $this->item_model->updatedata("sales", array("status" => 0), "sales_id = " . $this->uri->segment(3));
+        if($delete) {
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+            $for_log = array(
+                "$user_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Deleted Sales #' . $this->uri->segment(3)
+            );
+            $this->item_model->insertData("user_log", $for_log);
+            redirect("sales/page");
+        }
+    }
 }
