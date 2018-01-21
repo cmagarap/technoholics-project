@@ -1,4 +1,3 @@
-<?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">

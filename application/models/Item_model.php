@@ -76,6 +76,17 @@ class Item_model extends CI_Model {
         return $query->result();
     }
 
+    function getTrailWithLimit($limit, $offset, $where = NULL) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('at_id', 'DESC');
+        $query = $this->db->get('audit_trail');
+        return $query->result();
+    }
+
     function search($table, $where, $like) {
         $this->db->like($where, $like);
         $query = $this->db->get($table);

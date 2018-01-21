@@ -54,7 +54,7 @@
                         <hr>
                     </div>
                     <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>orders/track_exec/<?= $order->order_id ?>" method = "POST" enctype="multipart/form-data">
+                        <form action = "<?= $this->config->base_url() ?>orders/track_exec/<?= $order->order_id ?>" method = "POST">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -80,11 +80,11 @@
                                         <!-- SHOULD BE CALENDAR -->
                                         <label for="shipper">Change Delivery Date</label>
                                         <select name="delivery_date" id="" class = "form-control border-input file">
-                                            <option value="Chargers">Chargers</option>
-                                            <option value="Accessories">Accessories</option>
-                                            <option value="Featured">Feature</option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Cellphone">Cellphone</option>
+                                            <option>Date Picker to dapat</option>
+                                            <option>Date Picker to dapat</option>
+                                            <option>Date Picker to dapat</option>
+                                            <option>Date Picker to dapat</option>
+                                            <option>Date Picker to dapat</option>
                                         </select>
                                     </div>
                                 </div>
