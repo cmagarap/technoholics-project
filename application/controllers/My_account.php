@@ -29,6 +29,7 @@ class My_account extends CI_Controller {
                 'logs' => $user_log
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/edit_myaccount");
             $this->load->view("paper/includes/footer");
         } else {
@@ -79,6 +80,7 @@ class My_account extends CI_Controller {
                 'user' => $my_account
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/change_password");
             $this->load->view("paper/includes/footer");
         } else {

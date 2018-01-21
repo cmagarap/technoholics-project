@@ -1,4 +1,3 @@
-<?php $counter = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -19,7 +18,7 @@
                                 <th><b>#</b></th>
                                 <th><b>User</b></th>
                                 <th><b>Action</b></th>
-                                <th><b>User ID</b></th>
+                                <th><b>ID #</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Time</b></th>
                                 </thead>
@@ -49,3 +48,4 @@
             </div>
         </div>
     </div>
+</div>

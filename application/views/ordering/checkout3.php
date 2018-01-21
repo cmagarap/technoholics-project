@@ -1,4 +1,3 @@
-
 <div id="all">
 
     <div id="content">
@@ -8,89 +7,98 @@
                 <ul class="breadcrumb">
                     <li><a href="#">Home</a>
                     </li>
-                    <li>Checkout - Payment method</li>
+                    <li>Checkout - Order review</li>
                 </ul>
             </div>
 
             <div class="col-md-9" id="checkout">
 
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout4'; ?>">
-                        <h1>Checkout - Payment method</h1>
+                    <form method="post" action="<?= base_url().'home/placeorder';?>">
+                        <h1>Checkout - Order review</h1>
                         <ul class="nav nav-pills nav-justified">
-                            <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
+                            <li class = "disabled"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a>
                             </li>
-                            <li class="active"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
+                            <li class = "disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
-                            <li class="disabled"><a href="<?= base_url().'home/checkout4'; ?>"><i class="fa fa-eye"></i><br>Order Review</a>
+                            <li class="active"><a href="#" style = "cursor: auto"><i class="fa fa-eye"></i><br>Order Review</a>
                             </li>
                         </ul>
 
                         <div class="content">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="box payment-method">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>Unit price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if($CTI > 0){
+                                        //get cart items from session
+                                        foreach($cartItems as $item){
+                                    ?>
+                                    <tr>
+                                    <td>
+                                        <a href="#">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
+                                        </a>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td><a href="#"><?= $item["name"] ?></a>
+                                    </td>
+                                    <td>
+                                        <?= $item["qty"]; ?>
+                                    </td>
+                                    <td><?php echo '&#8369;'.number_format($item["price"],2)?> </td>
+                                    <!-- <td>$0.00</td> -->
+                                    <td><?php echo '&#8369;'.number_format($item["subtotal"],2) ?></td>
+                                </tr>
+                                    <?php } }else{ ?>
+                                    <tr><td colspan="5"><p>Your cart is empty.</p></td>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                <?php if($CTI > 0){ ?>
+                                    <th colspan="5">Total Product Price</th>
+                                    <th colspan="2"><?= '&#8369;'.number_format($CT,2)?></th>
+                                    <?php } ?>
+                                </tr>
+                                </tfoot>
+                                </table>
 
-                                        <h4>Paypal</h4>
-
-                                        <p>We like it all.</p>
-
-                                        <div class="box-footer text-center">
-
-                                            <input type="radio" name="payment" value="payment1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="box payment-method">
-
-                                        <h4>Payment gateway</h4>
-
-                                        <p>VISA and Mastercard only.</p>
-
-                                        <div class="box-footer text-center">
-
-                                            <input type="radio" name="payment" value="payment2">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="box payment-method">
-
-                                        <h4>Cash on delivery</h4>
-
-                                        <p>You pay when you get it.</p>
-
-                                        <div class="box-footer text-center">
-
-                                            <input type="radio" name="payment" value="payment3">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <!-- /.row -->
-
+                            <!-- /.table-responsive -->
                         </div>
                         <!-- /.content -->
 
                         <div class="box-footer">
                             <div class="pull-left">
-                                <a href="<?= base_url().'home/checkout1'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
+                                <a href="<?= base_url().'home/checkout2'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Payment method</a>
                             </div>
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary">Continue to Order review<i class="fa fa-chevron-right"></i>
+                            <button type="submit" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
                                 </button>
                             </div>
                         </div>
-                        <input type="hidden" name="firstname" value="<?=$fname?>">
-                        <input type="hidden" name="lastname" value="<?=$lname?>">
-                        <input type="hidden" name="address" value="<?=$address?>">
-                        <input type="hidden" name="province" value="<?=$province?>">
-                        <input type="hidden" name="city" value="<?=$city?>">
-                        <input type="hidden" name="barangay" value="<?=$barangay?>">
-                        <input type="hidden" name="zip" value="<?=$zip?>">
-                        <input type="hidden" name="email" value="<?=$email?>">
+
+                        <input type="hidden" name="firstname" value="<?= $fname ?>">
+                        <input type="hidden" name="lastname" value="<?= $lname ?>">
+                        <input type="hidden" name="address" value="<?= $address ?>">
+                        <input type="hidden" name="province" value="<?= $province ?>">
+                        <input type="hidden" name="city" value="<?= $city ?>">
+                        <input type="hidden" name="barangay" value="<?= $barangay ?>">
+                        <input type="hidden" name="zip" value="<?= $zip ?>">
+                        <input type="hidden" name="email" value="<?= $email ?>">
+                        <input type="hidden" name="contact" value="<?= $contact ?>">
+                        <input type="hidden" name="payment" value="<?= $payment ?>">
                     </form>
                 </div>
                 <!-- /.box -->
@@ -112,19 +120,20 @@
                             <tbody>
                             <tr>
                                 <td>Order subtotal</td>
-                                <th>$446.00</th>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p><?= number_format($CT,2); ?></th>
                             </tr>
                             <tr>
                                 <td>Shipping and handling</td>
-                                <th>$10.00</th>
+                                <!-- SHIPPING FEE IS STILL STATIC, THE AMOUNT SHOULD BE ASKED TO THE CLIENT -->
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>40.00</th>
                             </tr>
-                            <tr>
-                                <td>Tax</td>
-                                <th>$0.00</th>
-                            </tr>
+                            <!--<tr>
+                                <td>Discount</td>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>0.00</th>
+                            </tr>-->
                             <tr class="total">
                                 <td>Total</td>
-                                <th>$456.00</th>
+                                <th><u>&#8369;<?= number_format($CT + 40.00,2)?></u></th>
                             </tr>
                             </tbody>
                         </table>

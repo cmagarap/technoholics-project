@@ -5,6 +5,7 @@
  * Date: 12/13/2017
  * Time: 9:00 PM
  */
+
 # This is just a random controller used for debugging, etc.
 class Random extends CI_Controller {
     function __construct() {
@@ -15,7 +16,9 @@ class Random extends CI_Controller {
     }
 
     public function index() {
-        $this->load->library('encryption');
+        $this->load->view("paper/practice_charts");
+
+        /*$this->load->library('encryption');
         $hash = random_string('alnum', 20);
         echo "<b>This is a random string: </b>$hash<br>";
         echo "<b>SHA1: </b>".sha1('seej101')."<br>";
@@ -58,14 +61,24 @@ class Random extends CI_Controller {
             echo "<br><b style = 'color: red'>NOT EQUAL</b>";
         }
 
-        echo "<br><pre>";
+        #echo "<br><pre>";
         $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
         $hex = bin2hex($bytes); # length of hex is double the bytes
         # var_dump($hex);
         # var_dump($crypto_strong);
-        echo $hex."</pre>";
+        #echo $hex."</pre>";
 
+        */
+        $sample = $this->item_model->fetch("user_log");
+        $sample = $sample[0];
+        echo date("F j, Y", 1516409137);
 
+    }
 
+    public function getProductdata() {
+        header('Content-Type: application/json');
+        #$this->db->select("product_quantity");
+        $data = $this->item_model->fetch('product', NULL, NULL, NULL, 6);
+        echo json_encode($data);
     }
 }
