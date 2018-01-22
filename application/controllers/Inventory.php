@@ -157,9 +157,9 @@ class Inventory extends CI_Controller {
                 'category_id' => $this->input->post('product_category'),
                 'brand_id' => $this->input->post('product_brand'),
             );
-            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+            
             $for_log = array(
-                "$user_id" => $this->session->uid,
+                "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
@@ -239,9 +239,9 @@ class Inventory extends CI_Controller {
                         'product_quantity' => $this->input->post('product_quantity'),
                         'product_category' => $this->input->post('product_category'),
                         'product_image1' => $dataInfo[0],
-                        'product_image2' => $dataInfo[1],
-                        'product_image3' => $dataInfo[2],
-                        'product_image4' => $dataInfo[3],
+                        'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
+                        'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
+                        'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
                         'supplier' => trim($this->input->post('supplier')),
                         'added_at' => time(),
                         'product_desc' => $this->input->post('product_desc'),

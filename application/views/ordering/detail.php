@@ -117,6 +117,13 @@ _________________________________________________________ -->
                     <div class="col-md-9">
                         <div class="row" id="productMain">
                             <!-- start content -->
+                        <?php if (!$row->product_quantity): ?>
+                            <div class="ribbon sale">
+                                <div class="theribbon">OUT OF STOCK</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                        <?php endif ?>
+
                             <div class="col-sm-5">
                                 <ul id="etalage">
                                     <li>
@@ -147,7 +154,7 @@ _________________________________________________________ -->
                                 <h3 class="text-center">Quantity: <?= $row->product_quantity ?></h3>
                                 <h2 class="text-center">₱<?= number_format($row->product_price) ?></h2>
                                 <p class="text-center buttons">
-                                    <a href="<?= base_url() . 'home/basket'; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                     <a href="<?= base_url() . 'home/basket'; ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
                                 </p>
                             </div>
@@ -183,6 +190,73 @@ _________________________________________________________ -->
                                 </p>
                             </div>
                         </div>
+                        
+                        <div class="box">
+                        <div id="comments" >
+                    <?php if (!$feedback): ?>
+                        <h4>0 comments</h4>
+                    <?php else: ?>
+                        <h4>2 comments</h4>
+                        <?php foreach ($feedback as $feedback): ?>
+                        <?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
+                        $user_image = (string)$userinformation->image;
+                        $image_array = explode(".", $user_image);
+                        ?>
+                            <div class="row comment">
+                                <div class="col-sm-3 col-md-2 text-center-xs">
+                                    <p>
+                                        <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                                    </p>
+                                </div>
+                                <div class="col-sm-9 col-md-10">
+                                    <h5><?= $userinformation->username?></h5>
+                                    <!-- <p class="posted"><i class="fa fa-clock-o"></i>September 23, 2011 at 12:00 am</p> -->
+                                    <p class="posted"><i class="fa fa-clock-o"></i><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
+                                    <!-- <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.
+                                        Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p> -->
+                                    <p><?=$feedback->feedback?></p>
+                                    <!-- <p class="reply"><a href="#"><i class="fa fa-reply"></i> Reply</a>
+                                    </p> -->
+                                </div>
+                            </div> 
+                        <?php endforeach ?>
+                    <?php endif ?>
+                        <div id="comment-form">
+                            <h4>Leave comment</h4>
+                            <form method="post" action="<?= base_url().'home/post';?>" >
+                                <!-- <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="name">Name <span class="required">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                    </div>
+
+                                </div> -->
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="comment">Comment <span class="required">*</span>
+                                            </label>
+                                            <textarea class="form-control" id="comment" rows="4" name="feedback" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 text-right">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-comment-o"></i> Post comment</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="product_id" value="<?= $row->product_id ?>">
+                            </form>
+                        </div>
+                    </div>
+                            <!-- /.comment -->
+                </div>
+            </div>
 
                         <div class="row same-height-row">
                             <div class="col-md-3 col-sm-6">
