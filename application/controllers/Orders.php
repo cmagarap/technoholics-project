@@ -6,6 +6,7 @@
  * Time: 2:27 PM
  */
 
+date_default_timezone_set("Asia/Manila");
 class Orders extends CI_Controller {
     public function __construct() {
         parent::__construct();

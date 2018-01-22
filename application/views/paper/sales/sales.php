@@ -6,6 +6,9 @@
                     <div class="header">
                         <h3>Chart</h3>
                         <hr>
+                        <div id="chart-container">
+                            <canvas id="salesLine"></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
@@ -84,3 +87,4 @@
             });
     });
 </script>
+z

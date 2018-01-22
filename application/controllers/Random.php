@@ -7,6 +7,7 @@
  */
 
 # This is just a random controller used for debugging, etc.
+date_default_timezone_set("Asia/Manila");
 class Random extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -69,10 +70,12 @@ class Random extends CI_Controller {
         #echo $hex."</pre>";
 
         */
-        $sample = $this->item_model->fetch("user_log");
-        $sample = $sample[0];
-        echo date("F j, Y", 1516409137);
-
+        #$sample = $this->item_model->fetch("user_log");
+        #$sample = $sample[0];
+        #echo date("F j, Y", 1516409137);
+        $lastweek = time() - (6 * 24 * 60 * 60);
+        #echo date("F j, Y", $lastweek);
+        echo $lastweek;
     }
 
     public function getProductdata() {
