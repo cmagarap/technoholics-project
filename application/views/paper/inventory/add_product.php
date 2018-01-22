@@ -11,21 +11,18 @@
                     <div class="content">
                         <?php
                         if(isset($_POST['enter'])) {
-                            $supplier = $_POST['supplier'];
                             $product_brand = $_POST['product_brand'];
                             $product_name = $_POST['product_name'];
                             $product_price = $_POST['product_price'];
                             $product_quantity = $_POST['product_quantity'];
                             $product_desc = $_POST['product_desc'];
                         } elseif(isset($_POST['reset'])) {
-                            $supplier = "";
                             $product_brand = "";
                             $product_name = "";
                             $product_price = "";
                             $product_quantity = "";
                             $product_desc = "";
                         } else {
-                            $supplier = "";
                             $product_brand = "";
                             $product_name = "";
                             $product_price = "";
@@ -33,30 +30,30 @@
                             $product_desc = "";
                         }
                         ?>
-                        <form action = "<?= $this->config->base_url() ?>inventory/add_product_exec" method = "POST" enctype="multipart/form-data" target="uploadTarget">
+                        <form action = "<?= $this->config->base_url() ?>inventory/add_product_exec" method = "POST" enctype="multipart/form-data" >
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Supplier Company <span style = "color: red">*</span></label>
-                                        <input type="text" class="form-control border-input" placeholder="Company name" name = "supplier" value = "<?= $supplier ?>">
-                                        <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("supplier") . "</span>";
-                                        endif; ?>
+                                        <select name="product_supplier" class = "form-control border-input file">
+                                            <?php foreach($supplier as $supplier): ?>
+                                            <option value="<?= $supplier->company_name ?>">
+                                                <?= $supplier->company_name ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Product Brand <span style = "color: red">*</span></label>
-                                        <select name="product_brand" id="" class = "form-control border-input file">
-                                                <option value="Lenovo">Lenovo</option>
-                                                <option value="Apple">Apple</option>
-                                                <option value="Samsung">Samsung</option>
-                                        </select>
-                                        <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("product_brand") . "</span>";
-                                        endif; ?>
-                                    </div>
+                                <div class="form-group">
+                                    <label>Product Brand <span style = "color: red">*</span></label>
+                                    <select name="product_brand" id="" class = "form-control border-input file">
+                                        <?php foreach($brand as $brand): ?>
+                                            <option value="<?= $brand->brand_name ?>">
+                                                <?= $brand->brand_name ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
+                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -71,15 +68,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Product Category <span style = "color: red">*</span></label>
-                                        <?php
-                                            $categories = $this->item_model->getDistinct('product', 'product_category', 'ASC');
-                                        ?>
                                         <select name="product_category" id="" class = "form-control border-input file">
-                                           <option value="Chargers">Chargers</option>
-                                           <option value="Accessories">Accessories</option>
-                                            <option value="Featured">Feature</option>
-                                            <option value="Laptop">Laptop</option> 
-                                             <option value="Cellphone">Cellphone</option> 
+                                            <?php foreach($category as $category): ?>
+                                                <option value="<?= $category->category ?>">
+                                                    <?= $category->category ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -101,8 +94,8 @@
                                         <?php if(validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("product_quantity") . "</span>";
                                         endif; ?>
-                                    </div>
                                 </div>
+                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">

@@ -220,10 +220,16 @@ _________________________________________________________ -->
                                     <p class="price">₱<?= number_format($row->product_price, 2) ?></p>
                                     <p class="buttons">
                                         <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>"  class="btn btn-default">View detail</a>
-                                        <button type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                        <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                     </p>
                                 </div>
                                 <!-- /.text -->
+                                <?php if (!$row->product_quantity): ?>
+                                <div class="ribbon sale">
+                                    <div class="theribbon">OUT OF STOCK</div>
+                                    <div class="ribbon-background"></div>
+                                </div>
+                                <?php endif ?>
                             </div>
                             <!-- /.product -->
                         </div>
