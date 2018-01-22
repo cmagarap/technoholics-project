@@ -154,7 +154,7 @@ _________________________________________________________ -->
 
         <div class="col-md-9">
             <div class="box">
-                <h1><?= ucwords($brand) . " " . ucwords($category) . "s" ?></h1>
+                <h1><?= ucwords($brand) . " " . ucwords($category) ?></h1>
             </div>
 
             <div class="box info-bar">
