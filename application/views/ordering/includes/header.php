@@ -16,6 +16,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     
     <!-- styles -->
+   
     <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/font-awesome.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/bootstrap.min.css'; ?>" rel="stylesheet">
@@ -30,6 +31,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
    
     <!-- your stylesheet with modifications -->
+    
+    <link rel="stylesheet" href="<?= base_url().'assets/ordering/css/etalage.css'?>">
+    <script type="text/javascript" src="<?= base_url().'assets/ordering/js/megamenu.js'?>"></script>
+    <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+    <script src="<?= base_url().'assets/ordering/js/jquery.etalage.min.js'; ?>"></script>
+
     <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <script src="<?= base_url().'assets/ordering/js/respond.min.js'; ?>"></script>
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
@@ -91,6 +98,22 @@
             background-color: lightblue;
         }
     </style>
+    <script>
+			jQuery(document).ready(function($){
+
+				$('#etalage').etalage({
+					thumb_image_width: 350,
+					thumb_image_height: 350,
+					source_image_width: 1000,
+					source_image_height: 1000,
+					show_hint: true,
+					click_callback: function(image_anchor, instance_id){
+						alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
+					}
+				});
+
+			});
+    </script>
 </head>
 <body>
 <br><br><br><br><br><br>

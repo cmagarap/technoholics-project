@@ -21,6 +21,7 @@ class Dashboard extends CI_Controller {
             $data = array('title' => "Admin Home", "heading" => "Dashboard");
             # print_r($_SESSION);
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/dashboard');
             $this->load->view('paper/includes/footer');
         } else {

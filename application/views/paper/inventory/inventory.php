@@ -2,6 +2,20 @@
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
+            <?php if($this->session->flashdata('statusMsg')):?>
+                <script>
+                $(document).ready(function(){
+                    demo.initChartist();
+                    $.notify({
+                        icon: 'ti-direction',
+                        message: "<?=$this->session->flashdata('statusMsg')?>"
+                    },{
+                        type: 'info',
+                        timer: 2000
+                    });
+                });
+                </script>
+            <?php endif; ?>
             <form action = "" method = "POST">
                 <div class="input-group">
                     <input type="text" name="search" class = "search" placeholder="Search product...">
@@ -37,9 +51,10 @@
                                 <thead>
                                 <th><b>#</b></th>
                                 <th><b>Name</b></th>
+                                <th><b>Brand</b></th>
                                 <th><b>Category</b></th>
                                 <th><b>Price</b></th>
-                                <th><b>Quantity</b></th>
+                                <th><b>Stocks</b></th>
                                 <th><b>Actions</b></th>
                                 </thead>
                                 <tbody>
@@ -48,6 +63,7 @@
                                 <tr>
                                     <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
+                                    <td><?= $products->product_brand ?></td>
                                     <td><?= $products->product_category ?></td>
                                     <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
                                     <td><?= $products->product_quantity ?></td>

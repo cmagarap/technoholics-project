@@ -118,7 +118,8 @@ class Login extends CI_Controller {
     public function forgot() {
         if (!$this->session->has_userdata('isloggedin')) {
             $data = array(
-                'title' => "Request for password reset"
+                'title' => "Request for password reset",
+                'page' => "Home"
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
