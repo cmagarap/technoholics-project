@@ -44,6 +44,7 @@ class Inventory extends CI_Controller {
             $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1));
             $this->pagination->initialize($config);
             $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 1));
+
             $data = array(
                 'title' => 'Inventory Management',
                 'heading' => 'Inventory',
@@ -79,9 +80,15 @@ class Inventory extends CI_Controller {
 
     public function add_product() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+            $supplier = $this->item_model->fetch("supplier", NULL, "company_name", "ASC");
+            $category = $this->item_model->fetch("category", NULL, "category", "ASC");
+            $brand = $this->item_model->fetch("brand", NULL, "brand_name", "ASC");
             $data = array(
                 'title' => 'Inventory: Add Product',
-                'heading' => 'Inventory'
+                'heading' => 'Inventory',
+                'supplier' => $supplier,
+                'category' => $category,
+                'brand' => $brand
             );
 
             $this->load->view('paper/includes/header', $data);
@@ -94,8 +101,8 @@ class Inventory extends CI_Controller {
     }
 
         public function add_product_exec() {
-            $this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
-            $this->form_validation->set_rules('product_brand', "Please put the product brand.", "required");
+            #$this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
+            #$this->form_validation->set_rules('product_brand', "Please put the product brand.", "required");
             $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
             $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
             $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
@@ -131,25 +138,28 @@ class Inventory extends CI_Controller {
                 $this->image_lib->initialize($config2);
 
             }
-
+            $brand_fetch = $this->item_model->fetch("brand", array("brand_id" => $this->input->post('product_brand')))[0];
+            $category_fetch = $this->item_model->fetch("category", array("category_id" => $this->input->post('product_category')))[0];
             $data = array(
-                'product_name' => trim($this->input->post('product_name')),
-                'product_brand' => $this->input->post('product_brand'),
-                'product_price' => $this->input->post('product_price'),
-                'product_quantity' => $this->input->post('product_quantity'),
-                'product_category' => $this->input->post('product_category'),
+                'product_name' => html_escape(trim($this->input->post('product_name'))),
+                'product_brand' => $brand_fetch->brand_name,
+                'product_category' => $category_fetch->category,
+                'product_price' => html_escape($this->input->post('product_price')),
+                'product_quantity' => html_escape($this->input->post('product_quantity')),
                 'product_image1' => $dataInfo[0],
-                'product_image2' => $dataInfo[1],
-                'product_image3' => $dataInfo[2],
-                'product_image4' => $dataInfo[3],
-                'supplier' => trim($this->input->post('supplier')),
+                'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
+                'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
+                'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
                 'added_at' => time(),
-                'product_desc' => $this->input->post('product_desc'),
-                'status' => '1'
+                'product_desc' => html_escape(trim($this->input->post('product_desc'))),
+                'supplier_id' => $this->input->post("product_supplier"),
+                'admin_id' => $this->session->uid,
+                'category_id' => $this->input->post('product_category'),
+                'brand_id' => $this->input->post('product_brand'),
             );
-
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
-                "user_id" => $this->session->uid,
+                "$user_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
@@ -159,13 +169,13 @@ class Inventory extends CI_Controller {
 
             $insert = $this->item_model->insertData('product', $data);
             $this->item_model->insertData('user_log', $for_log);
-            $statusMsg = $insert? '<b>'.trim($this->input->post('product_name')).'</b>'.' has been added successfully.':'Some problem occured, please try again.';
+            $statusMsg = $insert ? '<b>'.trim($this->input->post('product_name')).'</b>'.' has been added successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg',$statusMsg);
             redirect("inventory/page");
         }
 
         else {
-                $this->add_product();
+            $this->add_product();
         }
     }
         public function edit_product() {
@@ -238,8 +248,9 @@ class Inventory extends CI_Controller {
                         'status' => '1'
                     );
 
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => $this->session->uid,
+                    "$user_id" => $this->session->uid,
                     "user_type" => $this->session->userdata('type'),
                     "username" => $this->session->userdata('username'),
                     "date" => time(),
@@ -258,8 +269,9 @@ class Inventory extends CI_Controller {
 
         public function delete_product() {
             $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
-            "user_id" => $this->session->uid,
+            "$user_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
             "username" => $this->session->userdata('username'),
             "date" => time(),
@@ -315,8 +327,9 @@ class Inventory extends CI_Controller {
 
     public function recover_product_exec() {
         $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
+        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
         $for_log = array(
-            "user_id" => $this->session->uid,
+            "$user_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
             "username" => $this->session->userdata('username'),
             "date" => time(),

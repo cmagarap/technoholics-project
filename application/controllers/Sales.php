@@ -6,6 +6,7 @@
  * Time: 1:15 PM
  */
 
+date_default_timezone_set("Asia/Manila");
 class Sales extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -78,5 +79,11 @@ class Sales extends CI_Controller {
             $this->item_model->insertData("user_log", $for_log);
             redirect("sales/page");
         }
+    }
+
+    public function getSalesData() {
+        header('Content-Type: application/json');
+        $data = $this->item_model->fetch('sales');
+        echo json_encode($data);
     }
 }

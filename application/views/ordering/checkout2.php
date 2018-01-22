@@ -37,7 +37,7 @@
 
                                         <div class="box-footer text-center">
 
-                                            <input type="radio" name="payment" value="payment1">
+                                            <input type="radio" name="payment" value="paypal">
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
 
                                         <div class="box-footer text-center">
 
-                                            <input type="radio" name="payment" value="payment2">
+                                            <input type="radio" name="payment" value="visa_mastercard">
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
 
                                         <div class="box-footer text-center">
 
-                                            <input type="radio" name="payment" value="payment3">
+                                            <input type="radio" name="payment" value="COD">
                                         </div>
                                     </div>
                                 </div>
