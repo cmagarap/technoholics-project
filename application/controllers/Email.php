@@ -20,7 +20,7 @@ class Email extends CI_Controller {
         $this->email->from('veocalimlim@gmail.com', "Veyo");
 
         //Email recipient
-        $this->email->to($this->input->post('receipient'));
+        $this->email->to($this->input->post('rece   ipient'));
 
         //Email Subject
         $this->email->subject($this->input->post('subject'));

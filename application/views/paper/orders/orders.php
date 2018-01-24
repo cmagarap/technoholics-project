@@ -12,6 +12,7 @@
                     <div class="header">
                         <h3>Calendar</h3>
                         <hr>
+                        <?=$this->load->view('paper/includes/calendar');?>
                     </div>
                 </div>
             </div>
