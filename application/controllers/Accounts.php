@@ -66,6 +66,7 @@ class Accounts extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/accounts");
             $this->load->view("paper/includes/footer");
         } else {
@@ -110,6 +111,7 @@ class Accounts extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/customers");
             $this->load->view("paper/includes/footer");
         } else {
@@ -122,21 +124,43 @@ class Accounts extends CI_Controller {
             if ($this->uri->segment(3) == "admin") {
                 $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
                 $user_log = $this->item_model->fetch('user_log', array('admin_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+
+                if($account AND $user_log) {
+                    $data = array(
+                        'title' => "Accounts: View User Info",
+                        'heading' => "Accounts",
+                        'account' => $account,
+                        'logs' => $user_log
+                    );
+                    $this->load->view('paper/includes/header', $data);
+                    $this->load->view("paper/includes/navbar");
+                    $this->load->view('paper/accounts/view');
+                    $this->load->view('paper/includes/footer');
+                } else {
+                    redirect("accounts/admin");
+                }
             } elseif ($this->uri->segment(3) == "customer") {
                 $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
                 $user_log = $this->item_model->fetch('user_log', array('customer_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+
+                if($account AND $user_log) {
+                    $data = array(
+                        'title' => "Accounts: View User Info",
+                        'heading' => "Accounts",
+                        'account' => $account,
+                        'logs' => $user_log
+                    );
+                    $this->load->view('paper/includes/header', $data);
+                    $this->load->view("paper/includes/navbar");
+                    $this->load->view('paper/accounts/view');
+                    $this->load->view('paper/includes/footer');
+                } else {
+                    redirect("accounts/customer");
+                }
             } else {
                 redirect('accounts');
             }
-            $data = array(
-                'title' => "Accounts: View User Info",
-                'heading' => "Accounts",
-                'account' => $account,
-                'logs' => $user_log
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/accounts/view');
-            $this->load->view('paper/includes/footer');
+
         } else {
             redirect("home");
         }
@@ -150,6 +174,7 @@ class Accounts extends CI_Controller {
             );
 
             $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view('paper/accounts/add_accounts');
             $this->load->view('paper/includes/footer');
         } else {
@@ -252,26 +277,37 @@ class Accounts extends CI_Controller {
     public function edit() {
         if ($this->uri->segment(3) == "admin") {
             $admin = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
-            $data = array(
-                'title' => "Accounts: Edit Admin",
-                'heading' => "Accounts",
-                'accounts' => $admin
-            );
 
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/accounts/edit');
-            $this->load->view('paper/includes/footer');
+            if($admin) {
+                $data = array(
+                    'title' => "Accounts: Edit Admin",
+                    'heading' => "Accounts",
+                    'accounts' => $admin
+                );
+
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/accounts/edit');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect("accounts/admin");
+            }
         } elseif ($this->uri->segment(3) == "customer") {
             $customer = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
-            $data = array(
-                'title' => "Accounts: Edit Customer",
-                'heading' => "Accounts",
-                'accounts' => $customer
-            );
+            if($customer) {
+                $data = array(
+                    'title' => "Accounts: Edit Admin",
+                    'heading' => "Accounts",
+                    'accounts' => $customer
+                );
 
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view('paper/accounts/edit');
-            $this->load->view('paper/includes/footer');
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/accounts/edit');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect("accounts/customer");
+            }
         } else {
             redirect('accounts');
         }
@@ -360,8 +396,9 @@ class Accounts extends CI_Controller {
         if ($this->uri->segment(3) == "admin") {
             $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(4)));
             if ($update) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "user_id" => html_escape($this->session->uid),
+                    "$user_id" => html_escape($this->session->uid),
                     "user_type" => html_escape($this->session->userdata('type')),
                     "username" => html_escape($this->session->userdata('username')),
                     "date" => html_escape(time()),
@@ -427,6 +464,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/includes/navbar");
                 $this->load->view("paper/accounts/recover_admin");
                 $this->load->view("paper/includes/footer");
             } else {
@@ -468,6 +506,7 @@ class Accounts extends CI_Controller {
                 );
 
                 $this->load->view("paper/includes/header", $data);
+                $this->load->view("paper/includes/navbar");
                 $this->load->view("paper/accounts/recover_customer");
                 $this->load->view("paper/includes/footer");
             } else {

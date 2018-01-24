@@ -19,10 +19,10 @@
 </head>
 <body>
 <div id="chart-container">
-    <canvas id="mycanvas"></canvas>
+    <canvas id="salesLine"></canvas>
 </div>
 
 <!-- This is the bar chart script -->
-<script type="text/javascript" src="<?= base_url() ?>assets/js/sampleChart.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/sales_line.js"></script>
 </body>
 </html>

@@ -72,10 +72,76 @@ class Home extends CI_Controller {
     // }
 
     public function category() {
-        $page = $this->uri->segment(2);
-        $cat = $this->uri->segment(3);
-        $brand = $this->uri->segment(4);
+    $page = $this->uri->segment(2);
+    $cat = $this->uri->segment(3);
 
+    $brand = ctype_alpha($this->uri->segment(4))?$this->uri->segment(4):NULL;
+
+    $this->load->library('pagination');
+    $perpage = 12;
+    $config['per_page'] = $perpage;
+    $config['full_tag_open'] = '<nav><ul class="pagination">';
+    $config['full_tag_close'] = ' </ul></nav>';
+    $config['first_link'] = 'First';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['first_url'] = '';
+    $config['last_link'] = 'Last';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['next_link'] = '&raquo;';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_link'] = '&laquo;';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a href="#">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
+        $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
+        $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+        $this->pagination->initialize($config);
+        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+        $data = array(
+            'title' => 'Category',
+            'products' => $product,
+            'page' => $page,
+            'category' => $cat, // category identifier
+            'brand' => $brand,
+            'links' => $this->pagination->create_links()
+        );
+
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
+
+        } else {
+        $config['base_url'] = base_url() . "home/category/" . $cat;
+        $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat));
+        $this->pagination->initialize($config);
+        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat));
+        $data = array(
+            'title' => 'Category',
+            'products' => $product,
+            'page' => $page,
+            'category' => $cat, // category identifier
+            'brand' => $brand, 
+            'links' => $this->pagination->create_links()
+        );
+
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
+        }
+    }
+
+    public function search() {
+        
         $this->load->library('pagination');
         $perpage = 12;
         $config['per_page'] = $perpage;
@@ -99,43 +165,24 @@ class Home extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        if ($brand == "apple" || $brand == "samsung" || $brand == "asus" || $brand == "lenovo" || $brand == "sony" || $brand == "hp" || $brand == "dell") {
-            $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
-            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
-            $this->pagination->initialize($config);
-            $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
-            $data = array(
-                'title' => 'Category',
-                'products' => $product,
-                'page' => $page,
-                'category' => $cat, //category identifier
-                'brand' => $brand,
-                'links' => $this->pagination->create_links()
-            );
+        $config['base_url'] = base_url() . "home/search/";
+        $config['total_rows'] = $this->item_model->getCountsearch('product', 'product_name',  $this->input->post('search'));
+        $this->pagination->initialize($config);
+        $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', 'product_name', $this->input->post('search'));
+        
+        $data = array(
+            'title' => 'Home',
+            'products' => $product,
+            'page' => "test",
+            'category' => $this->input->post('search'), // category identifier
+            'brand' => "test",
+            'links' => $this->pagination->create_links()
+        );
 
-            $this->load->view('ordering/includes/header', $data);
-            $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/category');
-            $this->load->view('ordering/includes/footer');
-        } else {
-            $config['base_url'] = base_url() . "home/category/" . $cat;
-            $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat));
-            $this->pagination->initialize($config);
-            $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat));
-            $data = array(
-                'title' => 'Category',
-                'products' => $product,
-                'page' => $page,
-                'category' => $cat, //category identifier
-                'brand' => $brand,
-                'links' => $this->pagination->create_links()
-            );
-
-            $this->load->view('ordering/includes/header', $data);
-            $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/category');
-            $this->load->view('ordering/includes/footer');
-        }
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/category');
+        $this->load->view('ordering/includes/footer');
     }
 
     public function register() {
@@ -157,14 +204,28 @@ class Home extends CI_Controller {
             'page' => "Home"
         );
 
-        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
     }
 
+    public function viewbasket(){
+        $data = array(
+            'title' => "My Shopping Cart",
+            'cartItems' => $this->basket->contents(),
+            'CT' => $this->basket->total(),
+            'CTI' => $this->basket->total_items(),
+            'page' => "Home"
+        );
+
+        $this->load->view('ordering/basket',$data);
+
+    }
+
     public function detail() {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
+        $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
@@ -173,6 +234,7 @@ class Home extends CI_Controller {
         $data = array(
             'title' => 'Home',
             'product' => $product,
+            'feedback' => $feedback,
             'page' => $page,
             'category' => $cat, //category identifier
             'brand' => $brand,
@@ -184,44 +246,45 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function CheckOut() {
-
-        if ($this->basket->total_items() <= 0) {
-            $this->load->view('home/');
+    public function checkout1() {
+        if($this->session->has_userdata('isloggedin')) {
+            $this->checkout2();
+        } else {
+            $data = array(
+                'title' => "Checkout",
+                'page' => "Home"
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/checkout1');
+            $this->load->view('ordering/includes/footer');
         }
-
-        $cust = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
-
-        $data = array(
-            'title' => "Checkout",
-            'custRow' => $cust,
-            'cartItems' => $this->basket->contents(),
-            'CTI' => $this->basket->total_items(),
-            'total' => $this->basket->total()
-        );
-
-        $this->load->view('shop/checkout', $data);
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout1');
-        $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout1() {
+    public function checkout() {
         $data = array(
             'title' => "Checkout",
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout1');
+        $this->load->view('ordering/checkouty');
         $this->load->view('ordering/includes/footer');
     }
 
     public function checkout2() {
         $data = array(
             'title' => "Checkout",
-            'page' => "Home"
+            'page' => "Home",
+            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+            'address' => html_escape(trim(ucwords($this->input->post('address')))),
+            'province' => html_escape(trim(ucwords($this->input->post('province')))),
+            'city' => html_escape(trim(ucwords($this->input->post('city')))),
+            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+            'zip' => html_escape(trim($this->input->post('zip'))),
+            'contact' => html_escape(trim($this->input->post('contact'))),
+            'email' => html_escape(trim($this->input->post('email')))
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -231,47 +294,26 @@ class Home extends CI_Controller {
 
     public function checkout3() {
         $data = array(
-            'title' => "Checkout",
-            'page' => "Home",
-            'fname' => $this->input->post('firstname'),
-            'lname' => $this->input->post('lastname'),
-            'address' => $this->input->post('address'),
-            'province' => $this->input->post('province'),
-            'city' => $this->input->post('city'),
-            'barangay' => $this->input->post('barangay'),
-            'zip' => $this->input->post('zip'),
-            'contact' => $this->input->post('contact'),
-            'email' => $this->input->post('email')
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout3');
-        $this->load->view('ordering/includes/footer');
-    }
-
-    public function checkout4() {
-
-        $data = array(
             'title' => "My Shopping Cart",
             'cartItems' => $this->basket->contents(),
             'CT' => $this->basket->total(),
             'CTI' => $this->basket->total_items(),
-            'payment' => $this->input->post('payment'),
-            'fname' => $this->input->post('firstname'),
-            'lname' => $this->input->post('lastname'),
-            'address' => $this->input->post('address'),
-            'province' => $this->input->post('province'),
-            'city' => $this->input->post('city'),
-            'barangay' => $this->input->post('barangay'),
-            'zip' => $this->input->post('zip'),
-            'contact' => $this->input->post('contact'),
-            'email' => $this->input->post('email'),
+            'payment' => html_escape($this->input->post('payment')),
+            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+            'address' => html_escape(trim(ucwords($this->input->post('address')))),
+            'province' => html_escape(trim(ucwords($this->input->post('province')))),
+            'city' => html_escape(trim(ucwords($this->input->post('city')))),
+            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+            'zip' => html_escape(trim($this->input->post('zip'))),
+            'contact' => html_escape(trim($this->input->post('contact'))),
+            'email' => html_escape(trim($this->input->post('email'))),
             'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout4');
+        $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
     }
 
@@ -361,19 +403,27 @@ class Home extends CI_Controller {
         );
 
         $this->basket->update($data);
-        // $item = $this->basket->get_item($_POST["product_id"]);
-        // $value = number_format($item['subtotal'], 2);
-        // echo json_encode(array(
-        //     'key' => $_POST["product_id"],
-        //     'value' => $value
-        // ));
     }
 
     function remove() {
         $this->basket->remove($_POST["row_id"]);
     }
 
+    function post() {
+        date_default_timezone_set("Asia/Manila");
+
+        $data = array(
+            'customer_id' => $this->session->uid,
+            'product_id' => $this->input->post('product_id'),
+            'feedback' => $this->input->post('feedback'),
+            'added_at' => time()
+        );
+
+        $this->item_model->insertData("feedback", $data);
+    }
+
     public function placeorder() {
+        
         date_default_timezone_set("Asia/Manila");
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
@@ -385,8 +435,8 @@ class Home extends CI_Controller {
                 'order_quantity' => $this->basket->total_items(),
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,
-                'shipping_address' => $userinformation->complete_address,
-                'payment_method' => $this->input->post('payment')
+                'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
+                'payment_method' => html_escape($this->input->post('payment'))
             );
         }
         // if not
@@ -426,31 +476,40 @@ class Home extends CI_Controller {
             );
         }
 
-        $order_id = $this->item_model->insert_id('orders', $data);
-        // get cart items
-        $basketItems = $this->basket->contents();
-        // loop
-        foreach ($basketItems as $item) {
+            $order_id = $this->item_model->insert_id('orders', $data);
+            // get cart items
+            $basketItems = $this->basket->contents();
+            // loop
+            foreach ($basketItems as $item) {
+                $data = array(
+                    'order_id' => $order_id,
+                    'product_id' => $item['id'],
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'product_image1' => $item['img'],
+                    'quantity' => $item['qty']
+                );
+                $this->item_model->insertData('order_items', $data);
 
-            $data = array(
-                'order_id' => $order_id,
-                'product_id' => $item['id'],
-                'product_name' => $item['name'],
-                'quantity' => $item['qty']
-            );
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $item['name'],
+                    "at_detail" => "Purchase",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid # FK
+                    # status has a default value of 1
+                );
+                $this->item_model->insertData("audit_trail", $for_audit);
 
-            $this->item_model->insertData('order_items', $data);
+                $stock = $item['maxqty'] - $item['qty'];
+                $data1 = array(
+                    'product_quantity' => $stock
+                );
+                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+            }
 
-            $stock = $item['maxqty'] - $item['qty'];
-
-            $data1 = array(
-                'product_quantity' => $stock
-            );
-
-            $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
-        }
-
-        $this->basket->destroy();
+            $this->basket->destroy();
+            $this->index(); # not yet sure
     }
 
 }

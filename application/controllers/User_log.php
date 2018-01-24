@@ -56,6 +56,7 @@ class User_log extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/user_log/user_log");
             $this->load->view("paper/includes/footer");
         }
@@ -70,6 +71,7 @@ class User_log extends CI_Controller {
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
             $this->load->view("paper/user_log/customer_log");
             $this->load->view("paper/includes/footer");
         } else {
