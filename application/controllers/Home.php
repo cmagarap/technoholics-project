@@ -438,6 +438,39 @@ class Home extends CI_Controller {
                 'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
                 'payment_method' => html_escape($this->input->post('payment'))
             );
+
+            $order_id = $this->item_model->insert_id('orders', $data);
+            // get cart items
+            $basketItems = $this->basket->contents();
+            // loop
+            foreach ($basketItems as $item) {
+                $data = array(
+                    'order_id' => $order_id,
+                    'product_id' => $item['id'],
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'product_image1' => $item['img'],
+                    'quantity' => $item['qty']
+                );
+                $this->item_model->insertData('order_items', $data);
+
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $item['name'],
+                    "at_detail" => "Purchase",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid, # logged in
+                    "order_id" => $order_id
+                    # status has a default value of 1
+                );
+                $this->item_model->insertData("audit_trail", $for_audit);
+
+                $stock = $item['maxqty'] - $item['qty'];
+                $data1 = array(
+                    'product_quantity' => $stock
+                );
+                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+            }
         }
         // if not
         else {
@@ -474,7 +507,6 @@ class Home extends CI_Controller {
                 'shipping_address' => $this->input->post('address'),
                 'payment_method' => $this->input->post('payment')
             );
-        }
 
             $order_id = $this->item_model->insert_id('orders', $data);
             // get cart items
@@ -492,11 +524,12 @@ class Home extends CI_Controller {
                 $this->item_model->insertData('order_items', $data);
 
                 $for_audit = array(
-                    "customer_name" => $this->session->userdata("username"),
+                    "customer_name" => $user_and_pass,
                     "item_name" => $item['name'],
                     "at_detail" => "Purchase",
                     "at_date" => time(),
-                    "customer_id" => $this->session->uid # FK
+                    "customer_id" => $customer_id,
+                    "order_id" => $order_id
                     # status has a default value of 1
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);
@@ -507,7 +540,7 @@ class Home extends CI_Controller {
                 );
                 $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
             }
-
+        }
             $this->basket->destroy();
             $this->index(); # not yet sure
     }

@@ -112,7 +112,7 @@ class Inventory extends CI_Controller {
         if ($this->form_validation->run()) {
             $config['encrypt_name'] = TRUE;
             $config['upload_path'] = './uploads_products/';
-            $config['allowed_types'] = "gif|jpg|png";
+            $config['allowed_types'] = "gif|jpg|png|jpeg";
             $config['max_size'] = 0;
             $this->load->library('upload', $config);
             $dataInfo = array();

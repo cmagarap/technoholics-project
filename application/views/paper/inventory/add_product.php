@@ -34,10 +34,8 @@
                                         <label>Supplier Company <span style = "color: red">*</span></label>
                                         <select name="product_supplier" class = "form-control border-input file">
                                             <?php foreach($supplier as $supplier): ?>
-
                                                 <option value="<?= $supplier->supplier_id ?>">
                                                     <?= $supplier->company_name ?></option>
-
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -53,7 +51,6 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
