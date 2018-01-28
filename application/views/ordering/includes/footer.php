@@ -92,7 +92,7 @@ _________________________________________________________ -->
 <div id="copyright">
     <div class="container">
         <div class="col-md-6">
-            <p class="pull-left">© <script>document.write(new Date().getFullYear())</script> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
+            <p class="pull-left">© <?=date("Y",time())?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
 
         </div>
         <div class="col-md-6">
@@ -107,16 +107,8 @@ _________________________________________________________ -->
 <!-- /#all -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
-<script src="<?= base_url().'assets/ordering/js/jquery-1.11.0.min.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/bootstrap.min.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/jquery.cookie.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/waypoints.min.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/modernizr.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/bootstrap-hover-dropdown.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
-<script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
-<script>
 
+<script>
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function myFunction() {
@@ -168,27 +160,13 @@ _________________________________________________________ -->
                     data: {row_id: row_id},
                     success: function (data)
                     {
-                        location.reload(); 
-                        $('#subtotal').html(data);
+                        $('#all').load("<?php echo base_url(); ?>home/basket");
+                        $('#all').html(data);
                     }
                 });
         });
 
-        function show_cart_counts() {
-            $.ajax({
-                type:'POST',
-                data:{action:'Show Cart Counts'},
-                url:"<?php echo base_url(); ?>home/basket",
-                success:function(data)
-                {
-                    // $('#subtotal').html(data);
-                    // $('#cart_contents').load("<?php echo base_url(); ?>cart/viewcart");
-                    location.reload(); 
-                }
-            });
-        }
-
-            $('.update').change(function () {
+        $(document).on('click','.update',function () {
             var product_id = $(this).data("productid");
             var product_quantity = $(this).val();
             $.ajax({
@@ -196,11 +174,8 @@ _________________________________________________________ -->
                 method: "POST",
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
-                {   
-                    // $('#basket').load("<?php echo base_url(); ?>home/basket");
-                    // $('#subtotal').html(data);
-                    location.reload(); 
-                    $('#' + product_id).val('');
+                {
+                    location.reload();
                 }
             });
         });
@@ -221,21 +196,37 @@ _________________________________________________________ -->
                 return false;
             }
         });
-    });
 
+        $(document).on('click','#post',function () {
+            var product_id = $(this).data("productid");
+            var rating = $('input[name=rating]:checked').val(); 
+            var feedback = $('#comment').val();
+            var product_name = $(this).data("productname");
+            $.ajax({
+                url: "<?php echo base_url(); ?>home/post",
+                method: "POST",
+                data: {product_id: product_id, product_name: product_name, feedback: feedback, rating: rating},
+                success: function (data)
+                {
+                    location.reload();
+                }
+            });
+        });
+        
         NProgress.configure({ showSpinner: false });
         NProgress.start();
         var interval = setInterval(function() { NProgress.inc(); }, 1000);        
 
-        jQuery(window).load(function () {
+        $(window).load(function () {
             clearInterval(interval);
             NProgress.done();
         });
 
-        jQuery(window).unload(function () {
+        $(window).unload(function () {
             NProgress.start();
         });
 
+    });
 </script>
 </body>
 </html>

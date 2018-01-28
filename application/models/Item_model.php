@@ -15,6 +15,14 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
+    function avg($table, $where = NULL, $avg){
+        $this->db->select_avg($avg);
+        $this->db->where($where);
+        $query = $this->db->get($table);
+        return $query->row();
+    }
+
+    
     function insert_id($table, $data) {
         $this->db->insert($table, $data);
         return $this->db->insert_id();
