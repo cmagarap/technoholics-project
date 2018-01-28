@@ -493,6 +493,7 @@ class Home extends CI_Controller {
                 'contact_no' => $this->input->post('contact'),
                 'image' => "default-user.png",
                 'status' => "1",
+                'registered_at' => time(),
                 'verification_code' => $hash_code
             );
             //returns the id of last query

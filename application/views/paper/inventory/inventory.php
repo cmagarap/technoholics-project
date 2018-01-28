@@ -54,7 +54,7 @@
                                 <th><b>Brand</b></th>
                                 <th><b>Category</b></th>
                                 <th><b>Price</b></th>
-                                <th><b>Stocks</b></th>
+                                <th><b>Stock</b></th>
                                 <th><b>Actions</b></th>
                                 </thead>
                                 <tbody>

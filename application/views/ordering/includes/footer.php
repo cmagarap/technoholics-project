@@ -92,7 +92,7 @@ _________________________________________________________ -->
 <div id="copyright">
     <div class="container">
         <div class="col-md-6">
-            <p class="pull-left">© <script>document.write(new Date().getFullYear())</script> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
+            <p class="pull-left">© <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
 
         </div>
         <div class="col-md-6">
