@@ -12,9 +12,9 @@ class Sales extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library('session');
-        if (!$this->session->has_userdata('isloggedin')) {
+        /*if (!$this->session->has_userdata('isloggedin')) {
             redirect('/login');
-        }
+        }*/
     }
 
     public function index() {
@@ -83,7 +83,10 @@ class Sales extends CI_Controller {
 
     public function getSalesData() {
         header('Content-Type: application/json');
-        $data = $this->item_model->fetch('sales');
-        echo json_encode($data);
+        $this->db->select("sales_id");
+        $this->db->select("sales_date");
+        $this->db->select("income");
+        $data = $this->item_model->fetch('sales', "status = 1", "sales_date", "ASC");
+        print json_encode($data);
     }
 }

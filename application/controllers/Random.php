@@ -17,7 +17,7 @@ class Random extends CI_Controller {
     }
 
     public function index() {
-        #$this->load->view("paper/practice_charts");
+        $this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
         $hash = random_string('alnum', 20);
@@ -76,14 +76,14 @@ class Random extends CI_Controller {
         #$lastweek = time() - (6 * 24 * 60 * 60);
         #echo date("F j, Y", $lastweek);
         # echo $lastweek."<br>";
-        $d = strtotime("December");
+        /*$d = strtotime("December");
         echo date("Y-m-d h:i:sa", $d)."<br>";
         echo $d."<br>";
         if(strtotime("December") == $d) {
             echo "december!!";
         } else {
             echo "boring month";
-        }
+        }*/
     }
 
     public function getProductdata() {

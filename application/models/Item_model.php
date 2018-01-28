@@ -38,7 +38,10 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $column, $order) {
+    function getDistinct($table, $where, $column, $order) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
         $this->db->order_by($column, $order);
         $this->db->select($column);
         $this->db->distinct();

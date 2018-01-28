@@ -1,33 +1,35 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/sales/getSalesData",
+        url: "http://localhost/project/inventory/getProductData",
         method: "POST",
         success: function(data) {
             console.log(data);
-            var dates = [];
-            var income = [];
+            var brand = [];
+            var stock = [];
 
             for(var i in data) {
-                dates.push(data[i].sales_date);
-                income.push(data[i].income);
+                brand.push(data[i].product_brand);
+                stock.push(data[i].product_quantity);
             }
+            var brand_unique = [...new Set(brand)];
+            console.log(brand_unique);
 
             var chartdata = {
-                labels: dates,
+                labels: brand,
                 datasets : [{
-                    label: 'Sales',
-                    data: income,
+                    label: 'Stock',
+                    data: stock,
                     borderColor: 'rgba(220, 47, 84, 1)',
                     pointBorderColor: 'rgba(220, 47, 84, 1)',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
                     fill: false
                 }]};
 
-            var ctx = $("#salesLine");
+            var ctx = $("#inventoryBar");
             Chart.defaults.global.defaultFontFamily = "Arial";
             Chart.defaults.global.defaultFontSize = 12;
             var lineGraph = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: chartdata,
                 options: {
                     legend: {
