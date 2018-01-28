@@ -272,7 +272,6 @@ _________________________________________________________ -->
                                         </fieldset>
                                     </div>
                                 </div>
-                            <?php endif ?>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -288,6 +287,15 @@ _________________________________________________________ -->
                                         <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
                                     </div>
                                 </div>
+                            <?php else: ?>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                             <!-- /.comment -->
