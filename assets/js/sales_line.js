@@ -17,11 +17,10 @@ $(document).ready(function(){
                 datasets : [{
                     label: 'Sales',
                     data: income,
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    borderColor: 'rgba(220, 47, 84, 1)',
+                    pointBorderColor: 'rgba(220, 47, 84, 1)',
+                    pointBackgroundColor: 'rgba(220, 47, 84, 1)',
+                    fill: false
                 }]};
 
             var ctx = $("#salesLine");
@@ -31,30 +30,30 @@ $(document).ready(function(){
                 type: 'line',
                 data: chartdata,
                 options: {
-                    title: {
-                        display: true,
-                        text: "Sales",
-                        fontSize: 25
-                    },
                     legend: {
                         display: false,
                         position: "right"
                     },
-                    //tooltips: {
-                    //    enabled: true
-                    //},
-                    /*scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
+                    elements: {
+                        line: {
+                            tension: 0, // disables bezier curves
+                        }
+                    },
+                    tooltips: {
+                        enabled: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0)",
                             }
                         }],
-                        xAxes: [{
-                            ticks: {
-                                beginAtZero: true
+                        yAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0)",
                             }
                         }]
-                    }*/
+                    }
                 }
             });
         },

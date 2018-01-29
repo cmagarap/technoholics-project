@@ -11,7 +11,7 @@
         Template made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com" target = "_blank">Creative Tim</a>
         </div>
         <div class="copyright pull-right">
-            &copy; <script>document.write(new Date().getFullYear())</script> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS
+            &copy; <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS
         </div>
     </div>
 </footer>
