@@ -74,7 +74,6 @@ class Home extends CI_Controller {
     public function category() {
     $page = $this->uri->segment(2);
     $cat = $this->uri->segment(3);
-
     $brand = ctype_alpha($this->uri->segment(4))?$this->uri->segment(4):NULL;
 
     $this->load->library('pagination');
@@ -226,6 +225,7 @@ class Home extends CI_Controller {
     public function detail() {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
         $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
+        $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
@@ -238,6 +238,7 @@ class Home extends CI_Controller {
             'page' => $page,
             'category' => $cat, //category identifier
             'brand' => $brand,
+            'rating' => $rating,
             'id' => $id
         );
         $this->load->view('ordering/includes/header', $data);
@@ -410,16 +411,30 @@ class Home extends CI_Controller {
     }
 
     function post() {
+        
         date_default_timezone_set("Asia/Manila");
 
         $data = array(
             'customer_id' => $this->session->uid,
-            'product_id' => $this->input->post('product_id'),
-            'feedback' => $this->input->post('feedback'),
+            'product_id' => $_POST["product_id"],
+            'feedback' => $_POST["feedback"],
+            'rating' => $_POST["rating"],
             'added_at' => time()
         );
 
         $this->item_model->insertData("feedback", $data);
+
+        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+        $for_log = array(
+            "$user_id" => $this->db->escape_str($this->session->uid),
+            "user_type" => $this->db->escape_str($this->session->userdata('type')),
+            "username" => $this->db->escape_str($this->session->userdata('username')),
+            "date" => $this->db->escape_str(time()),
+            "action" => $this->db->escape_str('Commented on product '.$_POST["product_name"].' and rate it '. $_POST["rating"]),
+            'status' => $this->db->escape_str('1')
+        );
+
+        $this->item_model->insertData('user_log', $for_log);
     }
 
     public function placeorder() {
@@ -428,10 +443,11 @@ class Home extends CI_Controller {
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+            $CT= $this->basket->total() + 70;
 
             $data = array(
                 'customer_id' => $this->session->uid,
-                'total_price' => $this->basket->total(),
+                'total_price' => $CT,
                 'order_quantity' => $this->basket->total_items(),
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,

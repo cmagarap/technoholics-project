@@ -153,6 +153,9 @@ _________________________________________________________ -->
                                 <h3 class="text-center"><?= $row->product_desc ?></h3>
                                 <h3 class="text-center">Quantity: <?= $row->product_quantity ?></h3>
                                 <h2 class="text-center">₱<?= number_format($row->product_price) ?></h2>
+                                <center>
+                                    <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
+                                </center>
                                 <p class="text-center buttons">
                                     <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                     <a href="<?= base_url() . 'home/basket'; ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
@@ -196,7 +199,7 @@ _________________________________________________________ -->
                     <?php if (!$feedback): ?>
                         <h4>0 comments</h4>
                     <?php else: ?>
-                        <h4>2 comments</h4>
+                        <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comments</h4>
                         <?php foreach ($feedback as $feedback): ?>
                         <?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
                         $user_image = (string)$userinformation->image;
@@ -211,7 +214,7 @@ _________________________________________________________ -->
                                 <div class="col-sm-9 col-md-10">
                                     <h5><?= $userinformation->username?></h5>
                                     <!-- <p class="posted"><i class="fa fa-clock-o"></i>September 23, 2011 at 12:00 am</p> -->
-                                    <p class="posted"><i class="fa fa-clock-o"></i><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
+                                    <p class="posted"> <p class="starability-result" data-rating="<?=$feedback->rating?>"></p><i class="fa fa-clock-o"></i><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
                                     <!-- <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.
                                         Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p> -->
                                     <p><?=$feedback->feedback?></p>
@@ -221,9 +224,9 @@ _________________________________________________________ -->
                             </div> 
                         <?php endforeach ?>
                     <?php endif ?>
+                        
                         <div id="comment-form">
                             <h4>Leave comment</h4>
-                            <form method="post" action="<?= base_url().'home/post';?>" >
                                 <!-- <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -234,7 +237,41 @@ _________________________________________________________ -->
                                     </div>
 
                                 </div> -->
+                            <?php if ($this->session->has_userdata('isloggedin')): ?>
+                                <?php $userinformation = $this->item_model->fetch('customer', array('customer_id' =>  $this->session->uid))[0];
+                                $user_image = (string)$userinformation->image;
+                                $image_array = explode(".", $user_image);
+                                ?>
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-2 text-center-xs">
+                                        <p>
+                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-9 col-md-10">
+                                    <h5 >Tell people what you think</h5>
+                                        <fieldset class="starability-basic">
+                                            <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
 
+                                            <input type="radio" id="rate1" name="rating" value="1" />
+                                            <label for="rate1">1 star.</label>
+
+                                            <input type="radio" id="rate2" name="rating" value="2" />
+                                            <label for="rate2">2 stars.</label>
+
+                                            <input type="radio" id="rate3" name="rating" value="3" />
+                                            <label for="rate3">3 stars.</label>
+
+                                            <input type="radio" id="rate4" name="rating" value="4" />
+                                            <label for="rate4">4 stars.</label>
+
+                                            <input type="radio" id="rate5" name="rating" value="5" />
+                                            <label for="rate5">5 stars.</label>
+
+                                            <span class="starability-focus-ring"></span>
+                                        </fieldset>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -247,11 +284,18 @@ _________________________________________________________ -->
 
                                 <div class="row">
                                     <div class="col-sm-12 text-right">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-comment-o"></i> Post comment</button>
+                                        <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
                                     </div>
                                 </div>
-                                <input type="hidden" name="product_id" value="<?= $row->product_id ?>">
-                            </form>
+                            <?php else: ?>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                             <!-- /.comment -->
