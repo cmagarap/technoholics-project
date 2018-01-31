@@ -9,10 +9,11 @@
                 <div class="container">
 
                     <div class="col-md-12">
+                    </br>
                         <ul class="breadcrumb">
                             <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                             </li>
-                            <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= $category ?></a>
+                            <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= $category; ?></a>
                             </li>
                             <li><a href="<?= base_url() . 'home/category/' . $category . '/' . $brand; ?>"><?= $brand ?></a>
                             </li>
@@ -119,7 +120,7 @@ _________________________________________________________ -->
                             <!-- start content -->
                         <?php if (!$row->product_quantity): ?>
                             <div class="ribbon sale">
-                                <div class="theribbon">OUT OF STOCK</div>
+                                <div class="theribbon">Out of Stock</div>
                                 <div class="ribbon-background"></div>
                             </div>
                         <?php endif ?>
@@ -146,7 +147,7 @@ _________________________________________________________ -->
                                     </li>
                                 </ul>	
                             </div>
-                            </br>
+                            </br></br>
                             <div style="position:relative; left:55px;" class="box col-sm-6">
                                 <h1 class = "text-center"><?= $row->product_name ?></h1>
                                 <center><blockquote>

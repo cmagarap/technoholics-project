@@ -2,7 +2,8 @@
 <div id="content">
     <div class="container">
 
-        <div class="col-md-12">
+        <div class="col-md-12">     
+        </br>
             <ul class="breadcrumb">
                 <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                 </li>
@@ -15,7 +16,7 @@
                     <li><?= $category ?></li>
                 <?php endif; ?>
             </ul>
-        </div>
+        </>
 
         <div class="col-md-3">
             <!-- *** MENUS AND FILTERS ***
