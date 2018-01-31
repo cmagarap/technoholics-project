@@ -6,6 +6,7 @@
  * Time: 9:41 PM
  */
 
+date_default_timezone_set("Asia/Manila");
 class Dashboard extends CI_Controller {
     function __construct() {
         parent::__construct();

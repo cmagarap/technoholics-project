@@ -3,15 +3,20 @@ $(document).ready(function(){
         url: "http://localhost/project/sales/getSalesData",
         method: "POST",
         success: function(data) {
-            console.log(data);
             var dates = [];
             var income = [];
 
             for(var i in data) {
-                dates.push(data[i].sales_date);
+                var date = new Date(data[i].sales_date * 1000); // * 1000 to convert into milliseconds
+                var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                // var day = date.getDate();
+                var year = date.getFullYear();
+                var formattedMonth = month[date.getMonth()];
+
+                dates.push(formattedMonth);
                 income.push(data[i].income);
             }
-
+            console.log(dates);
             var chartdata = {
                 labels: dates,
                 datasets : [{
@@ -40,7 +45,11 @@ $(document).ready(function(){
                         }
                     },
                     tooltips: {
-                        enabled: true
+                        callbacks: {
+                            label: function (tooltipItem, chartData) {
+                                return 'Sales: ' + chartData.datasets[0].data[tooltipItem.index];
+                            }
+                        }
                     },
                     scales: {
                         xAxes: [{
@@ -50,7 +59,8 @@ $(document).ready(function(){
                         }],
                         yAxes: [{
                             gridLines: {
-                                color: "rgba(0, 0, 0, 0)",
+                                drawBorder: false,
+                                borderDash: [4, 4]
                             }
                         }]
                     }

@@ -345,10 +345,8 @@ class Inventory extends CI_Controller {
 
     public function getProductData() {
         header('Content-Type: application/json');
-        $this->db->select("product_brand");
-        $this->db->select("product_quantity");
-        $data = $this->item_model->fetch('product', "status = 1", "product_brand", "ASC");
-        print json_encode($data);
+        $data = $this->db->query("SELECT SUM(product_quantity) AS quan, product_brand FROM product WHERE status = 1 GROUP BY product_brand");
+        print json_encode($data->result());
     }
 
 }

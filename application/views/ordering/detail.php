@@ -1,7 +1,8 @@
-<!DOCTYPE HTML>
-<?php $row = $product[0] ?>
-<html>
-    <body>
+<?php $row = $product[0];
+# whenever viewed, update the no_of_views in the products table
+$stat_views = $row->no_of_views + 1;
+$this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+?>
         <!-- header_top -->
         <!-- content -->
         <div id="all">
@@ -482,5 +483,3 @@ _________________________________________________________ -->
         </div>
         <!-- /.container -->
         <!-- end content -->
-    </body>
-</html>

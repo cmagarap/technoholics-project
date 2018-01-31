@@ -126,10 +126,37 @@ class Orders extends CI_Controller {
             $this->item_model->insertData("user_log", $for_log);
         }
 
-        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
-        $order = $order[0];
+        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+
         if($order->process_status == 3) {
-            $for_sales = array(
+            $order_items = $this->item_model->fetch("order_items", "order_id = " . $this->uri->segment(3));
+            $items_quantity = array();
+            $stat_bought = array();
+
+            foreach ($order_items as $order_item) {
+                array_push($items_quantity, $order_item->quantity);
+                $this->db->select("product_id");
+                $this->db->select("times_bought");
+                # get the times_bought from product table:
+                array_push($stat_bought, $this->item_model->fetch("product", array("product_id" => $order_item->product_id))[0]);
+            }
+
+            echo "<pre>";
+            print_r($order_items);
+            echo "<br>";
+            print_r($stat_bought);
+            echo "<br>";
+            print_r($items_quantity);
+            echo "</pre>";
+            # update the no. of times bought:
+            foreach ($stat_bought as $stat_bought) {
+                for ($i = 0; $i < sizeof($stat_bought); $i++) {
+                    $this->item_model->updatedata("product", array("times_bought" => $stat_bought->times_bought + $items_quantity[$i]), array("product_id" => $stat_bought->product_id));
+                }
+            }
+
+            # insert to sales table:
+            /*$for_sales = array(
                 "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
                 "sales_date" => time(),
@@ -138,17 +165,16 @@ class Orders extends CI_Controller {
             );
             $this->item_model->insertData("sales", $for_sales);
 
-            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
-                "$user_id" => $this->session->uid,
+                "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3) . "'s status to 'delivered'."
             );
-            $this->item_model->insertData("user_log", $for_log);
+            $this->item_model->insertData("user_log", $for_log);*/
         }
-        redirect("orders/");
+        //redirect("orders/");
     }
 
     public function cancel() {

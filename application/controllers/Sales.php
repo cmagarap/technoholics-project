@@ -12,9 +12,9 @@ class Sales extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library('session');
-        /*if (!$this->session->has_userdata('isloggedin')) {
+        if (!$this->session->has_userdata('isloggedin')) {
             redirect('/login');
-        }*/
+        }
     }
 
     public function index() {
@@ -68,9 +68,8 @@ class Sales extends CI_Controller {
     public function delete() {
         $delete = $this->item_model->updatedata("sales", array("status" => 0), "sales_id = " . $this->uri->segment(3));
         if($delete) {
-            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
-                "$user_id" => $this->session->uid,
+                "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
