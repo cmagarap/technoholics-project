@@ -130,33 +130,15 @@ class Orders extends CI_Controller {
 
         if($order->process_status == 3) {
             $order_items = $this->item_model->fetch("order_items", "order_id = " . $this->uri->segment(3));
-            $items_quantity = array();
-            $stat_bought = array();
 
             foreach ($order_items as $order_item) {
-                array_push($items_quantity, $order_item->quantity);
-                $this->db->select("product_id");
-                $this->db->select("times_bought");
-                # get the times_bought from product table:
-                array_push($stat_bought, $this->item_model->fetch("product", array("product_id" => $order_item->product_id))[0]);
-            }
-
-            echo "<pre>";
-            print_r($order_items);
-            echo "<br>";
-            print_r($stat_bought);
-            echo "<br>";
-            print_r($items_quantity);
-            echo "</pre>";
-            # update the no. of times bought:
-            foreach ($stat_bought as $stat_bought) {
-                for ($i = 0; $i < sizeof($stat_bought); $i++) {
-                    $this->item_model->updatedata("product", array("times_bought" => $stat_bought->times_bought + $items_quantity[$i]), array("product_id" => $stat_bought->product_id));
-                }
+                $item = $this->item_model->fetch('product', array('product_id' => $order_item->product_id))[0];
+                $quantity = $item->times_bought + $order_item->quantity;
+                $this->item_model->updatedata("product", array("times_bought" => $quantity), "product_id = " .$order_item->product_id);
             }
 
             # insert to sales table:
-            /*$for_sales = array(
+            $for_sales = array(
                 "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
                 "sales_date" => time(),
@@ -172,9 +154,9 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3) . "'s status to 'delivered'."
             );
-            $this->item_model->insertData("user_log", $for_log);*/
+            $this->item_model->insertData("user_log", $for_log);
         }
-        //redirect("orders/");
+        redirect("orders/");
     }
 
     public function cancel() {
