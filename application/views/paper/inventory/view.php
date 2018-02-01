@@ -14,9 +14,7 @@
                                 <a><small><?= $products->product_category ?></small></a>
                             </h4>
                             <br>
-                            <p class="description text-center">
-                                <i><?= $products->product_desc ?></i>
-                            </p>
+                            <h7 class = "text-info"><i><?= $products->product_desc ?></i></h7>
                             <br>
                         </div>
                     </div>
