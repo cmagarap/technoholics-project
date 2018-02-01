@@ -4,10 +4,18 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Chart</b></h3>
+                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Sales Chart</b></h3>
                         <hr>
+                    </div>
+                    <div class="content">
                         <div id="chart-container">
                             <canvas id="salesLine"></canvas>
+                        </div>
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated <?= date("F j, Y h:i A"); ?>
+                            </div>
                         </div>
                     </div>
                 </div>

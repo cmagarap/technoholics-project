@@ -11,7 +11,7 @@
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped" style = "width: 100%">
                             <thead>
-                            <th>Image</th>
+                            <th align = "right"><i class="ti-image" style = "color: #31bbe0"></i></th>
                             <th>Product</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -24,7 +24,7 @@
                                         $product_image = (string) $order_items->product_image1;
                                         $image_array = explode(".", $product_image);
                                         ?>
-                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" style="border-radius: 100%; margin: -5px">
+                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" style="margin: -5px">
                                     </td>
                                     <td>
                                         <?= $order_items->product_name ?>

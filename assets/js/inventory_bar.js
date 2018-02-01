@@ -3,26 +3,44 @@ $(document).ready(function(){
         url: "http://localhost/project/inventory/getProductData",
         method: "POST",
         success: function(data) {
-            console.log(data);
             var brand = [];
             var stock = [];
+            var color_chart = [
+                'rgba(235, 94, 40, 1)',
+                'rgba(49, 187, 224, 1)',
+                'rgba(220, 47, 84, 1)',
+                'rgba(122, 44, 201, 1)',
+                'rgba(122, 194, 154, 1)',
+                'rgba(243, 187, 69, 1)',
+                'rgba(232, 153, 229, 1)',
+                'rgba(102, 97, 91, 1)',
+            ];
 
             for(var i in data) {
                 brand.push(data[i].product_brand);
-                stock.push(data[i].product_quantity);
+                stock.push(data[i].quan);
             }
-            var brand_unique = [...new Set(brand)];
-            console.log(brand_unique);
+
+            var dynamicColors = function() {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            };
+
+            for (var i in data) {
+                color_chart.push(dynamicColors());
+            }
 
             var chartdata = {
                 labels: brand,
                 datasets : [{
                     label: 'Stock',
                     data: stock,
-                    borderColor: 'rgba(220, 47, 84, 1)',
-                    pointBorderColor: 'rgba(220, 47, 84, 1)',
-                    pointBackgroundColor: 'rgba(220, 47, 84, 1)',
-                    fill: false
+                    backgroundColor: color_chart,
+                    borderWidth: 1,
+                    hoverBorderColor: 'rgba(0, 0, 0, 1)',
+                    hoverBorderWidth: 4
                 }]};
 
             var ctx = $("#inventoryBar");
@@ -33,26 +51,19 @@ $(document).ready(function(){
                 data: chartdata,
                 options: {
                     legend: {
-                        display: false,
-                        position: "right"
+                        display: false
                     },
-                    elements: {
-                        line: {
-                            tension: 0, // disables bezier curves
-                        }
-                    },
-                    tooltips: {
-                        enabled: true
-                    },
+
                     scales: {
                         xAxes: [{
                             gridLines: {
-                                color: "rgba(0, 0, 0, 0)",
+                                drawOnChartArea: false
                             }
                         }],
                         yAxes: [{
                             gridLines: {
-                                color: "rgba(0, 0, 0, 0)",
+                                drawBorder: false,
+                                borderDash: [2, 2]
                             }
                         }]
                     }

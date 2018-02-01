@@ -1,7 +1,8 @@
-<!DOCTYPE HTML>
-<?php $row = $product[0] ?>
-<html>
-    <body>
+<?php $row = $product[0];
+# whenever viewed, update the no_of_views in the products table
+$stat_views = $row->no_of_views + 1;
+$this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+?>
         <!-- header_top -->
         <!-- content -->
         <div id="all">
@@ -39,7 +40,7 @@ _________________________________________________________ -->
                                         <li>
                                         <?php endif; ?>
                                         <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Accessories'"); ?></span></a>
-                                    </li>
+                                    </li></li>
 
                                     <?php if ($category == "Chargers") : ?>
                                         <li class="active">
@@ -47,7 +48,7 @@ _________________________________________________________ -->
                                         <li>
                                         <?php endif; ?>
                                         <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Chargers'"); ?></span></a>
-                                    </li>
+                                    </li></li>
 
                                     <?php if ($category == "Laptop") : ?>
                                         <li class="active">
@@ -69,7 +70,7 @@ _________________________________________________________ -->
                                             <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li></li>
 
                                     <?php if ($category == "Smartphone") : ?>
                                         <li class="active">
@@ -85,7 +86,7 @@ _________________________________________________________ -->
                                             <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li></li>
 
                                     <?php if ($category == "Tablet") : ?>
                                         <li class="active">
@@ -101,7 +102,7 @@ _________________________________________________________ -->
                                             <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li></li>
                                 </ul>
                             </div>
                         </div>
@@ -147,9 +148,16 @@ _________________________________________________________ -->
 
                                 </ul>	
                             </div>
-
-                            <div class="col-sm-7">
+                            </br>
+                            <div style="position:relative; left:55px;" class="box col-sm-6">
                                 <h1 class = "text-center"><?= $row->product_name ?></h1>
+                                <center><blockquote>
+                                    <em><?= $row->product_brand ?></em>
+                                </blockquote></center>
+                                <h5 class="text-center" style="color:green;"><i>Stocks Available: <?= $row->product_quantity; ?></i></h5>
+                                <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
+                      
+                      # ====================================
                                 <h3 class="text-center">Brand: <?= $row->product_brand ?></h3>
                                 <h3 class="text-center"><?= $row->product_desc ?></h3>
                                 <h3 class="text-center">Quantity: <?= $row->product_quantity ?></h3>
@@ -164,24 +172,14 @@ _________________________________________________________ -->
                             </div>
                         </div>
                         <div class="box" id="details">
-                            <p>
+                            </p>
                             <h4>Product details</h4>
-                            <p>White lace top, woven, has a round neck, short sleeves, has knitted lining attached</p>
-                            <h4>Material & care</h4>
-                            <ul>
-                                <li>Polyester</li>
-                                <li>Machine wash</li>
-                            </ul>
-                            <h4>Size & Fit</h4>
-                            <ul>
-                                <li>Regular fit</li>
-                                <li>The model (height 5'8" and chest 33") is wearing a size S</li>
-                            </ul>
-
                             <blockquote>
-                                <p><em>Define style this season with Armani's new range of trendy tops, crafted with intricate details. Create a chic statement look by teaming this lace number with skinny jeans and pumps.</em>
+                                <p><em><?= $row->product_desc ?></em>
                                 </p>
                             </blockquote>
+
+                            <h5 style="color:red;"><i><?= $row->product_quantity ?> Stock(s) Available left.</i></h5>
 
                             <hr>
                             <div class="social">
@@ -390,90 +388,7 @@ _________________________________________________________ -->
                                 <!-- /.product -->
                             </div>
                         </div>
-                        <div class="row same-height-row">
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box same-height">
-                                    <h3>Products viewed recently</h3>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product same-height">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product2_2.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="<?= base_url() . 'home/detail'; ?>" class="invisible">
-                                        <img src="<?= base_url() . 'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                    </a>
-                                    <div class="text">
-                                        <h3>Fur coat</h3>
-                                        <p class="price">$143</p>
-                                    </div>
-                                </div>
-                                <!-- /.product -->
-                            </div>
 
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product same-height">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product1_2.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="<?= base_url() . 'home/detail'; ?>" class="invisible">
-                                        <img src="<?= base_url() . 'assets/ordering/img/product1.jpg'; ?>" alt="" class="img-responsive">
-                                    </a>
-                                    <div class="text">
-                                        <h3>Fur coat</h3>
-                                        <p class="price">$143</p>
-                                    </div>
-                                </div>
-                                <!-- /.product -->
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product same-height">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="<?= base_url() . 'home/detail'; ?>">
-                                                    <img src="<?= base_url() . 'assets/ordering/img/product3_2.jpg'; ?>" alt="" class="img-responsive">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="<?= base_url() . 'home/detail'; ?>" class="invisible">
-                                        <img src="<?= base_url() . 'assets/ordering/img/product3.jpg'; ?>" alt="" class="img-responsive">
-                                    </a>
-                                    <div class="text">
-                                        <h3>Fur coat</h3>
-                                        <p class="price">$143</p>
-                                    </div>
-                                </div>
-                                <!-- /.product -->
                             </div>
                         </div>
                     </div>
@@ -483,5 +398,3 @@ _________________________________________________________ -->
         </div>
         <!-- /.container -->
         <!-- end content -->
-    </body>
-</html>
