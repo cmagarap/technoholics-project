@@ -118,13 +118,6 @@ _________________________________________________________ -->
                     <div class="col-md-9">
                         <div class="row" id="productMain">
                             <!-- start content -->
-                        <?php if (!$row->product_quantity): ?>
-                            <div class="ribbon sale">
-                                <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                        <?php endif ?>
-
                             <div class="col-sm-5">
                                 <ul id="etalage">
                                     <li>
@@ -154,14 +147,15 @@ _________________________________________________________ -->
                                 <center><blockquote>
                                     <em><?= $row->product_brand ?></em>
                                 </blockquote></center>
-                                <h5 class="text-center" style="color:green;"><i>Stocks Available: <?= $row->product_quantity; ?></i></h5>
+                                <div align = "center">
+                                <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                                else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                                ?>
+                                </div>
+
                                 <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
-                      
-                      # ====================================
-                                <h3 class="text-center">Brand: <?= $row->product_brand ?></h3>
-                                <h3 class="text-center"><?= $row->product_desc ?></h3>
-                                <h3 class="text-center">Quantity: <?= $row->product_quantity ?></h3>
-                                <h2 class="text-center">₱<?= number_format($row->product_price) ?></h2>
+                                <!-- ==================================== -->
+
                                 <center>
                                     <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
                                 </center>
