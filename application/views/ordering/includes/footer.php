@@ -196,11 +196,38 @@ _________________________________________________________ -->
             }
         });
 
+        $('input[name=search]').keyup(function(){  
+           var query = $(this).val();  
+           if(query != '')  
+           {  
+                $.ajax({  
+                     url:"<?php echo base_url(); ?>home/auto", 
+                     method:"POST",  
+                     data:{query:query},  
+                     success:function(data)  
+                     {  
+                          $('#productlist').fadeIn();  
+                          $('#productlist').html(data);  
+                     }  
+                });  
+           }  
+        });  
+
+        $(document).on('click', 'li', function(){
+            $('input[name=search]').val($(this).text());  
+            $('#productlist').fadeOut();  
+        });  
+
+        $(document).on('focusout', 'input[name=search]', function(){
+            $('#productlist').fadeOut();  
+        });  
+        
         $(document).on('click','#post',function () {
             var product_id = $(this).data("productid");
             var rating = $('input[name=rating]:checked').val(); 
             var feedback = $('#comment').val();
             var product_name = $(this).data("productname");
+            
             $.ajax({
                 url: "<?php echo base_url(); ?>home/post",
                 method: "POST",

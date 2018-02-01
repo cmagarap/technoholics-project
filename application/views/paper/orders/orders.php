@@ -13,7 +13,7 @@
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
                         <hr>
-                        <div class= "calendar">
+                        <div class="calendar">
                             <div id="v-cal">
                                 <div class="vcal-header">
                                     <button class="vcal-btn" data-calendar-toggle="previous">
@@ -34,6 +34,7 @@
 
                             <p class="demo-picked">
                                 Date picked: <span data-calendar-label="picked"></span>
+         
                             </p>
 
                             <script src="<?= $this->config->base_url() ?>assets/paper/dist/vanillaCalendar.js" type="text/javascript"></script>

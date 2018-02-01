@@ -119,7 +119,7 @@ _________________________________________________________ -->
                             <!-- start content -->
                         <?php if (!$row->product_quantity): ?>
                             <div class="ribbon sale">
-                                <div class="theribbon">OUT OF STOCK</div>
+                                <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
                                 <div class="ribbon-background"></div>
                             </div>
                         <?php endif ?>
@@ -141,9 +141,10 @@ _________________________________________________________ -->
                                         <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" class="img-responsive"  />
                                     </li>
                                     <li>
-                                        <img class="etalage_thumb_image" src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" class="img-responsive"  />
-                                        <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" class="img-responsive"  />
+                                        <img class="etalage_thumb_image" src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" class="img-responsive" />
+                                        <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" class="img-responsive" title="" />
                                     </li>
+
                                 </ul>	
                             </div>
 

@@ -231,11 +231,12 @@ _________________________________________________________ -->
         <div class="collapse clearfix" id="search">
             <form class="navbar-form" role="form" action="<?= $this->config->base_url() ?>home/search" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
                     <span class="input-group-btn">
-			            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
+                <div id="productlist" style="position:absolute;"></div>  
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->

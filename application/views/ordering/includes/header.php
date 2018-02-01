@@ -106,19 +106,9 @@
         }
     </style>
     <script>
-			jQuery(document).ready(function($){
-
+			$(document).ready(function($){
 				$('#etalage').etalage({
-					thumb_image_width: 350,
-					thumb_image_height: 350,
-					source_image_width: 1000,
-					source_image_height: 1000,
-					show_hint: true,
-					click_callback: function(image_anchor, instance_id){
-						alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
-					}
 				});
-
 			});
     </script>
 </head>
