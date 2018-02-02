@@ -11,10 +11,15 @@ class Home extends CI_Controller {
     public function index() {
         if ($this->session->has_userdata('isloggedin')) {
             if ($this->session->userdata("type") == 2) { # if customer
+
+            $image = $this->item_model->fetch('home')[0];
+
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
-                    'page' => "Home" // active column identifier
+                    'page' => "Home",
+                    'image' => $image
                 );
+
                 $this->load->view('ordering/includes/header', $data);
                 $this->load->view('ordering/includes/navbar');
                 $this->load->view('ordering/ads/front_slider');
@@ -24,10 +29,15 @@ class Home extends CI_Controller {
                 redirect("dashboard");
             }
         } else { # if not logged in
+
+            $image = $this->item_model->fetch('home')[0];
+
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
-                'page' => "Home"
+                'page' => "Home",
+                'image' => $image
             );
+
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/ads/front_slider');
