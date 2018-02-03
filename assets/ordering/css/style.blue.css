@@ -5,6 +5,7 @@ button {
   transition: all 0.2s ease-out;
 }
 
+
 a i.fa,
 button i.fa {
   margin: 0 5px;
@@ -318,7 +319,7 @@ h1 {
   padding: 6px 20px 6px 20px;
   margin: 30px 10px 10px -71px;
   color: #fff;
-  background-color: #31bbe0;
+  background-color: red;
   text-shadow: 0px 1px 2px #bbb;
 }
 .ribbon .theribbon:before,
@@ -333,7 +334,7 @@ h1 {
   top: 100%;
   border-width: 5px 10px;
   border-style: solid;
-  border-color: #1a60ad #1a60ad transparent transparent;
+  border-color: red red transparent transparent;
 }
 .ribbon.sale {
   top: 0;
@@ -991,7 +992,6 @@ h1 {
 .yamm .collapse,
 .yamm .dropup,
 .yamm .dropdown {
-  position: static;
 }
 .yamm .container {
   position: relative;
