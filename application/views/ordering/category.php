@@ -226,8 +226,8 @@ _________________________________________________________ -->
                                 </div>
                                 <!-- /.text -->
                                 <?php if (!$row->product_quantity): ?>
-                                <div class="ribbon sale">
-                                    <div class="theribbon">OUT OF STOCK</div>
+                                <div class="ribbon sale" >
+                                    <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
                                     <div class="ribbon-background"></div>
                                 </div>
                                 <?php endif ?>

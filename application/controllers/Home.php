@@ -72,6 +72,24 @@ class Home extends CI_Controller {
     //     $this->load->view('ordering/includes/footer');
     // }
 
+    public function auto() {
+    $output = '';  
+    $query = $this->item_model->search('product','product_name', $_POST["query"]);
+    $output = '<ul class="box list-unstyled" style="width:420px;">';  
+    if($query)  
+        {  
+            foreach($query as $query){
+            $output .= '<li class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }  
+        }  
+    else  
+        {      
+            $output .= '<li class="text-left" >Item Not Found</li>';  
+        }  
+        $output .= '</ul>';
+        echo $output;  
+    }  
+
     public function category() {
     $page = $this->uri->segment(2);
     $cat = $this->uri->segment(3);

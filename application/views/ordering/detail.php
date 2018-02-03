@@ -119,6 +119,7 @@ _________________________________________________________ -->
                     <div class="col-md-9">
                         <div class="row" id="productMain">
                             <!-- start content -->
+
                         <?php if (!$row->product_quantity): ?>
                             <div class="ribbon sale">
                                 <div class="theribbon">Out of Stock</div>
@@ -143,9 +144,10 @@ _________________________________________________________ -->
                                         <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" class="img-responsive"  />
                                     </li>
                                     <li>
-                                        <img class="etalage_thumb_image" src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" class="img-responsive"  />
-                                        <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" class="img-responsive"  />
+                                        <img class="etalage_thumb_image" src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" class="img-responsive" />
+                                        <img class="etalage_source_image" src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" class="img-responsive" title="" />
                                     </li>
+
                                 </ul>	
                             </div>
                             </br></br>
@@ -154,8 +156,17 @@ _________________________________________________________ -->
                                 <center><blockquote>
                                     <em><?= $row->product_brand ?></em>
                                 </blockquote></center>
-                                <h5 class="text-center" style="color:green;"><i>Stocks Available: <?= $row->product_quantity; ?></i></h5>
+                                <div align = "center">
+                                <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                                else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                                ?>
+                                </div>
+
                                 <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
+
+                                <!-- ==================================== -->
+
+
                                 <center>
                                     <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
                                 </center>

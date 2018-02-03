@@ -344,9 +344,52 @@ class Inventory extends CI_Controller {
     }
 
     public function getProductData() {
-        header('Content-Type: application/json');
-        $data = $this->db->query("SELECT SUM(product_quantity) AS quan, product_brand FROM product WHERE status = 1 GROUP BY product_brand");
-        print json_encode($data->result());
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT SUM(product_quantity) AS quan, product_brand FROM product WHERE status = 1 GROUP BY product_brand");
+            print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getProductViews() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("no_of_views");
+            $data = $this->item_model->fetch("product", "status = 1", "no_of_views", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getTimesBought() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("times_bought");
+            $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getSearches() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("times_searched");
+            $data = $this->item_model->fetch("product", "status = 1", "times_searched", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
     }
 
 }
