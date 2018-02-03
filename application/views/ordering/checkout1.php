@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
-                                        <label for="city">City Municipality</label>
+                                        <label for="city">City / Municipality</label>
                                         <input type="text" class="form-control" id="city" name="city">
                                     </div>
                                 </div>

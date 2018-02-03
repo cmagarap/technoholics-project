@@ -19,10 +19,10 @@
 </head>
 <body>
 <div id="chart-container">
-    <canvas id="mycanvas"></canvas>
+    <canvas id="inventoryBar"></canvas>
 </div>
 
 <!-- This is the bar chart script -->
-<script type="text/javascript" src="<?= base_url() ?>assets/js/sampleChart.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/inventory_bar.js"></script>
 </body>
 </html>

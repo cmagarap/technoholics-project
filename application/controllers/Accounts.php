@@ -1,11 +1,11 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: Seeeeej
  * Date: 12/19/2017
  * Time: 1:13 PM
  */
+
 date_default_timezone_set("Asia/Manila");
 
 class Accounts extends CI_Controller {
@@ -143,7 +143,7 @@ class Accounts extends CI_Controller {
                 $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
                 $user_log = $this->item_model->fetch('user_log', array('customer_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
 
-                if($account AND $user_log) {
+                if($account OR $user_log) {
                     $data = array(
                         'title' => "Accounts: View User Info",
                         'heading' => "Accounts",

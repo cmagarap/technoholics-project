@@ -43,7 +43,7 @@
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
-                                    <td><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                    <td id="subtotal"><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
                                     <td>
                                     <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>
@@ -77,11 +77,8 @@
                         </div>
 
                     </form>
-
                 </div>
                 <!-- /.box -->
-
-
                 <div class="row same-height-row">
                     <div class="col-md-3 col-sm-6">
                         <div class="box same-height">

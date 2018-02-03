@@ -25,8 +25,6 @@
                         </button>
                     </div>
                 </div>
-            <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
-            <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
             </form>
         </div>
         <br>
@@ -51,9 +49,11 @@
                                 <thead>
                                 <th><b>#</b></th>
                                 <th><b>Name</b></th>
+                                <th><b>Brand</b></th>
                                 <th><b>Category</b></th>
                                 <th><b>Price</b></th>
-                                <th><b>Quantity</b></th>
+                                <th><b>Stock</b></th>
+                                <!--<th><b class="ti-eye" title = "No. of customer views"></b></th>-->
                                 <th><b>Actions</b></th>
                                 </thead>
                                 <tbody>
@@ -62,9 +62,12 @@
                                 <tr>
                                     <td><?= $counter++ ?></td>
                                     <td><?= $products->product_name ?></td>
+                                    <td><?= $products->product_brand ?></td>
                                     <td><?= $products->product_category ?></td>
                                     <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
-                                    <td><?= $products->product_quantity ?></td>
+                                    <td><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                                    else echo $products->product_quantity;
+                                    ?></td>
                                     <td>
                                         <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
                                             <span class="ti-eye"></span>

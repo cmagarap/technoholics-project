@@ -83,30 +83,30 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <h5>Smartphones</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/smartphone/apple'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/samsung';
+                                            <li><a href="<?= base_url().'home/category/smartphone/Samsung';
                                             ?>">Samsung</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/smartphone/asus'; ?>">Asus</a>
+                                            <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Tablets</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/tablet/apple'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/Apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/tablet/samsung'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/tablet/Samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-sm-3">
                                         <h5>Laptops</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category/laptop/apple'; ?>">Apple</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/Apple'; ?>">Apple</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category/laptop/samsung'; ?>">Samsung</a>
+                                            <li><a href="<?= base_url().'home/category/laptop/Samsung'; ?>">Samsung</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -231,11 +231,12 @@ _________________________________________________________ -->
         <div class="collapse clearfix" id="search">
             <form class="navbar-form" role="form" action="<?= $this->config->base_url() ?>home/search" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
                     <span class="input-group-btn">
-			            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
+                <div id="productlist" style="position:absolute;"></div>  
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->

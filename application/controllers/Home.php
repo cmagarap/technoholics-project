@@ -71,10 +71,27 @@ class Home extends CI_Controller {
     //     $this->load->view('ordering/includes/footer');
     // }
 
+    public function auto() {
+    $output = '';  
+    $query = $this->item_model->search('product','product_name', $_POST["query"]);
+    $output = '<ul class="box list-unstyled" style="width:420px;">';  
+    if($query)  
+        {  
+            foreach($query as $query){
+            $output .= '<li class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }  
+        }  
+    else  
+        {      
+            $output .= '<li class="text-left" >Item Not Found</li>';  
+        }  
+        $output .= '</ul>';
+        echo $output;  
+    }  
+
     public function category() {
     $page = $this->uri->segment(2);
     $cat = $this->uri->segment(3);
-
     $brand = ctype_alpha($this->uri->segment(4))?$this->uri->segment(4):NULL;
 
     $this->load->library('pagination');
@@ -102,9 +119,9 @@ class Home extends CI_Controller {
 
     if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
         $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
-        $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
+        $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
         $this->pagination->initialize($config);
-        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat, "product_brand" => $brand));
+        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
         $data = array(
             'title' => 'Category',
             'products' => $product,
@@ -121,9 +138,9 @@ class Home extends CI_Controller {
 
         } else {
         $config['base_url'] = base_url() . "home/category/" . $cat;
-        $config['total_rows'] = $this->item_model->getCount('product', array("product_quantity >" => 0, "product_category" => $cat));
+        $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat));
         $this->pagination->initialize($config);
-        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("product_quantity >" => 0, "product_category" => $cat));
+        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat));
         $data = array(
             'title' => 'Category',
             'products' => $product,
@@ -204,14 +221,29 @@ class Home extends CI_Controller {
             'page' => "Home"
         );
 
-        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/header',$data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
     }
 
+    public function viewbasket(){
+        $data = array(
+            'title' => "My Shopping Cart",
+            'cartItems' => $this->basket->contents(),
+            'CT' => $this->basket->total(),
+            'CTI' => $this->basket->total_items(),
+            'page' => "Home"
+        );
+
+        $this->load->view('ordering/basket',$data);
+
+    }
+
     public function detail() {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
+        $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
+        $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
@@ -220,9 +252,11 @@ class Home extends CI_Controller {
         $data = array(
             'title' => 'Home',
             'product' => $product,
+            'feedback' => $feedback,
             'page' => $page,
             'category' => $cat, //category identifier
             'brand' => $brand,
+            'rating' => $rating,
             'id' => $id
         );
         $this->load->view('ordering/includes/header', $data);
@@ -246,7 +280,7 @@ class Home extends CI_Controller {
         }
     }
 
-    public function checkouty() {
+    public function checkout() {
         $data = array(
             'title' => "Checkout",
             'page' => "Home"
@@ -394,23 +428,83 @@ class Home extends CI_Controller {
         $this->basket->remove($_POST["row_id"]);
     }
 
+    function post() {
+        
+        date_default_timezone_set("Asia/Manila");
+
+        $data = array(
+            'customer_id' => $this->session->uid,
+            'product_id' => $_POST["product_id"],
+            'feedback' => $_POST["feedback"],
+            'rating' => $_POST["rating"],
+            'added_at' => time()
+        );
+
+        $this->item_model->insertData("feedback", $data);
+
+        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+        $for_log = array(
+            "$user_id" => $this->db->escape_str($this->session->uid),
+            "user_type" => $this->db->escape_str($this->session->userdata('type')),
+            "username" => $this->db->escape_str($this->session->userdata('username')),
+            "date" => $this->db->escape_str(time()),
+            "action" => $this->db->escape_str('Commented on product '.$_POST["product_name"].' and rate it '. $_POST["rating"]),
+            'status' => $this->db->escape_str('1')
+        );
+
+        $this->item_model->insertData('user_log', $for_log);
+    }
+
     public function placeorder() {
         
         date_default_timezone_set("Asia/Manila");
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+            $CT= $this->basket->total() + 70;
 
             $data = array(
                 'customer_id' => $this->session->uid,
-                'total_price' => $this->basket->total(),
+                'total_price' => $CT,
                 'order_quantity' => $this->basket->total_items(),
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,
                 'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
-                'payment_method' => html_escape($this->input->post('payment')),
-                'shipper_id' => 801
+                'payment_method' => html_escape($this->input->post('payment'))
             );
+
+            $order_id = $this->item_model->insert_id('orders', $data);
+            // get cart items
+            $basketItems = $this->basket->contents();
+            // loop
+            foreach ($basketItems as $item) {
+                $data = array(
+                    'order_id' => $order_id,
+                    'product_id' => $item['id'],
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'product_image1' => $item['img'],
+                    'quantity' => $item['qty']
+                );
+                $this->item_model->insertData('order_items', $data);
+
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $item['name'],
+                    "at_detail" => "Purchase",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid, # logged in
+                    "order_id" => $order_id
+                    # status has a default value of 1
+                );
+                $this->item_model->insertData("audit_trail", $for_audit);
+
+                $stock = $item['maxqty'] - $item['qty'];
+                $data1 = array(
+                    'product_quantity' => $stock
+                );
+                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+            }
         }
         // if not
         else {
@@ -433,6 +527,7 @@ class Home extends CI_Controller {
                 'contact_no' => $this->input->post('contact'),
                 'image' => "default-user.png",
                 'status' => "1",
+                'registered_at' => time(),
                 'verification_code' => $hash_code
             );
             //returns the id of last query
@@ -445,10 +540,8 @@ class Home extends CI_Controller {
                 'transaction_date' => time(),
                 'delivery_date' => time() + 259200,
                 'shipping_address' => $this->input->post('address'),
-                'payment_method' => $this->input->post('payment'),
-                'shipper_id' => 801
+                'payment_method' => $this->input->post('payment')
             );
-        }
 
             $order_id = $this->item_model->insert_id('orders', $data);
             // get cart items
@@ -466,11 +559,12 @@ class Home extends CI_Controller {
                 $this->item_model->insertData('order_items', $data);
 
                 $for_audit = array(
-                    "customer_name" => $this->session->userdata("username"),
+                    "customer_name" => $user_and_pass,
                     "item_name" => $item['name'],
                     "at_detail" => "Purchase",
                     "at_date" => time(),
-                    "customer_id" => $this->session->uid # FK
+                    "customer_id" => $customer_id,
+                    "order_id" => $order_id
                     # status has a default value of 1
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);
@@ -481,7 +575,7 @@ class Home extends CI_Controller {
                 );
                 $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
             }
-
+        }
             $this->basket->destroy();
             $this->index(); # not yet sure
     }

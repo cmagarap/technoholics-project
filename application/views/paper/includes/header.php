@@ -9,7 +9,7 @@
     <meta name="description" content="Technoholics Online Store">
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
-    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
+    <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
@@ -17,19 +17,16 @@
     <link href="<?= $this->config->base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
     <!-- Paper Dashboard core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
-    <!-- CALENDAR (Lumino)
-    <link href="<?= $this->config->base_url()?>assets/css/datepicker3.css" rel="stylesheet">
-    <link href="<?= $this->config->base_url()?>assets/css/forcalendar.css" rel="stylesheet">
-    -->
-
     <!-- Fonts and icons -->
-    <!--<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">-->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/dist/calendar.css" rel="stylesheet">
+
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="<?= $this->config->base_url()?>assets/paper/js/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="<?= $this->config->base_url()?>assets/paper/js/bootstrap.min.js" type="text/javascript"></script>
     <!--  Notifications Plugin    -->
@@ -39,7 +36,7 @@
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="<?= $this->config->base_url()?>assets/paper/js/bootstrap-checkbox-radio.js"></script>
     <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
     <script src="<?= $this->config->base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
@@ -112,7 +109,14 @@
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
         }
 
+        .demo-picked {
+            font-size: 1.2rem;
+            text-align: center;
+        }
 
+        .demo-picked span {
+            font-weight: bold;
+        }
 
     </style>
 </head>
