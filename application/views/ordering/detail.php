@@ -156,18 +156,12 @@ _________________________________________________________ -->
                                 </blockquote></center>
                                 <h5 class="text-center" style="color:green;"><i>Stocks Available: <?= $row->product_quantity; ?></i></h5>
                                 <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
-                      
-                      # ====================================
-                                <h3 class="text-center">Brand: <?= $row->product_brand ?></h3>
-                                <h3 class="text-center"><?= $row->product_desc ?></h3>
-                                <h3 class="text-center">Quantity: <?= $row->product_quantity ?></h3>
-                                <h2 class="text-center">₱<?= number_format($row->product_price) ?></h2>
                                 <center>
                                     <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
                                 </center>
                                 <p class="text-center buttons">
                                     <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                    <a href="<?= base_url() . 'home/basket'; ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                                    <a href="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/wishlist'; } else { echo base_url().'login';} ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
                                 </p>
                             </div>
                         </div>

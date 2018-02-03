@@ -28,6 +28,9 @@ _________________________________________________________ -->
                                 </div>
                             </div>
                         </li>
+
+                        <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
+                        </li>
                     <?php else: ?>
                         <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
                         </li>
@@ -38,6 +41,7 @@ _________________________________________________________ -->
                     </li>
                     <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -53,9 +57,9 @@ _________________________________________________________ -->
                     <span class="sr-only">Toggle navigation</span>
                     <i class="fa fa-align-justify"></i>
                 </button>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search" >
                     <span class="sr-only">Toggle search</span>
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search" ></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
                     <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
@@ -65,13 +69,13 @@ _________________________________________________________ -->
         <div class="navbar-collapse collapse" id="navigation">
             <ul class="nav navbar-nav navbar-left">
             <?php if($page == "Home") : ?>
-                <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
+                <li class="active"><a href="<?= base_url().'home'; ?>">Home</a></li>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
             <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
-                <li class="active dropdown yamm-fw">
+                <li class="active dropdown yamm-fw"></li>
             <?php else : ?>
                 <li class="dropdown yamm-fw">
             <?php endif; ?>

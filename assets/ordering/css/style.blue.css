@@ -5,6 +5,7 @@ button {
   transition: all 0.2s ease-out;
 }
 
+
 a i.fa,
 button i.fa {
   margin: 0 5px;
@@ -991,7 +992,6 @@ h1 {
 .yamm .collapse,
 .yamm .dropup,
 .yamm .dropdown {
-  position: static;
 }
 .yamm .container {
   position: relative;
