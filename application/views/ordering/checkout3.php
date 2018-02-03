@@ -125,7 +125,7 @@
                             <tr>
                                 <td>Shipping and handling</td>
                                 <!-- SHIPPING FEE IS STILL STATIC, THE AMOUNT SHOULD BE ASKED TO THE CLIENT -->
-                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>40.00</th>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>70.00</th>
                             </tr>
                             <!--<tr>
                                 <td>Discount</td>
@@ -133,7 +133,7 @@
                             </tr>-->
                             <tr class="total">
                                 <td>Total</td>
-                                <th><u>&#8369;<?= number_format($CT + 40.00,2)?></u></th>
+                                <th><u>&#8369;<?= number_format($CT + 70.00,2)?></u></th>
                             </tr>
                             </tbody>
                         </table>
