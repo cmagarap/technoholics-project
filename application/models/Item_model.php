@@ -15,6 +15,14 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
+    function avg($table, $where = NULL, $avg){
+        $this->db->select_avg($avg);
+        $this->db->where($where);
+        $query = $this->db->get($table);
+        return $query->row();
+    }
+
+    
     function insert_id($table, $data) {
         $this->db->insert($table, $data);
         return $this->db->insert_id();
@@ -38,7 +46,10 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $column, $order) {
+    function getDistinct($table, $where, $column, $order) {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
         $this->db->order_by($column, $order);
         $this->db->select($column);
         $this->db->distinct();

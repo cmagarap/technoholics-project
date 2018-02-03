@@ -5,6 +5,7 @@
  * Date: 12/19/2017
  * Time: 10:53 AM
  */
+
 date_default_timezone_set("Asia/Manila");
 class User_log extends CI_Controller {
     function __construct() {

@@ -126,9 +126,18 @@ class Orders extends CI_Controller {
             $this->item_model->insertData("user_log", $for_log);
         }
 
-        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
-        $order = $order[0];
+        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+
         if($order->process_status == 3) {
+            $order_items = $this->item_model->fetch("order_items", "order_id = " . $this->uri->segment(3));
+
+            foreach ($order_items as $order_item) {
+                $item = $this->item_model->fetch('product', array('product_id' => $order_item->product_id))[0];
+                $quantity = $item->times_bought + $order_item->quantity;
+                $this->item_model->updatedata("product", array("times_bought" => $quantity), "product_id = " .$order_item->product_id);
+            }
+
+            # insert to sales table:
             $for_sales = array(
                 "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
@@ -138,9 +147,8 @@ class Orders extends CI_Controller {
             );
             $this->item_model->insertData("sales", $for_sales);
 
-            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
-                "$user_id" => $this->session->uid,
+                "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),

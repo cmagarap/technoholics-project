@@ -4,14 +4,14 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Chart</b></h3>
+                        <h3><span class="ti-stats-up" style = "color: #31bbe0;"></span>&nbsp;<b>Chart</b></h3>
                         <hr>
                     </div>
                 </div>
                 <!-- DATE PICKER -->
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-calendar" style = "color: #dc2f54;"></span>&nbsp; <b>Calendar</b></h3>
+                        <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
                         <hr>
                         <div class= "calendar">
                             <div id="v-cal">

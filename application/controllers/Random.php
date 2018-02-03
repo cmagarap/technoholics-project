@@ -73,9 +73,17 @@ class Random extends CI_Controller {
         #$sample = $this->item_model->fetch("user_log");
         #$sample = $sample[0];
         #echo date("F j, Y", 1516409137);
-        $lastweek = time() - (6 * 24 * 60 * 60);
+        #$lastweek = time() - (6 * 24 * 60 * 60);
         #echo date("F j, Y", $lastweek);
-        echo $lastweek;
+        # echo $lastweek."<br>";
+        /*$d = strtotime("December");
+        echo date("Y-m-d h:i:sa", $d)."<br>";
+        echo $d."<br>";
+        if(strtotime("December") == $d) {
+            echo "december!!";
+        } else {
+            echo "boring month";
+        }*/
     }
 
     public function getProductdata() {

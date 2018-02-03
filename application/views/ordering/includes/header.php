@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    
     <meta charset="utf-8">
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
@@ -16,25 +15,30 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     
     <!-- styles -->
-   
     <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/font-awesome.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/bootstrap.min.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/animate.min.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/owl.carousel.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/owl.theme.css'; ?>" rel="stylesheet">
+    <link href="<?= base_url().'assets/ordering/css/starability-all.min.css';?>" rel="stylesheet">
 
     <!-- theme stylesheet -->
     <link href="<?= base_url().'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
 
     <!-- web sheets -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<?= base_url().'assets/ordering/js/jquery-1.11.0.min.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/bootstrap.min.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/jquery.cookie.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/waypoints.min.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/modernizr.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/bootstrap-hover-dropdown.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
    
     <!-- your stylesheet with modifications -->
-    
     <link rel="stylesheet" href="<?= base_url().'assets/ordering/css/etalage.css'?>">
     <script type="text/javascript" src="<?= base_url().'assets/ordering/js/megamenu.js'?>"></script>
-    <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
     <script src="<?= base_url().'assets/ordering/js/jquery.etalage.min.js'; ?>"></script>
 
     <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
@@ -116,4 +120,5 @@
     </script>
 </head>
 <body>
-<br><br><br><br><br><br>
+<div style="margin-top:130px">
+</div>
