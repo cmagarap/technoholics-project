@@ -2,7 +2,8 @@
 <div id="content">
     <div class="container">
 
-        <div class="col-md-12">
+        <div class="col-md-12">     
+        </br>
             <ul class="breadcrumb">
                 <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                 </li>
@@ -15,7 +16,7 @@
                     <li><?= $category ?></li>
                 <?php endif; ?>
             </ul>
-        </div>
+        </>
 
         <div class="col-md-3">
             <!-- *** MENUS AND FILTERS ***
@@ -225,8 +226,8 @@ _________________________________________________________ -->
                                 </div>
                                 <!-- /.text -->
                                 <?php if (!$row->product_quantity): ?>
-                                <div class="ribbon sale">
-                                    <div class="theribbon">OUT OF STOCK</div>
+                                <div class="ribbon sale" >
+                                    <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
                                     <div class="ribbon-background"></div>
                                 </div>
                                 <?php endif ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2018 at 06:42 PM
+-- Generation Time: Jan 27, 2018 at 02:07 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -65,19 +65,83 @@ CREATE TABLE `audit_trail` (
   `at_detail` varchar(50) DEFAULT NULL,
   `at_date` int(11) NOT NULL,
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `customer_id` int(12) UNSIGNED NOT NULL
+  `customer_id` int(12) UNSIGNED NOT NULL,
+  `order_id` int(12) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `audit_trail`
 --
 
-INSERT INTO `audit_trail` (`at_id`, `customer_name`, `item_name`, `at_detail`, `at_date`, `status`, `customer_id`) VALUES
-(1, 'tabingi_mukha_ko', 'Galaxy Grand Prime', 'Purchase', 1516332322, 1, 1),
-(2, 'tabingi_mukha_ko', 'HUAWEI Mate 9 Pro', 'Purchase', 1515482070, 1, 1),
-(3, 'tabingi_mukha_ko', 'iPhone 6 Plus 16GB', 'Purchase', 1516409136, 1, 1),
-(4, 'tabingi_mukha_ko', 'Acer Aspire F 15', 'Purchase', 1516409137, 1, 1),
-(5, 'tabingi_mukha_ko', 'Asus Laptop Charger 19V', 'Purchase', 1516409137, 1, 1);
+INSERT INTO `audit_trail` (`at_id`, `customer_name`, `item_name`, `at_detail`, `at_date`, `status`, `customer_id`, `order_id`) VALUES
+(1, 'tabingi_mukha_ko', 'iPhone 7', 'Purchase', 1516764686, 1, 1, NULL),
+(2, 'tabingi_mukha_ko', 'HP Stream 11.6" Celeron Laptop', 'Purchase', 1516764739, 1, 1, NULL),
+(3, 'tabingi_mukha_ko', 'Apple iPad Mini 2', 'Purchase', 1516764792, 1, 1, NULL),
+(4, 'tabingi_mukha_ko', 'ZenFone 3 Max ZC520TL', 'Purchase', 1516764856, 1, 1, NULL),
+(5, 'tabingi_mukha_ko', 'Samsung J7', 'Purchase', 1516764905, 1, 1, NULL),
+(6, 'tabingi_mukha_ko', 'iPhone 8', 'Purchase', 1516764945, 1, 1, NULL),
+(7, 'tabingi_mukha_ko', 'ASUS Laptop X556UQ-NH71', 'Purchase', 1516766105, 1, 1, NULL),
+(8, 'tabingi_mukha_ko', 'HP Laptop - 15z touch optional', 'Purchase', 1516766176, 1, 1, NULL),
+(9, 'tabingi_mukha_ko', 'Samsung Galaxy Tab A 7.0', 'Purchase', 1516766176, 1, 1, NULL),
+(10, 'RO1517055802', 'iPhone 8', 'Purchase', 1517056594, 1, 8, NULL),
+(11, 'RO1517055802', 'iPhone 7', 'Purchase', 1517056595, 1, 8, NULL),
+(12, 'RO1517055802', 'ASUS Laptop X556UQ-NH71', 'Purchase', 1517056638, 1, 8, NULL),
+(13, 'RO1517055802', 'HP Laptop - 15z touch optional', 'Purchase', 1517056639, 1, 8, NULL),
+(14, 'RO1517055802', 'HP Stream 11.6" Celeron Laptop', 'Purchase', 1517056639, 1, 8, NULL),
+(15, 'RO1517055802', 'ACER ASPIRE ES1 332 BLACK', 'Purchase', 1517056640, 1, 8, NULL),
+(16, 'EA1517057098', 'HP Laptop - 15z touch optional', 'Purchase', 1517057098, 1, 10, NULL),
+(17, 'EA1517057098', 'Apple iPad Pro', 'Purchase', 1517057098, 1, 10, NULL),
+(18, 'tabingi_mukha_ko', 'Samsung Galaxy Tab A 7.0', 'Purchase', 1517057440, 1, 1, 31),
+(19, 'tabingi_mukha_ko', 'Apple iPad Pro', 'Purchase', 1517057441, 1, 1, 31),
+(20, 'EA1517057098', 'ASUS Laptop X556UQ-NH71', 'Purchase', 1517057516, 1, 10, 32);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brand`
+--
+
+CREATE TABLE `brand` (
+  `brand_id` int(12) UNSIGNED NOT NULL,
+  `brand_name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `brand`
+--
+
+INSERT INTO `brand` (`brand_id`, `brand_name`) VALUES
+(601, 'Apple'),
+(602, 'ASUS'),
+(603, 'Samsung'),
+(604, 'Lenovo'),
+(605, 'Acer'),
+(606, 'Dell'),
+(607, 'HP'),
+(608, 'Sony');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `category_id` int(12) UNSIGNED NOT NULL,
+  `category` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`category_id`, `category`) VALUES
+(701, 'Accessories'),
+(702, 'Smartphone'),
+(703, 'Laptop'),
+(704, 'Charger'),
+(705, 'Tablet'),
+(706, 'Featured');
 
 -- --------------------------------------------------------
 
@@ -115,7 +179,24 @@ INSERT INTO `customer` (`customer_id`, `email`, `password`, `firstname`, `lastna
 (4, 'rexb@gmail.com', '$2y$10$rEkMAgjR/DuJJngX54ysM.gHX8mtTp7VHUeStwYOGLnLXAMminUvq', 'Rex', 'Baldonado', 'RB1515560608', 'Paredes St. #11', 'None', 'Quezon City', 'Brgy. FEU', '123', '0912335527', 'default-user.png', 1, 1, 0, '1da7957d86c646d930d37624fe550ba9564f07917786865c8df0e38c1940'),
 (5, 'edersonvillegas50@gmail.com', '$2y$10$N2PDAht1XXaRlMU4Dn3RH.0x.Q89yun8icgYoUzeoXL50FkflUAiO', 'Ederson', 'Villegas', 'EV1515640022', 'Lower Nawasa #71', 'Quezon Province', 'Quezon City', 'CommonWealth', '1661', '0912335598', 'default-user.png', 1, 0, 0, '5f7449161e5d2373aebeb5f9e66c93f1a2680a6adaa7539d96f91d19e143'),
 (6, 'arjhomeljimenez@gmail.com', '$2y$10$738OkUDjTuth6wx4AC7X4O88UTyfnoE0nlnOtr7XVS00rf8Bhmcce', 'Arjhomel', 'Jimenez', 'AJ1515640308', 'FEU Instititue #69', 'Quezon Province', 'Quezon City', 'Toro', '1661', '0912335598', 'default-user.png', 1, 0, 0, '78b4bcfffb6180db327ce2948036f10d5cb1e9c6f0c6b9920bc2afee998d'),
-(7, 'atl@yahoo.com', '$2y$10$AkkJ6LNbadLa7/vQs0bbluOdWKlIRABHNKfQqsRtzlqjGGBIEZwr.', 'Andrew', 'Leona', 'AL1515664193', 'adasda', 'zdads', 'asdadasd', 'dasdada', '1661', '094143213', 'default-user.png', 1, 0, 0, 'd13eb2e652de51b878cc93eca890e42c55cfc033fc181ee5cbfe112d8952');
+(7, 'atl@yahoo.com', '$2y$10$AkkJ6LNbadLa7/vQs0bbluOdWKlIRABHNKfQqsRtzlqjGGBIEZwr.', 'Andrew', 'Leona', 'AL1515664193', 'adasda', 'zdads', 'asdadasd', 'dasdada', '1661', '094143213', 'default-user.png', 1, 0, 0, 'd13eb2e652de51b878cc93eca890e42c55cfc033fc181ee5cbfe112d8952'),
+(8, 'randyorton@gmail.com', '$2y$10$DhJfkyxUOz5dRiOuUJ1rdOnmifM6xNa12chgvQpIFAzNDifd6mVR6', 'Randal Keith', 'Orton', 'RO1517055802', '4509 Nutter St.', 'Missouri', 'St. Louis', 'Belton', '6401', '09491399640', 'default-user.png', 1, 1, 0, '873dec17c7c8d6821a8091d77df5589ccf8593c8246351ddc16aaf8118d5'),
+(9, 'michaels@gmail.com', '$2y$10$u8UwRvakhaDd9pwpor059u5Zrox0xzrFifH299aYwtbUUua9XWx4q', 'Shawn', 'Michaels', 'SM1517056867', '2264 Sundown Lane', 'Texas', 'San Antonio', 'Connect', '7874', '09123655995', 'default-user.png', 1, 0, 0, '4148763f386fdd4d11b550fbffe2fe1148bae1dfb9c0b936ee111a5f1830'),
+(10, 'sawft_kervin@gmail.com', '$2y$10$5U/tUafvIvXTku85icxISugVSw2.oPZKiKSonCH9gEuUWyJZGDl/S', 'Enzo', 'Amore', 'EA1517057098', '1403 Sawft', 'Metro Manila', 'Manila', 'Sampaloc', '6202', '09123655995', 'default-user.png', 1, 1, 0, '7d9e8162cd5f3cd553eb37c9f4a27e2801897d9f28aa53fd4eb9771b8e64');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `feedback_id` int(11) UNSIGNED NOT NULL,
+  `customer_id` int(12) UNSIGNED DEFAULT NULL,
+  `product_id` int(12) UNSIGNED DEFAULT NULL,
+  `feedback` varchar(200) NOT NULL,
+  `added_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -149,7 +230,7 @@ CREATE TABLE `orders` (
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
   `admin_id` int(12) UNSIGNED DEFAULT NULL,
   `customer_id` int(12) UNSIGNED NOT NULL,
-  `shipper_id` int(12) UNSIGNED DEFAULT NULL
+  `shipper_id` int(12) UNSIGNED DEFAULT '904'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -157,20 +238,36 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_quantity`, `total_price`, `order_detail`, `payment_method`, `transaction_date`, `delivery_date`, `shipping_address`, `process_status`, `status`, `admin_id`, `customer_id`, `shipper_id`) VALUES
-(2, 3, 100997.00, NULL, 'payment3', 1515550574, 1515550574, 'Suntrust building', 2, 0, NULL, 3, 903),
-(3, 3, 100997.00, NULL, 'payment3', 1515560608, 1515819808, 'Paredes St. #11', 3, 1, NULL, 4, 904),
-(4, 5, 166551.00, NULL, 'payment3', 1515640022, 1515899222, 'Lower Nawasa #71', 2, 0, NULL, 5, 904),
-(5, 5, 149995.00, NULL, 'payment3', 1515640308, 1515899508, 'FEU Instititue #69', 3, 1, NULL, 6, 903),
-(6, 6, 197994.00, NULL, 'payment3', 1515664193, 1515923393, 'adasda', 3, 1, NULL, 7, 903),
-(8, 2, 24998.00, 'CANCELLED', 'payment2', 1516336528, 1516595728, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 0, NULL, 1, 903),
-(9, 4, 65996.00, NULL, 'payment2', 1516336719, 1516595919, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, NULL, 1, 904),
-(10, 2, 898.00, NULL, 'payment2', 1516336896, 1516596096, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, NULL, 1, 903),
-(11, 1, 8999.00, NULL, 'payment1', 1516407895, 1516667095, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 2, 0, 2, 1, 903),
-(12, 2, 17998.00, NULL, 'payment3', 1516408908, 1516668108, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 2, 1, 1, 1, 903),
-(13, 2, 17998.00, NULL, 'payment1', 1516408934, 1516668134, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 1, 2, 1, 904),
-(14, 3, 33848.00, NULL, 'payment3', 1516409136, 1516668336, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 1, NULL, 1, 904),
-(15, 1, 9999.00, NULL, 'payment1', 1516450877, 1516710077, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 1, NULL, 1, 904),
-(16, 1, 499.00, NULL, 'payment3', 1516466530, 1516725730, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 2, 1, 2, 1, 903);
+(2, 3, 100997.00, NULL, 'COD', 1515550574, 1515550574, 'Suntrust building', 2, 0, NULL, 3, 903),
+(3, 3, 100997.00, NULL, 'COD', 1515560608, 1515819808, 'Paredes St. #11', 3, 0, NULL, 4, 904),
+(4, 5, 166551.00, NULL, 'COD', 1515640022, 1515899222, 'Lower Nawasa #71', 2, 0, NULL, 5, 904),
+(5, 5, 149995.00, NULL, 'paypal', 1515640308, 1515899508, 'FEU Instititue #69', 3, 0, NULL, 6, 903),
+(6, 6, 197994.00, NULL, 'paypal', 1515664193, 1515923393, 'adasda', 3, 0, NULL, 7, 903),
+(8, 2, 24998.00, 'CANCELLED', 'visa_mastercard', 1516336528, 1516595728, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 0, NULL, 1, 903),
+(9, 4, 65996.00, NULL, 'visa_mastercard', 1516336719, 1516595919, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 0, NULL, 1, 904),
+(10, 2, 898.00, NULL, 'visa_mastercard', 1516336896, 1516596096, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 0, NULL, 1, 903),
+(11, 1, 8999.00, NULL, 'COD', 1516407895, 1516667095, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 2, 0, 2, 1, 903),
+(12, 2, 17998.00, NULL, 'COD', 1516408908, 1516668108, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 2, 0, 1, 1, 903),
+(13, 2, 17998.00, NULL, 'COD', 1516408934, 1516668134, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 0, 2, 1, 904),
+(14, 3, 33848.00, NULL, 'paypal', 1516409136, 1516668336, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 0, NULL, 1, 904),
+(15, 1, 9999.00, NULL, 'COD', 1516450877, 1516710077, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 0, NULL, 1, 904),
+(16, 1, 499.00, NULL, 'visa_mastercard', 1516466530, 1516725730, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 0, 1, 1, 903),
+(17, 1, 35490.00, NULL, 'COD', 1516764686, 1517023886, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(18, 1, 25400.00, NULL, 'visa_mastercard', 1516764739, 1517023939, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(19, 1, 14990.00, NULL, 'paypal', 1516764792, 1517023992, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(20, 2, 13000.00, NULL, 'paypal', 1516764856, 1517024056, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(21, 2, 24980.00, NULL, 'COD', 1516764905, 1517024105, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(22, 1, 45990.00, NULL, 'visa_mastercard', 1516764944, 1517024144, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(23, 2, 83998.00, NULL, 'COD', 1516766105, 1517025305, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(24, 2, 38599.00, NULL, 'COD', 1516766175, 1517025375, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 3, 1, 2, 1, 904),
+(25, 2, 15099.00, NULL, 'COD', 1517055802, 1517315002, '4509 Nutter St.', 1, 1, NULL, 8, 904),
+(26, 2, 50480.00, NULL, 'COD', 1517056376, 1517315576, '4509 Nutter St., Belton, St. Louis, Missouri', 1, 1, NULL, 8, 904),
+(27, 3, 116970.00, NULL, 'COD', 1517056594, 1517315794, '4509 Nutter St., Belton, St. Louis, Missouri', 1, 1, NULL, 8, 904),
+(28, 4, 115397.00, NULL, 'paypal', 1517056638, 1517315838, '4509 Nutter St., Belton, St. Louis, Missouri', 1, 1, NULL, 8, 904),
+(29, 1, 39990.00, NULL, 'visa_mastercard', 1517056867, 1517316067, '2264 Sundown Lane', 1, 1, NULL, 9, 904),
+(30, 2, 70989.00, NULL, 'visa_mastercard', 1517057098, 1517316298, '1403 Sawft', 1, 1, NULL, 10, 904),
+(31, 2, 47590.00, NULL, 'paypal', 1517057440, 1517316640, '1101 Tilted Bldg., Maceda St., Brgy. Tilted, Titled Place, Metro Manila', 1, 1, NULL, 1, 904),
+(32, 1, 41999.00, NULL, 'COD', 1517057516, 1517316716, '1403 Sawft, Sampaloc, Manila, Metro Manila', 1, 1, NULL, 10, 904);
 
 -- --------------------------------------------------------
 
@@ -193,34 +290,29 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`orderitems_id`, `product_name`, `product_price`, `quantity`, `product_image1`, `order_id`, `product_id`) VALUES
-(2, 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz)', 59999.00, 1, 'default-product.jpg', 2, 20),
-(3, 'Acer Aspire F 15', 15999.00, 1, 'default-product.jpg', 2, 19),
-(4, 'ACER ASPIRE ES1 332 BLACK', 24999.00, 1, 'default-product.jpg', 2, 22),
-(5, 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz)', 59999.00, 1, 'default-product.jpg', 3, 20),
-(6, 'Acer Aspire F 15', 15999.00, 1, 'default-product.jpg', 3, 19),
-(7, 'ACER ASPIRE ES1 332 BLACK', 24999.00, 1, 'default-product.jpg', 3, 22),
-(8, 'HP 15 Core i3 6th Gen - (4 GB/1 TB HDD/Windows', 29999.00, 3, 'default-product.jpg', 4, 16),
-(9, 'HP Flyer Red 15.6', 45555.00, 1, 'default-product.jpg', 4, 52),
-(10, 'HP Laptop - 15z touch optional', 30999.00, 1, 'default-product.jpg', 4, 14),
-(11, 'HP 15 Core i3 6th Gen - (4 GB/1 TB HDD/Windows', 29999.00, 5, '55f4ebe3f3a2346c13437c9faedecf6f.jpg', 5, 16),
-(12, 'HP 15 Core i3 6th Gen - (4 GB/1 TB HDD/Windows', 29999.00, 1, 'default-product.jpg', 6, 16),
-(13, 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz)', 59999.00, 2, 'default-product.jpg', 6, 20),
-(14, 'Acer Aspire F 15', 15999.00, 3, 'default-product.jpg', 6, 19),
-(16, 'ACER ASPIRE ES1 332 BLACK', 24999.00, 1, 'default-product.jpg', 9, 22),
-(17, 'Acer Aspire F 15', 15999.00, 1, 'default-product.jpg', 9, 19),
-(18, 'iPhone 6 Plus 16GB', 15999.00, 1, 'default-product.jpg', 9, 36),
-(19, 'HUAWEI P9', 8999.00, 1, 'default-product.jpg', 9, 48),
-(20, 'Cell Phone Pocket Protectors', 199.00, 1, 'default-product.jpg', 10, 34),
-(21, 'Cellphone Handy Tripod', 699.00, 1, 'default-product.jpg', 10, 27),
-(22, 'HUAWEI P9', 8999.00, 1, 'default-product.jpg', 11, 48),
-(23, 'Galaxy Grand Prime', 7999.00, 1, 'default-product.jpg', 12, 45),
-(24, 'Galaxy Grand Prime', 7999.00, 1, 'default-product.jpg', 13, 45),
-(25, 'HUAWEI Mate 9 Pro', 9999.00, 1, 'default-product.jpg', 13, 47),
-(26, 'iPhone 6 Plus 16GB', 15999.00, 1, 'default-product.jpg', 14, 36),
-(27, 'Acer Aspire F 15', 15999.00, 1, 'default-product.jpg', 14, 19),
-(28, 'Asus Laptop Charger 19V', 1850.00, 1, 'default-product.jpg', 14, 3),
-(29, 'HUAWEI Mate 9 Pro', 9999.00, 1, 'default-product.jpg', 15, 47),
-(30, 'ASUS Charger for Zenfone2/T100CHI', 499.00, 1, 'default-product.jpg', 16, 7);
+(1, 'iPhone 7', 35490.00, 1, 'ed84b2b347955d92d5b4bbe2363d1655.jpeg', 17, 75),
+(2, 'HP Stream 11.6" Celeron Laptop', 25400.00, 1, '79894dd530010a23f536f5607aea5c4d.jpg', 18, 71),
+(3, 'Apple iPad Mini 2', 14990.00, 1, 'a861ace37697ac911798e89073e8d3d7.jpg', 19, 84),
+(4, 'ZenFone 3 Max ZC520TL', 6500.00, 2, 'b15969f923e4c8b71914df733addb5e3.jpg', 20, 80),
+(5, 'Samsung J7', 12490.00, 2, 'ae4c7195898417e688fa5c8bda95dbbc.jpg', 21, 78),
+(6, 'iPhone 8', 45990.00, 1, '02173be3ece0a965ceda82c1e9f2670d.jpeg', 22, 74),
+(7, 'ASUS Laptop X556UQ-NH71', 41999.00, 2, 'c819ab0df1bea8bcce14a7a9e92ddb4d.jpg', 23, 70),
+(8, 'HP Laptop - 15z touch optional', 30999.00, 1, '9e6b7401be8e1d07334e7400394fdabd.png', 24, 67),
+(9, 'Samsung Galaxy Tab A 7.0', 7600.00, 1, '521efa1534dc8c29a1876c338415fd15.jpg', 24, 82),
+(10, 'Samsung S4', 7499.00, 1, '12c8ad001f256b55c3a2fb55e427c052.jpg', 25, 79),
+(11, 'Apple iPad Mini 2', 14990.00, 1, 'a861ace37697ac911798e89073e8d3d7.jpg', 26, 84),
+(12, 'iPhone 8', 45990.00, 1, '02173be3ece0a965ceda82c1e9f2670d.jpeg', 27, 74),
+(13, 'iPhone 7', 35490.00, 2, 'ed84b2b347955d92d5b4bbe2363d1655.jpeg', 27, 75),
+(14, 'ASUS Laptop X556UQ-NH71', 41999.00, 1, 'c819ab0df1bea8bcce14a7a9e92ddb4d.jpg', 28, 70),
+(15, 'HP Laptop - 15z touch optional', 30999.00, 1, '9e6b7401be8e1d07334e7400394fdabd.png', 28, 67),
+(16, 'HP Stream 11.6" Celeron Laptop', 25400.00, 1, '79894dd530010a23f536f5607aea5c4d.jpg', 28, 71),
+(17, 'ACER ASPIRE ES1 332 BLACK', 16999.00, 1, 'd6a65f8a81af237e472b33ce66751cba.jpg', 28, 72),
+(18, 'Apple iPad Pro', 39990.00, 1, '84d1099989505d1e9b7740e1c4a5c7b1.png', 29, 73),
+(19, 'HP Laptop - 15z touch optional', 30999.00, 1, '9e6b7401be8e1d07334e7400394fdabd.png', 30, 67),
+(20, 'Apple iPad Pro', 39990.00, 1, '84d1099989505d1e9b7740e1c4a5c7b1.png', 30, 73),
+(21, 'Samsung Galaxy Tab A 7.0', 7600.00, 1, '521efa1534dc8c29a1876c338415fd15.jpg', 31, 82),
+(22, 'Apple iPad Pro', 39990.00, 1, '84d1099989505d1e9b7740e1c4a5c7b1.png', 31, 73),
+(23, 'ASUS Laptop X556UQ-NH71', 41999.00, 1, 'c819ab0df1bea8bcce14a7a9e92ddb4d.jpg', 32, 70);
 
 -- --------------------------------------------------------
 
@@ -243,10 +335,10 @@ CREATE TABLE `payment` (
 
 CREATE TABLE `product` (
   `product_id` int(12) UNSIGNED NOT NULL,
-  `product_category` varchar(250) DEFAULT NULL,
   `product_name` varchar(250) NOT NULL,
-  `product_brand` varchar(250) DEFAULT NULL,
   `product_desc` varchar(250) NOT NULL,
+  `product_brand` varchar(40) NOT NULL,
+  `product_category` varchar(40) NOT NULL,
   `product_price` float(8,2) UNSIGNED NOT NULL,
   `product_quantity` int(5) UNSIGNED NOT NULL,
   `no_of_views` int(8) UNSIGNED NOT NULL DEFAULT '0',
@@ -254,68 +346,39 @@ CREATE TABLE `product` (
   `product_image2` varchar(250) DEFAULT NULL,
   `product_image3` varchar(250) DEFAULT NULL,
   `product_image4` varchar(250) DEFAULT NULL,
-  `supplier` varchar(50) DEFAULT NULL,
   `added_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `status` int(1) UNSIGNED NOT NULL,
-  `supplier_id` int(12) UNSIGNED DEFAULT NULL,
-  `admin_id` int(12) UNSIGNED DEFAULT NULL
+  `status` int(1) UNSIGNED NOT NULL DEFAULT '1',
+  `supplier_id` int(12) UNSIGNED NOT NULL,
+  `admin_id` int(12) UNSIGNED DEFAULT NULL,
+  `category_id` int(12) UNSIGNED NOT NULL,
+  `brand_id` int(12) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_category`, `product_name`, `product_brand`, `product_desc`, `product_price`, `product_quantity`, `no_of_views`, `product_image1`, `product_image2`, `product_image3`, `product_image4`, `supplier`, `added_at`, `updated_at`, `status`, `supplier_id`, `admin_id`) VALUES
-(3, 'Laptop', 'Asus Laptop Charger 19V', 'ASUS', '100% compatibility\r\n', 1850.00, 3, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515468435, 0, 1, NULL, 2),
-(4, 'Chargers', 'Universal Charger', NULL, 'One charger for more than 300 different batteries.', 499.00, 15, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515468998, 0, 1, NULL, 2),
-(6, 'Chargers', 'Samsung Convoy U640 Cell Phone Charger', 'Samsung', 'Samsung Convoy U640 Cell Phone Charger', 200.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515469096, 0, 1, NULL, 2),
-(7, 'Chargers', 'ASUS Charger for Zenfone2/T100CHI', 'ASUS', 'ASUS Charger for Zenfone2/T100CHI', 499.00, 9, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515469132, 0, 1, NULL, 2),
-(8, 'Chargers', 'Cell Phone Home / Travel Charger for SamsungGravity 3', 'Samsung', 'Cell Phone Home / Travel Charger for SamsungGravity 3', 199.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515469178, 0, 1, NULL, 2),
-(9, 'Chargers', 'ChargeAll-Universal-Cell-Phone-Charger', NULL, 'ChargeAll-Universal-Cell-Phone-Charger', 699.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515473320, 0, 1, NULL, 2),
-(10, 'Chargers', 'Motorola Motorola SPN5185B Cell Phone Travel Charger', 'Motorola', 'Motorola Motorola SPN5185B Cell Phone Travel Charger\r\n', 549.00, 12, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515473368, 0, 1, NULL, 2),
-(11, 'Chargers', 'Apple 85W MagSafe 2 Power Adapter for MacBook Pro', 'Apple', 'Apple 85W MagSafe 2 Power Adapter for MacBook Pro', 3000.00, 12, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515473738, 0, 1, NULL, 2),
-(12, 'Chargers', 'Genuine Apple A1399 USB Mains Wall Charger Adaptor', 'Apple', 'Genuine Apple A1399 USB Mains Wall Charger Adaptor\r\n', 999.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515473771, 0, 1, NULL, 2),
-(13, 'Chargers', 'Genuine Apple Macbook Charger 60W Magsafe Power Adapter', 'Apple', 'Genuine Apple Macbook Charger 60W Magsafe Power Adapter', 2999.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515473794, 0, 1, NULL, 2),
-(14, 'Laptop', 'HP Laptop - 15z touch optional', 'HP', 'Windows 10 Home 64\r\nAMD Dual-Core A9 APU\r\n8 GB memory; 1 TB HDD storage\r\nAMD Radeon™ R5 Graphics\r\n15.6" diagonal HD display', 30999.00, 4, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515482070, 0, 1, NULL, 2),
-(15, 'Laptop', 'Lenovo - 15.6" Laptop - AMD A6-Series - 4GB Memory - 500GB Hard', 'Lenovo', 'Lenovo - 15.6" Laptop - AMD A6-Series - 4GB Memory - 500GB Hard', 15999.00, 3, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515482113, 0, 1, NULL, 2),
-(16, 'Laptop', 'HP 15 Core i3 6th Gen - (4 GB/1 TB HDD/Windows', 'HP', 'HP 15 Core i3 6th Gen - 4 GB/1 TB HDD/Windows', 29999.00, 0, 0, '55f4ebe3f3a2346c13437c9faedecf6f.jpg', NULL, NULL, NULL, '', 1515482236, 0, 1, NULL, 2),
-(17, 'Laptop', 'HP Spectre x360 Laptop - 15" Touch', 'HP', 'HP Spectre x360 Laptop - 15" Touch', 45999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515482537, 0, 1, NULL, 2),
-(19, 'Laptop', 'Acer Aspire F 15', 'Acer', 'Acer Aspire F 15" Touchscreen Laptop - Silver (Intel Core i5-7200U/1 TB HDD/ 12 GB RAM/ Windows 10) ', 15999.00, 3, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491282, 0, 1, NULL, NULL),
-(20, 'Laptop', 'ASUS Laptop X556UQ-NH71 Intel Core i7 7th Gen 7500U (2.70 GHz)', 'ASUS', '59999', 59999.00, 0, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491327, 0, 1, NULL, NULL),
-(21, 'Laptop', 'HP Stream 11.6" Celeron Laptop', 'HP', 'HP Stream 11.6" Celeron Laptop', 13999.00, 4, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491364, 0, 1, NULL, NULL),
-(22, 'Laptop', 'ACER ASPIRE ES1 332 BLACK', 'Acer', 'ACER ASPIRE ES1 332 BLACK\r\n', 24999.00, 4, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491407, 0, 1, NULL, NULL),
-(23, 'Laptop', 'Razer Blade 14 RZ09 Gaming Laptop', '', 'Razer Blade 14 RZ09 Gaming Laptop\r\n', 49999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491467, 0, 1, NULL, NULL),
-(24, 'Laptop', 'HP OMEN Gaming Laptop - 15"', 'HP', 'HP OMEN Gaming Laptop - 15"', 69999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491493, 0, 1, NULL, NULL),
-(25, 'Accessories', 'Handy Grip Phone Strap', NULL, 'Handy Grip Phone Strap', 79.00, 1, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491524, 0, 1, NULL, NULL),
-(26, 'Accessories', 'Wallet Card Holder Monogram', NULL, 'Wallet Card Holder Monogram', 149.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491549, 0, 1, NULL, NULL),
-(27, 'Accessories', 'Cellphone Handy Tripod', NULL, 'Cellphone Handy Tripod', 699.00, 11, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491570, 0, 1, NULL, NULL),
-(28, 'Accessories', 'Pop Socket', NULL, 'Pop Socket', 159.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491589, 0, 1, NULL, NULL),
-(29, 'Accessories', 'Pop Socket', NULL, 'Pop Socket', 159.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491589, 0, 1, NULL, NULL),
-(30, 'Accessories', 'iPhone X Silicone Case', 'Apple', 'iPhone X Silicone Case ', 499.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491605, 0, 1, NULL, NULL),
-(31, 'Accessories', 'Selfie Stick', NULL, 'Selfie Stick', 149.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491644, 0, 1, NULL, NULL),
-(32, 'Accessories', 'Zilu CM001 Universal Car Phone Mount', NULL, 'Zilu CM001 Universal Car Phone Mount', 599.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491664, 0, 1, NULL, NULL),
-(33, 'Accessories', 'Pokémon Folio Wallet iPhone 6 Case', 'Apple', 'Pokémon Folio Wallet iPhone 6 Case', 799.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491686, 0, 1, NULL, NULL),
-(34, 'Accessories', 'Cell Phone Pocket Protectors', NULL, 'Cell Phone Pocket Protectors', 199.00, 4, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491710, 0, 1, NULL, NULL),
-(35, 'Accessories', 'Sports Armband for iPhone', 'Apple', 'Sports Armband for iPhone', 499.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491730, 0, 1, NULL, NULL),
-(36, 'Smartphone', 'iPhone 6 Plus 16GB', 'Apple', 'iPhone 6 Plus 16GB', 15999.00, 3, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491772, 0, 1, NULL, NULL),
-(37, 'Smartphone', 'Samsung Note 7', 'Samsung', 'The best and the new cellphone of samsung', 31231.00, 3, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515491807, 0, 1, NULL, NULL),
-(39, 'Chargers', 'Voltaic Amp Portable Solar Charger', '', 'Voltaic Amp Portable Solar Charger', 1299.00, 12, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492210, 0, 1, NULL, NULL),
-(40, 'Accessories', 'Silicone Phone Wallet Stand', NULL, 'Silicone Phone Wallet Stand\r\n', 79.00, 15, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492233, 0, 1, NULL, NULL),
-(41, 'Accessories', 'Dual Layer Armor Defender Shockproof Protective Hard Case With Stand', NULL, 'Dual Layer Armor Defender Shockproof Protective Hard Case With Standv', 1199.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492269, 0, 1, NULL, NULL),
-(42, 'Smartphone', 'LG V30 LTE Advanced', 'LG', 'LG V30 LTE Advanced', 4999.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492308, 0, 1, NULL, NULL),
-(43, 'Smartphone', 'LG Leon 4G LTE H345', 'LG', 'LG Leon 4G LTE H345', 4999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492333, 0, 1, NULL, NULL),
-(44, 'Smartphone', 'Samsung Galaxy J7 J700M, 16GB, Dual SIM LTE, Factory Unlocked', 'Samsung', 'Samsung Galaxy J7 J700M, 16GB, Dual SIM LTE, Factory Unlocked', 11499.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492351, 0, 1, NULL, NULL),
-(45, 'Smartphone', 'Galaxy Grand Prime', 'Samsung', 'Galaxy Grand Prime ', 7999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492377, 0, 1, NULL, NULL),
-(46, 'Smartphone', 'Samsung Galaxy Ace Dual-Sim', 'Samsung', 'Samsung Galaxy Ace Dual-Sim', 3999.00, 6, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492405, 0, 1, NULL, NULL),
-(47, 'Smartphone', 'HUAWEI Mate 9 Pro', 'Huawei', 'HUAWEI Mate 9 Pro', 9999.00, 4, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492441, 0, 1, NULL, NULL),
-(48, 'Smartphone', 'HUAWEI P9', 'Huawei', 'HUAWEI P9', 8999.00, 5, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492461, 0, 1, NULL, NULL),
-(49, 'Smartphone', 'OPPO R9s', 'OPPO', 'OPPO R9s', 8999.00, 7, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492480, 0, 1, NULL, NULL),
-(50, 'Smartphone', 'OPPO R9s Plus- Rose Gold', 'OPPO', 'OPPO R9s Plus- Rose Gold', 10999.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492499, 0, 1, NULL, NULL),
-(51, 'Laptop', 'Lenovo IdeaPad 300 Series', 'Lenovo', 'Lenovo IdeaPad 300 Series', 45999.00, 10, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492542, 0, 1, NULL, NULL),
-(52, 'Laptop', 'HP Flyer Red 15.6" 15-f272wm Laptop PC', 'HP', 'HP Flyer Red 15.6" 15-f272wm Laptop PC', 45555.00, 9, 0, 'default-product.jpg', NULL, NULL, NULL, '', 1515492566, 0, 1, NULL, NULL),
-(53, 'Chargers', 'jnjknj', 'Apple', 'kjaskjnas', 351355.00, 51561, 0, 'FB_IMG_1470008387092.jpg', 'Liza-Soberano-liza-soberano-39301588-640-640.jpg', 'received_1517952838230724.jpeg', 'Screen_Shot_2015-02-23_at_4_48_34_PM.png', 'kjjknkj', 1516350438, 0, 1, NULL, NULL),
-(54, 'Chargers', 'kjgkj', 'Lenovo', 'jhvjbjhbjjb', 56564.00, 654654, 0, '92a72c9d7f98dafad3e8e0b9345ba275.jpg', NULL, NULL, NULL, 'ytjlkbjk', 1516351824, 0, 1, NULL, NULL);
+INSERT INTO `product` (`product_id`, `product_name`, `product_desc`, `product_brand`, `product_category`, `product_price`, `product_quantity`, `no_of_views`, `product_image1`, `product_image2`, `product_image3`, `product_image4`, `added_at`, `updated_at`, `status`, `supplier_id`, `admin_id`, `category_id`, `brand_id`) VALUES
+(60, 'Zenfone Go', 'zenfone go RED', '', '', 5000.00, 5, 0, 'df5422b7165f0348dc28ef36c88eebf9.jpg', NULL, NULL, NULL, 1516603039, 0, 0, 801, 2, 702, 602),
+(67, 'HP Laptop - 15z touch optional', 'Windows 10 Home 64\r\nAMD Dual-Core A9 APU\r\n8 GB memory; 1 TB HDD storage\r\nAMD Radeon™ R5 Graphics\r\n15.6&quot; diagonal HD display', 'HP', 'Laptop', 30999.00, 2, 0, '9e6b7401be8e1d07334e7400394fdabd.png', 'ac86eedeaf428f04d9e958e9faa4cb00.png', '12f38c5acd95fb986363cf395c58778e.png', 'a1be94f222d1e4bae7eb25d59576da80.png', 1516630134, 0, 1, 802, 2, 703, 607),
+(68, 'Lenovo - 15.6&quot; Laptop - AMD A6-Series', 'Lenovo 110-15ACL Laptop: Enjoy productivity anywhere with this 15.6-inch Lenovo Ideapad laptop. Its 500GB of storage holds plenty of large applications and documents, and its built-in optical drive lets you read and write digital files. The quad-core', 'Lenovo', 'Laptop', 16740.00, 5, 0, 'ead536687dbbfd1c0d2b5d9981d7d6b1.jpg', '5873a2b88c69b11909671a0a8ee275d9.jpg', 'c3ff1872430ea7831fca017e3b8adf34.jpg', 'b96024033337b0287a2bbec47790cdbd.jpg', 1516630278, 0, 1, 802, 2, 703, 604),
+(69, 'HP Spectre x360 Laptop - 15&quot; Touch', 'Windows 10 Home 64 with Windows Ink\r\n7th Generation Intel® Core™ i7 processor\r\n16 GB memory; 512 GB SSD storage\r\nNVIDIA® GeForce® 940MX (2 GB GDDR5 dedicated)\r\n15.6&quot; diagonal UHD UWVA eDP touch', 'HP', 'Laptop', 76999.00, 3, 0, 'hp_spectre_1.png', 'be31cdd4e3bb9bb79a6c8bcc9c010e7e.png', '1ddad77d384ec29bb7d5abd7f3dc2d30.png', '01ce373678f64afd794f2f50cc177080.png', 1516630462, 0, 0, 802, 2, 703, 607),
+(70, 'ASUS Laptop X556UQ-NH71', 'Powerful &amp; efficient Intel­ Core i7-7500U 2.7GHz (Turbo up to 3.5GHz) Processor\r\nNVIDIA GeForce 940MX graphics; 8GB DDR4 RAM\r\n512GB 2.5&quot; SSD; Dual-layer DVD-RW drive; Ergonomic chiclet keyboard with number pad\r\nLightning-fast dual band 802.1', 'ASUS', 'Laptop', 41999.00, 0, 0, 'c819ab0df1bea8bcce14a7a9e92ddb4d.jpg', '9e491142d4cfff5c14aa1e5234119e63.jpg', 'b60d87056520114f38abfe862c46d0b2.jpg', '5c3b37519b2342fe4f96c52514bcd2aa.jpg', 1516630595, 0, 1, 802, 2, 703, 602),
+(71, 'HP Stream 11.6&quot; Celeron Laptop', 'Operating System: Windows 10\r\nCPU (Model + Speed): Intel Celeron N3050 1.6GHz Processor\r\nRAM and Hard Disk Drive (HDD): 2GB RAM and 32GB eMMC\r\nGraphics: Intel HD Graphics', 'HP', 'Laptop', 25400.00, 3, 0, '79894dd530010a23f536f5607aea5c4d.jpg', '3bd42edc91a9b6fe4196385ef62f71e5.jpg', 'bed28d817d167c710b112dad0b6b3e53.jpg', '05355179c0c154fe427c92221be8faa2.jpg', 1516631606, 0, 1, 802, 2, 703, 607),
+(72, 'ACER ASPIRE ES1 332 BLACK', 'Acer Aspire ES1-332-C8FS - Midnight Black is a 13.3&quot; notebook powered by Intel Celeron N3450 processor with 2MB of cache, with Intel HD Graphics, equipped with 64-bit Windows 10 Operating System. It runs at 1.6 GHz with 4Gb of RAM and 1600 MHz o', 'Acer', 'Laptop', 16999.00, 4, 0, 'd6a65f8a81af237e472b33ce66751cba.jpg', '126f08f649aaae01c49e17fe5feb6667.jpg', '78fbee640d9bd7d56318d66657ae310d.jpg', '38b824a2bca3eb2f5f8acf3a9ecec43a.jpg', 1516632423, 0, 1, 802, 2, 703, 605),
+(73, 'Apple iPad Pro', 'Apple iPad Pro 12.9-inch Wi-Fi Gold 64GB', 'Apple', 'Tablet', 39990.00, 3, 0, '84d1099989505d1e9b7740e1c4a5c7b1.png', 'ipad_pro_2.png', 'ipad_pro_3.png', 'ipad_pro_4.png', 1516633112, 0, 1, 802, 2, 705, 601),
+(74, 'iPhone 8', '4.7-inch Retina HD display with True Tone\r\nAll-glass and aluminum design, water and dust resistant\r\n12MP camera with 4K video up to 60 fps\r\n7MP FaceTime HD camera with Retina Flash for stunning selfies\r\nTouch ID for secure authentication\r\nA11 Bionic,', 'Apple', 'Smartphone', 45990.00, 3, 0, '02173be3ece0a965ceda82c1e9f2670d.jpeg', 'fa8856ad7b6c82a27bd4ed8748a439f2.jpeg', '974e53a95a78044fa8f25d006f886ba3.jpeg', '4963604fd06a9194402af2169a4e0296.jpeg', 1516633254, 0, 1, 802, 2, 702, 601),
+(75, 'iPhone 7', '4.7-inch Retina HD display\r\nWater and dust resistant\r\n12MP camera with 4K video at 30 fps\r\n7MP FaceTime HD camera with Retina Flash for stunning selfies\r\nTouch ID for secure authentication and Apple Pay\r\nA10 Fusion chip', 'Apple', 'Smartphone', 35490.00, 2, 0, 'ed84b2b347955d92d5b4bbe2363d1655.jpeg', '06106fb33115444fe453086282b08316.jpeg', 'b352cc068d5e3a0b29b8aa3f6de42743.jpeg', '8c4f3fe446ea85d6e3aa62674f045bd0.jpg', 1516633371, 0, 1, 802, 2, 702, 601),
+(76, 'Zenfone Go ZB551KL 16GBv', 'Asus Zenfone Go ZB551KL 16GB', 'ASUS', 'Smartphone', 5500.00, 5, 0, 'asusgo_1.png', 'd0d78385f749c69e62277e222b66f6e3.jpg', 'c72bb64c9794e1fb723abc7f2fbb0a1f.jpg', '1e9eec4383cf747450bc6fd4c6ddd4cc.jpg', 1516633645, 0, 0, 802, 2, 702, 602),
+(77, 'Samsung Galaxy C5', 'The Samsung Galaxy C5 is powered by 1.2GHz octa-core Qualcomm Snapdragon 617 processor and it comes with 4GB of RAM. The phone packs 32GB of internal storage that can be expanded up to 128GB via a microSD card. As far as the cameras are concerned, th', 'Samsung', 'Smartphone', 12000.00, 5, 0, '55afb1383d9e6b8c006a2aef0d4d5d23.jpg', 'fa2173369c1fa8de2dbd289040b852f6.jpg', '1a173e733694212c1cd6b85e2a04c639.jpg', '87af405bf109748db10f4166ad12f380.jpg', 1516633900, 0, 1, 802, 2, 702, 603),
+(78, 'Samsung J7', 'Samsung Galaxy J7 Pro - Black is a Dual SIM smartphone with a 5.5-inch display with a resolution of 1080 x 1920 pixels. It operates on Android Nougat and is powered by a 3600mAh non-removable Li-Ion battery. Under the hood, the Samsung Galaxy J7 Pro ', 'Samsung', 'Smartphone', 12490.00, 3, 0, 'ae4c7195898417e688fa5c8bda95dbbc.jpg', 'cec750026426f37fa65585f5b1671e8c.jpg', '204cc81fc19d01c0837825cdf8535ce3.jpg', 'ef903e731a8939110ad022f1a7d29a15.jpg', 1516635326, 0, 1, 802, 2, 702, 603),
+(79, 'Samsung S4', 'Samsung Galaxy S4', 'Samsung', 'Smartphone', 7499.00, 5, 0, '12c8ad001f256b55c3a2fb55e427c052.jpg', 'a6a5a5a1294509f7cf64f3a45715feda.jpg', 'a57fd558037ba542c10f485346e8810b.jpg', '2809f8c7c80a56b66b94a9ce124a67a8.jpg', 1516635770, 0, 1, 802, 2, 702, 603),
+(80, 'ZenFone 3 Max ZC520TL', 'ZenFone 3 Max is the 5.2-inch smartphone eliminates battery life worries, with enough power to get you through a full work day, and even beyond! With its high-capacity 4100mAh cell ZenFone 3 Max just keeps on going, with standby that lasts up to 30 d', 'ASUS', 'Smartphone', 6500.00, 3, 0, 'b15969f923e4c8b71914df733addb5e3.jpg', 'ad4c24eaf865a960106b2ef4ffe260a0.jpg', 'be1160d7258e847dbe1eef801563c070.jpg', '6d366b910ca648d0dac706b6896e0f06.jpg', 1516671804, 0, 1, 802, 2, 702, 602),
+(81, 'Apple Air 2', 'Wi-Fi (802.11a/b/g/n/ac)\r\nBluetooth 4.0 technology \r\n9.7-inch Retina display\r\n8-megapixel iSight camera\r\nFaceTime HD camera\r\n1080p HD video recording\r\nA8X chip with 64-bit architecture\r\nM8 motion coprocessor\r\n10-hour battery life', 'Apple', 'Tablet', 20499.00, 5, 0, '68c0ba45fb7ac086d49debd62252d560.jpg', '4759bd8282d9f7c3c009bb6e4256d7a4.jpg', '1dcadd5720ee74875cf5d76f36db601f.jpg', '4fea15de7ed62ebd6b6cc1eb2fc1762c.jpg', 1516671979, 0, 1, 802, 2, 705, 601),
+(82, 'Samsung Galaxy Tab A 7.0', 'The 2016 model is 7 inches display, 8GB of storage, runs Android 5.1 Lollipop with 1.3/1.5 GHz Quad Core processor.', 'Samsung', 'Tablet', 7600.00, 3, 0, '521efa1534dc8c29a1876c338415fd15.jpg', 'bd579cbe335bc870ab81ac790729f923.jpg', '07974bc8bc7d380b4f5909cceccd26cb.jpg', '091837347f7bf125c39d50f2b0fa3da2.jpg', 1516672123, 0, 1, 802, 2, 705, 603),
+(84, 'Apple iPad Mini 2', 'Apple iPad Mini 2 16GB', 'Apple', 'Tablet', 14990.00, 4, 0, 'a861ace37697ac911798e89073e8d3d7.jpg', '1665e553cbb8ed809ab2a38df61c9a90.jpg', 'ipadmini2_3.jpg', '169ca2bca5dbb32166ec1fae7f365f6e.jpg', 1516672956, 0, 1, 802, 2, 705, 601),
+(85, 'Apple iPhone X', 'Apple iPhone X 64GB', 'Apple', 'Smartphone', 64990.00, 5, 0, 'iphonex_1.jpeg', 'e8247ae009f85557f6e2784d57c11b57.jpg', '4c8f052ad9901b1989f9367d325aedd3.jpg', 'iphonex_4.jpeg', 1516673339, 0, 1, 802, 2, 702, 601);
 
 -- --------------------------------------------------------
 
@@ -340,33 +403,23 @@ CREATE TABLE `sales` (
   `income` float(8,2) NOT NULL,
   `sales_date` int(11) NOT NULL,
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `admin_id` int(12) UNSIGNED NOT NULL
+  `admin_id` int(12) UNSIGNED NOT NULL,
+  `order_id` int(12) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`sales_id`, `sales_detail`, `income`, `sales_date`, `status`, `admin_id`) VALUES
-(1, 'sales detail...', 100997.00, 1516328659, 1, 2),
-(2, 'sales detail...', 100997.00, 1516328785, 1, 2),
-(3, 'sales detail...', 100997.00, 1516328809, 1, 2),
-(4, 'sales detail...', 166551.00, 1516332997, 1, 2),
-(5, 'sales detail...', 149995.00, 1516333031, 1, 2),
-(6, 'sales detail...', 166551.00, 1516333167, 1, 2),
-(7, 'sales detail...', 197994.00, 1516333203, 1, 2),
-(8, 'sales detail...', 149995.00, 1516333243, 1, 2),
-(9, 'sales detail...', 100997.00, 1516333248, 1, 2),
-(10, 'sales detail...', 197994.00, 1516333310, 1, 2),
-(11, 'sales detail...', 149995.00, 1516333385, 1, 2),
-(12, 'sales detail...', 100997.00, 1516335249, 1, 2),
-(13, 'sales detail...', 100997.00, 1516335305, 1, 2),
-(14, 'sales detail...', 100997.00, 1516335322, 1, 2),
-(15, 'sales detail...', 100997.00, 1516450947, 1, 2),
-(16, 'sales detail...', 149995.00, 1516451002, 1, 2),
-(17, 'sales detail...', 65996.00, 1516456365, 1, 2),
-(18, 'For 2 items, 898.00is earned.', 898.00, 1516458017, 1, 2),
-(19, 'In this order, 2 items were bought and 898.00 is earned.', 898.00, 1516458201, 1, 2);
+INSERT INTO `sales` (`sales_id`, `sales_detail`, `income`, `sales_date`, `status`, `admin_id`, `order_id`) VALUES
+(21, 'In this order, 1 items were bought and 35,490.00 is earned.', 35490.00, 1516801651, 1, 2, 17),
+(22, 'In this order, 1 items were bought and 25,400.00 is earned.', 25400.00, 1516972499, 1, 2, 18),
+(23, 'In this order, 1 items were bought and 14,990.00 is earned.', 14990.00, 1517056661, 1, 2, 19),
+(24, 'In this order, 2 items were bought and 13,000.00 is earned.', 13000.00, 1517056669, 1, 2, 20),
+(25, 'In this order, 2 items were bought and 24,980.00 is earned.', 24980.00, 1517056679, 1, 2, 21),
+(26, 'In this order, 1 items were bought and 45,990.00 is earned.', 45990.00, 1517057190, 1, 2, 22),
+(27, 'In this order, 2 items were bought and 83,998.00 is earned.', 83998.00, 1517057195, 1, 2, 23),
+(28, 'In this order, 2 items were bought and 38,599.00 is earned.', 38599.00, 1517057200, 1, 2, 24);
 
 -- --------------------------------------------------------
 
@@ -406,8 +459,10 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supplier_id`, `company_name`, `contact_no`, `address`) VALUES
-(801, 'Flutterbeam', '09505959054', 'SA'),
-(802, 'Dectosphere', '09123355692', 'CA');
+(801, 'Octagon', '09505959054', 'SM North'),
+(802, 'Abenson', '09123355692', 'SM North'),
+(803, 'PC Express', '09086694541', 'SM Manila'),
+(804, 'Silicon Valley', '09125854680', 'SM Manila');
 
 -- --------------------------------------------------------
 
@@ -566,7 +621,99 @@ INSERT INTO `user_log` (`log_id`, `user_type`, `username`, `date`, `action`, `st
 (142, '2', 'tabingi_mukha_ko', '1516466520', 'Logged in.', 1, 1, NULL),
 (143, '0', 'seej', '1516469355', 'Edited order #16', 1, NULL, 2),
 (144, '0', 'seej', '1516469407', 'Edited order #13', 1, NULL, 2),
-(145, '0', 'seej', '1516469924', 'Logged out.', 1, NULL, 2);
+(145, '1', 'veocalimlim', '1516529312', 'Logged in.', 1, NULL, 1),
+(146, '1', 'veocalimlim', '1516529330', 'Edited order #16', 1, NULL, 1),
+(147, '1', 'veocalimlim', '1516529330', 'Edited order #16''s status to ''delivered''.', 1, NULL, 1),
+(148, '1', 'veocalimlim', '1516529586', 'Logged out.', 1, NULL, 1),
+(149, '2', 'tabingi_mukha_ko', '1516536180', 'Logged in.', 1, 1, NULL),
+(150, '1', 'veocalimlim', '1516579020', 'Logged in.', 1, NULL, 1),
+(151, '1', 'veocalimlim', '1516579931', 'Added product: Product1', 1, NULL, 1),
+(152, '1', 'veocalimlim', '1516584330', 'Logged out.', 1, NULL, 1),
+(153, '1', 'veocalimlim', '1516591344', 'Logged in.', 1, NULL, 1),
+(154, '1', 'veocalimlim', '1516592008', 'Added product: Product1', 1, NULL, 1),
+(155, '0', 'seej', '1516596092', 'Logged in.', 1, NULL, 2),
+(156, '0', 'seej', '1516603039', 'Added product: Zenfone Go', 1, NULL, 2),
+(157, '0', 'seej', '1516606599', 'Added product: asfas', 1, NULL, 2),
+(158, '0', 'seej', '1516606698', 'Added product: hjbk', 1, NULL, 2),
+(159, '0', 'seej', '1516609097', 'Logged out.', 1, NULL, 2),
+(160, '0', 'seej', '1516609229', 'Logged in.', 1, NULL, 2),
+(161, '0', 'seej', '1516609536', 'Deleted product #61', 1, NULL, 2),
+(162, '0', 'seej', '1516609537', 'Deleted product #62', 1, NULL, 2),
+(163, '0', 'seej', '1516609539', 'Deleted product #60', 1, NULL, 2),
+(164, '0', 'seej', '1516611042', 'Added product: iPhone X', 1, NULL, 2),
+(165, '0', 'seej', '1516611297', 'Added product: jhvjkbk', 1, NULL, 2),
+(166, '0', 'seej', '1516611372', 'Deleted product #64', 1, NULL, 2),
+(167, '0', 'seej', '1516611374', 'Deleted product #63', 1, NULL, 2),
+(168, '0', 'seej', '1516611406', 'Added product: iPhone X', 1, NULL, 2),
+(169, '0', 'seej', '1516611555', 'Deleted product #65', 1, NULL, 2),
+(170, '0', 'seej', '1516611869', 'Added product: iPhone X', 1, NULL, 2),
+(171, '0', 'seej', '1516611899', 'Logged out.', 1, NULL, 2),
+(172, '0', 'seej', '1516629346', 'Logged out.', 1, NULL, 2),
+(173, '0', 'seej', '1516629359', 'Logged in.', 1, NULL, 2),
+(174, '0', 'seej', '1516630134', 'Added product: HP Laptop - 15z touch optional', 1, NULL, 2),
+(175, '0', 'seej', '1516630278', 'Added product: Lenovo - 15.6" Laptop - AMD A6-Series', 1, NULL, 2),
+(176, '0', 'seej', '1516630462', 'Added product: HP Spectre x360 Laptop - 15" Touch', 1, NULL, 2),
+(177, '0', 'seej', '1516630595', 'Added product: ASUS Laptop X556UQ-NH71', 1, NULL, 2),
+(178, '0', 'seej', '1516631484', 'Deleted product #66', 1, NULL, 2),
+(179, '0', 'seej', '1516631493', 'Deleted product #69', 1, NULL, 2),
+(180, '0', 'seej', '1516631606', 'Added product: HP Stream 11.6" Celeron Laptop', 1, NULL, 2),
+(181, '0', 'seej', '1516632423', 'Added product: ACER ASPIRE ES1 332 BLACK', 1, NULL, 2),
+(182, '0', 'seej', '1516633112', 'Added product: Apple iPad Pro', 1, NULL, 2),
+(183, '0', 'seej', '1516633254', 'Added product: iPhone 8', 1, NULL, 2),
+(184, '0', 'seej', '1516633371', 'Added product: iPhone 7', 1, NULL, 2),
+(185, '0', 'seej', '1516633645', 'Added product: Zenfone Go ZB551KL 16GBv', 1, NULL, 2),
+(186, '0', 'seej', '1516633900', 'Added product: Samsung Galaxy C5', 1, NULL, 2),
+(187, '0', 'seej', '1516635326', 'Added product: Samsung J7', 1, NULL, 2),
+(188, '0', 'seej', '1516635770', 'Added product: Samsung S4', 1, NULL, 2),
+(189, '0', 'seej', '1516671606', 'Logged in.', 1, NULL, 2),
+(190, '0', 'seej', '1516671804', 'Added product: ZenFone 3 Max ZC520TL', 1, NULL, 2),
+(191, '0', 'seej', '1516671979', 'Added product: Apple Air 2', 1, NULL, 2),
+(192, '0', 'seej', '1516672123', 'Added product: Samsung Galaxy Tab A 7.0', 1, NULL, 2),
+(193, '0', 'seej', '1516672340', 'Added product: APPLE IPAD MINI 2', 1, NULL, 2),
+(194, '0', 'seej', '1516672371', 'Deleted product #83', 1, NULL, 2),
+(195, '0', 'seej', '1516672422', 'Deleted product #76', 1, NULL, 2),
+(196, '0', 'seej', '1516672956', 'Added product: Apple iPad Mini 2', 1, NULL, 2),
+(197, '0', 'seej', '1516672988', 'Restored product #63', 1, NULL, 2),
+(198, '0', 'seej', '1516673001', 'Deleted product #63', 1, NULL, 2),
+(199, '0', 'seej', '1516673339', 'Added product: Apple iPhone X', 1, NULL, 2),
+(200, '0', 'seej', '1516673976', 'Added product: zenfone go', 1, NULL, 2),
+(201, '0', 'seej', '1516674109', 'Added product: asdada', 1, NULL, 2),
+(202, '0', 'seej', '1516674163', 'Added product: 1231', 1, NULL, 2),
+(203, '2', 'tabingi_mukha_ko', '1516764609', 'Logged in.', 1, 1, NULL),
+(204, '0', 'seej', '1516799981', 'Logged in.', 1, NULL, 2),
+(205, '0', 'seej', '1516801396', 'Logged out.', 1, NULL, 2),
+(206, '0', 'seej', '1516801415', 'Logged in.', 1, NULL, 2),
+(207, '0', 'seej', '1516801651', 'Edited order #17', 1, NULL, 2),
+(208, '0', 'seej', '1516801651', 'Edited order #17''s status to ''delivered''.', 1, NULL, 2),
+(209, '0', 'seej', '1516801676', 'Edited order #18', 1, NULL, 2),
+(210, '0', 'seej', '1516972068', 'Logged in.', 1, NULL, 2),
+(211, '0', 'seej', '1516972448', 'Logged in.', 1, NULL, 2),
+(212, '0', 'seej', '1516972499', 'Edited order #18', 1, NULL, 2),
+(213, '0', 'seej', '1516972499', 'Edited order #18''s status to ''delivered''.', 1, NULL, 2),
+(214, '0', 'seej', '1516972545', 'Logged out.', 1, NULL, 2),
+(215, '0', 'seej', '1516972654', 'Logged in.', 1, NULL, 2),
+(216, '0', 'seej', '1516974784', 'Logged out.', 1, NULL, 2),
+(217, '0', 'seej', '1517055192', 'Logged in.', 1, NULL, 2),
+(218, '0', 'seej', '1517055387', 'Logged out.', 1, NULL, 2),
+(219, '0', 'seej', '1517056169', 'Logged in.', 1, NULL, 2),
+(220, '2', 'RO1517055802', '1517056335', 'Logged in.', 1, 8, NULL),
+(221, '0', 'seej', '1517056660', 'Edited order #19', 1, NULL, 2),
+(222, '0', 'seej', '1517056661', 'Edited order #19''s status to ''delivered''.', 1, NULL, 2),
+(223, '0', 'seej', '1517056669', 'Edited order #20', 1, NULL, 2),
+(224, '0', 'seej', '1517056669', 'Edited order #20''s status to ''delivered''.', 1, NULL, 2),
+(225, '0', 'seej', '1517056678', 'Edited order #21', 1, NULL, 2),
+(226, '0', 'seej', '1517056679', 'Edited order #21''s status to ''delivered''.', 1, NULL, 2),
+(227, '2', 'RO1517055802', '1517056691', 'Logged out.', 1, 8, NULL),
+(228, '0', 'seej', '1517057190', 'Edited order #22', 1, NULL, 2),
+(229, '0', 'seej', '1517057190', 'Edited order #22''s status to ''delivered''.', 1, NULL, 2),
+(230, '0', 'seej', '1517057195', 'Edited order #23', 1, NULL, 2),
+(231, '0', 'seej', '1517057195', 'Edited order #23''s status to ''delivered''.', 1, NULL, 2),
+(232, '0', 'seej', '1517057200', 'Edited order #24', 1, NULL, 2),
+(233, '0', 'seej', '1517057200', 'Edited order #24''s status to ''delivered''.', 1, NULL, 2),
+(234, '2', 'tabingi_mukha_ko', '1517057421', 'Logged in.', 1, 1, NULL),
+(235, '2', 'tabingi_mukha_ko', '1517057470', 'Logged out.', 1, 1, NULL),
+(236, '2', 'EA1517057098', '1517057496', 'Logged in.', 1, 10, NULL),
+(237, '2', 'EA1517057098', '1517057902', 'Logged out.', 1, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -599,13 +746,34 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `audit_trail`
   ADD PRIMARY KEY (`at_id`),
-  ADD KEY `customer_id` (`customer_id`);
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
+-- Indexes for table `brand`
+--
+ALTER TABLE `brand`
+  ADD PRIMARY KEY (`brand_id`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`feedback_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `home`
@@ -643,7 +811,9 @@ ALTER TABLE `payment`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`product_id`),
   ADD KEY `supplier_id` (`supplier_id`),
-  ADD KEY `admin_id` (`admin_id`);
+  ADD KEY `admin_id` (`admin_id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `brand_id` (`brand_id`);
 
 --
 -- Indexes for table `r_order_product`
@@ -657,7 +827,8 @@ ALTER TABLE `r_order_product`
 --
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`sales_id`),
-  ADD KEY `admin_id` (`admin_id`);
+  ADD KEY `admin_id` (`admin_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `shipper`
@@ -700,12 +871,27 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `at_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `at_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `brand`
+--
+ALTER TABLE `brand`
+  MODIFY `brand_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=609;
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `category_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `customer_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `home`
 --
@@ -715,12 +901,12 @@ ALTER TABLE `home`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `order_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `orderitems_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `orderitems_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `payment`
 --
@@ -730,12 +916,12 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `product_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `sales_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `sales_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `shipper`
 --
@@ -745,12 +931,12 @@ ALTER TABLE `shipper`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=803;
+  MODIFY `supplier_id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=805;
 --
 -- AUTO_INCREMENT for table `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
@@ -764,7 +950,15 @@ ALTER TABLE `wishlist`
 -- Constraints for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  ADD CONSTRAINT `audit_trail_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+  ADD CONSTRAINT `audit_trail_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
+  ADD CONSTRAINT `audit_trail_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
+  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 --
 -- Constraints for table `orders`
@@ -791,8 +985,10 @@ ALTER TABLE `payment`
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
-  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`);
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
+  ADD CONSTRAINT `product_ibfk_3` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
+  ADD CONSTRAINT `product_ibfk_4` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
+  ADD CONSTRAINT `product_ibfk_5` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`brand_id`);
 
 --
 -- Constraints for table `r_order_product`
@@ -805,7 +1001,8 @@ ALTER TABLE `r_order_product`
 -- Constraints for table `sales`
 --
 ALTER TABLE `sales`
-  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`);
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
+  ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Constraints for table `user_log`
