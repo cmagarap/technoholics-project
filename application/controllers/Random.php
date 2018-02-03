@@ -76,14 +76,14 @@ class Random extends CI_Controller {
         #$lastweek = time() - (6 * 24 * 60 * 60);
         #echo date("F j, Y", $lastweek);
         # echo $lastweek."<br>";
-        /*$d = strtotime("December");
+        $d = strtotime("Sept 17, 1996 18:27");
         echo date("Y-m-d h:i:sa", $d)."<br>";
         echo $d."<br>";
         if(strtotime("December") == $d) {
             echo "december!!";
         } else {
             echo "boring month";
-        }*/
+        }
     }
 
     public function getProductdata() {

@@ -85,7 +85,9 @@ class Sales extends CI_Controller {
         $this->db->select("sales_id");
         $this->db->select("sales_date");
         $this->db->select("income");
-        $data = $this->item_model->fetch('sales', "status = 1", "sales_date", "ASC");
-        print json_encode($data);
+
+        #$data = $this->item_model->fetch('sales', "status = 1", "sales_date", "ASC");
+        $data = $this->db->query("SELECT SUM(income) AS income, sales_m FROM sales WHERE status = 1 GROUP BY sales_m");
+        print json_encode($data->result());
     }
 }

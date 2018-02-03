@@ -1,24 +1,15 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/inventory/getProductData",
+        url: "http://localhost/project/inventory/getSearches",
         method: "POST",
         success: function(data) {
-            var brand = [];
-            var stock = [];
-            var color_chart = [
-                'rgba(235, 94, 40, 1)',
-                'rgba(49, 187, 224, 1)',
-                'rgba(220, 47, 84, 1)',
-                'rgba(122, 44, 201, 1)',
-                'rgba(122, 194, 154, 1)',
-                'rgba(243, 187, 69, 1)',
-                'rgba(232, 153, 229, 1)',
-                'rgba(102, 97, 91, 1)',
-            ];
+            var product = [];
+            var searches = [];
+            var color_chart = [];
 
             for(var i in data) {
-                brand.push(data[i].product_brand);
-                stock.push(data[i].quan);
+                product.push(data[i].product_name);
+                searches.push(data[i].times_searched);
             }
 
             var dynamicColors = function() {
@@ -33,37 +24,36 @@ $(document).ready(function(){
             }
 
             var chartdata = {
-                labels: brand,
+                labels: product,
                 datasets : [{
-                    label: 'Stock',
-                    data: stock,
+                    label: 'Times searched',
+                    data: searches,
                     backgroundColor: color_chart,
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
                 }]};
 
-            var ctx = $("#inventoryBar");
-            Chart.defaults.global.defaultFontFamily = "Arial";
-            Chart.defaults.global.defaultFontSize = 12;
-            var lineGraph = new Chart(ctx, {
-                type: 'bar',
+            var ctx = $("#productSearch");
+            //Chart.defaults.global.defaultFontFamily = "Helvetica";
+            //Chart.defaults.global.defaultFontSize = 12;
+            var barGraph = new Chart(ctx, {
+                type: 'horizontalBar',
                 data: chartdata,
                 options: {
                     legend: {
-                        display: false
+                        display: false,
+                        position: "right"
                     },
-
                     scales: {
-                        xAxes: [{
+                        yAxes: [{
                             gridLines: {
                                 drawOnChartArea: false
                             }
                         }],
-                        yAxes: [{
+                        xAxes: [{
                             gridLines: {
-                                drawBorder: false,
-                                borderDash: [2, 2]
+                                drawOnChartArea: false
                             },
                             ticks: {
                                 beginAtZero: true
