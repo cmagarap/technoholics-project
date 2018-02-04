@@ -22,7 +22,7 @@
                     <div class="text-center">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
-                                <h5>12<br /><small>Sold</small></h5> <!-- not yet sure about this -->
+                                <h5><?= $products->times_bought; ?><br /><small>Sold</small></h5> <!-- not yet sure about this -->
                             </div>
                             <div class="col-md-4">
                                 <h5>&#8369; <?= number_format($products->product_price, 2) ?><br /><small>Price</small></h5>
@@ -51,19 +51,25 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title"><b>Previous Buyers</b></h4>
+                        <!--<p class="category"><i>The last buyers of the product</i></p>-->
                     </div>
                     <div class="content">
                         <ul class="list-unstyled team-members">
-                            <?php for($i = 1; $i <= 8; $i++): ?>
+                            <?php if($buyers):
+                            for($i = 0; $i < sizeof($buyers); $i++): ?>
                             <li>
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <div class="avatar">
-                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                            <?php
+                                            $user_image = (string)$buyers[$i][0]->image;
+                                            $image_array = explode(".", $user_image);
+                                            ?>
+                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
-                                        Buyer <?= $i ?>
+                                        <?= $buyers[$i][0]->username ?>
                                         <br />
                                         <span class="text-muted"><small>Offline</small></span>
                                     </div>
@@ -72,7 +78,10 @@
                                     </div>
                                 </div>
                             </li>
-                            <?php endfor; ?>
+                            <?php endfor;
+                            else:
+                                echo "<center><h5><hr><br>There are no past buyers recorded or buyer's account is deactivated.</h5><br></center>";
+                            endif; ?>
                         </ul>
                     </div> <!-- content -->
                 </div> <!-- card -->

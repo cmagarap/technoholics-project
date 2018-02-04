@@ -188,7 +188,7 @@
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
                     </div>
-                    <div class="content" style = "overflow: scroll; overflow-x: hidden; height: 200px;">
+                    <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
                         <table class="table table-striped" style = "margin-top: -20px">
                             <thead>
                             <th>#</th>
