@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>
                                         <a href="#">
-                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="<?= $item["name"] ?>">
                                         </a>
                                     </td>
                                     <td><a href="#"><?= $item["name"] ?></a>

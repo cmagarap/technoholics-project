@@ -68,17 +68,17 @@ _________________________________________________________ -->
         </div> <!--/.navbar-header -->
         <div class="navbar-collapse collapse" id="navigation">
             <ul class="nav navbar-nav navbar-left">
-            <?php if($page == "Home") : ?>
-                <li class="active"><a href="<?= base_url().'home'; ?>">Home</a></li>
-            <?php else : ?>
+                <?php if($page == "Home") : ?>
+                    <li class="active"><a href="<?= base_url().'home'; ?>">Home</a></li>
+                <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
-            <?php endif; ?>
+                    <?php endif; ?>
                 </li>
-            <?php if($page == "category") : ?>
-                <li class="active dropdown yamm-fw"></li>
-            <?php else : ?>
+                <?php if($page == "category") : ?>
+                    <li class="active dropdown yamm-fw"></li>
+                <?php else : ?>
                 <li class="dropdown yamm-fw">
-            <?php endif; ?>
+                    <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -90,7 +90,7 @@ _________________________________________________________ -->
                                             <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                            ?>">Samsung</a>
+                                                ?>">Samsung</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
@@ -240,7 +240,7 @@ _________________________________________________________ -->
 			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
-                <div id="productlist" style="position:absolute;"></div>  
+                <div id="productlist" style="position:absolute;"></div>
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->
