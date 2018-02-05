@@ -10,10 +10,11 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                 <div class="container">
 
                     <div class="col-md-12">
+                    </br>
                         <ul class="breadcrumb">
                             <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                             </li>
-                            <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= $category ?></a>
+                            <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= $category; ?></a>
                             </li>
                             <li><a href="<?= base_url() . 'home/category/' . $category . '/' . $brand; ?>"><?= $brand ?></a>
                             </li>
@@ -118,6 +119,14 @@ _________________________________________________________ -->
                     <div class="col-md-9">
                         <div class="row" id="productMain">
                             <!-- start content -->
+
+                        <?php if (!$row->product_quantity): ?>
+                            <div class="ribbon sale">
+                                <div class="theribbon">Out of Stock</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                        <?php endif ?>
+
                             <div class="col-sm-5">
                                 <ul id="etalage">
                                     <li>
@@ -141,7 +150,7 @@ _________________________________________________________ -->
 
                                 </ul>	
                             </div>
-                            </br>
+                            </br></br>
                             <div style="position:relative; left:55px;" class="box col-sm-6">
                                 <h1 class = "text-center"><?= $row->product_name ?></h1>
                                 <div align = "center">
@@ -152,11 +161,16 @@ _________________________________________________________ -->
                                 </div>
 
                                 <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
+
                                 <!-- ==================================== -->
 
+
+                                <center>
+                                    <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
+                                </center>
                                 <p class="text-center buttons">
                                     <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                    <a href="<?= base_url() . 'home/basket'; ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                                    <a href="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/wishlist'; } else { echo base_url().'login';} ?>" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
                                 </p>
                             </div>
                         </div>

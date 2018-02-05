@@ -6,6 +6,7 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('email', 'session', 'form_validation', 'basket'));
+
     }
 
     public function index() {
@@ -370,14 +371,24 @@ class Home extends CI_Controller {
     }
 
     public function wishlist() {
+        if($this->session->has_userdata('isloggedin')) {
+
         $data = array(
-            'page' => "Home"
+            'title' => "Wishlist",
+            'page' => "Wishlist"
         );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
         $this->load->view('ordering/wishlist');
         $this->load->view('ordering/includes/footer');
+            //echo $this->uri->segment(1) ;
+        }
+
+        else{
+                redirect('login');
+        }
     }
 
     public function account() {
@@ -590,6 +601,8 @@ class Home extends CI_Controller {
             $this->basket->destroy();
             $this->index(); # not yet sure
     }
+
+
 
 }
 

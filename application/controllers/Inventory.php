@@ -65,15 +65,33 @@ class Inventory extends CI_Controller {
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: View Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view("paper/includes/navbar");
-            $this->load->view('paper/inventory/view');
-            $this->load->view('paper/includes/footer');
+            if($product) {
+                $order_items = $this->item_model->fetch('order_items', array('product_id' => $this->uri->segment(3)));
+                if ($order_items) {
+                    foreach ($order_items as $order_item) {
+                        $this->db->select("customer_id");
+                        $orders = $this->item_model->fetch("orders", array("order_id" => $order_item->order_id));
+                        foreach ($orders as $order) {
+                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id));
+                        }
+                    }
+                } else {
+                    $customer = NULL;
+                }
+
+                $data = array(
+                    'title' => "Inventory: View Product",
+                    'heading' => "Inventory",
+                    'products' => $product,
+                    'buyers' => $customer
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/inventory/view');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('inventory');
+            }
         } else {
             redirect('home');
         }
@@ -183,18 +201,23 @@ class Inventory extends CI_Controller {
             $category = $this->item_model->fetch("category", NULL, "category", "ASC");
             $brand = $this->item_model->fetch("brand", NULL, "brand_name", "ASC");
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: Edit Product",
-                'heading' => "Inventory",
-                'products' => $product,
-                'supplier' => $supplier,
-                'category' => $category,
-                'brand' => $brand
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view("paper/includes/navbar");
-            $this->load->view('paper/inventory/edit');
-            $this->load->view('paper/includes/footer');
+
+            if($product) {
+                $data = array(
+                    'title' => "Inventory: Edit Product",
+                    'heading' => "Inventory",
+                    'products' => $product,
+                    'supplier' => $supplier,
+                    'category' => $category,
+                    'brand' => $brand
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/inventory/edit');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect("inventory");
+            }
         } else {
             redirect("home/");
         }
@@ -237,6 +260,7 @@ class Inventory extends CI_Controller {
             }
             $brand_fetch = $this->item_model->fetch("brand", array("brand_id" => $this->input->post('product_brand')))[0];
             $category_fetch = $this->item_model->fetch("category", array("category_id" => $this->input->post('product_category')))[0];
+
             $data = array(
                 'product_name' => html_escape(trim($this->input->post('product_name'))),
                 'product_brand' => $brand_fetch->brand_name,
@@ -344,9 +368,52 @@ class Inventory extends CI_Controller {
     }
 
     public function getProductData() {
-        header('Content-Type: application/json');
-        $data = $this->db->query("SELECT SUM(product_quantity) AS quan, product_brand FROM product WHERE status = 1 GROUP BY product_brand");
-        print json_encode($data->result());
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT SUM(product_quantity) AS quan, product_brand FROM product WHERE status = 1 GROUP BY product_brand");
+            print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getProductViews() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("no_of_views");
+            $data = $this->item_model->fetch("product", "status = 1", "no_of_views", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getTimesBought() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("times_bought");
+            $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getSearches() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $this->db->select("product_id");
+            $this->db->select("product_name");
+            $this->db->select("times_searched");
+            $data = $this->item_model->fetch("product", "status = 1", "times_searched", "DESC", 5);
+            print json_encode($data);
+        } else {
+            redirect("home");
+        }
     }
 
 }

@@ -7,16 +7,16 @@ $(document).ready(function(){
             var income = [];
 
             for(var i in data) {
-                var date = new Date(data[i].sales_date * 1000); // * 1000 to convert into milliseconds
+                /* var date = new Date(data[i].sales_date * 1000); // * 1000 to convert into milliseconds*/
                 var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                 // var day = date.getDate();
-                var year = date.getFullYear();
-                var formattedMonth = month[date.getMonth()];
+                //var year = date.getFullYear();
+                var formattedMonth = month[data[i].sales_m];
 
                 dates.push(formattedMonth);
                 income.push(data[i].income);
             }
-            console.log(dates);
+            //console.log(dates);
             var chartdata = {
                 labels: dates,
                 datasets : [{
@@ -25,6 +25,10 @@ $(document).ready(function(){
                     borderColor: 'rgba(220, 47, 84, 1)',
                     pointBorderColor: 'rgba(220, 47, 84, 1)',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
+                    pointHoverBackgroundColor: 'rgb(255,255,255, 1)',
+                    pointHoverBorderWidth: 2,
+                    pointHoverRadius: 10,
+                    borderWidth: 5,
                     fill: false
                 }]};
 
@@ -38,11 +42,6 @@ $(document).ready(function(){
                     legend: {
                         display: false,
                         position: "right"
-                    },
-                    elements: {
-                        line: {
-                            tension: 0, // disables bezier curves
-                        }
                     },
                     tooltips: {
                         callbacks: {

@@ -551,4 +551,24 @@ class Accounts extends CI_Controller {
         }
     }
 
+    public function getMaleAge() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Male' AND status = 1 GROUP BY a_range");
+            print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getFemaleAge() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Female' AND status = 1 GROUP BY a_range");
+            print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
 }

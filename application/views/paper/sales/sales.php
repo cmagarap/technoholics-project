@@ -4,7 +4,7 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Sales Chart</b></h3>
+                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Daily Sales Chart</b></h3>
                         <hr>
                     </div>
                     <div class="content">
