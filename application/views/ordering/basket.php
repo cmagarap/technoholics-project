@@ -39,11 +39,12 @@
                                     <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
+                                        <!-- <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>"> -->
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["id"]?>">
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
-                                    <td id="subtotal"><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                    <td id="subtotal<?=$item["id"]?>" ><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
                                     <td>
                                     <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>

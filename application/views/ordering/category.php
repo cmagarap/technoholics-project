@@ -34,7 +34,7 @@ _________________________________________________________ -->
                             <?php else : ?>
                             <li>
                             <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Accessories'"); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
                         </li>
 
                         <?php if ($category == "chargers") : ?>
@@ -42,7 +42,7 @@ _________________________________________________________ -->
                             <?php else : ?>
                             <li>
                             <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Chargers'"); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
                         </li>
 
                         <?php if ($category == "laptop") : ?>
@@ -50,7 +50,7 @@ _________________________________________________________ -->
                             <?php else : ?>
                             <li>
                             <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Laptop'"); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Laptop')); ?></span></a>
                             <ul>
                                 <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
                                 </li>
@@ -72,7 +72,7 @@ _________________________________________________________ -->
                             <?php else : ?>
                             <li>
                             <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Smartphone'"); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Smartphone')); ?></span></a>
                             <ul>
                                 <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
                                 </li>
@@ -88,7 +88,7 @@ _________________________________________________________ -->
                             <?php else : ?>
                             <li>
                             <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Tablet'"); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
                             <ul>
                                 <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
                                 </li>
@@ -160,7 +160,7 @@ _________________________________________________________ -->
             <div class="box info-bar">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 products-showing">
-                        Showing <strong>12</strong> of <strong><?= $this->item_model->getCount('product', array('product_category' => $category)); ?></strong> products
+                        Showing <strong>12</strong> of <strong><?= $count ?></strong> products
                     </div>
 
                     <div class="col-sm-12 col-md-8  products-number-sort">
@@ -207,7 +207,7 @@ _________________________________________________________ -->
                                         </div>
                                         <div class="back"><center>
                                                 <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>">
-                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                                 </a></center>
                                         </div>
                                     </div>

@@ -73,7 +73,7 @@ class Home extends CI_Controller {
 
     public function auto() {
     $output = '';  
-    $query = $this->item_model->search('product','product_name', $_POST["query"]);
+    $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
     $output = '<ul class="box list-unstyled" style="width:420px;">';  
     if($query)  
         {  
@@ -120,11 +120,13 @@ class Home extends CI_Controller {
     if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
         $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
         $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+        $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
         $this->pagination->initialize($config);
         $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
         $data = array(
             'title' => 'Category',
             'products' => $product,
+            'count' => $count,
             'page' => $page,
             'category' => $cat, // category identifier
             'brand' => $brand,
@@ -139,11 +141,13 @@ class Home extends CI_Controller {
         } else {
         $config['base_url'] = base_url() . "home/category/" . $cat;
         $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat));
+        $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat));
         $this->pagination->initialize($config);
         $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat));
         $data = array(
             'title' => 'Category',
             'products' => $product,
+            'count' => $count,
             'page' => $page,
             'category' => $cat, // category identifier
             'brand' => $brand, 
@@ -182,16 +186,21 @@ class Home extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
+        $this->session->set_userdata('search', $this->input->post('search')?$this->input->post('search'):$this->session->userdata('search'));
+        $search = $this->session->userdata('search');
+
         $config['base_url'] = base_url() . "home/search/";
-        $config['total_rows'] = $this->item_model->getCountsearch('product', 'product_name',  $this->input->post('search'));
+        $config['total_rows'] = $this->item_model->getCountsearch('product','status = 1 AND product_name', $search);
+        $count = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $this->pagination->initialize($config);
-        $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(4), 'product_name', 'ASC', 'product_name', $this->input->post('search'));
+        $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', 'status = 1 AND product_name', $search);
         
         $data = array(
             'title' => 'Home',
             'products' => $product,
             'page' => "test",
-            'category' => $this->input->post('search'), // category identifier
+            'count' => $count,
+            'category' => $search, // category identifier
             'brand' => "test",
             'links' => $this->pagination->create_links()
         );
@@ -240,7 +249,8 @@ class Home extends CI_Controller {
 
     }
 
-    public function detail() {
+    public function detail(){
+
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
         $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
         $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
@@ -259,6 +269,7 @@ class Home extends CI_Controller {
             'rating' => $rating,
             'id' => $id
         );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/detail');
@@ -415,7 +426,7 @@ class Home extends CI_Controller {
     }
 
     function update() {
-
+        
         $data = array(
             'rowid' => $_POST["product_id"],
             'qty' => $_POST["product_quantity"]
