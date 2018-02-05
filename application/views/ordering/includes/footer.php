@@ -164,8 +164,8 @@ _________________________________________________________ -->
                     }
                 });
         });
-
-        $(document).on('click','.update',function () {
+        
+        $(document).on('change','#update',function () {
             var product_id = $(this).data("productid");
             var product_quantity = $(this).val();
             $.ajax({
