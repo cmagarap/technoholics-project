@@ -2,6 +2,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-lg-1 col-md-5"></div>
             <div class="col-lg-5 col-md-5">
                 <div class="card card-user">
                     <div class="content">
