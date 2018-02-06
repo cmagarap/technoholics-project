@@ -1,3 +1,4 @@
+<?php $image = $image[0]; ?>
 <div>
 <br>
 </div>

@@ -111,7 +111,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                             </ul>
                         </li>
                         <li>
-                            <a href="<?= $this->config->base_url() ?>Cms">
+                            <a href="<?= $this->config->base_url() ?>Settings">
                                 <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>
