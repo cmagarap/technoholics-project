@@ -17,11 +17,14 @@
                         </div>
                     </div>
                 <?php else: ?>
-                <?php foreach ($wishes as $row): ?>
+                    <?php foreach ($wishes as $row): ?>
                     <div class="col-md-4 col-sm-6">
                         <div class="product" style="height:430px;">
                             <div class="flip-container" style="padding: 10px;">
-                                <p align="right"><button type="submit" name="remove" class="btn btn-danger remove_inventory" value="<? $row->wishlist_id ?>"><i class="fa fa-trash-o fa-lg"></i></button></p>
+                                    <form align="right" method="POST" action="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/delete_wishlist'; } else { echo base_url().'login';} ?>" >
+                                    <input type="hidden" name="wishlist_id" value="<?= $row->wishlist_id ?>">
+                                    <button type="submit" class="btn btn-danger delete" onClick="return confirm('are you sure you want to delete??');" ><i class="fa fa-trash-o fa-lg" ></i></button>
+                                    </form>
                                 <div class="flipper">
                                     <div class="front"><center>
                                             <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>">
@@ -34,7 +37,7 @@
                                             </a></center>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                             <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>" class="invisible">
                                 <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                             </a>

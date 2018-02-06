@@ -4,7 +4,7 @@ class Home extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('item_model','wishlist_model'));
+        $this->load->model('item_model');
         $this->load->library(array('email', 'session', 'form_validation', 'basket'));
 
     }
@@ -250,13 +250,14 @@ class Home extends CI_Controller {
         $brand = $this->uri->segment(4);
         $id = $this->uri->segment(5);
 
-       // $cond = array(
-        //    'product_id' => $id,
-      //      'customer_id' => $this->session->uid
-     //   );
+        $cond = array(
+           'product_id' => $id,
+           'customer_id' => $this->session->uid
+      );
 
-     //   $data['$res'] = $this->wishlist_model->checkWishlist($cond);
+       $res2 = $this->item_model->checkWishlist($cond);
 
+       //print_r($data);die();
 
         $data = array(
             'title' => 'Home',
@@ -266,7 +267,8 @@ class Home extends CI_Controller {
             'category' => $cat, //category identifier
             'brand' => $brand,
             'rating' => $rating,
-            'id' => $id
+            'id' => $id,
+            'res' => $res2
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -369,7 +371,8 @@ class Home extends CI_Controller {
 
     public function do_wishlist() {
         if($this->session->has_userdata('isloggedin')) {
-            $this->load->model(wishlist_model);
+
+         //   $this->load->model(wishlist_model);
             $product_name = $this->input->post('product_name');
             $product_price = $this->input->post('product_price');
             $product_desc = $this->input->post('product_desc');
@@ -378,6 +381,8 @@ class Home extends CI_Controller {
             $product_brand = $this->input->post('product_brand');
             $product_category = $this->input->post('product_category');
             $product_image1 = $this->input->post('product_image1');
+
+            // if ($q == )
             $wish = array (
                 'product_name' => $product_name,
                 'product_price' => $product_price,
@@ -388,23 +393,11 @@ class Home extends CI_Controller {
                 'product_brand' => $product_brand,
                 'product_image1' => $product_image1
             );
-        $this->wishlist_model->addwish('wishlist',$wish);
+
+        $this->item_model->insertData('wishlist',$wish);
 
         redirect('Home/wishlist');
 
-
-//        $data = array(
-//            'title' => "Wishlist",
-//            'page' => "Wishlist",
-//        );
-//
-//        $this->load->view('ordering/includes/header', $data);
-//        $this->load->view('ordering/includes/navbar');
-//        $this->load->view('ordering/menu_account');
-//        $this->load->view('ordering/wishlist');
-//        $this->load->view('ordering/includes/footer');
-//            //echo $this->uri->segment(1) ;
-//
         }
 
         else{
@@ -427,9 +420,8 @@ class Home extends CI_Controller {
         );
 
         // print_r($this->input->post('remove')); die();
-        // $this->wishlist_model->removeWish($user);
-        $data['wishes'] = $this->wishlist_model->getAllWishlist($user);
-        //echo $this->wishlist_model->fetchwish('wishlist');
+
+        $data['wishes'] = $this->item_model->fetch('wishlist',$user);
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
@@ -450,22 +442,17 @@ class Home extends CI_Controller {
                 'page' => "Wishlist",
             );
 
-            //$this->load->model(wishlist_model);
-
-            $user = array(
-               // 'customer_id' => $this->session->uid,
-                'wishlist_id' => $this->input->post('remove')
+            $wishid = array(
+                'wishlist_id' => $this->input->post('wishlist_id')
             );
+            $res = $this->item_model->delete('wishlist',$wishid);
 
-            // print_r($this->input->post('remove')); die();
-            // $this->wishlist_model->removeWish($user);
-            $data['wishes'] = $this->wishlist_model->removeWish($user);
-            //echo $this->wishlist_model->fetchwish('wishlist');
-            $this->load->view('ordering/includes/header', $data);
-            $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/menu_account');
-            $this->load->view('ordering/wishlist');
-            $this->load->view('ordering/includes/footer');
+            redirect ('Home/wishlist');
+           // $this->load->view('ordering/includes/header', $data);
+          //  $this->load->view('ordering/includes/navbar');
+          //  $this->load->view('ordering/menu_account');
+          //  $this->load->view('ordering/wishlist');
+          //  $this->load->view('ordering/includes/footer');
             //echo $this->uri->segment(1) ;
         }
 

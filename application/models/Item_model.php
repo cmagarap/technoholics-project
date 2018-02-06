@@ -141,4 +141,11 @@ class Item_model extends CI_Model {
         return $string;
     }
 
+    public function checkWishlist($cond){
+        $this->db->select('*');
+        $this->db->where($cond);
+        $q = $this->db->get('wishlist');
+        return $q->result();
+    }
+
 }

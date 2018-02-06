@@ -186,9 +186,9 @@ _________________________________________________________ -->
                                                 <input type="hidden" name="product_image1" value="<?= $row->product_image1 ?>">
                                            <td>&emsp;
 
-                                               <?//php if(!isset($res)){ ?>
+                                               <?php if(!$res){ ?>
                                                     <button type="submit" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist </button></td>
-                                                <?//php } ?>
+                                                <?php } ?>
                                             </form>
                                            </tr>
                                 </table></center></div>
