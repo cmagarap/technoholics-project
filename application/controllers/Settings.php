@@ -55,6 +55,7 @@ class Settings extends CI_Controller {
 
     public function edit_images() {
          //if ($this->form_validation->run()) {
+         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
                 $config['encrypt_name'] = TRUE;
                 $config['upload_path'] = './assets/ordering/img/';
                 $config['allowed_types'] = "gif|jpg|png";
@@ -84,9 +85,9 @@ class Settings extends CI_Controller {
                 }
                  $data = array(
                        
-                        'image_1' => ($dataInfo[0]) ? $dataInfo[0] : NULL,
-                        'image_2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
-                        'image_3' => ($dataInfo[2]) ? $dataInfo[2] : NULL
+                        'image_1' => $dataInfo[0] ,
+                        'image_2' => $dataInfo[1] ,
+                        'image_3' => $dataInfo[2] 
                         
                     );
 

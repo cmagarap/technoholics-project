@@ -15,16 +15,31 @@
                         <div class = "col-md-12">
                             Image 1
                             <div id="filediv"><input name="user_file[]" type="file" id="file"/></div></br>
+                            <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                        endif;
+                                        ?>
                         </div>
 
                         <div class = "col-md-12">
                             Image 2
                             <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>
+                            <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                        endif;
+                                        ?>
                         </div>
 
                         <div class = "col-md-12">
                             Image 3
                             <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>
+                            <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                        endif;
+                                        ?>
                         </div>
 
 
