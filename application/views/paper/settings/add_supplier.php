@@ -10,37 +10,67 @@
                     <hr>
                     <div class="content">
                         <?php
-                        if(isset($_POST['enter'])) {
+                        if (isset($_POST['enter'])) {
                             $supplier_name = $_POST['supplier_name'];
-                            
-                        } elseif(isset($_POST['reset'])) {
+                            $contact_number = $_POST['contact_number'];
+                            $address = $_POST['address'];
+                        } elseif (isset($_POST['reset'])) {
                             $supplier_name = "";
-                            
+                            $contact_number = "";
+                            $address = "";
                         } else {
                             $supplier_name = "";
-                            
+                            $contact_number = "";
+                            $address = "";
                         }
                         ?>
                         <form action = "<?= $this->config->base_url() ?>Settings/add_supplier_exec" method = "POST" enctype="multipart/form-data" >
                             <div class="row">
-                                
-                                
+
+
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Supplier Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="Supplier" name = "supplier_name" value = "<?= $supplier_name ?>">
-                                        <?php if(validation_errors()):
+                                        <?php
+                                        if (validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("supplier_name") . "</span>";
-                                        endif; ?>
+                                        endif;
+                                        ?>
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contact Number <span style = "color: red">*</span></label>
+                                        <input type="number" class="form-control border-input" placeholder="Contact Number" name = "contact_number" value = "<?= $contact_number ?>">
+                                        <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("contact_number") . "</span>";
+                                        endif;
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
-                            
-                           
-                            
+
+                            <div class = "row">
+                                <div class = "col-md-12">
+                                    <div class = "form-group">
+                                        <label>Address <span style = "color: red">*</span></label>
+                                        <input type="text" class="form-control border-input" placeholder="Address" name = "address" value = "<?= $address ?>">
+<?php
+if (validation_errors()):
+    echo "<span style = 'color: red'>" . form_error("address") . "</span>";
+endif;
+?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <hr>
                             <div class="text-center">
                                 <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>

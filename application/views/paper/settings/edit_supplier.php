@@ -36,10 +36,22 @@
                                         <input type="text" class="form-control border-input" placeholder="Supplier" value="<?= $company_name->company_name ?>" name = "supplier_name">
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contact Number <font color="red">*</font></label>
+                                        <input type="number" class="form-control border-input" placeholder="Contact Number" value="<?= $company_name->contact_no ?>" name = "contact_number">
+                                    </div>
+                                </div>
                             </div>
                             
-                            
+                            <div class = "row">
+                                <div class = "col-md-12">
+                                    <div class = "form-group">
+                                         <label>Address <font color="red">*</font></label>
+                                        <input type="text" class="form-control border-input" placeholder="Address" value="<?= $company_name->address ?>" name = "address">
+                                    </div>
+                                </div>
+                            </div>
                             
                             <hr>
                             <div class="text-center">

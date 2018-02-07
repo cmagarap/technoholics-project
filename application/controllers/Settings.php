@@ -266,9 +266,15 @@ class Settings extends CI_Controller {
     public function add_supplier_exec() {
             $this->form_validation->set_rules('supplier_name', "Please put the supplier name.", "required");
 
+           $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
+
+            $this->form_validation->set_rules('address', "Please put the address.", "required");
+
              if ($this->form_validation->run()) {
                      $data = array(
-                'company_name' => html_escape(trim($this->input->post('supplier_name')))
+                'company_name' => html_escape(trim($this->input->post('supplier_name'))),
+                'contact_no' => html_escape($this->input->post('contact_number')),
+                'address' => html_escape(trim($this->input->post('address')))
                      );
                       $insert = $this->item_model->insertData('supplier', $data);
              redirect("settings");
@@ -304,10 +310,16 @@ class Settings extends CI_Controller {
      public function edit_supplier_exec() {
              $this->form_validation->set_rules('supplier_name', "Please put the supplier name.", "required");
 
+           $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
+
+            $this->form_validation->set_rules('address', "Please put the address.", "required");
+
 
              if ($this->form_validation->run()) {
                      $data = array(
-                      'company_name' => html_escape(trim($this->input->post('supplier_name')))
+                      'company_name' => html_escape(trim($this->input->post('supplier_name'))),
+                'contact_no' => html_escape($this->input->post('contact_number')),
+                'address' => html_escape(trim($this->input->post('address')))
                      );
                  $this->item_model->updatedata("supplier", $data, array('supplier_id' => $this->uri->segment(3)));
              redirect("settings");
