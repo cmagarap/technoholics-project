@@ -7,7 +7,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session', 'form_validation'));
+        $this->load->library(array('email', 'session', 'form_validation','basket'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -16,6 +16,7 @@ class Login extends CI_Controller {
     public function index() {
         $data = array(
             'title' => "TECHNOHOLICS Login",
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);

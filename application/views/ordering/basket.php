@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
+                    <li><a href="<?= base_url().'home'; ?>">Home</a>
                     </li>
                     <li>Shopping cart</li>
                 </ul>
@@ -39,8 +39,7 @@
                                     <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <!-- <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>"> -->
-                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["id"]?>">
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->

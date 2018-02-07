@@ -3,7 +3,9 @@ _________________________________________________________ -->
 <!-- *** TOP BAR END *** -->
 <!-- *** NAVBAR ***
 _________________________________________________________ -->
-<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; ?>
+<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; 
+date_default_timezone_set("Asia/Manila");
+?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top">
         <div class="container">
@@ -62,7 +64,7 @@ _________________________________________________________ -->
                     <i class="fa fa-search" ></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
+                    <i class="fa fa-shopping-cart"></i> <span>3 items in cart</span>
                 </a>
             </div>
         </div> <!--/.navbar-header -->
@@ -221,7 +223,7 @@ _________________________________________________________ -->
 
         <div class="navbar-buttons">
             <div class="navbar-collapse collapse right" id="basket-overview">
-                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm"></span></a>
+                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span id="CTI"><?=$CTI?></span></a>
             </div>
             <!--/.nav-collapse -->
             <div class="navbar-collapse collapse right" id="search-not-mobile">

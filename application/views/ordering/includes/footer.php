@@ -145,8 +145,20 @@ _________________________________________________________ -->
                 data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
                 success: function (data)
                 {
-                    alert("Product Added into Cart");
+                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
                     $('#' + product_id).val('');
+
+                    $.notify({
+                        icon: 'ti-direction',
+                        message: product_name +" has been added into cart"
+                    },{
+                        type: 'info',
+                        timer: 2000,
+                        	placement: {
+		from: "top",
+		align: "left"
+	}
+                    });
                 }
             });
         });
@@ -159,8 +171,8 @@ _________________________________________________________ -->
                     data: {row_id: row_id},
                     success: function (data)
                     {
-                        $('#all').load("<?php echo base_url(); ?>home/basket");
-                        $('#all').html(data);
+                        $('#all').load("<?php echo base_url(); ?>home/basket #all");
+                        $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
                     }
                 });
         });
@@ -173,27 +185,11 @@ _________________________________________________________ -->
                 method: "POST",
                 data: {product_id: product_id, product_quantity: product_quantity},
                 success: function (data)
-                {
-                    location.reload();
+                {   
+                    $('#all').load("<?php echo base_url(); ?>home/basket #all");
+                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
                 }
             });
-        });
-
-        $(document).on('click', '#clear_cart', function () {
-            if (confirm("Are you sure you want to clear cart?"))
-            {
-                $.ajax({
-                    url: "<?php echo base_url(); ?> home/clear",
-                    success: function (data)
-                    {
-                        alert("Your cart has been cleared...");
-                        $('#cart_details').html(data);
-                    }
-                });
-            } else
-            {
-                return false;
-            }
         });
 
         $('input[name=search]').keyup(function(){  
@@ -251,7 +247,6 @@ _________________________________________________________ -->
         $(window).unload(function () {
             NProgress.start();
         });
-
     });
 </script>
 </body>

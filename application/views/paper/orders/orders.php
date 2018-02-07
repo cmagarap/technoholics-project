@@ -13,37 +13,15 @@
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
                         <hr>
-                        <div class="calendar">
-                            <div id="v-cal">
-                                <div class="vcal-header">
-                                    <button class="vcal-btn" data-calendar-toggle="previous">
-                                        <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
-                                    </button>
-                                    <div class="vcal-header__label" data-calendar-label="month">
-                                        March 2017
-                                    </div>
-                                    <button class="vcal-btn" data-calendar-toggle="next">
-                                        <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path></svg>
-                                    </button>
-                                </div>
-                                <div class="vcal-week"style="color: #fff;">
-                                    <span>Mon</span> <span>Tue</span><span>Wed</span> <span>Thu</span> <span>Fri</span> <span>Sat</span> <span>Sun</span>
-                                </div>
-                                <div class="vcal-body" data-calendar-area="month"></div>
+                        <div class="calendar"></div>
+                        <form action="<?= base_url() . 'orders/page'; ?>" method="POST">
+                        </br>
+                            <div align="center">
+                            <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
+                            <input type="hidden" id="date" name="date">
                             </div>
-
-                            <p class="demo-picked">
-                                Date picked: <span data-calendar-label="picked"></span>
-         
-                            </p>
-
-                            <script src="<?= $this->config->base_url() ?>assets/paper/dist/vanillaCalendar.js" type="text/javascript"></script>
-                            <script>
-                                window.addEventListener('load', function () {
-                                    vanillaCalendar.init();
-                                })
-                            </script>
-                        </div>
+                        </form>
+                        </br>
                     </div>
                 </div>
             </div>
@@ -51,7 +29,7 @@
                 <div class="card">
                     <div class="header">
                         <h3><b>List of Orders</b></h3>
-                        <p class="category"><i>Here are the list of orders for......</i></p>
+                        <p class="category"><i><?=$date?></i></p>
                     </div>
                     <?php
                     if (!$orders) {
@@ -114,6 +92,8 @@
     </div>
 </div>
 <script>
+    $("#submit").hide();
+
     $(".cancel").click(function () {
         var id = $(this).data('id');
 
@@ -132,4 +112,48 @@
                 }
             });
     });
+
+    $(function() {
+        $('#wrapper .version strong').text('v' + $.fn.pignoseCalendar.version);
+
+        function onClickHandler(date, obj) {
+            /**
+             * @date is an array which be included dates(clicked date at first index)
+             * @obj is an object which stored calendar interal data.
+             * @obj.calendar is an element reference.
+             * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
+             * @obj.storage.events is all events associated to this date
+             */
+
+            var $calendar = obj.calendar;
+            $("#submit").show();
+            var text = '';
+
+            if(date[0] !== null) {
+                text += date[0].format('YYYY-MM-DD');
+            }
+
+            if(date[0] !== null && date[1] !== null) {
+                text += ' ~ ';
+            } else if(date[0] === null && date[1] == null) {
+                text += 'nothing';
+                $("#submit").hide();
+            }
+
+            if(date[1] !== null) {
+                text += date[1].format('YYYY-MM-DD');
+            }
+
+            $('#date').val(text);
+        }
+
+        // Default Calendar
+        $('.calendar').pignoseCalendar({
+            select: onClickHandler
+        });
+
+        // This use for DEMO page tab component.
+        $('.menu .item').tab();
+    });
+</script>
 </script>

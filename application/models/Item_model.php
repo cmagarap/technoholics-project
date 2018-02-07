@@ -29,6 +29,13 @@ class Item_model extends CI_Model {
         return $query->row();
     }
 
+    function sum($table, $where = NULL, $sum){
+        $this->db->select_sum($sum);
+        $this->db->where($where);
+        $query = $this->db->get($table);
+        return $query->row();
+    }
+
     function insert_id($table, $data) {
         $this->db->insert($table, $data);
         return $this->db->insert_id();

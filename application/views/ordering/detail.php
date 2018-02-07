@@ -199,7 +199,7 @@ _________________________________________________________ -->
                         <div class="box">
                         <div id="comments" >
                     <?php if (!$feedback): ?>
-                        <h4>0 comments</h4>
+                        <h4>0 comment(s)</h4>
                     <?php else: ?>
                         <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comments</h4>
                         <?php foreach ($feedback as $feedback): ?>
@@ -303,7 +303,6 @@ _________________________________________________________ -->
                             <!-- /.comment -->
                 </div>
             </div>
-
                         <div class="row same-height-row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="box same-height">
@@ -395,9 +394,5 @@ _________________________________________________________ -->
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.col-md-9 -->
-            </div>
-        </div>
         <!-- /.container -->
         <!-- end content -->

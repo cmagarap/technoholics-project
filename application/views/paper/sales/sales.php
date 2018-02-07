@@ -23,13 +23,16 @@
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #dc2f54;"></span>&nbsp; <b>Calendar</b></h3>
                         <hr>
-
                         <div class="calendar"></div>
                             <form action="<?= base_url() . 'sales/page'; ?>" method="POST">
+                            </br>
+                                <div align="center">
                                 <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
                                 <input type="hidden" id="date" name="date">
+                                </div>
                             </form>
-                        </div>
+                            </br>
+                    </div>
                 </div>
             </div>
             <div class="col-md-7">
@@ -142,7 +145,6 @@
             });
 
             // This use for DEMO page tab component.
-            $('.menu .item').tab();
         });
 </script>
 <script type="text/javascript" src="<?= base_url() ?>assets/js/sales_line.js"></script>
