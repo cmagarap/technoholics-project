@@ -23,7 +23,7 @@
                             <div class="flip-container" style="padding: 10px;">
                                     <form align="right" method="POST" action="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/delete_wishlist'; } else { echo base_url().'login';} ?>" >
                                     <input type="hidden" name="wishlist_id" value="<?= $row->wishlist_id ?>">
-                                    <button type="submit" class="btn btn-danger delete" onClick="return confirm('are you sure you want to delete??');" ><i class="fa fa-trash-o fa-lg" ></i></button>
+                                    <button type="submit" class="btn btn-danger delete" onClick="return confirm('Are you sure do you want to delete this on your wishlist?');" ><i class="fa fa-trash-o fa-lg" ></i></button>
                                     </form>
                                 <div class="flipper">
                                     <div class="front"><center>

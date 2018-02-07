@@ -412,11 +412,11 @@ class Home extends CI_Controller {
             'page' => "Wishlist",
         );
 
-        //$this->load->model(wishlist_model);
+
 
         $user = array(
             'customer_id' => $this->session->uid,
-            // 'wishlist_id' => $this->input->post('remove')
+
         );
 
         // print_r($this->input->post('remove')); die();
@@ -448,11 +448,24 @@ class Home extends CI_Controller {
             $res = $this->item_model->delete('wishlist',$wishid);
 
             redirect ('Home/wishlist');
-           // $this->load->view('ordering/includes/header', $data);
+        }
+
+        else{
+            redirect('login');
+        }
+    }
+
+    public function trackorder() {
+        if($this->session->has_userdata('isloggedin')) {
+            $data = array(
+                'title' => "Track my Order",
+                'page' => "Track my Order",
+            );
+
+            //$this->load->view('ordering/includes/header', $data);
           //  $this->load->view('ordering/includes/navbar');
-          //  $this->load->view('ordering/menu_account');
-          //  $this->load->view('ordering/wishlist');
-          //  $this->load->view('ordering/includes/footer');
+            $this->load->view('ordering/trackorder', $data);
+           // $this->load->view('ordering/includes/footer');
             //echo $this->uri->segment(1) ;
         }
 

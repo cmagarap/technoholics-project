@@ -28,7 +28,8 @@ _________________________________________________________ -->
                                 </div>
                             </div>
                         </li>
-
+                        <li><a href="<?= base_url().'home/trackorder'; ?>">Track my Order</a>
+                        </li>
                         <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>
                     <?php else: ?>

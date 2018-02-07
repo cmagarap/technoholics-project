@@ -35,7 +35,9 @@
     <script src="<?= base_url().'assets/ordering/js/bootstrap-hover-dropdown.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
-   
+
+
+
     <!-- your stylesheet with modifications -->
     <link rel="stylesheet" href="<?= base_url().'assets/ordering/css/etalage.css'?>">
     <script type="text/javascript" src="<?= base_url().'assets/ordering/js/megamenu.js'?>"></script>
