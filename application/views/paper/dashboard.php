@@ -93,7 +93,7 @@
                             </div>
                             <div class="col-xs-9">
                                 <div class="numbers">
-                                    <p>Order Transactions</p>
+                                    <p>Current Transactions</p>
                                     <?= $no_of_orders; ?>
                                 </div>
                             </div>

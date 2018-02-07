@@ -52,13 +52,15 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $where, $column, $order) {
+    function getDistinct($table, $where, $column, $order = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
-        $this->db->order_by($column, $order);
-        $this->db->select($column);
+        if (!empty($order)) {
+            $this->db->order_by($column, $order);
+        }
         $this->db->distinct();
+        $this->db->select($column);
         $query = $this->db->get($table);
         return ($query->num_rows()) ? $query->result() : FALSE;
     }

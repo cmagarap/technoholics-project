@@ -2,6 +2,20 @@
 <div class="content">
     <div class="container-fluid">
         <div align = "right">
+            <?php if($this->session->flashdata('statusMsg')):?>
+                <script>
+                    $(document).ready(function(){
+                        demo.initChartist();
+                        $.notify({
+                            icon: 'ti-direction',
+                            message: "<?= $this->session->flashdata('statusMsg') ?>"
+                        },{
+                            type: 'info',
+                            timer: 2000
+                        });
+                    });
+                </script>
+            <?php endif; ?>
             <form action = "" method = "POST">
                 <div class="input-group">
                     <input type="text" name="search" class = "search" placeholder="Search account...">
@@ -11,8 +25,6 @@
                         </button>
                     </div>
                 </div>
-                <!--<a href = "$this->config->base_url()inventory/search/" title = "Go"><i class="btn btn-info ti-search"></i></a>-->
-                <!--<button type="submit" class = "search"><i class="fa ti-search" style="color: #31bbe0"></i></button>-->
             </form>
         </div>
         <br>

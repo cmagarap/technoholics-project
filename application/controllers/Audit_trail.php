@@ -12,6 +12,7 @@ class Audit_trail extends CI_Controller {
         $this->load->model('item_model');
         $this->load->library('session');
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
