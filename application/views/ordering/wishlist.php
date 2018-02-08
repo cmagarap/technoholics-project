@@ -15,4 +15,5 @@
 
             </div> <!-- /.container -->
     </div>
+</div>
     <!-- /#content -->

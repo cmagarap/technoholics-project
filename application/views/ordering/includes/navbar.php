@@ -3,7 +3,9 @@ _________________________________________________________ -->
 <!-- *** TOP BAR END *** -->
 <!-- *** NAVBAR ***
 _________________________________________________________ -->
-<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; ?>
+<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; 
+date_default_timezone_set("Asia/Manila");
+?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top">
         <div class="container">
@@ -52,7 +54,7 @@ _________________________________________________________ -->
             <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
                 <img src="<?= base_url().'assets/ordering/img/logo.png'; ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
             </a>
-            <div class="navbar-buttons">
+            <div class="navbar-buttons" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
                     <span class="sr-only">Toggle navigation</span>
                     <i class="fa fa-align-justify"></i>
@@ -62,20 +64,23 @@ _________________________________________________________ -->
                     <i class="fa fa-search" ></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <?php if($CTI) : ?>
+                        <span class="label label-danger" style="position:absolute; top:-8px; left:-7px;"><?=$CTI?></span>
+                    <?php endif; ?>
                 </a>
             </div>
         </div> <!--/.navbar-header -->
         <div class="navbar-collapse collapse" id="navigation">
             <ul class="nav navbar-nav navbar-left">
             <?php if($page == "Home") : ?>
-                <li class="active"><a href="<?= base_url().'home'; ?>">Home</a></li>
+                <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
             <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
-                <li class="active dropdown yamm-fw"></li>
+                <li class="active dropdown yamm-fw">
             <?php else : ?>
                 <li class="dropdown yamm-fw">
             <?php endif; ?>
@@ -219,9 +224,14 @@ _________________________________________________________ -->
             </ul>
         </div> <!--/.nav-collapse -->
 
-        <div class="navbar-buttons">
+        <div class="navbar-buttons" id="CTI">
             <div class="navbar-collapse collapse right" id="basket-overview">
-                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm"></span></a>
+                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn">
+                <i class="fa fa-shopping-cart"></i>
+            <?php if($CTI) : ?>
+                <span class="label label-danger" style="position:absolute; top:12px;"><?=$CTI?></span>
+            <?php endif; ?>
+                </a>
             </div>
             <!--/.nav-collapse -->
             <div class="navbar-collapse collapse right" id="search-not-mobile">

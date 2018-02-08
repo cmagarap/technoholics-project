@@ -29,7 +29,7 @@
 
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="<?= $this->config->base_url()?>assets/paper/js/jquery-1.10.2.js" type="text/javascript"></script>
@@ -123,40 +123,6 @@
             text-align: center;
         }
 
-        .demo-picked span {
-            font-weight: bold;
-        }
-
-        .input-calendar {
-			display: block;
-			width: 150%;
-			max-width: 500px;
-			margin: 0 auto;
-			height: 3.2em;
-			line-height: 3.2em;
-			font: inherit;
-			padding: 0 1.2em;
-			border: 1px solid #d8d8d8;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
-		}
-
-		.btn-calendar {
-			display: block;
-			width: 100%;
-			max-width: 360px;
-			height: 3.2em;
-			line-height: 3.2em;
-			background-color: #52555a;
-			margin: 0 auto;
-			font-weight: 600;
-			color: #ffffff !important;
-			text-decoration: none !important;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
-		}
-
-		.btn-calendar:hover {
-			background-color: #5a6268;
-		}
 
     </style>
 </head>

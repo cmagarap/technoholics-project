@@ -14,6 +14,7 @@ class Home extends CI_Controller {
             if ($this->session->userdata("type") == 2) { # if customer
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
+                    'CTI' => $this->basket->total_items(),
                     'page' => "Home" // active column identifier
                 );
                 $this->load->view('ordering/includes/header', $data);
@@ -27,6 +28,7 @@ class Home extends CI_Controller {
         } else { # if not logged in
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
+                'CTI' => $this->basket->total_items(),
                 'page' => "Home"
             );
             $this->load->view('ordering/includes/header', $data);
@@ -36,41 +38,6 @@ class Home extends CI_Controller {
             $this->load->view('ordering/includes/footer');
         }
     }
-
-    // Kailangan ko pa ito
-    // public function details() {
-    //     $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-    //     $data = array(
-    //         'title' => 'Product Details',
-    //         'product' => $product
-    //     );
-    //     $this->load->view("shop/includes/header", $data);
-    //     $this->load->view("shop/details");
-    //     $this->load->view("shop/includes/footer");
-    //     if ($this->session->has_userdata('isloggedin')) {
-    //         date_default_timezone_set("Asia/Manila");
-    //         $userinformation = $this->item_model->fetch('accounts', array('user_id' => $this->session->uid))[0];
-    //         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)))[0];
-    //         $data1 = array(
-    //             "Customer_ID" => $userinformation->user_id,
-    //             "User_Type" => $userinformation->access_level,
-    //             "Username" => $userinformation->username,
-    //             "Date" => time(),
-    //             "Action" => $userinformation->username . ' viewed the product ' . $product->product_name
-    //         );
-    //         $this->item_model->insertData('user_log', $data1);
-    //     }
-    // public function categories() {
-    // $product = $this->item_model->fetch('product', array('product_category' => $this->uri->segment(3)));
-    //     $data = array(
-    //     'title' => 'Home',
-    //     'product' => $product
-    // );
-    //     $this->load->view('ordering/includes/header', $data);
-    //     $this->load->view('ordering/includes/navbar');
-    //     $this->load->view('ordering/category');
-    //     $this->load->view('ordering/includes/footer');
-    // }
 
     public function auto() {
     $output = '';  
@@ -131,6 +98,7 @@ class Home extends CI_Controller {
             'page' => $page,
             'category' => $cat, // category identifier
             'brand' => $brand,
+            'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
 
@@ -152,6 +120,7 @@ class Home extends CI_Controller {
             'page' => $page,
             'category' => $cat, // category identifier
             'brand' => $brand, 
+            'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
 
@@ -203,6 +172,7 @@ class Home extends CI_Controller {
             'count' => $count,
             'category' => $search, // category identifier
             'brand' => "test",
+            'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
 
@@ -251,7 +221,7 @@ class Home extends CI_Controller {
     }
 
     public function detail(){
-
+        
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
         $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
         $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
@@ -268,6 +238,7 @@ class Home extends CI_Controller {
             'category' => $cat, //category identifier
             'brand' => $brand,
             'rating' => $rating,
+            'CTI' => $this->basket->total_items(),
             'id' => $id
         );
 
@@ -375,7 +346,9 @@ class Home extends CI_Controller {
 
         $data = array(
             'title' => "Wishlist",
-            'page' => "Wishlist"
+            'page' => "Wishlist",
+            'CTI' => $this->basket->total_items()
+
         );
 
         $this->load->view('ordering/includes/header', $data);
@@ -433,7 +406,10 @@ class Home extends CI_Controller {
             'maxqty' => $_POST["max_quantity"]
         );
 
-        $this->basket->insert($data); //return rowid
+        $insert = $this->basket->insert($data); 
+
+        $statusMsg = $insert ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been added into your basket.' : 'Some problem occured, please try again.';
+        $this->session->set_flashdata('statusMsg', $statusMsg);
     }
 
     function update() {
@@ -451,8 +427,6 @@ class Home extends CI_Controller {
     }
 
     function post() {
-        
-        date_default_timezone_set("Asia/Manila");
 
         $data = array(
             'customer_id' => $this->session->uid,
@@ -470,7 +444,7 @@ class Home extends CI_Controller {
             "user_type" => $this->db->escape_str($this->session->userdata('type')),
             "username" => $this->db->escape_str($this->session->userdata('username')),
             "date" => $this->db->escape_str(time()),
-            "action" => $this->db->escape_str('Commented on product '.$_POST["product_name"].' and rate it '. $_POST["rating"]),
+            "action" => $this->db->escape_str('Commented on product '.$_POST["product_name"].' and rated it '. $_POST["rating"]),
             'status' => $this->db->escape_str('1')
         );
 
@@ -478,8 +452,6 @@ class Home extends CI_Controller {
     }
 
     public function placeorder() {
-        
-        date_default_timezone_set("Asia/Manila");
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
