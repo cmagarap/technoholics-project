@@ -8,6 +8,7 @@ class Inventory extends CI_Controller {
         $this->load->library(array('session', 'form_validation'));
         $this->load->helper('form');
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
@@ -164,7 +165,7 @@ class Inventory extends CI_Controller {
                 'product_category' => $category_fetch->category,
                 'product_price' => html_escape($this->input->post('product_price')),
                 'product_quantity' => html_escape($this->input->post('product_quantity')),
-                'product_image1' => $dataInfo[0],
+                'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : "default-product.jpg",
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
                 'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
@@ -258,16 +259,17 @@ class Inventory extends CI_Controller {
                 $this->image_lib->resize();
                 $this->image_lib->initialize($config2);
             }
-            $brand_fetch = $this->item_model->fetch("brand", array("brand_id" => $this->input->post('product_brand')))[0];
-            $category_fetch = $this->item_model->fetch("category", array("category_id" => $this->input->post('product_category')))[0];
-
+            $brand_fetch = $this->item_model->fetch("brand", "brand_id = " . $this->input->post('product_brand'))[0];
+            $category_fetch = $this->item_model->fetch("category", "category_id = " . $this->input->post('product_category'))[0];
+            $this->db->select("product_image1");
+            $image1_fetch = $this->item_model->fetch("product", "product_id = " . $this->input->post("product_id"))[0];
             $data = array(
                 'product_name' => html_escape(trim($this->input->post('product_name'))),
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => html_escape($this->input->post('product_price')),
                 'product_quantity' => html_escape($this->input->post('product_quantity')),
-                'product_image1' => $dataInfo[0],
+                'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : $image1_fetch->product_image1,
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
                 'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
@@ -288,8 +290,11 @@ class Inventory extends CI_Controller {
                 'status' => '1'
             );
 
-            $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+            $update = $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
             $this->item_model->insertData('user_log', $for_log);
+            $statusMsg = $update ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been updated successfully.' : 'Some problem occured, please try again.';
+            $this->session->set_flashdata('statusMsg', $statusMsg);
+
             redirect("inventory/page");
         } else {
             $this->edit_product();
@@ -297,7 +302,12 @@ class Inventory extends CI_Controller {
     }
 
     public function delete_product() {
-        $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+        $this->db->select("product_name");
+        $product_name = $this->item_model->fetch("product", "product_id = " . $this->uri->segment(3))[0];
+        $update = $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+        $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been deleted.' : 'Some problem occured, please try again.';
+        $this->session->set_flashdata('statusMsg', $statusMsg);
+
         $for_log = array(
             "admin_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
@@ -354,7 +364,12 @@ class Inventory extends CI_Controller {
     }
 
     public function recover_product_exec() {
-        $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
+        $this->db->select("product_name");
+        $product_name = $this->item_model->fetch("product", "product_id = " . $this->uri->segment(3))[0];
+        $update = $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
+        $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been recovered.' : 'Some problem occured, please try again.';
+        $this->session->set_flashdata('statusMsg', $statusMsg);
+
         $for_log = array(
             "admin_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),

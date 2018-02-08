@@ -12,6 +12,10 @@ class Orders extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session'));
+        if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
+            redirect('/login');
+        }
     }
 
     public function index() {

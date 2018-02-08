@@ -140,6 +140,7 @@
                             </div>
                             <br>
                             <div class="clearfix"></div>
+                            <input type = "hidden" value = "<?= $this->uri->segment(3) ?>" name = "product_id">
                         </form>
                     </div> <!-- content -->
                 </div> <!-- div-card -->
