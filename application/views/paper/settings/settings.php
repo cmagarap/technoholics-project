@@ -175,7 +175,7 @@
                                                 <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
                                                     <span class="ti-pencil"></span>
                                                 </a>
-                                                <a class="btn btn-danger delete" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category" alt = "Delete Category">
+                                                <a class="btn btn-danger delete" href="#" data-id="<?= $shipper->shipper_id ?>" title = "Delete Category" alt = "Delete Category">
                                                     <span class="ti-trash"></span>
                                                 </a>
                                             </td>
