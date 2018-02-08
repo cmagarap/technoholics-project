@@ -1,6 +1,7 @@
 <?php $counter = 1; ?>
 <?php $counter1 = 1; ?>
 <?php $counter2 = 1; ?>
+<?php $counter3 = 1; ?>
 <div class="content">
     <div class="container-fluid">
         <div class = "row">
@@ -55,7 +56,7 @@
 
 
         <div class = "row">
-         <div class = "col-md-4">
+         <div class = "col-md-3">
                 <div class="card" style = "padding: 30px">
                     <h4 class="title"><b>Brands</b></h4>
                     <br>
@@ -99,7 +100,7 @@
                 </div>
             </div>   
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card" style = "padding: 30px">
                     <h4 class="title"><b>Categories</b></h4>
                     <br>
@@ -144,7 +145,52 @@
                 </div>
             </div>
 
-                <div class = "col-md-4">
+                <div class="col-md-3">
+                <div class="card" style = "padding: 30px">
+                    <h4 class="title"><b>Shippers</b></h4>
+                    <br>
+                    <div align = "left">
+                        <a href = "<?= $this->config->base_url() ?>Settings/add_shipper" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new shipper">Add Shipper</a>
+
+                        <?php
+                        if (!$shipper) {
+                            echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
+                        } else {
+                            ?>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>#</b></th>
+                                <th><b>Shipper Name</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($shipper as $shipper): ?>
+                                        <tr>
+                                            <td><?= $counter3++ ?></td>
+                                            <td><?= $shipper->shipper_name ?></td>
+                                            </td>    
+                                            <td>
+
+                                                <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
+                                                    <span class="ti-pencil"></span>
+                                                </a>
+                                                <a class="btn btn-danger delete" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category" alt = "Delete Category">
+                                                    <span class="ti-trash"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                            <?php
+                            echo "<div align = 'center'>" . "</div>";
+                        }
+                        ?> </div>
+                </div>
+            </div>
+
+                <div class = "col-md-3">
                 <div class ="card" style = "padding: 30px">
                     <h4 class="title"><b>Suppliers</b></h4>
                     <br>
@@ -264,6 +310,26 @@
                         window.location = "<?= $this->config->base_url() ?>Settings/delete_supplier/" + id;
                     } else {
                         swal("The supplier is safe!");
+                    }
+                });
+    });
+</script>
+
+<script>
+    $(".delete").click(function () {
+        var id = $(this).data('id');
+
+        swal({
+            title: "Are you sure you want to delete this shipper?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "<?= $this->config->base_url() ?>Settings/delete_shipper/" + id;
+                    } else {
+                        swal("The shipper is safe!");
                     }
                 });
     });

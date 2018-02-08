@@ -25,12 +25,14 @@ class Settings extends CI_Controller {
             $category = $this->item_model->fetch("category",  array("status" => 1), "category", "ASC");
             $brand = $this->item_model->fetch("brand",  array("status" => 1), "brand_name", "ASC");
             $supplier = $this->item_model->fetch("supplier",  array("status" => 1), "company_name", "ASC");
+             $shipper = $this->item_model->fetch("shipper",  array("status" => 1), "shipper_name", "ASC");
             $data = array(
                 'title' => 'Settings',
                 'heading' => 'Settings',
                 'category' => $category,
                 'brand' => $brand,
-                'supplier' => $supplier
+                'supplier' => $supplier,
+                'shipper'=> $shipper
             );
             
             $this->load->view('paper/includes/header', $data);
@@ -337,7 +339,87 @@ class Settings extends CI_Controller {
           redirect("settings");
     }
 
+     public function add_shipper() {
+               if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+        $data = array(
+                'title' => 'Settings: Add Shipper',
+                'heading' => 'Shipper'
+            );
+
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view('paper/settings/add_shipper');
+            $this->load->view('paper/includes/footer');
+
+        }
+
+    }
+
+    public function add_shipper_exec() {
+         $this->form_validation->set_rules('shipper_name', "Please put the brand name.", "required");
+
+             if ($this->form_validation->run()) {
+                     $data = array(
+                'shipper_name' => html_escape(trim($this->input->post('shipper_name'))),
+                 'contact_no' => html_escape($this->input->post('contact_number'))
+                     );
+                      $insert = $this->item_model->insertData('shipper', $data);
+             redirect("settings");
+             }
+             else {
+            $this->add_brand();
+        }
+    }
+
+    public function edit_shipper(){
+        $shipper = $this->item_model->fetch("shipper", array('shipper_id' => $this->uri->segment(3)), "shipper_name","ASC");
+              if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+        $data = array(
+                'title' => 'Cms: Edit Category',
+                'heading' => 'Shipper',
+                'shipper_name' => $shipper
+            );
+
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view('paper/settings/edit_shipper');
+            $this->load->view('paper/includes/footer');
+
+        }
+        else {
+            redirect("settings");
+        }
+    }
+
+     public function edit_shipper_exec() {
+             $this->form_validation->set_rules('shipper_name', "Please put the supplier name.", "required");
+
+           $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
+
+
+
+             if ($this->form_validation->run()) {
+                     $data = array(
+                      'shipper_name' => html_escape(trim($this->input->post('shipper_name'))),
+                 'contact_no' => html_escape($this->input->post('contact_number'))
+                     );
+                 $this->item_model->updatedata("shipper", $data, array('shipper_id' => $this->uri->segment(3)));
+             redirect("settings");
+             }
+             else {
+            $this->edit_shipper();
+        }
+
+    }
+
+     public function delete_shipper() {
+         $this->item_model->updatedata("shipper", array("status" => false), array('shipper_id' => $this->uri->segment(3)));
+
+          redirect("settings");
+    }
 }
+
+
 
  
        
