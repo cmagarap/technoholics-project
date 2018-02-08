@@ -238,6 +238,7 @@ class Home extends CI_Controller {
             'category' => $cat, //category identifier
             'brand' => $brand,
             'rating' => $rating,
+            'CTI' => $this->basket->total_items(),
             'id' => $id
         );
 
@@ -345,7 +346,9 @@ class Home extends CI_Controller {
 
         $data = array(
             'title' => "Wishlist",
-            'page' => "Wishlist"
+            'page' => "Wishlist",
+            'CTI' => $this->basket->total_items()
+
         );
 
         $this->load->view('ordering/includes/header', $data);
