@@ -8,9 +8,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
         <div id="all">
             <div id="content">
                 <div class="container">
-
                     <div class="col-md-12">
-                    </br>
                         <ul class="breadcrumb">
                             <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                             </li>

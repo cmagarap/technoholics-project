@@ -568,4 +568,22 @@ class Accounts extends CI_Controller {
             redirect("home");
         }
     }
+
+    public function auto() {
+        $output = '';
+        $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
+        $output = '<ul class="card list-unstyled">';
+        if($query)
+        {
+            foreach($query as $query){
+                $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }
+        }
+        else
+        {
+            $output .= '<li class="text-left" >Item Not Found</li>';
+        }
+        $output .= '</ul>';
+        echo $output;
+    }
 }

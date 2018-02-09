@@ -190,7 +190,7 @@
         background-color: #FFE28C;
         color: #BB992F; }
 
-        .alert-danger {
+        .alert-wrong {
         background-color: #FF8F5E;
         color: #B33C12; }
 

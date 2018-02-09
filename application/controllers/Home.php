@@ -46,8 +46,8 @@ class Home extends CI_Controller {
     if($query)  
         {  
             foreach($query as $query){
-            $output .= '<li class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
-            }  
+            $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }
         }  
     else  
         {      
@@ -254,6 +254,7 @@ class Home extends CI_Controller {
         } else {
             $data = array(
                 'title' => "Checkout",
+                'CTI' => $this->basket->total_items(),
                 'page' => "Home"
             );
             $this->load->view('ordering/includes/header', $data);
@@ -286,7 +287,8 @@ class Home extends CI_Controller {
             'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
             'zip' => html_escape(trim($this->input->post('zip'))),
             'contact' => html_escape(trim($this->input->post('contact'))),
-            'email' => html_escape(trim($this->input->post('email')))
+            'email' => html_escape(trim($this->input->post('email'))),
+            'CTI' => $this->basket->total_items()
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -310,6 +312,7 @@ class Home extends CI_Controller {
             'zip' => html_escape(trim($this->input->post('zip'))),
             'contact' => html_escape(trim($this->input->post('contact'))),
             'email' => html_escape(trim($this->input->post('email'))),
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
 

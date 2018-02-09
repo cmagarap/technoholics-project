@@ -149,15 +149,15 @@ _________________________________________________________ -->
                     $('#' + product_id).val('');
 
                     $.notify({
-                        icon: 'ti-direction',
+                        icon: 'ti-shopping-cart',
                         message: product_name +" has been added into cart"
                     },{
                         type: 'info',
                         timer: 2000,
                         	placement: {
-		from: "top",
-		align: "left"
-	}
+                            from: "top",
+                            align: "left"
+                        }
                     });
                 }
             });
@@ -173,6 +173,18 @@ _________________________________________________________ -->
                     {
                         $('#all').load("<?php echo base_url(); ?>home/basket #all");
                         $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
+                    
+                        $.notify({
+                        icon: 'ti-shopping-cart',
+                        message: "Your cart has been updated"
+                        },{
+                        type: 'info',
+                        timer: 2000,
+                        	placement: {
+                            from: "top",
+                            align: "left"
+                        }
+                    });
                     }
                 });
         });
@@ -188,6 +200,18 @@ _________________________________________________________ -->
                 {   
                     $('#all').load("<?php echo base_url(); ?>home/basket #all");
                     $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
+
+                    $.notify({
+                        icon: 'ti-shopping-cart',
+                        message: "Your cart has been updated"
+                        },{
+                        type: 'info',
+                        timer: 2000,
+                        	placement: {
+                            from: "top",
+                            align: "left"
+                        }
+                    });
                 }
             });
         });
@@ -209,7 +233,7 @@ _________________________________________________________ -->
            }  
         });  
 
-        $(document).on('click', 'li', function(){
+        $(document).on('click', '#link', function(){
             $('input[name=search]').val($(this).text());  
             $('#productlist').fadeOut();  
         });  

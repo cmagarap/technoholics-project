@@ -121,6 +121,7 @@ class basket {
 					// remove the item from the cart, if quantity is zero
 					if ($item['qty'] == 0){
 						unset($this->cart_contents[$item['rowid']]);
+						$this->save_cart();
 						return TRUE;
 					}
 				}
