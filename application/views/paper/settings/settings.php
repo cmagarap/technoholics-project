@@ -237,6 +237,27 @@
                 </div>            
             </div>
            
+           
+<div class = "row">
+
+<select name="colorpicker">
+  <option value="#7bd148">Green</option>
+  <option value="#5484ed">Bold blue</option>
+  <option value="#a4bdfc">Blue</option>
+  <option value="#46d6db">Turquoise</option>
+  <option value="#7ae7bf">Light green</option>
+  <option value="#51b749">Bold green</option>
+  <option value="#fbd75b">Yellow</option>
+  <option value="#ffb878">Orange</option>
+  <option value="#ff887c">Red</option>
+  <option value="#dc2127">Bold red</option>
+  <option value="#dbadff">Purple</option>
+  <option value="#e1e1e1">Gray</option>
+</select>
+
+
+</div>
+
 
             <div align = "left">
                 <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Backup Database</a>
@@ -246,10 +267,6 @@
 
     </div>
 </div>
-
-
-
-
 
 
 <script>
@@ -335,3 +352,6 @@
     });
 </script>
 
+
+
+ 

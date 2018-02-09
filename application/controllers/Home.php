@@ -18,7 +18,7 @@ class Home extends CI_Controller {
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
                     'CTI' => $this->basket->total_items(),
-                    'page' => "Home" // active column identifier
+                    'page' => "Home", // active column identifier
                     'image' => $image
 
                 );
@@ -38,7 +38,7 @@ class Home extends CI_Controller {
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
                 'CTI' => $this->basket->total_items(),
-                'page' => "Home"
+                'page' => "Home",
                 'image' => $image
             );
 

@@ -27,6 +27,15 @@
 	<link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/calendar-style.css" rel="stylesheet"/>
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
 
+   
+    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
+    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker.css" rel="stylesheet">
+   
+
+       
+
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     
     
@@ -50,7 +59,7 @@
     <script src="<?= $this->config->base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
-
+       
     <style>
 
         input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {

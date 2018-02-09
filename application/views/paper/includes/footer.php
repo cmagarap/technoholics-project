@@ -42,6 +42,16 @@
         });
     </script>
 <?php endif; ?>
+ <script src="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
+         
+<script> 
+$('select[name="colorpicker"]').simplecolorpicker({
+  picker: true,
+  theme : 'fontawesome'
+}).on('change', function() {
+  $(document.body).css('background-color', $('select[name="colorpicker"]').val());
+});
+        </script>
 
 <script>
 
