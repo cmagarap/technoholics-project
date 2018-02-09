@@ -8,7 +8,7 @@
                     demo.initChartist();
                     $.notify({
                         icon: 'ti-direction',
-                        message: "<?=$this->session->flashdata('statusMsg')?>"
+                        message: "<?= $this->session->flashdata('statusMsg') ?>"
                     },{
                         type: 'info',
                         timer: 2000

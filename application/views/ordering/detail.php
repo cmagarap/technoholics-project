@@ -33,79 +33,79 @@ _________________________________________________________ -->
                             </div>
 
                             <div class="panel-body">
-                                <ul class="nav nav-pills nav-stacked category-menu">
-
-                                    <?php if ($category == "Accessories") : ?>
-                                        <li class="active">
-                                        <?php else : ?>
-                                        <li>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Accessories'"); ?></span></a>
-                                    </li></li>
-
-                                    <?php if ($category == "Chargers") : ?>
-                                        <li class="active">
-                                        <?php else : ?>
-                                        <li>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Chargers'"); ?></span></a>
-                                    </li></li>
-
-                                    <?php if ($category == "Laptop") : ?>
-                                        <li class="active">
-                                        <?php else : ?>
-                                        <li>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Laptop'"); ?></span></a>
-                                        <ul>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
-                                            </li>
-                                        </ul>
-                                    </li></li>
-
-                                    <?php if ($category == "Smartphone") : ?>
-                                        <li class="active">
-                                        <?php else : ?>
-                                        <li>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Smartphone'"); ?></span></a>
-                                        <ul>
-                                            <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
-                                            </li>
-                                        </ul>
-                                    </li></li>
-
-                                    <?php if ($category == "Tablet") : ?>
-                                        <li class="active">
-                                        <?php else : ?>
-                                        <li>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Tablet'"); ?></span></a>
-                                        <ul>
-                                            <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
-                                            </li>
-                                            <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
-                                            </li>
-                                        </ul>
-                                    </li></li>
-                                </ul>
-                            </div>
+                            <ul class="nav nav-pills nav-stacked category-menu">
+        
+                                <?php if ($category == "accessories") : ?>
+                                    <li class="active">
+                                    <?php else : ?>
+                                    <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
+                                </li>
+        
+                                <?php if ($category == "chargers") : ?>
+                                    <li class="active">
+                                    <?php else : ?>
+                                    <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
+                                </li>
+        
+                                <?php if ($category == "laptop") : ?>
+                                    <li class="active">
+                                    <?php else : ?>
+                                    <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Laptop')); ?></span></a>
+                                    <ul>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
+                                        </li>
+                                    </ul>
+                                </li>
+        
+                                <?php if ($category == "smartphone") : ?>
+                                    <li class="active">
+                                    <?php else : ?>
+                                    <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Smartphone')); ?></span></a>
+                                    <ul>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
+                                        </li>
+                                    </ul>
+                                </li>
+        
+                                <?php if ($category == "tablet") : ?>
+                                    <li class="active">
+                                    <?php else : ?>
+                                    <li>
+                                    <?php endif; ?>
+                                    <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
+                                    <ul>
+                                        <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
+                                        </li>
+                                        <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                         </div>
 
                         <!-- *** MENUS AND FILTERS END *** -->
@@ -153,11 +153,9 @@ _________________________________________________________ -->
                             </br></br>
                             <div style="position:relative; left:55px;" class="box col-sm-6">
                                 <h1 class = "text-center"><?= $row->product_name ?></h1>
-                                <center><blockquote>
-                                    <em><?= $row->product_brand ?></em>
-                                </blockquote></center>
                                 <div align = "center">
-                                <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                                    <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
+                                    <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
                                 else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                                 ?>
                                 </div>
@@ -201,7 +199,7 @@ _________________________________________________________ -->
                         <div class="box">
                         <div id="comments" >
                     <?php if (!$feedback): ?>
-                        <h4>0 comments</h4>
+                        <h4>0 comment(s)</h4>
                     <?php else: ?>
                         <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comments</h4>
                         <?php foreach ($feedback as $feedback): ?>
@@ -305,7 +303,6 @@ _________________________________________________________ -->
                             <!-- /.comment -->
                 </div>
             </div>
-
                         <div class="row same-height-row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="box same-height">
@@ -397,9 +394,5 @@ _________________________________________________________ -->
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.col-md-9 -->
-            </div>
-        </div>
         <!-- /.container -->
         <!-- end content -->

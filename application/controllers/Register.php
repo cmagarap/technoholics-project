@@ -49,7 +49,7 @@ class Register extends CI_Controller {
         $this->form_validation->set_rules('lastname', "last name", "required");
         $this->form_validation->set_rules('firstname', "first name", "required");
         $this->form_validation->set_rules('address', "home address", "required");
-        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
+        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[customer.email]");
         $this->form_validation->set_rules('password', "password", "required|alpha_numeric");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|alpha_numeric|matches[password]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
@@ -67,7 +67,7 @@ class Register extends CI_Controller {
                 'verification_code' => $hash,
             );
 
-            $this->email->from('seej.max@gmail.com', 'TECHNOHOLICS');
+            $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
             $this->email->to($this->input->post('email'));
             $this->email->subject('Email Verification');
             $this->email->message("hello");
@@ -75,8 +75,8 @@ class Register extends CI_Controller {
             if (!$this->email->send()) {
                 $this->email->print_debugger();
             } else {
-                $this->item_model->insertData('accounts', $data);
-                $new_account = $this->item_model->fetch("accounts", array("email" => $this->input->post('email')));
+                $this->item_model->insertData('customer', $data);
+                $new_account = $this->item_model->fetch("customer", array("email" => $this->input->post('email')));
                 $new_account = $new_account[0];
                 $for_log = array(
                     "user_id" => $new_account->used_id,

@@ -2,8 +2,7 @@
 <div id="content">
     <div class="container">
 
-        <div class="col-md-12">     
-        </br>
+        <div class="col-md-12">
             <ul class="breadcrumb">
                 <li><a href="<?= base_url() . 'home'; ?>">Home</a>
                 </li>
@@ -16,7 +15,7 @@
                     <li><?= $category ?></li>
                 <?php endif; ?>
             </ul>
-        </>
+        </div>
 
         <div class="col-md-3">
             <!-- *** MENUS AND FILTERS ***
@@ -28,79 +27,79 @@ _________________________________________________________ -->
                 </div>
 
                 <div class="panel-body">
-                    <ul class="nav nav-pills nav-stacked category-menu">
+                <ul class="nav nav-pills nav-stacked category-menu">
 
-                        <?php if ($category == "accessories") : ?>
-                            <li class="active">
-                            <?php else : ?>
-                            <li>
-                            <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Accessories'"); ?></span></a>
-                        </li>
+                    <?php if ($category == "accessories") : ?>
+                        <li class="active">
+                        <?php else : ?>
+                        <li>
+                        <?php endif; ?>
+                        <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
+                    </li>
 
-                        <?php if ($category == "chargers") : ?>
-                            <li class="active">
-                            <?php else : ?>
-                            <li>
-                            <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Chargers'"); ?></span></a>
-                        </li>
+                    <?php if ($category == "chargers") : ?>
+                        <li class="active">
+                        <?php else : ?>
+                        <li>
+                        <?php endif; ?>
+                        <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
+                    </li>
 
-                        <?php if ($category == "laptop") : ?>
-                            <li class="active">
-                            <?php else : ?>
-                            <li>
-                            <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Laptop'"); ?></span></a>
-                            <ul>
-                                <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
-                                </li>
-                            </ul>
-                        </li>
+                    <?php if ($category == "laptop") : ?>
+                        <li class="active">
+                        <?php else : ?>
+                        <li>
+                        <?php endif; ?>
+                        <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Laptop')); ?></span></a>
+                        <ul>
+                            <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                        <?php if ($category == "smartphone") : ?>
-                            <li class="active">
-                            <?php else : ?>
-                            <li>
-                            <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Smartphone'"); ?></span></a>
-                            <ul>
-                                <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
-                                </li>
-                            </ul>
-                        </li>
+                    <?php if ($category == "smartphone") : ?>
+                        <li class="active">
+                        <?php else : ?>
+                        <li>
+                        <?php endif; ?>
+                        <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Smartphone')); ?></span></a>
+                        <ul>
+                            <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                        <?php if ($category == "tablet") : ?>
-                            <li class="active">
-                            <?php else : ?>
-                            <li>
-                            <?php endif; ?>
-                            <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', "product_category = 'Tablet'"); ?></span></a>
-                            <ul>
-                                <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
-                                </li>
-                                <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                    <?php if ($category == "tablet") : ?>
+                        <li class="active">
+                        <?php else : ?>
+                        <li>
+                        <?php endif; ?>
+                        <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
+                        <ul>
+                            <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
+                            </li>
+                            <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             </div>
 
             <!-- I don't know what to do with this? -->
@@ -161,7 +160,7 @@ _________________________________________________________ -->
             <div class="box info-bar">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 products-showing">
-                        Showing <strong>12</strong> of <strong><?= $this->item_model->getCount('product', array('product_category' => $category)); ?></strong> products
+                        Showing <strong>12</strong> of <strong><?=$count?></strong> products
                     </div>
 
                     <div class="col-sm-12 col-md-8  products-number-sort">
@@ -259,4 +258,6 @@ _________________________________________________________ -->
     <!-- /.container -->
 </div>
 <!-- /#content -->
+</div>
+</div>
 </div>

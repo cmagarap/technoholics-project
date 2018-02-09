@@ -17,7 +17,7 @@ class Random extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view("paper/practice_charts");
+        #$this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
         $hash = random_string('alnum', 20);
@@ -91,5 +91,9 @@ class Random extends CI_Controller {
         #$this->db->select("product_quantity");
         $data = $this->item_model->fetch('product', NULL, NULL, NULL, 6);
         echo json_encode($data);
+    }
+
+    public function apr() {
+        $this->load->view("paper/ap/example");
     }
 }

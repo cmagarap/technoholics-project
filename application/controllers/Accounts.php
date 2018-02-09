@@ -17,6 +17,7 @@ class Accounts extends CI_Controller {
         $this->load->library(array('form_validation', 'session', 'email'));
 
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
@@ -125,7 +126,7 @@ class Accounts extends CI_Controller {
                 $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
                 $user_log = $this->item_model->fetch('user_log', array('admin_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
 
-                if($account AND $user_log) {
+                if($account OR $user_log) {
                     $data = array(
                         'title' => "Accounts: View User Info",
                         'heading' => "Accounts",
@@ -185,7 +186,7 @@ class Accounts extends CI_Controller {
     public function add_account_exec() {
         $this->form_validation->set_rules('first_name', "first name", "required");
         $this->form_validation->set_rules('last_name', "last name", "required");
-        $this->form_validation->set_rules('username', "username", "is_unique[accounts.username]");
+        $this->form_validation->set_rules('username', "username", "is_unique[admin.username]");
         $this->form_validation->set_rules('password', "password", "required");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|matches[password]");
         $this->form_validation->set_rules('email', "email address", "required|valid_email|is_unique[admin.email]");
@@ -200,9 +201,6 @@ class Accounts extends CI_Controller {
             $this->load->helper('string');
             $username = ($this->input->post('username') != "") ? trim($this->input->post('username')) : NULL;
             $contact_no = ($this->input->post('contact_no') != "") ? trim($this->input->post('contact_no')) : NULL;
-            # $user_type = ($this->input->post('user_type') == "Admin Assistant") ? 1 : 0;
-            # $is_verified = ($user_type == 1) ? 1 : 0;
-            # $hash = random_string('alnum', 15);
             $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
             $hash = bin2hex($bytes);
 
@@ -246,14 +244,13 @@ class Accounts extends CI_Controller {
             $insert = $this->item_model->insertData('admin', $data);
 
             if($insert) {
-                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
-                    "$user_id" => html_escape($this->session->uid),
-                    "user_type" => html_escape($this->session->userdata('type')),
-                    "username" => html_escape($this->session->userdata('username')),
-                    "date" => html_escape(time()),
-                    "action" => html_escape('Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name'))),
-                    'status' => html_escape('1')
+                    "admin_id" => $this->session->ui,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Added account: ' . trim($this->input->post('last_name')) . ", " . trim($this->input->post('first_name')),
+                    'status' => '1'
                 );
                 $this->item_model->insertData('user_log', $for_log);
             }
@@ -267,7 +264,8 @@ class Accounts extends CI_Controller {
               if (!$this->email->send()) {
               $this->email->print_debugger();
               } */
-
+            $statusMsg = $insert ? 'Account for <b>' . trim(ucwords($this->input->post('first_name'))) . " " . trim(ucwords($this->input->post('last_name'))) . '</b>' . ' has been added successfully.' : 'Some problem occured, please try again.';
+            $this->session->set_flashdata('statusMsg', $statusMsg);
             redirect("accounts/");
         } else {
             $this->add_account();
@@ -570,5 +568,4 @@ class Accounts extends CI_Controller {
             redirect("home");
         }
     }
-
 }

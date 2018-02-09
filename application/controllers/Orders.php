@@ -12,6 +12,10 @@ class Orders extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session'));
+        if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
+            redirect('/login');
+        }
     }
 
     public function index() {
@@ -43,16 +47,23 @@ class Orders extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
+        $date = $this->input->post('date')?"Here are the list of orders for ".date("F j, Y", strtotime
+            ($this->input->post('date'))).".": "Here are the overall orders of the customers.";
+
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('orders', "status = 1");
+            $config['total_rows'] = $this->input->post('date')?$this->item_model->getCount('orders', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getCount('orders', array( 'status' => 1));
             $this->pagination->initialize($config);
-            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', "status = 1");
+            $orders = $this->input->post('date')?$this->item_model->getItemsWithLimit('orders', $perpage,
+            $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1));
+
             $data = array(
                 'title' => 'Orders Management',
                 'heading' => 'Orders Management',
                 'orders' => $orders,
+                'date' => $date,
                 'links' => $this->pagination->create_links()
             );
+            
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/orders/orders");

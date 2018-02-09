@@ -6,6 +6,8 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     $user = $this->item_model->fetch("customer", array("customer_id" => $this->session->uid));
     $user = $user[0];
 }
+
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <div class="wrapper">
@@ -65,6 +67,12 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                     <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('Reports'); ?>">
+                        <i class="ti-notepad"></i>
+                        <p>Reports</p>
                     </a>
                 </li>
             </ul>
