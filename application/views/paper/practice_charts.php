@@ -19,10 +19,10 @@
 </head>
 <body>
 <div id="chart-container">
-    <canvas id="gender_doughnut1"></canvas>
+    <canvas id="customer_radar"></canvas>
 </div>
 
 <!-- This is the bar chart script -->
-<script type="text/javascript" src="<?= base_url() ?>assets/js/male_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/customer_radar.js"></script>
 </body>
 </html>

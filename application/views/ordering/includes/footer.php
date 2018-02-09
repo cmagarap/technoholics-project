@@ -149,7 +149,7 @@ _________________________________________________________ -->
                     $('#' + product_id).val('');
 
                     $.notify({
-                        icon: 'ti-direction',
+                        icon: 'ti-shopping-cart',
                         message: product_name +" has been added into cart"
                     },{
                         type: 'info',

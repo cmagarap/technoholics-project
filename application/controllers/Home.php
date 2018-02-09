@@ -132,7 +132,6 @@ class Home extends CI_Controller {
     }
 
     public function search() {
-        
         $this->load->library('pagination');
         $perpage = 12;
         $config['per_page'] = $perpage;

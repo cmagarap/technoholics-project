@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class basket {
+class Basket {
 	
 	protected $cart_contents = array();
 	protected $CI;
@@ -9,13 +9,13 @@ class basket {
     public function __construct(){
 		$this->CI =& get_instance();
 		$this->CI->load->library('session');
-        $this->cart_contents = !empty($this->CI->session->cart_contents)?$this->CI->session->cart_contents:NULL;
+        $this->cart_contents = !empty($this->CI->session->cart_contents) ? $this->CI->session->cart_contents : NULL;
 		if ($this->cart_contents === NULL){
 			// set some base values
-		$this->cart_contents  = array(
-			'cart_total' => 0, 
-			'total_items' => 0
-		);
+            $this->cart_contents  = array(
+                'cart_total' => 0,
+                'total_items' => 0
+            );
 		}
     }
     

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="keywords" content="Technoholics, Technoholics Store, Online Philippine Store">
     <meta name="description" content="Technoholics Online Store">
-    
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
@@ -28,8 +27,6 @@
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
 
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
-    
-    
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="<?= $this->config->base_url()?>assets/paper/js/jquery-1.10.2.js" type="text/javascript"></script>

@@ -14,7 +14,7 @@ class Accounts extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->helper(array('form'));
-        $this->load->library(array('form_validation', 'session', 'email'));
+        $this->load->library(array('form_validation', 'session', 'email', 'apriori'));
 
         if (!$this->session->has_userdata('isloggedin')) {
             $this->session->set_flashdata("error", "You must login first to continue.");
@@ -23,10 +23,10 @@ class Accounts extends CI_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('type') == 0) { # The GM can manage all users
-            redirect('accounts/admin');
-        } elseif ($this->session->userdata('type') == 1) { # The Admin Assistant can only manage the accounts of customers
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) { # The GM can manage all users
             redirect('accounts/customer');
+        } else {
+            redirect('home');
         }
     }
 
@@ -141,15 +141,86 @@ class Accounts extends CI_Controller {
                     redirect("accounts/admin");
                 }
             } elseif ($this->uri->segment(3) == "customer") {
-                $account = $this->item_model->fetch('customer', array('customer_id' => $this->uri->segment(4)));
-                $user_log = $this->item_model->fetch('user_log', array('customer_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+                $account = $this->item_model->fetch('customer', 'customer_id = ' . $this->uri->segment(4));
+                $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4), "at_id", "DESC", 8);
+                $this->db->select("at_date");
+                $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4), "at_id", "DESC")[0];
+
+                # <======================= FOR APRIORI:
+                $this->apriori->setMaxScan(20);
+                $this->apriori->setMinSup(2);
+                $this->apriori->setMinConf(75);
+                $this->apriori->setDelimiter(', ');
+
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4), "order_id", "ASC");
+
+                if ($order_id) {
+                    # store the fetched values into an array:
+                    foreach ($order_id as $order_id)
+                        $order_id_array[] = $order_id->order_id;
+
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($order_id_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND order_id = " . $order_id_array[$i]);
+                    }
+                    $customer_transactions = array();
+
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string)$tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array)$tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no transactions recorded for this user.";
+                }
+
+                //Frequent Itemsets
+//                echo '<h1>Frequent Itemsets</h1>';
+//                $this->apriori->printFreqItemsets();
+
+
+                /*echo '<h3>Frequent Itemsets Array</h3>';
+                echo "<pre>";
+                print_r($freq_itemsets);
+                echo "</pre>";*/
+
+                //Association Rules
+//                echo '<h1>Association Rules</h1>';
+//                $this->apriori->printAssociationRules();
+
+                /*echo '<h3>Association Rules Array</h3>';
+                echo "<pre>";
+                print_r($this->apriori->getAssociationRules());
+                echo "</pre>";*/
+
+                # END OF CODE FOR APRIORI ======>
+
 
                 if($account OR $user_log) {
                     $data = array(
                         'title' => "Accounts: View User Info",
                         'heading' => "Accounts",
                         'account' => $account,
-                        'logs' => $user_log
+                        'logs' => $user_log,
+                        'at_date' => $at_date,
+                        'message' => $message
                     );
                     $this->load->view('paper/includes/header', $data);
                     $this->load->view("paper/includes/navbar");
@@ -564,6 +635,30 @@ class Accounts extends CI_Controller {
             header('Content-Type: application/json');
             $data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Female' AND status = 1 GROUP BY a_range");
             print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getCustomerBrands() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            #$data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Female' AND status = 1 GROUP BY a_range");
+            $this->db->select("order_id");
+            $orders = $this->item_model->fetch("orders", "customer_id = 9", "order_id", "ASC");
+            foreach($orders as $order) {
+                $this->db->select("orderitems_id");
+                $order_items[] = $this->item_model->fetch("order_items", "order_id = " . $order->order_item);
+            }
+            foreach ($order_items as $order_item) {
+
+            }
+
+
+            echo "<pre>";
+            print_r($order_items);
+            echo "</pre>";
+            //print json_encode($data->result());
         } else {
             redirect("home");
         }
