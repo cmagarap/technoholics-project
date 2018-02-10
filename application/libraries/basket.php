@@ -89,10 +89,13 @@ class basket {
                 // get quantity if it's already there and add it on
                 $old_qty = isset($this->cart_contents[$rowid]['qty']) ? (int) $this->cart_contents[$rowid]['qty'] : 0;
                 // re-create the entry with unique identifier and updated quantity
-                $item['rowid'] = $rowid;
-                $item['qty'] += $old_qty;
+				$item['rowid'] = $rowid;
+				// check if it exceed the maxqty of the item
+				if($old_qty == $item['maxqty']){
+					return FALSE;
+				}
+				$item['qty'] += $old_qty;
                 $this->cart_contents[$rowid] = $item;
-                
                 // save Cart Item
                 if($this->save_cart()){
                     return isset($rowid) ? $rowid : TRUE;

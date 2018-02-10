@@ -242,15 +242,7 @@
                 <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Backup Database</a>
             </div>
         </div>
-
-
     </div>
-</div>
-
-
-
-
-
 
 <script>
     $(".delete").click(function () {

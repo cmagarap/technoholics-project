@@ -101,9 +101,9 @@ _________________________________________________________ -->
         </div>
     </div>
 </div>
+                </div>
+                </div>
 <!-- *** COPYRIGHT END *** -->
-</div>
-<!-- /#all -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
@@ -164,7 +164,7 @@ _________________________________________________________ -->
         });
 
         $(document).on('click', '.remove_inventory', function () {
-            var row_id = $(this).attr("id");
+            var row_id = $(this).data("rowid");;
                 $.ajax({
                     url: "<?php echo base_url(); ?>home/remove",
                     method: "POST",
@@ -190,12 +190,12 @@ _________________________________________________________ -->
         });
         
         $(document).on('change','#update',function () {
-            var product_id = $(this).data("productid");
+            var row_id = $(this).data("rowid");
             var product_quantity = $(this).val();
             $.ajax({
                 url: "<?php echo base_url(); ?>home/update",
                 method: "POST",
-                data: {product_id: product_id, product_quantity: product_quantity},
+                data: {row_id: row_id, product_quantity: product_quantity},
                 success: function (data)
                 {   
                     $('#all').load("<?php echo base_url(); ?>home/basket #all");

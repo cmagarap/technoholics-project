@@ -18,7 +18,7 @@ class Home extends CI_Controller {
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
                     'CTI' => $this->basket->total_items(),
-                    'page' => "Home" // active column identifier
+                    'page' => "Home", // active column identifier
                     'image' => $image
 
                 );
@@ -38,7 +38,7 @@ class Home extends CI_Controller {
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
                 'CTI' => $this->basket->total_items(),
-                'page' => "Home"
+                'page' => "Home",
                 'image' => $image
             );
 
@@ -216,19 +216,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/basket');
         $this->load->view('ordering/includes/footer');
-    }
-
-    public function viewbasket(){
-        $data = array(
-            'title' => "My Shopping Cart",
-            'cartItems' => $this->basket->contents(),
-            'CT' => $this->basket->total(),
-            'CTI' => $this->basket->total_items(),
-            'page' => "Home"
-        );
-
-        $this->load->view('ordering/basket',$data);
-
     }
 
     public function detail(){
@@ -412,41 +399,39 @@ class Home extends CI_Controller {
     public function add() {
 
         $data = array(
-            'id' => $_POST["product_id"],
-            'name' => $_POST["product_name"],
-            'img' => $_POST["product_img"],
-            'price' => $_POST["product_price"],
-            'qty' => $_POST["min_quantity"],
-            'maxqty' => $_POST["max_quantity"]
+            'id' => $this->input->post("product_id"),
+            'name' => $this->input->post("product_name"),
+            'img' => $this->input->post("product_img"),
+            'price' => $this->input->post("product_price"),
+            'qty' => $this->input->post("min_quantity"),
+            'maxqty' => $this->input->post("max_quantity")
         );
 
         $insert = $this->basket->insert($data); 
 
-        $statusMsg = $insert ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been added into your basket.' : 'Some problem occured, please try again.';
-        $this->session->set_flashdata('statusMsg', $statusMsg);
     }
 
     function update() {
         
         $data = array(
-            'rowid' => $_POST["product_id"],
-            'qty' => $_POST["product_quantity"]
+            'rowid' => $this->input->post("row_id"),
+            'qty' => $this->input->post("product_quantity")
         );
 
         $this->basket->update($data);
     }
 
     function remove() {
-        $this->basket->remove($_POST["row_id"]);
+        $this->basket->remove($this->input->post("row_id"));
     }
 
     function post() {
 
         $data = array(
             'customer_id' => $this->session->uid,
-            'product_id' => $_POST["product_id"],
-            'feedback' => $_POST["feedback"],
-            'rating' => $_POST["rating"],
+            'product_id' => $this->input->post("product_id"),
+            'feedback' => $this->input->post("feedback"),
+            'rating' => $this->input->post("rating"),
             'added_at' => time()
         );
 
