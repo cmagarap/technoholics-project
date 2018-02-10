@@ -407,21 +407,17 @@ class Home extends CI_Controller {
 
     public function wishlist() {
     if($this->session->has_userdata('isloggedin')) {
+       $product = $this->item_model->fetch('product');
+        $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
+
         $data = array(
             'title' => "Wishlist",
             'page' => "Wishlist",
-        );
-
-
-
-        $user = array(
-            'customer_id' => $this->session->uid,
-
+            'wishes' => $wishes,
+            'product' => $product,
         );
 
         // print_r($this->input->post('remove')); die();
-
-        $data['wishes'] = $this->item_model->fetch('wishlist',$user);
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/menu_account');
@@ -462,10 +458,10 @@ class Home extends CI_Controller {
                 'page' => "Track my Order",
             );
 
-            //$this->load->view('ordering/includes/header', $data);
-          //  $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/trackorder', $data);
-           // $this->load->view('ordering/includes/footer');
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/trackorder');
+            $this->load->view('ordering/includes/footer');
             //echo $this->uri->segment(1) ;
         }
 

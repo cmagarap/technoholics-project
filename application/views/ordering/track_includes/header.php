@@ -13,41 +13,16 @@
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <meta name="keywords" content="">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
-    
-    <!-- styles -->
-    <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/font-awesome.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/bootstrap.min.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/animate.min.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/owl.carousel.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/owl.theme.css'; ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/starability-all.min.css';?>" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="<?= base_url().'assets/tracker/bootstrap/css/bootstrap.min.css' ?>">
+    <link rel="stylesheet" href="<?= base_url().'assets/tracker/font-awesome/css/font-awesome.min.css' ?>">
+    <link rel="stylesheet" href="<?= base_url().'assets/tracker/css/form-elements.css' ?>">
+    <link rel="stylesheet" href="<?= base_url().'assets/tracker/css/style.css' ?>">
 
     <!-- theme stylesheet -->
-    <link rel="stylesheet" href="<?= base_url().'assets/ordering/font-awesome/css/font-awesome.min.css' ?>">
     <link href="<?= base_url().'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
-    <link href="<?= base_url().'assets/ordering/css/style.css'; ?>" rel="stylesheet" id="theme-stylesheet">
-
-    <!-- web sheets -->
-    <script src="<?= base_url().'assets/ordering/js/jquery-1.11.0.min.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/bootstrap.min.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/jquery.cookie.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/waypoints.min.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/modernizr.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/bootstrap-hover-dropdown.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
-
-
-
-    <!-- your stylesheet with modifications -->
-    <link rel="stylesheet" href="<?= base_url().'assets/ordering/css/etalage.css'?>">
-    <script type="text/javascript" src="<?= base_url().'assets/ordering/js/megamenu.js'?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/jquery.etalage.min.js'; ?>"></script>
-
-    <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
-    <script src="<?= base_url().'assets/ordering/js/respond.min.js'; ?>"></script>
-    <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <link rel="shortcut icon" href="<?= base_url().'assets/ordering/img/mobile_logo.png';?>">
     <style>
 
@@ -106,13 +81,6 @@
             background-color: lightblue;
         }
     </style>
-    <script>
-			$(document).ready(function($){
-				$('#etalage').etalage({
-				});
-			});
-    </script>
 </head>
+
 <body>
-<div style="margin-top:130px">
-</div>
