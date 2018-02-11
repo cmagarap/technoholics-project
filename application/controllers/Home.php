@@ -253,7 +253,8 @@ class Home extends CI_Controller {
         } else {
             $data = array(
                 'title' => "Checkout",
-                'page' => "Home"
+                'page' => "Home",
+
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
@@ -285,7 +286,8 @@ class Home extends CI_Controller {
             'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
             'zip' => html_escape(trim($this->input->post('zip'))),
             'contact' => html_escape(trim($this->input->post('contact'))),
-            'email' => html_escape(trim($this->input->post('email')))
+            'email' => html_escape(trim($this->input->post('email'))),
+            'CTI' => $this->basket->total_items()
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');

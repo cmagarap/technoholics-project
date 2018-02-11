@@ -13,7 +13,7 @@ class Accounts extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->helper(array('form'));
+        $this->load->helper('form');
         $this->load->library(array('form_validation', 'session', 'email', 'apriori'));
 
         if (!$this->session->has_userdata('isloggedin')) {
@@ -152,7 +152,7 @@ class Accounts extends CI_Controller {
                 $this->apriori->setMinConf(75);
                 $this->apriori->setDelimiter(', ');
 
-                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4), "order_id", "ASC");
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "order_id", "ASC");
 
                 if ($order_id) {
                     # store the fetched values into an array:
@@ -190,25 +190,6 @@ class Accounts extends CI_Controller {
                 } else {
                     $message = "There are no transactions recorded for this user.";
                 }
-
-                //Frequent Itemsets
-//                echo '<h1>Frequent Itemsets</h1>';
-//                $this->apriori->printFreqItemsets();
-
-
-                /*echo '<h3>Frequent Itemsets Array</h3>';
-                echo "<pre>";
-                print_r($freq_itemsets);
-                echo "</pre>";*/
-
-                //Association Rules
-//                echo '<h1>Association Rules</h1>';
-//                $this->apriori->printAssociationRules();
-
-                /*echo '<h3>Association Rules Array</h3>';
-                echo "<pre>";
-                print_r($this->apriori->getAssociationRules());
-                echo "</pre>";*/
 
                 # END OF CODE FOR APRIORI ======>
 
@@ -650,13 +631,13 @@ class Accounts extends CI_Controller {
                 $this->db->select("orderitems_id");
                 $order_items[] = $this->item_model->fetch("order_items", "order_id = " . $order->order_item);
             }
-            foreach ($order_items as $order_item) {
-
-            }
+//            foreach ($order_items as $order_item) {
+//
+//            }
 
 
             echo "<pre>";
-            print_r($order_items);
+            print_r($orders);
             echo "</pre>";
             //print json_encode($data->result());
         } else {

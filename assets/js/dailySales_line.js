@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/sales/getSalesData",
+        url: "http://localhost/project/sales/getDailySales",
         method: "POST",
         success: function(data) {
             var dates = [];
@@ -8,8 +8,8 @@ $(document).ready(function(){
 
             for(var i in data) {
                 var month = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                var formattedMonth = month[data[i].sales_month];
-                dates.push(formattedMonth);
+                var formattedMonth = month[data[i].sales_m];
+                dates.push(data[i].sales_d);
                 income.push(data[i].income);
             }
             console.log(dates);
@@ -19,16 +19,17 @@ $(document).ready(function(){
                     label: 'Sales',
                     data: income,
                     borderColor: 'rgba(220, 47, 84, 1)',
+                    //backgroundColor: 'rgba(220, 47, 84, 1)',
                     pointBorderColor: 'rgba(220, 47, 84, 1)',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
                     pointHoverBackgroundColor: 'rgb(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,
-                    borderWidth: 5,
+                    borderWidth: 3,
                     fill: false
                 }]};
 
-            var ctx = $("#salesLine");
+            var ctx = $("#dailySales");
             Chart.defaults.global.defaultFontFamily = "Arial";
             Chart.defaults.global.defaultFontSize = 12;
             var lineGraph = new Chart(ctx, {
