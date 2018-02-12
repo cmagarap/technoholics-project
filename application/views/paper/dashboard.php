@@ -410,6 +410,7 @@ foreach ($customer as $customer1){
                 </div>
             </div>
         </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="<?= base_url() ?>assets/js/inventory_bar.js"></script>

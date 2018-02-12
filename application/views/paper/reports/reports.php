@@ -32,9 +32,9 @@
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
-                            <td><h3>Total</h3></td>
-                            <td><?= $total_items ?></td>
-                            <td align="right"><h3>&#8369; <?= number_format($dailytotal, 2) ?></h3></td>
+                                <td><h3>Total</h3></td>
+                                <td><?= $total_items ?></td>
+                                <td align="right"><h3>&#8369; <?= number_format($dailytotal, 2) ?></h3></td>
                             </tr>
                             </tbody>
                         </table>
@@ -180,11 +180,11 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                            <th><b title = "Product ID">#</b></th>
-                            <th><b>Asset</b></th>
-                            <th><b>Quantity</b></th>
-                            <th><b>Value</b></th>
-                            <th><b title = "Exact Value">Ext. Value</b></th>
+                                <th><b title = "Product ID">#</b></th>
+                                <th><b>Asset</b></th>
+                                <th><b>Quantity</b></th>
+                                <th><b>Value</b></th>
+                                <th><b title = "Exact Value">Ext. Value</b></th>
                             </tr>
                             </thead>
                             <tbody>
