@@ -155,7 +155,7 @@ foreach ($customer as $customer1){
                     <div class="header">
                         <h4 class="title" style = "margin-bottom: 10px"><b>Brand Stock</b></h4>
                         <p class="category">
-                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                            <i class="ti-archive" style = "font-size: 12px;"></i> Product stock per brand.
                         </p>
                     </div>
                     <hr>
@@ -175,8 +175,8 @@ foreach ($customer as $customer1){
             <div class="col-md-6">
                 <div class="card ">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>2017 Monthly Sales</b></h4>
-                        <p class="category">All products including Taxes</p>
+                        <h4 class="title" style = "margin-bottom: 10px"><b>2017 Sales</b></h4>
+                        <p class="category"><i class="ti-stats-up" style = "font-size: 12px;"></i> Sales per month in 2017.</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -205,7 +205,7 @@ foreach ($customer as $customer1){
                     <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
                         <table class="table table-striped" style = "margin-top: -20px">
                             <thead>
-                            <th>#</th>
+                            <th></th>
                             <th><u style = "color: #31bbe0">Customer</u></th>
                             <th><u style = "color: #31bbe0">Action</u></th>
                             <th><u style = "color: #31bbe0">Date</u></th>
@@ -215,7 +215,15 @@ foreach ($customer as $customer1){
                             <?php
                             foreach ($trail as $trail):?>
                                 <tr>
-                                    <td><?= $trail->at_id ?></td>
+                                    <?php $this->db->select("image");
+                                    $this->db->select("lastname");
+                                    $this->db->select("firstname");
+                                    $image = $this->item_model->fetch("customer", "customer_id = " . $trail->customer_id);
+                                    foreach ($image as $image):
+                                        $user_image = (string)$image->image;
+                                        $image_array = explode(".", $user_image); ?>
+                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $trail->customer_name ?>" title="<?= $image->firstname . " " . $image->lastname ?>"></p></td>
+                                    <?php endforeach; ?>
                                     <td><?= $trail->customer_name ?></td>
                                     <td><?php if($trail->at_detail == NULL) echo "<font color = '#ccc' ><i>NULL</i></font>";
                                         else echo $trail->at_detail; ?></td>
@@ -239,7 +247,7 @@ foreach ($customer as $customer1){
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Active Customers</b></h4>
+                        <h4 class="title" style = "margin-bottom: 10px"><b>Weekly Active Customers</b></h4>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
@@ -254,15 +262,15 @@ foreach ($customer as $customer1){
                             <tbody>
                             <?php
                             foreach ($customer as $customer):
-                            $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
-                            $active_identifier = time() - $date->date;
-                            $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
-                            $user_image = (string)$userinformation->image;
-                            $image_array = explode(".", $user_image);
+                                $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
+                                $active_identifier = time() - $date->date;
+                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
+                                $user_image = (string)$userinformation->image;
+                                $image_array = explode(".", $user_image);
                             ?>
                                 <tr>
-                                    <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt=""></p></td>
-                                    <td><?=$customer->firstname?></td>
+                                    <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                    <td><?= $customer->username ?></td>
                                 <?php if ($active_identifier < $week) : ?>
                                     <td><span class="text-success">ACTIVE</span></td>
                                 <?php else : ?>
