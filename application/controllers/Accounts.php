@@ -149,7 +149,7 @@ class Accounts extends CI_Controller {
                 # <======================= FOR APRIORI:
                 $this->apriori->setMaxScan(20);
                 $this->apriori->setMinSup(2);
-                $this->apriori->setMinConf(75);
+                $this->apriori->setMinConf(50);
                 $this->apriori->setDelimiter(', ');
 
                 $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "order_id", "ASC");

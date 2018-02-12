@@ -198,9 +198,9 @@ class Orders extends CI_Controller {
     public function getProcessStatus() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $data = $this->db->query("SELECT COUNT(*) AS no_of_orders, process_status FROM orders WHERE status = 1 AND FROM_UNIXTIME(transaction_date, '%m-%d-%Y') = '02-11-2018' GROUP BY process_status");
+            $data = $this->db->query("SELECT COUNT(*) AS no_of_orders, process_status FROM orders WHERE status = 1 AND FROM_UNIXTIME(transaction_date, '%m-%d-%Y') = '". date("m-d-Y") ."' GROUP BY process_status");
             # '02-21-2017'
-            # date("m-j-Y", strtotime('02-11-2018'))
+            # echo date("m-d-Y", strtotime('02-11-2018'));
             print json_encode(($data) ? $data->result() : NULL);
         } else {
             redirect("home");

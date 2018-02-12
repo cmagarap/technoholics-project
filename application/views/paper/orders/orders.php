@@ -4,7 +4,6 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <?php echo date("m-d-Y")?>
                         <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders for today</b></h3>
                         <hr>
                     </div>
