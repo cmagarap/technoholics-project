@@ -1,3 +1,15 @@
+<?php
+// to count Active Customers
+$acc = 0;
+$week = 604800;
+foreach ($customer as $customer1){
+    $date1 = $this->item_model->max('user_log', array('customer_id' => $customer1->customer_id),'date');
+    $active_identifier1 = time() - $date1->date;
+         if ($active_identifier1 < $week){
+            $acc++;
+         }
+}
+?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -43,6 +55,8 @@
                             <div class="col-xs-9">
                                 <div class="numbers">
                                     <p>Active Customers</p>
+                                    <!-- Active Customer Count Output !-->
+                                    <?=$acc?>
                                 </div>
                             </div>
                         </div>
@@ -225,12 +239,50 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        Brand trend sana, di pa sure yung sa chart dito
-                        <br>- seej
+                        <h4 class="title" style = "margin-bottom: 10px"><b>Active Customers</b></h4>
+                        <p class="category">
+                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                        </p><hr style = 'margin: 5px'>
+                    </div>
+                    <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
+                        <table class="table table-striped" style = "margin-top: -20px">
+                            <thead>
+                            <th></th>
+                            <th ><u style = "color: #31bbe0">Customer</u></th>
+                            <th><u style = "color: #31bbe0">Status</u></th>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($customer as $customer):
+                            $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
+                            $active_identifier = time() - $date->date;
+                            $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
+                            $user_image = (string)$userinformation->image;
+                            $image_array = explode(".", $user_image);
+                            ?>
+                                <tr>
+                                    <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt=""></p></td>
+                                    <td><?=$customer->firstname?></td>
+                                <?php if ($active_identifier < $week) : ?>
+                                    <td><span class="text-success">ACTIVE</span></td>
+                                <?php else : ?>
+                                    <td><span class="text-danger">INACTIVE</span></td>
+                                <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="content">
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <a href="<?= $this->config->base_url() ?>accounts/customer" style = "text-decoration: underline;">See more on Accounts</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
@@ -357,6 +409,7 @@
 
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

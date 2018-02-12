@@ -119,7 +119,7 @@ date_default_timezone_set("Asia/Manila");
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="<?= $this->config->base_url() ?>Settings">
                                 <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>

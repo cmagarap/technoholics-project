@@ -79,13 +79,7 @@
                                     <div class="form-group">
                                         <!-- SHOULD BE CALENDAR -->
                                         <label for="shipper">Change Delivery Date</label>
-                                        <select name="delivery_date" id="" class = "form-control border-input file">
-                                            <option>Date Picker to dapat</option>
-                                            <option>Date Picker to dapat</option>
-                                            <option>Date Picker to dapat</option>
-                                            <option>Date Picker to dapat</option>
-                                            <option>Date Picker to dapat</option>
-                                        </select>
+                                        <input type="text" id="text-calendar" class="calendar form-control border-input file" placeholder="YYYY-MM-DD" />
                                     </div>
                                 </div>
                             </div>
@@ -117,3 +111,10 @@
         </div>
     </div>
 </div>
+<script>
+$(function() {
+    $('input.calendar').pignoseCalendar({
+        format: 'YYYY-MM-DD' // date format string. (2017-02-02)
+    });
+});
+</script>
