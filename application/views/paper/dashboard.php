@@ -175,7 +175,7 @@ foreach ($customer as $customer1){
             <div class="col-md-6">
                 <div class="card ">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Monthly Sales</b></h4>
+                        <h4 class="title" style = "margin-bottom: 10px"><b>2017 Monthly Sales</b></h4>
                         <p class="category">All products including Taxes</p>
                     </div>
                     <hr>

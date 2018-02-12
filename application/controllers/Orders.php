@@ -47,11 +47,10 @@ class Orders extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date')?"Here are the list of orders for ".date("F j, Y", strtotime
-            ($this->input->post('date'))).".": "Here are the overall orders of the customers.";
+        $date = $this->input->post('date') ? "Here are the list of orders for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "orders'>Click  here to view all recorded transactions.</a>" : "Here are the overall orders of the customers.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->input->post('date')?$this->item_model->getCount('orders', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getCount('orders', array( 'status' => 1));
+            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('orders', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('orders', array('status' => 1));
             $this->pagination->initialize($config);
             $orders = $this->input->post('date')?$this->item_model->getItemsWithLimit('orders', $perpage,
             $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1));
@@ -150,7 +149,7 @@ class Orders extends CI_Controller {
 
             # insert to sales table:
             $for_sales = array(
-                "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
+                "sales_detail" => "In this transaction, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
                 "sales_date" => time(),
                 "admin_id" => $this->session->uid,
@@ -191,6 +190,18 @@ class Orders extends CI_Controller {
             header('Content-Type: application/json');
             $data = $this->db->query("SELECT COUNT(customer.gender) AS gender_count, customer.gender AS gender FROM orders INNER JOIN customer ON orders.customer_id = customer.customer_id WHERE orders.status = 1 GROUP BY customer.gender");
             print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getProcessStatus() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT COUNT(*) AS no_of_orders, process_status FROM orders WHERE status = 1 AND FROM_UNIXTIME(transaction_date, '%m-%d-%Y') = '". date("m-d-Y") ."' GROUP BY process_status");
+            # '02-21-2017'
+            # echo date("m-d-Y", strtotime('02-11-2018'));
+            print json_encode(($data) ? $data->result() : NULL);
         } else {
             redirect("home");
         }

@@ -12,12 +12,13 @@ class Random extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library('session');
+        $this->load->library(array('session', 'apriori'));
         $this->load->helper('string');
     }
 
     public function index() {
-        #$this->load->view("paper/practice_charts");
+
+        $this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
         $hash = random_string('alnum', 20);
