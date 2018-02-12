@@ -4,12 +4,12 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b>Daily Sales Chart</b></h3>
+                        <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b> Daily Sales Chart</b></h3>
                         <hr>
                     </div>
                     <div class="content">
                         <div id="chart-container">
-                            <canvas id="salesLine"></canvas>
+                            <canvas id="dailySales"></canvas>
                         </div>
                         <div class="footer">
                             <hr>
@@ -38,11 +38,11 @@
             <div class="col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h3><b>Sales</b></h3>
-                        <p class="category"><i><?=$date?></i></p>
+                        <h3><span class="ti-notepad" style = "color: #dc2f54;"></span>&nbsp; <b>List of Sales</b></h3>
+                        <p class="category"><?= $date ?></p>
                     </div>
                     <?php if(!$sales) {
-                        echo "<center><h3><hr><br>There are no sales recorded in the database.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are no sales recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">
@@ -83,6 +83,7 @@
             </div>
         </div>
     </div>
+</div>
 <script>
     $("#submit").hide();
     
@@ -147,4 +148,4 @@
             // This use for DEMO page tab component.
         });
 </script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/sales_line.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/dailySales_line.js"></script>

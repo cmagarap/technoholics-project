@@ -47,7 +47,7 @@ date_default_timezone_set("Asia/Manila");
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
                     <?php
                     if($this->session->userdata('type') == 0) { ?>
-                    <a href="<?= site_url('accounts/admin'); ?>">
+                    <a href="<?= site_url('accounts/customer'); ?>">
                         <i class="ti-user"></i>
                         <?php echo "<p>Accounts</p></a>";
                         } elseif($this->session->userdata('type') == 1){ ?>
@@ -56,6 +56,12 @@ date_default_timezone_set("Asia/Manila");
                             <?php echo "<p>Customer Accounts</p></a>";
                             }
                             ?>
+                </li>
+                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('Reports'); ?>">
+                        <i class="ti-notepad"></i>
+                        <p>Reports</p>
+                    </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail'); ?>">
@@ -67,12 +73,6 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('user_log'); ?>">
                         <i class="ti-marker-alt"></i>
                         <p>User Log</p>
-                    </a>
-                </li>
-                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('Reports'); ?>">
-                        <i class="ti-notepad"></i>
-                        <p>Reports</p>
                     </a>
                 </li>
             </ul>
