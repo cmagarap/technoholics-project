@@ -69,8 +69,8 @@ _________________________________________________________ -->
                     <div class="input-group">
                         <input type="text" class="form-control">
                         <span class="input-group-btn">
-			                <button class="btn btn-default" type="button">Subscribe!</button>
-			            </span>
+                            <button class="btn btn-default" type="button">Subscribe!</button>
+                        </span>
                     </div> <!-- /input-group -->
                 </form>
                 <hr>
@@ -101,21 +101,21 @@ _________________________________________________________ -->
         </div>
     </div>
 </div>
-<!-- *** COPYRIGHT END *** -->
 </div>
-<!-- /#all -->
+</div>
+<!-- *** COPYRIGHT END *** -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
 <script>
     /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
+     toggle between hiding and showing the dropdown content */
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
 
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -128,126 +128,6 @@ _________________________________________________________ -->
             }
         }
     }
-
-    // Veo's AJAX
-    $(document).ready(function () {
-
-        $('.add_cart').click(function () {
-            var product_id = $(this).data("productid");
-            var product_name = $(this).data("productname");
-            var product_img = $(this).data("productimg");
-            var product_price = $(this).data("price");
-            var product_quantity = $(this).data("productquantity");
-            var minimum_quantity = 1;
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/add",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
-                success: function (data)
-                {
-                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                    $('#' + product_id).val('');
-
-                    $.notify({
-                        icon: 'ti-shopping-cart',
-                        message: product_name +" has been added into cart"
-                    },{
-                        type: 'info',
-                        timer: 2000,
-                        	placement: {
-		from: "top",
-		align: "left"
-	}
-                    });
-                }
-            });
-        });
-
-        $(document).on('click', '.remove_inventory', function () {
-            var row_id = $(this).attr("id");
-                $.ajax({
-                    url: "<?php echo base_url(); ?>home/remove",
-                    method: "POST",
-                    data: {row_id: row_id},
-                    success: function (data)
-                    {
-                        $('#all').load("<?php echo base_url(); ?>home/basket #all");
-                        $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                    }
-                });
-        });
-        
-        $(document).on('change','#update',function () {
-            var product_id = $(this).data("productid");
-            var product_quantity = $(this).val();
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/update",
-                method: "POST",
-                data: {product_id: product_id, product_quantity: product_quantity},
-                success: function (data)
-                {   
-                    $('#all').load("<?php echo base_url(); ?>home/basket #all");
-                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                }
-            });
-        });
-
-        $('input[name=search]').keyup(function(){  
-           var query = $(this).val();  
-           if(query != '')  
-           {  
-                $.ajax({  
-                     url:"<?php echo base_url(); ?>home/auto", 
-                     method:"POST",  
-                     data:{query:query},  
-                     success:function(data)  
-                     {  
-                          $('#productlist').fadeIn();  
-                          $('#productlist').html(data);  
-                     }  
-                });  
-           }  
-        });  
-
-        $(document).on('click', 'li', function(){
-            $('input[name=search]').val($(this).text());  
-            $('#productlist').fadeOut();  
-        });  
-
-        $(document).on('focusout', 'input[name=search]', function(){
-            $('#productlist').fadeOut();  
-        });  
-        
-        $(document).on('click','#post',function () {
-            var product_id = $(this).data("productid");
-            var rating = $('input[name=rating]:checked').val(); 
-            var feedback = $('#comment').val();
-            var product_name = $(this).data("productname");
-            
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/post",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, feedback: feedback, rating: rating},
-                success: function (data)
-                {
-                    location.reload();
-                }
-            });
-        });
-        
-        NProgress.configure({ showSpinner: false });
-        NProgress.start();
-        var interval = setInterval(function() { NProgress.inc(); }, 1000);        
-
-        $(window).load(function () {
-            clearInterval(interval);
-            NProgress.done();
-        });
-
-        $(window).unload(function () {
-            NProgress.start();
-        });
-    });
 </script>
 </body>
 </html>
