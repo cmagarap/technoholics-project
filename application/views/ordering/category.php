@@ -1,7 +1,6 @@
 <div id="all">
 <div id="content">
     <div class="container">
-
         <div class="col-md-12">
             <ul class="breadcrumb">
                 <li><a href="<?= base_url() . 'home'; ?>">Home</a>
@@ -16,135 +15,62 @@
                 <?php endif; ?>
             </ul>
         </div>
-
-        <div class="col-md-3">
-            <!-- *** MENUS AND FILTERS ***
-_________________________________________________________ -->
-            <div class="panel panel-default sidebar-menu">
-
+     <div class="col-md-3">
+           <div class="panel panel-default sidebar-menu">
                 <div class="panel-heading">
                     <h3 class="panel-title">Categories</h3>
                 </div>
-
                 <div class="panel-body">
-                <ul class="nav nav-pills nav-stacked category-menu">
+                    <ul class="nav nav-pills nav-stacked category-menu">
 
-                    <?php if ($category == "accessories") : ?>
-                        <li class="active">
-                        <?php else : ?>
-                        <li>
-                        <?php endif; ?>
-                        <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
-                    </li>
-
-                    <?php if ($category == "chargers") : ?>
-                        <li class="active">
-                        <?php else : ?>
-                        <li>
-                        <?php endif; ?>
-                        <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
-                    </li>
-
-                    <?php if ($category == "laptop") : ?>
-                        <li class="active">
-                        <?php else : ?>
-                        <li>
-                        <?php endif; ?>
-                        <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Laptop')); ?></span></a>
-                        <ul>
-                            <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <?php if ($category == "smartphone") : ?>
-                        <li class="active">
-                        <?php else : ?>
-                        <li>
-                        <?php endif; ?>
-                        <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Smartphone')); ?></span></a>
-                        <ul>
-                            <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <?php if ($category == "tablet") : ?>
-                        <li class="active">
-                        <?php else : ?>
-                        <li>
-                        <?php endif; ?>
-                        <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
-                        <ul>
-                            <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
-                            </li>
-                            <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            </div>
-
-            <!-- I don't know what to do with this? -->
-
-            <!-- <div class="panel panel-default sidebar-menu">
-
-                <div class="panel-heading">
-                    <h3 class="panel-title">Brands <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                        <li  <?php if ($category == "accessories") echo 'class="active"'?> >
+                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
+                        </li>
+                        <li <?php if ($category == "chargers") echo 'class="active"' ?>>
+                            <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
+                        </li>
+                        <li <?php if ($category == "laptop") echo 'class="active"' ?>>
+                            <a href="<?= base_url() . 'home/category/laptop'; ?>">Laptops<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Laptop')); ?></span></a>
+                            <ul>
+                                <li><a href="<?= base_url() . 'home/category/laptop/Acer'; ?>">Acer</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/laptop/ASUS'; ?>">ASUS</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/laptop/Dell'; ?>">Dell</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/laptop/HP'; ?>">HP</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/laptop/Lenovo'; ?>">Lenovo</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/laptop/Sony'; ?>">Sony</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li <?php if ($category == "smartphone") echo 'class="active"' ?>>
+                            <a href="<?= base_url() . 'home/category/smartphone'; ?>">Smartphones<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Smartphone')); ?></span></a>
+                            <ul>
+                                <li><a href="<?= base_url() . 'home/category/smartphone/Apple'; ?>">Apple</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/smartphone/Samsung'; ?>">Samsung</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/smartphone/ASUS'; ?>">Asus</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li <?php if ($category == "tablet") echo'class="active"'?>>
+                            <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
+                            <ul>
+                                <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
+                                </li>
+                                <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="panel-body">
-
-                    <form>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Armani (10)
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Versace (12)
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Carlo Bruni (15)
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Jack Honey (14)
-                                </label>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-
-                    </form>
-
-                </div>
-            </div> -->
-
-            <!-- *** MENUS AND FILTERS END *** -->
-
+            </div>
             <div class="banner">
                 <a href="#">
                     <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">

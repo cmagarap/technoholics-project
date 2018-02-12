@@ -50,10 +50,23 @@ class Home extends CI_Controller {
         }
     }
 
+    public function test() {
+        $bday = new DateTime('1994-9-17');
+
+        $today = new DateTime(Date('Y-m-d'));
+        
+        $diff = $today->diff($bday);
+        
+        $age = sprintf('%d years, %d month, %d days', $diff->y, $diff->m, $diff->d);
+
+        echo $age;
+    }
+
     public function auto() {
     $output = '';  
-    $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
-    $output = '<ul class="box list-unstyled" style="width:420px;">';  
+    $query = $this->item_model->search('product','status = 1 AND product_name', $this->input->post('query'));
+    $output = '<ul class="box list-unstyled" style="width:420px;">';
+
     if($query)  
         {  
             foreach($query as $query){
@@ -179,10 +192,10 @@ class Home extends CI_Controller {
         $data = array(
             'title' => 'Home',
             'products' => $product,
-            'page' => "test",
+            'page' => "category",
             'count' => $count,
-            'category' => $search, // category identifier
-            'brand' => "test",
+            'category' => '"'.$search.'"', // category identifier
+            'brand' => $count." items found for",
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
@@ -193,15 +206,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function register() {
-        $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/register');
-        $this->load->view('ordering/includes/footer');
-    }
 
     public function basket() {
         $data = array(
@@ -223,7 +227,7 @@ class Home extends CI_Controller {
         $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
         $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
         $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
-        $page = $this->uri->segment(2);
+        $page = "category";
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
         $id = $this->uri->segment(5);
@@ -367,6 +371,8 @@ class Home extends CI_Controller {
 
     public function account() {
         $data = array(
+            'title' => 'My Account',
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
@@ -378,6 +384,8 @@ class Home extends CI_Controller {
 
     public function contact() {
         $data = array(
+            'title' => 'Contact us',
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
@@ -388,6 +396,8 @@ class Home extends CI_Controller {
 
     public function faq() {
         $data = array(
+            'title' => 'FAQ',
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
@@ -411,7 +421,7 @@ class Home extends CI_Controller {
 
     }
 
-    function update() {
+    public function update() {
         
         $data = array(
             'rowid' => $this->input->post("row_id"),
@@ -421,11 +431,11 @@ class Home extends CI_Controller {
         $this->basket->update($data);
     }
 
-    function remove() {
+    public function remove() {
         $this->basket->remove($this->input->post("row_id"));
     }
 
-    function post() {
+    public function post() {
 
         $data = array(
             'customer_id' => $this->session->uid,
@@ -450,7 +460,7 @@ class Home extends CI_Controller {
         $this->item_model->insertData('user_log', $for_log);
     }
 
-    public function placeorder() {
+    private function placeorder() {
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
@@ -475,7 +485,7 @@ class Home extends CI_Controller {
                     'order_id' => $order_id,
                     'product_id' => $item['id'],
                     'product_name' => $item['name'],
-                    'product_price' => $item['price'],
+                    'product_price' => $item['subtotal'],
                     'product_image1' => $item['img'],
                     'quantity' => $item['qty']
                 );
@@ -572,8 +582,6 @@ class Home extends CI_Controller {
             $this->basket->destroy();
             $this->index(); # not yet sure
     }
-
-
 
 }
 

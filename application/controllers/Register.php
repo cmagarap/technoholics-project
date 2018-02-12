@@ -6,7 +6,7 @@ class Register extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('session', 'form_validation', 'email', 'recaptcha'));
+        $this->load->library(array('session', 'form_validation', 'email', 'recaptcha','basket'));
         $this->load->helper('form');
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home/');
@@ -27,6 +27,7 @@ class Register extends CI_Controller {
     public function index() {
         $data = array(
             'title' => "TECHNOHOLICS | All the tech you need.",# should be changed
+            'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
         $this->load->view('ordering/includes/header', $data);
