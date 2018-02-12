@@ -69,8 +69,8 @@ _________________________________________________________ -->
                     <div class="input-group">
                         <input type="text" class="form-control">
                         <span class="input-group-btn">
-			                <button class="btn btn-default" type="button">Subscribe!</button>
-			            </span>
+                            <button class="btn btn-default" type="button">Subscribe!</button>
+                        </span>
                     </div> <!-- /input-group -->
                 </form>
                 <hr>
@@ -101,21 +101,21 @@ _________________________________________________________ -->
         </div>
     </div>
 </div>
-                </div>
-                </div>
+</div>
+</div>
 <!-- *** COPYRIGHT END *** -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
 <script>
     /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
+     toggle between hiding and showing the dropdown content */
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
 
             var dropdowns = document.getElementsByClassName("dropdown-content");
