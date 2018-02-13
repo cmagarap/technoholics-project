@@ -76,9 +76,9 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         } ?>
-                    </div>
                 </div>
             </div>
         </div>
