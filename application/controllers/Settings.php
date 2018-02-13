@@ -26,13 +26,15 @@ class Settings extends CI_Controller {
             $brand = $this->item_model->fetch("brand",  array("status" => 1), "brand_name", "ASC");
             $supplier = $this->item_model->fetch("supplier",  array("status" => 1), "company_name", "ASC");
              $shipper = $this->item_model->fetch("shipper",  array("status" => 1), "shipper_name", "ASC");
+              $home = $this->item_model->fetch("home",  array("content_id" => 1));
             $data = array(
                 'title' => 'Settings',
                 'heading' => 'Settings',
                 'category' => $category,
                 'brand' => $brand,
                 'supplier' => $supplier,
-                'shipper'=> $shipper
+                'shipper'=> $shipper,
+                'home' => $home
             );
             
             $this->load->view('paper/includes/header', $data);
@@ -401,7 +403,7 @@ class Settings extends CI_Controller {
              if ($this->form_validation->run()) {
                      $data = array(
                       'shipper_name' => html_escape(trim($this->input->post('shipper_name'))),
-                 'contact_no' => html_escape($this->input->post('contact_number'))
+                        'contact_no' => html_escape($this->input->post('contact_number'))
                      );
                  $this->item_model->updatedata("shipper", $data, array('shipper_id' => $this->uri->segment(3)));
              redirect("settings");
@@ -416,6 +418,16 @@ class Settings extends CI_Controller {
          $this->item_model->updatedata("shipper", array("status" => false), array('shipper_id' => $this->uri->segment(3)));
 
           redirect("settings");
+    }
+
+    public function add_color() {
+         $home = $this->item_model->fetch("home",  array("content_id" => 1));
+        $data = array(
+                      'color_1' => $this->input->post("colorpicker")
+                 
+                     );
+                 $this->item_model->updatedata("home", $data,array('content_id' => 1));
+             redirect("settings");
     }
 }
 

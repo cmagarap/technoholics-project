@@ -28,10 +28,10 @@
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
 
    
-    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
-    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
-    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
-    <link href="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
    
 
        

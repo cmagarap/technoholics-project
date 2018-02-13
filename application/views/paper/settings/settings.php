@@ -2,6 +2,12 @@
 <?php $counter1 = 1; ?>
 <?php $counter2 = 1; ?>
 <?php $counter3 = 1; ?>
+<?php
+                        if(isset($_POST['enter'])) {
+                            $colorpicker = $_POST['colorpicker'];
+                            
+                        } 
+                        ?>
 <div class="content">
     <div class="container-fluid">
         <div class = "row">
@@ -238,9 +244,16 @@
             </div>
            
            
-<div class = "row">
 
-<select name="colorpicker">
+
+
+            <div align = "left">
+                <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Backup Database</a>
+            </div>
+  <form action = "<?= $this->config->base_url() ?>Settings/add_color"  method = "POST" enctype = "multipart/form-data">
+            <div class = "row">
+<div class = "col-md-12">
+<select name="colorpicker" value = "<?= $colorpicker ?>">
   <option value="#7bd148">Green</option>
   <option value="#5484ed">Bold blue</option>
   <option value="#a4bdfc">Blue</option>
@@ -253,15 +266,13 @@
   <option value="#dc2127">Bold red</option>
   <option value="#dbadff">Purple</option>
   <option value="#e1e1e1">Gray</option>
+  <option value="#595959">Gray</option>
 </select>
-
-
 </div>
-
-
-            <div align = "left">
-                <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Backup Database</a>
-            </div>
+<button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
+   
+</form>
+</div>
         </div>
 
 
@@ -352,6 +363,11 @@
     });
 </script>
 
+<script src="<?= $this->config->base_url()?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
 
-
- 
+ <script> 
+$('select[name="colorpicker"]').simplecolorpicker({
+  picker: true,
+  theme : 'fontawesome'
+});
+        </script>

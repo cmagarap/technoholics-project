@@ -1,4 +1,9 @@
 <?php
+
+$home = $this->item_model->fetch("home",  array("content_id" => 1));
+$home = $home[0];
+
+$home1 = $home->color_1;
 if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
     $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
     $user = $user[0];
@@ -80,7 +85,7 @@ date_default_timezone_set("Asia/Manila");
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default" style = "background-color: #595959">
+        <nav class="navbar navbar-default" style = "background-color: <?= $home1?>">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
