@@ -3,11 +3,10 @@
 $acc = 0;
 $week = 604800;
 foreach ($customer as $customer1){
-    $date1 = $this->item_model->max('user_log', array('customer_id' => $customer1->customer_id),'date');
+    $date1 = $this->item_model->max('user_log', 'customer_id = ' . $customer1->customer_id, 'date');
     $active_identifier1 = time() - $date1->date;
-         if ($active_identifier1 < $week){
-            $acc++;
-         }
+    if ($active_identifier1 < $week)
+        $acc++;
 }
 ?>
 <div class="content">
@@ -55,8 +54,7 @@ foreach ($customer as $customer1){
                             <div class="col-xs-9">
                                 <div class="numbers">
                                     <p>Active Customers</p>
-                                    <!-- Active Customer Count Output !-->
-                                    <?=$acc?>
+                                    <?= $acc ?>
                                 </div>
                             </div>
                         </div>

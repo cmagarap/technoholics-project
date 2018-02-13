@@ -8,9 +8,7 @@ class Reports extends CI_Controller {
         $this->load->library(array('session'));
         if (!$this->session->has_userdata('isloggedin')) {
             redirect('/login');
-        } /*else {
-            session_regenerate_id();
-        }*/
+        }
     }
 
     public function index() {
@@ -22,6 +20,7 @@ class Reports extends CI_Controller {
             $annual = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%Y') as sales_y, SUM(income) as income FROM `sales` WHERE status = 1 GROUP BY sales_y ORDER BY sales_y DESC");
 
             $inventory = $this->item_model->fetch("product", "status = 1");
+            $customer = $this->item_model->fetch("customer", "status = 1");
 
             $dailytotal = 0;
             foreach($daily->result() as $day)
@@ -50,7 +49,8 @@ class Reports extends CI_Controller {
                 'weeklytotal' => $weeklytotal,
                 'monthlytotal' => $monthlytotal,
                 'annualtotal' => $annualtotal,
-                'inventory' => $inventory
+                'inventory' => $inventory,
+                'customer' => $customer
             );
 
             $this->load->view("paper/includes/header", $data);

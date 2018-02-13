@@ -26,8 +26,8 @@ class Dashboard extends CI_Controller {
             $product = $this->item_model->fetch("product", "status = 1");
             $this->db->select('sales_date');
             $sales_date = $this->item_model->fetch("sales", "status = 1", "sales_date", "DESC", 1);
-            $audit_trail = $this->item_model->fetch("audit_trail", "status = 1", "at_date", "DESC", 10);
-            $customer = $this->item_model->fetch("customer", "status = 1", "customer_id", NULL, 10);
+            $audit_trail = $this->item_model->fetch("audit_trail", "status = 1", "at_date", "DESC", 5);
+            $customer = $this->item_model->fetch("customer", "status = 1", "customer_id", NULL, 5);
             $this->db->where("status = 1 AND process_status != 3");
             $no_of_orders = $this->db->count_all_results("orders");
             $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);

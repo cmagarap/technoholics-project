@@ -1,3 +1,14 @@
+<?php
+# for Active Customers
+$acc = 0;
+$week = 604800;
+foreach ($customer as $customer1){
+    $date1 = $this->item_model->max('user_log', 'customer_id = ' . $customer1->customer_id, 'date');
+    $active_identifier1 = time() - $date1->date;
+    if ($active_identifier1 < $week)
+        $acc++;
+}
+?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -163,6 +174,55 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title"><b>Weekly Active Customers</b></h4>
+                        <p class="category">
+                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                        </p>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <th></th>
+                            <th><u style = "color: #31bbe0">Customer</u></th>
+                            <th><b>Latest Login</b></th>
+                            <th><u style = "color: #31bbe0">Status</u></th>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($customer as $customer):
+                                $date = $this->item_model->max('user_log', 'customer_id = ' . $customer->customer_id, 'date');
+                                $active_identifier = time() - $date->date;
+
+                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
+                                $user_image = (string)$userinformation->image;
+                                $image_array = explode(".", $user_image);
+                                ?>
+                                <tr>
+                                    <?php if ($active_identifier < $week) : ?>
+                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                        <td><?= $customer->username ?></td>
+                                        <td><?= date("m-j-Y h:i A", $date->date) ?></td>
+                                        <td><span class="text-success">ACTIVE</span></td>
+                                    <?php
+                                    endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td></td>
+                                <td><h3>Total Weekly Active Customers</h3></td>
+                                <td></td>
+                                <td><h3><?= $acc ?></h3></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
@@ -170,7 +230,6 @@
                             <h3 class="title"><b>Inventory Report</b></h3></br>
                         </div>
                     </div>
-
                     <?php
                     if (!$annual) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
@@ -203,10 +262,10 @@
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
-                                <td><h3>Total Inventory Value</h3></td>
                                 <td></td>
+                                <td><h3>Total Inventory Value</h3></td>
                                 <td><h3 align="right"><?= $total_items ?></h3></td>
-                                <td align="right">-</td>
+                                <td align="right"><b>-</b></td>
                                 <td align="right"><h3>&#8369; <?= number_format($total_price, 2) ?></h3></td>
                             </tr>
                             </tbody>
