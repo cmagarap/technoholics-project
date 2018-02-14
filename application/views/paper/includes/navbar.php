@@ -26,12 +26,6 @@ date_default_timezone_set("Asia/Manila");
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('inventory/page'); ?>">
-                        <i class="ti-archive"></i> <!-- ti-package -->
-                        <p>Inventory</p>
-                    </a>
-                </li>
                 <li <?php if($heading == "Orders Management") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('orders'); ?>">
                         <i class="ti-shopping-cart-full"></i> <!-- ti-package -->
@@ -42,6 +36,12 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('sales'); ?>">
                         <i class="ti-stats-up"></i>
                         <p>Sales</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('inventory/page'); ?>">
+                        <i class="ti-archive"></i> <!-- ti-package -->
+                        <p>Inventory</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
