@@ -16,7 +16,7 @@ foreach ($customer as $customer1){
                 <div class="card">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Daily Sales</b></h3></br>
+                            <h3 class="title"><b>Daily Sales</b></h3><br>
                         </div>
                     </div>
                     <?php
@@ -35,10 +35,13 @@ foreach ($customer as $customer1){
                             <tbody>
                             <?php $total_items = 0;
                             foreach ($daily as $daily): ?>
+                                <?php #$this->db->select("order_quantity");
+                                #$items_sold = $this->item_model->fetch("orders", "order_id = " . $daily->order_id)[0]; ?>
                                 <tr>
                                     <td><?= date("F j, Y", $daily->sales_date) ?>
                                     </td>
                                     <td></td>
+
                                     <td align="right">&#8369; <?= number_format($daily->income, 2) ?></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -174,7 +177,7 @@ foreach ($customer as $customer1){
             </div>
         </div>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
                         <h4 class="title"><b>Weekly Active Customers</b></h4>
@@ -182,19 +185,25 @@ foreach ($customer as $customer1){
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p>
                     </div>
-                    <div class="content table-responsive">
+                    <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
-                            <th></th>
-                            <th><u style = "color: #31bbe0">Customer</u></th>
+                            <th colspan="2"><b>Customer</b></th>
                             <th><b>Latest Login</b></th>
-                            <th><u style = "color: #31bbe0">Status</u></th>
+                            <th><b>Latest Action</b></th>
+                            <th><b>Total Actions</b></th>
+                            <th><b>Status</b></th>
                             </thead>
                             <tbody>
                             <?php
                             foreach ($customer as $customer):
                                 $date = $this->item_model->max('user_log', 'customer_id = ' . $customer->customer_id, 'date');
                                 $active_identifier = time() - $date->date;
+
+                                $count_action = $this->item_model->getCount("user_log", "customer_id = " . $customer->customer_id);
+
+                                $this->db->select("action");
+                                $action = $this->item_model->fetch("user_log", "status = 1 AND customer_id = " . $customer->customer_id, "date", "DESC", 1)[0];
 
                                 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
                                 $user_image = (string)$userinformation->image;
@@ -203,10 +212,12 @@ foreach ($customer as $customer1){
                                 <tr>
                                     <?php if ($active_identifier < $week) : ?>
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><?= $customer->username ?></td>
+                                        <td><a href="<?= base_url() ?>accounts/view/customer/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
                                         <td><?= date("m-j-Y h:i A", $date->date) ?></td>
+                                        <td><?= $action->action ?></td>
+                                        <td><?= $count_action ?></td>
                                         <td><span class="text-success">ACTIVE</span></td>
-                                    <?php
+                                    <?php else: continue;
                                     endif; ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -214,10 +225,62 @@ foreach ($customer as $customer1){
                                 <td></td>
                                 <td><h3>Total Weekly Active Customers</h3></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
                                 <td><h3><?= $acc ?></h3></td>
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title"><b>Customer Feedback</b></h4>
+                        <p class="category">
+                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                        </p>
+                    </div>
+                    <?php
+                    if (!$feedback) {
+                        echo "<center><h3><hr><br>There are no feedback recorded today.</h3><br></center><br><br>";
+                    } else {
+                    ?>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-striped">
+                            <thead>
+                            <th><b title = "Feedback ID">#</b></th>
+                            <th colspan="2"><b>Customer</b></th>
+                            <th><b>Feedback</b></th>
+                            <th><b>Date</b></th>
+                            <th><b>Rating</b></th>
+                            <th><b title = "Product ID">Product #</b></th>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($feedback as $feed): ?>
+                                <tr>
+                                    <?php $customer = $this->item_model->fetch("customer", "customer_id = " . $feed->customer_id)[0];
+                                    $user_image = (string)$customer->image;
+                                    $image_array = explode(".", $user_image); ?>
+
+                                    <td><?= $feed->feedback_id ?></td>
+                                    <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                    <td><a href="<?= base_url() ?>accounts/view/customer/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
+                                    <td><?= $feed->feedback ?></td>
+                                    <td><?= date("m-j-Y h:i A", $feed->added_at) ?></td>
+                                    <td><p class="starability-result" data-rating="<?= $feed->rating ?>"><?= $feed->rating ?></p></td>
+                                    <td><a href="<?= base_url() ?>inventory/view/<?= $feed->product_id ?>" style="text-decoration: underline"><?= $feed->product_id ?></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <tr>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

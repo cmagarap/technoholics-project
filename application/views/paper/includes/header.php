@@ -11,45 +11,44 @@
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url()?>images/icon2.png">
     <!-- Bootstrap core CSS -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<?= base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
+    <link href="<?= base_url()?>assets/paper/css/animate.min.css" rel="stylesheet"/>
     <!-- Paper Dashboard core CSS -->
-    <link href="<?= $this->config->base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
+    <link href="<?= base_url()?>assets/paper/css/paper-dashboard.css" rel="stylesheet"/>
     <!-- Fonts and icons -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
-    <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/semantic.ui.min.css" rel="stylesheet" >
-    <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/prism.css" rel="stylesheet"/>
-    <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/calendar-style.css" rel="stylesheet"/>
-    <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
+    <link href="<?= base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
+    <link type="text/css" href="<?= base_url()?>assets/paper/css/semantic.ui.min.css" rel="stylesheet" >
+    <link type="text/css" href="<?= base_url()?>assets/paper/css/prism.css" rel="stylesheet"/>
+    <link type="text/css" href="<?= base_url()?>assets/paper/css/calendar-style.css" rel="stylesheet"/>
+    <link type="text/css" href="<?= base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
+    <link type="text/css" href="<?= base_url()?>assets/ordering/css/starability-all.min.css" rel="stylesheet" />
 
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
-
-
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="<?= $this->config->base_url()?>assets/paper/js/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="<?= $this->config->base_url()?>assets/paper/js/bootstrap.min.js" type="text/javascript"></script>
-    <!-- <script src="<?= $this->config->base_url()?>assets/paper/js/jquery.latest.min.js" type="text/javascript"></script> -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/semantic.ui.min.js" type="text/javascript"></script>
-    <script src="<?= $this->config->base_url()?>assets/paper/js/prism.min.js" type="text/javascript"></script>
-    <script src="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.full.min.js" type="text/javascript"></script>
+    <script src="<?= base_url()?>assets/paper/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="<?= base_url()?>assets/paper/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- <script src="<?= base_url()?>assets/paper/js/jquery.latest.min.js" type="text/javascript"></script> -->
+    <script src="<?= base_url()?>assets/paper/js/semantic.ui.min.js" type="text/javascript"></script>
+    <script src="<?= base_url()?>assets/paper/js/prism.min.js" type="text/javascript"></script>
+    <script src="<?= base_url()?>assets/paper/dist/pignose.calendar.full.min.js" type="text/javascript"></script>
     <!--  Notifications Plugin    -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/bootstrap-notify.js"></script>
+    <script src="<?= base_url()?>assets/paper/js/bootstrap-notify.js"></script>
     <!--  Charts Plugin -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/chartist.min.js"></script>
+    <script src="<?= base_url()?>assets/paper/js/chartist.min.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/bootstrap-checkbox-radio.js"></script>
+    <script src="<?= base_url()?>assets/paper/js/bootstrap-checkbox-radio.js"></script>
     <!--  Google Maps Plugin    -->
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/paper-dashboard.js"></script>
+    <script src="<?= base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
+    <script src="<?= base_url()?>assets/paper/js/demo.js"></script>
 
     <style>
         input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {

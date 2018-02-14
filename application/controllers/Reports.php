@@ -21,6 +21,8 @@ class Reports extends CI_Controller {
 
             $inventory = $this->item_model->fetch("product", "status = 1");
             $customer = $this->item_model->fetch("customer", "status = 1");
+            $feedback = $this->db->query("SELECT * FROM `feedback` ORDER BY added_at DESC");
+            # WHERE FROM_UNIXTIME(added_at, '%m-%d-%Y') = '01-29-2018'
 
             $dailytotal = 0;
             foreach($daily->result() as $day)
@@ -50,7 +52,8 @@ class Reports extends CI_Controller {
                 'monthlytotal' => $monthlytotal,
                 'annualtotal' => $annualtotal,
                 'inventory' => $inventory,
-                'customer' => $customer
+                'customer' => $customer,
+                'feedback' => $feedback->result()
             );
 
             $this->load->view("paper/includes/header", $data);

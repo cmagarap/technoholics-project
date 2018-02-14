@@ -125,13 +125,17 @@ class Accounts extends CI_Controller {
             if ($this->uri->segment(3) == "admin") {
                 $account = $this->item_model->fetch('admin', array('admin_id' => $this->uri->segment(4)));
                 $user_log = $this->item_model->fetch('user_log', array('admin_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
+                $log_date = $this->item_model->fetch("user_log", "admin_id = " . $this->uri->segment(4), "date", "DESC")[0];
 
+                $cover = $this->item_model->fetch("home")[0];
                 if($account OR $user_log) {
                     $data = array(
                         'title' => "Accounts: View User Info",
                         'heading' => "Accounts",
                         'account' => $account,
-                        'logs' => $user_log
+                        'logs' => $user_log,
+                        'cover' => $cover,
+                        'log_date' => $log_date
                     );
                     $this->load->view('paper/includes/header', $data);
                     $this->load->view("paper/includes/navbar");
@@ -145,6 +149,8 @@ class Accounts extends CI_Controller {
                 $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4), "at_id", "DESC", 8);
                 $this->db->select("at_date");
                 $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4), "at_id", "DESC")[0];
+
+                $cover = $this->item_model->fetch("home")[0];
 
                 # <======================= FOR APRIORI:
                 $this->apriori->setMaxScan(20);
@@ -162,7 +168,7 @@ class Accounts extends CI_Controller {
                     # get the orders of customer based on order_id_array[]:
                     for ($i = 0; $i < sizeof($order_id_array); $i++) {
                         $this->db->select("item_name");
-                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND order_id = " . $order_id_array[$i]);
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND order_id = " . $order_id_array[$i] . " AND at_detail = 'Purchase'");
                     }
                     $customer_transactions = array();
 
@@ -191,6 +197,34 @@ class Accounts extends CI_Controller {
                     $message = "There are no transactions recorded for this user.";
                 }
 
+                $freq = $this->apriori->getFreqItemsets();
+                $preferred = "";
+                for($i = 0; $i < count($freq); $i++) {
+                    for($j = 0; $j < count($freq[$i]); $j++) {
+                        if($j >= count($freq)) break;
+                        else {
+                            if ($freq[$i][0] > $freq[$j][0]) {
+                                echo "AS | ";
+                                $preferred .= $freq[$i][$j] . " | ";
+                                #break;
+                            } elseif($freq[$i][0] == $freq[$j][0]) {
+                                if($freq[$i][$j] == 0)
+                                    echo "0";
+                                echo "EQUAL";
+                                $preferred .= $freq[$i][$j]. " | ";
+                            } else
+                                echo $freq[$i][$j] . " | ";
+                        }
+                    }
+                    echo "<br>";
+                }
+
+                echo "<pre>";
+                print_r($preferred);
+                echo "</pre>";
+                echo "<pre>";
+                print_r($freq);
+                echo "</pre>";
                 # END OF CODE FOR APRIORI ======>
 
 
@@ -201,7 +235,8 @@ class Accounts extends CI_Controller {
                         'account' => $account,
                         'logs' => $user_log,
                         'at_date' => $at_date,
-                        'message' => $message
+                        'message' => $message,
+                        'cover' => $cover
                     );
                     $this->load->view('paper/includes/header', $data);
                     $this->load->view("paper/includes/navbar");
@@ -641,18 +676,23 @@ class Accounts extends CI_Controller {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
             #$data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Female' AND status = 1 GROUP BY a_range");
-            $this->db->select("order_id");
-            $orders = $this->item_model->fetch("orders", "customer_id = 9", "order_id", "ASC");
+            #$this->db->select("order_id");
+            $orders = $this->item_model->fetch("audit_trail", "customer_id = 1");
             foreach($orders as $order) {
-                $this->db->select("orderitems_id");
-                $order_items[] = $this->item_model->fetch("order_items", "order_id = " . $order->order_item);
+                #$this->db->select(array("product_name", "product_brand"));
+                $products = $this->db->query("SELECT DISTINCT product_brand, SUM(product_quantity) FROM `product` WHERE product_id = " . $order->product_id . " GROUP BY product_brand");
+                foreach ($products->result() as $product) {
+                    $products2[] = $product;
+                }
             }
-//            foreach ($order_items as $order_item) {
-//
-//            }
+
             echo "<pre>";
-            print_r($orders);
+            print_r($products2);
             echo "</pre>";
+//
+//            foreach($products as $prod) {
+//                echo $prod->product_name;
+//            }
             //print json_encode($data->result());
         } else {
             redirect("home");

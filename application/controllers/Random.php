@@ -43,6 +43,6 @@ class Random extends CI_Controller {
         // Outputs: This is a plain-text message! (decrypt())
         echo $this->encryption->decrypt($ciphertext)."<br>";*/
         // ==========================================================================================
-
+        echo date("m-j-Y", 1517985368);
     }
 }

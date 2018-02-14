@@ -2,8 +2,8 @@
 // to count Active Customers
 $acc = 0;
 $week = 604800;
-foreach ($customer as $customer1){
-    $date1 = $this->item_model->max('user_log', 'customer_id = ' . $customer1->customer_id, 'date');
+foreach ($customer_all as $customer_all){
+    $date1 = $this->item_model->max('user_log', 'customer_id = ' . $customer_all->customer_id, 'date');
     $active_identifier1 = time() - $date1->date;
     if ($active_identifier1 < $week)
         $acc++;
@@ -259,7 +259,7 @@ foreach ($customer as $customer1){
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($customer as $customer):
+                            foreach ($customer_limit as $customer):
                                 $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
                                 $active_identifier = time() - $date->date;
                                 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];

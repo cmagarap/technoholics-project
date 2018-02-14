@@ -371,7 +371,7 @@ class Apriori {
 
         foreach ($this->freqItmsts as $k => $v) {
             $tmp = array();
-            $tmp['sup'] = $this->allsups[$k];
+            $tmp[0] = $this->allsups[$k];
             $k = explode($this->delimiter, $k);
             $num = count($k);
             for ($i = 0; $i < $num; $i++) {
