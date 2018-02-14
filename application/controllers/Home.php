@@ -256,17 +256,18 @@ class Home extends CI_Controller {
         $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7),'feedback_id', 'ASC',  array('product_id' =>$id));
         $product = $this->item_model->fetch('product', array('product_id' => $id));
         $rating = $this->item_model->avg('feedback', array('product_id' => $id), 'rating');
-
+        $row = $product[0];
         $data = array(
-            'title' => 'Product Details',
+            'title' => $row->product_name,
             'product' => $product,
             'feedback' => $feedback,
             'page' => $page,
             'category' => $cat, //category identifier
             'brand' => $brand,
             'rating' => $rating,
+            'row' => $row,
             'id' => $id,
-            'res' => $res2
+            'res' => $res2,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
@@ -459,6 +460,7 @@ class Home extends CI_Controller {
             $data = array(
                 'title' => "Track my Order",
                 'page' => "Track my Order",
+                'CTI' => $this->basket->total_items(),
             );
 
             $this->load->view('ordering/includes/header', $data);
@@ -548,7 +550,15 @@ class Home extends CI_Controller {
             'added_at' => time()
         );
 
+        $post = $this->item_model->fetch("feedback", array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
+
+        if ($post){
+        $this->item_model->updatedata("feedback", $data, array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
+        }
+
+        else{
         $this->item_model->insertData("feedback", $data);
+        }
 
         $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
         $for_log = array(

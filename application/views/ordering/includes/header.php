@@ -28,6 +28,8 @@
     <link href="<?= base_url().'assets/ordering/css/starability-all.min.css';?>" rel="stylesheet">
 
     <!-- theme stylesheet -->
+    <link rel="stylesheet" href="<?= base_url().'assets/ordering/font-awesome/css/font-awesome.min.css' ?>">
+    <link href="<?= base_url().'assets/ordering/css/style.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
