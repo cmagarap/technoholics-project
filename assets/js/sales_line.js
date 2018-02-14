@@ -7,16 +7,12 @@ $(document).ready(function(){
             var income = [];
 
             for(var i in data) {
-                /* var date = new Date(data[i].sales_date * 1000); // * 1000 to convert into milliseconds*/
-                var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                // var day = date.getDate();
-                //var year = date.getFullYear();
-                var formattedMonth = month[data[i].sales_m];
-
+                var month = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var formattedMonth = month[data[i].sales_month];
                 dates.push(formattedMonth);
                 income.push(data[i].income);
             }
-            //console.log(dates);
+            console.log(dates);
             var chartdata = {
                 labels: dates,
                 datasets : [{
@@ -59,7 +55,7 @@ $(document).ready(function(){
                         yAxes: [{
                             gridLines: {
                                 drawBorder: false,
-                                borderDash: [4, 4]
+                                borderDash: [2, 2]
                             }
                         }]
                     }

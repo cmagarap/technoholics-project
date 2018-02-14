@@ -12,11 +12,12 @@ class Random extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library('session');
+        $this->load->library(array('session', 'apriori'));
         $this->load->helper('string');
     }
 
     public function index() {
+
         $this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
@@ -91,5 +92,9 @@ class Random extends CI_Controller {
         #$this->db->select("product_quantity");
         $data = $this->item_model->fetch('product', NULL, NULL, NULL, 6);
         echo json_encode($data);
+    }
+
+    public function apr() {
+        $this->load->view("paper/ap/example");
     }
 }

@@ -20,7 +20,7 @@
                     <div class="text-center">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
-                                <h5>12<br /><small>Sold</small></h5> <!-- not yet sure about this -->
+                                <h5><?= $products->times_bought; ?><br /><small>Sold</small></h5> <!-- not yet sure about this -->
                             </div>
                             <div class="col-md-4">
                                 <h5>&#8369; <?= number_format($products->product_price, 2) ?><br /><small>Price</small></h5>
@@ -93,9 +93,6 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Product Category <font color="red">*</font></label>
-                                        <?php
-                                        $categories = $this->item_model->getDistinct('product', 'product_category', 'ASC');
-                                        ?>
                                         <select name="product_category" id="" class = "form-control border-input file">
                                             <?php foreach($category as $category): ?>
                                                 <option value="<?= $category->category_id ?>">
@@ -143,6 +140,7 @@
                             </div>
                             <br>
                             <div class="clearfix"></div>
+                            <input type = "hidden" value = "<?= $this->uri->segment(3) ?>" name = "product_id">
                         </form>
                     </div> <!-- content -->
                 </div> <!-- div-card -->

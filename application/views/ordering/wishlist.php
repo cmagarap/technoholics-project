@@ -1,4 +1,3 @@
-
            <?php $row = $wishes[0];
             $prodrow = $product[0];?>
             <div class="col-md-12" id="wishlist">
@@ -80,10 +79,6 @@
                                 </div>
                                 <!-- /.table-responsive -->
                         </div>
-
-
-
-
   <!--------------
                     <div class="col-md-4 col-sm-6">
                         <div class="product" style="height:430px;">
@@ -123,8 +118,6 @@
 
             </div>
             <?php endif ?>
-
-
             </div> <!-- /.container -->
     </div>
     <!-- /#content -->

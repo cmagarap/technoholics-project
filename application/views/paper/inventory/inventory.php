@@ -8,7 +8,7 @@
                     demo.initChartist();
                     $.notify({
                         icon: 'ti-direction',
-                        message: "<?=$this->session->flashdata('statusMsg')?>"
+                        message: "<?= $this->session->flashdata('statusMsg') ?>"
                     },{
                         type: 'info',
                         timer: 2000
@@ -16,7 +16,7 @@
                 });
                 </script>
             <?php endif; ?>
-            <form action = "" method = "POST">
+            <form  action = "" method = "POST">
                 <div class="input-group">
                     <input type="text" name="search" class = "search" placeholder="Search product...">
                     <div class="input-group-btn">
@@ -25,6 +25,7 @@
                         </button>
                     </div>
                 </div>
+                <div id="productlist" style="position:relative; top:-15px;"></div>
             </form>
         </div>
         <br>

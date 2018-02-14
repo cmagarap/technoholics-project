@@ -5,7 +5,6 @@ button {
   transition: all 0.2s ease-out;
 }
 
-
 a i.fa,
 button i.fa {
   margin: 0 5px;
@@ -111,7 +110,7 @@ h1 {
   display: block;
 }
 .navbar .yamm-content ul li a:hover {
-  color: white;
+  color: #31bbe0;
   text-decoration: none;
 }
 .navbar .yamm-content .banner {
@@ -319,7 +318,7 @@ h1 {
   padding: 6px 20px 6px 20px;
   margin: 30px 10px 10px -71px;
   color: #fff;
-  background-color: red;
+  background-color: #31bbe0;
   text-shadow: 0px 1px 2px #bbb;
 }
 .ribbon .theribbon:before,
@@ -334,7 +333,7 @@ h1 {
   top: 100%;
   border-width: 5px 10px;
   border-style: solid;
-  border-color: red red transparent transparent;
+  border-color: #dc2f54 #DC2F55 transparent transparent;
 }
 .ribbon.sale {
   top: 0;
@@ -468,8 +467,6 @@ h1 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  width: 255px;
-  height: 375px;
   margin-bottom: 30px;
   /* entire container, keeps perspective */
   /* flip speed goes here */
@@ -490,17 +487,6 @@ h1 {
 @media (max-width: 767px) {
   #content .product .flip-container img.img-responsive {
     min-width: 100%;
-  }
-  #content .product{
-    padding: 10px;
-    background: #fff;
-    border: solid 1px #e6e6e6;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 255px;
-    height: 420px;
-    margin-bottom: 30px;
   }
 }
 #content .product .flip-container,
@@ -985,13 +971,14 @@ h1 {
 /*!
  * Yamm!3
  * Yet another megamenu for Bootstrap 3
- *
+ * 
  * http://geedmo.github.com/yamm3
  */
 .yamm .nav,
 .yamm .collapse,
 .yamm .dropup,
 .yamm .dropdown {
+  position: static;
 }
 .yamm .container {
   position: relative;
@@ -1401,7 +1388,7 @@ hr {
 .btn-primary {
   color: #ffffff;
   background-color: #31bbe0;
-  border-color: #31bbe0;
+  border-color: #3386e1;
 }
 .btn-primary:hover,
 .btn-primary:focus,

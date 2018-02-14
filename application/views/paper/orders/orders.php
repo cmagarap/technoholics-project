@@ -4,8 +4,19 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #31bbe0;"></span>&nbsp;<b>Chart</b></h3>
+                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders for today</b></h3>
                         <hr>
+                    </div>
+                    <div class="content">
+                        <div id="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                            <canvas id="order_doughnut" style = "height: 300px"></canvas>
+                        </div>
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated <?= date("F j, Y h:i A"); ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- DATE PICKER -->
@@ -13,49 +24,28 @@
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
                         <hr>
-                        <div class="calendar">
-                            <div id="v-cal">
-                                <div class="vcal-header">
-                                    <button class="vcal-btn" data-calendar-toggle="previous">
-                                        <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
-                                    </button>
-                                    <div class="vcal-header__label" data-calendar-label="month">
-                                        March 2017
-                                    </div>
-                                    <button class="vcal-btn" data-calendar-toggle="next">
-                                        <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path></svg>
-                                    </button>
-                                </div>
-                                <div class="vcal-week"style="color: #fff;">
-                                    <span>Mon</span> <span>Tue</span><span>Wed</span> <span>Thu</span> <span>Fri</span> <span>Sat</span> <span>Sun</span>
-                                </div>
-                                <div class="vcal-body" data-calendar-area="month"></div>
+                        <div class="calendar"></div>
+                        <form action="<?= base_url() . 'orders/page'; ?>" method="POST">
+                        </br>
+                            <div align="center">
+                            <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
+                            <input type="hidden" id="date" name="date">
                             </div>
-
-                            <p class="demo-picked">
-                                Date picked: <span data-calendar-label="picked"></span>
-         
-                            </p>
-
-                            <script src="<?= $this->config->base_url() ?>assets/paper/dist/vanillaCalendar.js" type="text/javascript"></script>
-                            <script>
-                                window.addEventListener('load', function () {
-                                    vanillaCalendar.init();
-                                })
-                            </script>
-                        </div>
+                        </form>
+                        </br>
                     </div>
                 </div>
             </div>
             <div class="col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h3><b>List of Orders</b></h3>
-                        <p class="category"><i>Here are the list of orders for......</i></p>
+                        <h3><span class="ti-notepad" style = "color: #31bbe0"></span>&nbsp; <b>List of Orders</b></h3>
+                        <p class="category"><?= $date ?></p>
+
                     </div>
                     <?php
                     if (!$orders) {
-                        echo "<center><h3><hr><br>There are no orders recorded in the database.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are no orders recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">
@@ -114,6 +104,8 @@
     </div>
 </div>
 <script>
+    $("#submit").hide();
+
     $(".cancel").click(function () {
         var id = $(this).data('id');
 
@@ -132,4 +124,48 @@
                 }
             });
     });
+
+    $(function() {
+        $('#wrapper .version strong').text('v' + $.fn.pignoseCalendar.version);
+
+        function onClickHandler(date, obj) {
+            /**
+             * @date is an array which be included dates(clicked date at first index)
+             * @obj is an object which stored calendar interal data.
+             * @obj.calendar is an element reference.
+             * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
+             * @obj.storage.events is all events associated to this date
+             */
+
+            var $calendar = obj.calendar;
+            $("#submit").show();
+            var text = '';
+
+            if(date[0] !== null) {
+                text += date[0].format('YYYY-MM-DD');
+            }
+
+            if(date[0] !== null && date[1] !== null) {
+                text += ' ~ ';
+            } else if(date[0] === null && date[1] == null) {
+                text += 'nothing';
+                $("#submit").hide();
+            }
+
+            if(date[1] !== null) {
+                text += date[1].format('YYYY-MM-DD');
+            }
+
+            $('#date').val(text);
+        }
+
+        // Default Calendar
+        $('.calendar').pignoseCalendar({
+            select: onClickHandler
+        });
+
+        // This use for DEMO page tab component.
+        $('.menu .item').tab();
+    });
 </script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/orders_doughnut.js"></script>

@@ -99,6 +99,32 @@ $('body').on('change', '#file', function(){
     });
 });
 
+$('input[name=search]').keyup(function(){
+    var query = $(this).val();
+    if(query != '')
+    {
+        $.ajax({
+            url:"<?php echo base_url(); ?>inventory/auto",
+            method:"POST",
+            data:{query:query},
+            success:function(data)
+            {
+                $('#productlist').fadeIn();
+                $('#productlist').html(data);
+            }
+        });
+    }
+});
+
+$(document).on('click', '#link', function(){
+    $('input[name=search]').val($(this).text());
+    $('#productlist').fadeOut();
+});
+
+$(document).on('focusout', 'input[name=search]', function(){
+    $('#productlist').fadeOut();
+});
+
 NProgress.configure({ showSpinner: false });
 NProgress.start();  
 var interval = setInterval(function() { NProgress.inc(); }, 1000);        

@@ -14,6 +14,7 @@ class My_account extends CI_Controller {
         $this->load->library(array('session', 'form_validation'));
         $this->load->helper('form');
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
