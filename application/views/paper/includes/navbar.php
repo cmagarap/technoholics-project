@@ -1,9 +1,9 @@
 <?php
 
-$home = $this->item_model->fetch("home",  array("content_id" => 1));
-$home = $home[0];
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
 
-$home1 = $home->color_1;
+$home1 = $content->color_1;
 if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
     $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
     $user = $user[0];

@@ -1,6 +1,3 @@
-  <div>
-<br>
-</div>
 <div id="all">
     <div id="content">
 

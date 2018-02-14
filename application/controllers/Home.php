@@ -13,7 +13,7 @@ class Home extends CI_Controller {
         if ($this->session->has_userdata('isloggedin')) {
             if ($this->session->userdata("type") == 2) { # if customer
 
-            $image = $this->item_model->fetch('home')[0];
+            $image = $this->item_model->fetch('content')[0];
 
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
@@ -33,7 +33,8 @@ class Home extends CI_Controller {
             }
         } else { # if not logged in
 
-            $image = $this->item_model->fetch('home')[0];
+
+            $image = $this->item_model->fetch('content')[0];
 
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
@@ -69,6 +70,7 @@ class Home extends CI_Controller {
     }  
 
     public function category() {
+        
     $page = $this->uri->segment(2);
     $cat = $this->uri->segment(3);
     $brand = ctype_alpha($this->uri->segment(4))?$this->uri->segment(4):NULL;
@@ -195,7 +197,8 @@ class Home extends CI_Controller {
 
     public function register() {
         $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need." # should be changed
+            'title' => "TECHNOHOLICS | All the tech you need.",
+            'CTI' => $this->basket->total_items()
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');

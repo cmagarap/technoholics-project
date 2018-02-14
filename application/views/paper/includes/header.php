@@ -1,3 +1,9 @@
+<?php
+
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +17,7 @@
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
+     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>assets/ordering/img/<?= $image->logo_icon ?>">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications -->

@@ -1,5 +1,12 @@
+<?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
+
+$home1 = $content->color_1;
+?>
 <footer class="footer">
-    <div class="container-fluid">
+    <div class="container-fluid" style = "background-color: <?= $home1?>">
         <!--<nav class="pull-left">
             <ul>
                 <li></li>

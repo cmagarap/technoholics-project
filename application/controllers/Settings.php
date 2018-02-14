@@ -26,7 +26,7 @@ class Settings extends CI_Controller {
             $brand = $this->item_model->fetch("brand",  array("status" => 1), "brand_name", "ASC");
             $supplier = $this->item_model->fetch("supplier",  array("status" => 1), "company_name", "ASC");
              $shipper = $this->item_model->fetch("shipper",  array("status" => 1), "shipper_name", "ASC");
-              $home = $this->item_model->fetch("home",  array("content_id" => 1));
+              $content = $this->item_model->fetch("content",  array("content_id" => 1));
             $data = array(
                 'title' => 'Settings',
                 'heading' => 'Settings',
@@ -34,7 +34,7 @@ class Settings extends CI_Controller {
                 'brand' => $brand,
                 'supplier' => $supplier,
                 'shipper'=> $shipper,
-                'home' => $home
+                'content' => $content
             );
             
             $this->load->view('paper/includes/header', $data);
@@ -95,7 +95,7 @@ class Settings extends CI_Controller {
                         
                     );
 
-                  $this->item_model->updatedata("home", $data);
+                  $this->item_model->updatedata("content", $data);
                    redirect("settings");
 
             //}
@@ -420,14 +420,113 @@ class Settings extends CI_Controller {
           redirect("settings");
     }
 
-    public function add_color() {
-         $home = $this->item_model->fetch("home",  array("content_id" => 1));
+    public function add_color_admin() {
+         $content = $this->item_model->fetch("content",  array("content_id" => 1));
         $data = array(
                       'color_1' => $this->input->post("colorpicker")
                  
                      );
-                 $this->item_model->updatedata("home", $data,array('content_id' => 1));
+                 $this->item_model->updatedata("content", $data,array('content_id' => 1));
              redirect("settings");
+    }
+
+        public function add_color_customer() {
+           $content = $this->item_model->fetch("content",  array("content_id" => 1));
+        $data = array(
+                      'customer_color1' => $this->input->post("colorpicker")
+                 
+                     );
+                 $this->item_model->updatedata("content", $data,array('content_id' => 1));
+             redirect("settings");
+    }
+
+    public function edit_logo() {
+         //if ($this->form_validation->run()) {
+         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
+                $config['encrypt_name'] = TRUE;
+                $config['upload_path'] = './assets/ordering/img/';
+                $config['allowed_types'] = "gif|jpg|png";
+                $config['max_size'] = 0;
+                $this->load->library('upload', $config);
+                $dataInfo = array();
+                $files = $_FILES;
+                $cpt = count($_FILES['user_file']['name']);
+                for ($i = 0; $i < $cpt; $i++) {
+                    $_FILES['user_file']['name'] = $files['user_file']['name'][$i];
+                    $_FILES['user_file']['type'] = $files['user_file']['type'][$i];
+                    $_FILES['user_file']['tmp_name'] = $files['user_file']['tmp_name'][$i];
+                    $_FILES['user_file']['error'] = $files['user_file']['error'][$i];
+                    $_FILES['user_file']['size'] = $files['user_file']['size'][$i];
+
+                    $this->upload->do_upload('user_file');
+                    $dataInfo[] = $this->upload->data('file_name');
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './assets/ordering/img/' . $dataInfo[$i];
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    $this->image_lib->initialize($config2);
+                }
+                 $data = array(
+                       
+                        'company_logo' => $dataInfo[0]
+                        
+                         
+                    );
+
+                  $this->item_model->updatedata("content", $data);
+                   redirect("settings");
+
+            //}
+    
+    }
+
+
+    public function edit_logo_icon() {
+         //if ($this->form_validation->run()) {
+         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
+                $config['encrypt_name'] = TRUE;
+                $config['upload_path'] = './assets/ordering/img/';
+                $config['allowed_types'] = "gif|jpg|png";
+                $config['max_size'] = 0;
+                $this->load->library('upload', $config);
+                $dataInfo = array();
+                $files = $_FILES;
+                $cpt = count($_FILES['user_file']['name']);
+                for ($i = 0; $i < $cpt; $i++) {
+                    $_FILES['user_file']['name'] = $files['user_file']['name'][$i];
+                    $_FILES['user_file']['type'] = $files['user_file']['type'][$i];
+                    $_FILES['user_file']['tmp_name'] = $files['user_file']['tmp_name'][$i];
+                    $_FILES['user_file']['error'] = $files['user_file']['error'][$i];
+                    $_FILES['user_file']['size'] = $files['user_file']['size'][$i];
+
+                    $this->upload->do_upload('user_file');
+                    $dataInfo[] = $this->upload->data('file_name');
+                    $config2['image_library'] = 'gd2';
+                    $config2['source_image'] = './assets/ordering/img/' . $dataInfo[$i];
+                    $config2['create_thumb'] = TRUE;
+                    $config2['maintain_ratio'] = TRUE;
+                    $config2['width'] = 75;
+                    $config2['height'] = 50;
+                    $this->load->library('image_lib', $config2);
+                    $this->image_lib->resize();
+                    $this->image_lib->initialize($config2);
+                }
+                 $data = array(
+                       
+                        'logo_icon' => $dataInfo[0]
+                        
+                         
+                    );
+
+                  $this->item_model->updatedata("content", $data);
+                   redirect("settings");
+
+            //}
+    
     }
 }
 

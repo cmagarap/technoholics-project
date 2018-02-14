@@ -1,3 +1,10 @@
+<?php
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+$content = $content[0];
+$home1 = $content->customer_color1;
+
+?>
 <!-- *** TOPBAR ***
 _________________________________________________________ -->
 <!-- *** TOP BAR END *** -->
@@ -7,7 +14,8 @@ _________________________________________________________ -->
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-    <div id="top">
+<!-- COlor Here -->
+    <div id="top" style = "background-color: <?= $home1?>">
         <div class="container">
             <div class="" data-animate="fadeInDown">
                 <ul class="menu">
@@ -52,7 +60,7 @@ date_default_timezone_set("Asia/Manila");
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
-                <img src="<?= base_url().'assets/ordering/img/logo.png'; ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
+                <img src="<?= base_url() ?>assets/ordering/img/<?= $image->company_logo ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
             </a>
             <div class="navbar-buttons" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">

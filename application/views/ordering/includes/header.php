@@ -1,6 +1,11 @@
+<?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="all,follow">
@@ -10,10 +15,11 @@
     <meta name="author" content="Agarap, Calimlim, Leona, Mallari">
     <meta name="keywords" content="">
     <title><?= $title ?></title>
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>assets/ordering/img/<?= $image->logo_icon ?>">
     <meta name="keywords" content="">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     
+
     <!-- styles -->
     <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/font-awesome.css'; ?>" rel="stylesheet">
@@ -22,6 +28,13 @@
     <link href="<?= base_url().'assets/ordering/css/owl.carousel.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/owl.theme.css'; ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/ordering/css/starability-all.min.css';?>" rel="stylesheet">
+
+    <!-- color picker for customer -->
+        <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
+    
 
     <!-- theme stylesheet -->
     <link href="<?= base_url().'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
@@ -50,7 +63,7 @@
     <link href="<?= base_url().'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <script src="<?= base_url().'assets/ordering/js/respond.min.js'; ?>"></script>
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
-    <link rel="shortcut icon" href="<?= base_url().'assets/ordering/img/mobile_logo.png';?>">
+  
     <style>
 
         @media only screen and (max-width:767px) {
