@@ -1,4 +1,5 @@
 $(document).ready(function () {
+   
 
         $('.add_cart').click(function () {
             var product_id = $(this).data("productid");
@@ -8,11 +9,15 @@ $(document).ready(function () {
             var product_quantity = $(this).data("productquantity");
             var minimum_quantity = 1;
             $.ajax({
+
                 url: base_url + "home/add",
+
+                
                 method: "POST",
                 data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
                 success: function (data)
                 {
+
                     $('#CTI').load(base_url + "home/category #CTI");
                     $('#' + product_id).val('');
 
@@ -27,14 +32,19 @@ $(document).ready(function () {
                             align: "left"
                         }
                     });
+
+                    
                 }
             });
         });
 
         $(document).on('click', '.remove_inventory', function () {
+
             var row_id = $(this).data("rowid");;
                 $.ajax({
                     url: base_url + "home/remove",
+
+
                     method: "POST",
                     data: {row_id: row_id},
                     success: function (data)
@@ -144,11 +154,15 @@ $(document).ready(function () {
             });
         });
         
+
+                       
         NProgress.configure({ showSpinner: false });
         NProgress.start();
         var interval = setInterval(function() { NProgress.inc(); }, 1000);        
 
         $(window).load(function () {
+
+       >>>>>>> andrew
             clearInterval(interval);
             NProgress.done();
         });
@@ -158,3 +172,4 @@ $(document).ready(function () {
         });
         
     });
+        
