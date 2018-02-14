@@ -266,7 +266,7 @@ class Home extends CI_Controller {
             'brand' => $brand,
             'rating' => $rating,
             'id' => $id,
-            'res' => $res2
+            'res' => $res2,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
@@ -459,6 +459,7 @@ class Home extends CI_Controller {
             $data = array(
                 'title' => "Track my Order",
                 'page' => "Track my Order",
+                'CTI' => $this->basket->total_items()
             );
 
             $this->load->view('ordering/includes/header', $data);
