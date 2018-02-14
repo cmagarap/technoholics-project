@@ -268,12 +268,31 @@ class Home extends CI_Controller {
         } else {
             $data = array(
                 'title' => "Checkout",
+                'CTI' => $this->basket->total_items(),
                 'page' => "Home"
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/checkout1');
             $this->load->view('ordering/includes/footer');
+        }
+    }
+
+    public function checkout1_exec() {
+         $this->form_validation->set_rules('firstname', "first name", "required");
+        $this->form_validation->set_rules('lastname', "last name", "required");
+        $this->form_validation->set_rules('address', "address", "required");
+        $this->form_validation->set_rules('province', "province", "required");
+        $this->form_validation->set_rules('city', "city/municipality", "required");
+        $this->form_validation->set_rules('barangay', "barangay", "required");
+        $this->form_validation->set_rules('zip', "zip", "required|numeric");
+        $this->form_validation->set_rules('contact', "contact", "required|numeric");
+         $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[customer.email]');
+        if ($this->form_validation->run()) {
+            redirect("home/checkout2");
+        }
+          else {
+            $this->checkout1();
         }
     }
 
@@ -291,6 +310,7 @@ class Home extends CI_Controller {
     public function checkout2() {
         $data = array(
             'title' => "Checkout",
+            'CTI' => $this->basket->total_items(),
             'page' => "Home",
             'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
             'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
