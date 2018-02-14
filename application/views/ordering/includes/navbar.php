@@ -30,7 +30,8 @@ date_default_timezone_set("Asia/Manila");
                                 </div>
                             </div>
                         </li>
-
+                        <li><a href="<?= base_url().'home/trackorder'; ?>">Track my Order</a>
+                        </li>
                         <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>
                     <?php else: ?>
@@ -77,13 +78,13 @@ date_default_timezone_set("Asia/Manila");
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
-            <?php endif; ?>
+                    <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
                 <li class="active dropdown yamm-fw">
             <?php else : ?>
                 <li class="dropdown yamm-fw">
-            <?php endif; ?>
+                    <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -95,7 +96,7 @@ date_default_timezone_set("Asia/Manila");
                                             <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                            ?>">Samsung</a>
+                                                ?>">Samsung</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
@@ -250,7 +251,7 @@ date_default_timezone_set("Asia/Manila");
 			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
-                <div id="productlist" style="position:absolute;"></div>  
+                <div id="productlist" style="position:absolute;"></div>
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->

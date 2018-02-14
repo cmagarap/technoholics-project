@@ -50,7 +50,7 @@
     <script src="<?= base_url().'assets/ordering/js/bootstrap-hover-dropdown.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/owl.carousel.min.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
-   
+
     <!-- your stylesheet with modifications -->
     <script src="<?= base_url().'assets/ordering/js/imagezoom.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/jquery.flexslider.js';?>"></script>

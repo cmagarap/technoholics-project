@@ -220,6 +220,13 @@ class Home extends CI_Controller {
         $brand = $this->uri->segment(4);
         $id = $this->uri->segment(5);
 
+        $cond = array(
+           'product_id' => $id,
+           'customer_id' => $this->session->uid
+      );
+
+       $res2 = $this->item_model->checkWishlist($cond);
+      
         $this->load->library('pagination');
         $perpage = 5;
         $config['per_page'] = $perpage;
@@ -258,6 +265,8 @@ class Home extends CI_Controller {
             'category' => $cat, //category identifier
             'brand' => $brand,
             'rating' => $rating,
+            'id' => $id,
+            'res' => $res2
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
@@ -363,21 +372,103 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function wishlist() {
-        if ($this->session->has_userdata('isloggedin')) {
+    public function do_wishlist() {
+        if($this->session->has_userdata('isloggedin')) {
 
+         //   $this->load->model(wishlist_model);
+            $product_name = $this->input->post('product_name');
+            $product_price = $this->input->post('product_price');
+            $product_desc = $this->input->post('product_desc');
+            $customer_id = $this->input->post('customer_id');
+            $product_id = $this->input->post('product_id');
+            $product_brand = $this->input->post('product_brand');
+            $product_category = $this->input->post('product_category');
+            $product_image1 = $this->input->post('product_image1');
+
+            // if ($q == )
+            $wish = array (
+                'product_name' => $product_name,
+                'product_price' => $product_price,
+                'product_desc' => $product_desc,
+                'customer_id' => $customer_id,
+                'product_id' => $product_id,
+                'product_category' => $product_category,
+                'product_brand' => $product_brand,
+                'product_image1' => $product_image1
+            );
+
+        $this->item_model->insertData('wishlist',$wish);
+
+        redirect('Home/wishlist');
+
+        }
+
+        else{
+                redirect('login');
+        }
+    }
+
+    public function wishlist() {
+    if($this->session->has_userdata('isloggedin')) {
+       $product = $this->item_model->fetch('product');
+        $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
+
+        $data = array(
+            'title' => "Wishlist",
+            'page' => "Wishlist",
+            'wishes' => $wishes,
+            'product' => $product,
+        );
+
+        // print_r($this->input->post('remove')); die();
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/wishlist');
+        $this->load->view('ordering/includes/footer');
+        //echo $this->uri->segment(1) ;
+    }
+
+    else{
+        redirect('login');
+    }
+}
+
+    public function delete_wishlist() {
+        if($this->session->has_userdata('isloggedin')) {
             $data = array(
                 'title' => "Wishlist",
                 'page' => "Wishlist",
-                'CTI' => $this->basket->total_items()
+            );
+
+            $wishid = array(
+                'wishlist_id' => $this->input->post('wishlist_id')
+            );
+            $res = $this->item_model->delete('wishlist',$wishid);
+
+            redirect ('Home/wishlist');
+        }
+
+        else{
+            redirect('login');
+        }
+    }
+
+    public function trackorder() {
+        if($this->session->has_userdata('isloggedin')) {
+            $data = array(
+                'title' => "Track my Order",
+                'page' => "Track my Order",
             );
 
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/menu_account');
-            $this->load->view('ordering/wishlist');
+            $this->load->view('ordering/trackorder');
             $this->load->view('ordering/includes/footer');
-        } else {
+            //echo $this->uri->segment(1) ;
+        }
+
+        else {
             redirect('login');
         }
     }

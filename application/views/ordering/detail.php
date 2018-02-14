@@ -201,6 +201,37 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                                     </label>
                                     <textarea class="form-control" id="comment" rows="4" name="feedback" ></textarea>
                                 </div>
+
+                                <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
+
+                                <!-- ==================================== -->
+
+
+                                <center>
+                                    <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
+                                </center>
+
+                                <div><center><table>
+                                           <tr>
+                                            <td><button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button></td>
+
+                                            <form method="POST" action="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/do_wishlist'; } else { echo base_url().'login';} ?>" >
+                                            <input type="hidden" name="product_name" value="<?= $row->product_name ?>">
+                                            <input type="hidden" name="product_price" value="<?= $row->product_price ?>">
+                                            <input type="hidden" name="product_desc" value="<?= $row->product_desc ?>">
+                                            <input type="hidden" name="customer_id" value="<?= $this->session->uid ?>">
+                                            <input type="hidden" name="product_id" value="<?= $row->product_id ?>">
+                                                <input type="hidden" name="product_category" value="<?= $row->product_category ?>">
+                                                <input type="hidden" name="product_brand" value="<?= $row->product_brand ?>">
+                                                <input type="hidden" name="product_image1" value="<?= $row->product_image1 ?>">
+                                           <td>&emsp;
+
+                                               <?php if(!$res){ ?>
+                                                    <button type="submit" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist </button></td>
+                                                <?php } ?>
+                                            </form>
+                                           </tr>
+                                </table></center></div>
                             </div>
                         </div>
 
