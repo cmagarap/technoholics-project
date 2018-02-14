@@ -12,6 +12,10 @@
     <title><?= $title ?></title>
     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
     <meta name="keywords" content="">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script type="text/javascript" src"<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js'?>" ></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.css'?>" />
+    <script type="text/javascript" src"<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js'?>" ></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     
     <!-- styles -->
@@ -29,11 +33,11 @@
     <link href="<?= $this->config->base_url()?>assets/paper/css/themify-icons.css" rel="stylesheet">
     
     <!-- web sheets -->
-    <script src="<?= base_url().'assets/ordering/js/jquery-1.11.0.min.js';?>"></script>
+    <script  src="<?= base_url().'assets/ordering/js/jquery-1.11.0.min.js';?>"></script>
     <script src="<?= base_url().'assets/ordering/js/bootstrap.min.js';?>"></script>
     
     <!-- Veo's Ajax -->
-     <script type="text/javascript"> var base_url = "<?=base_url()?>";</script>
+    <script type="text/javascript"> var base_url = "<?=base_url()?>";</script>
     <script src="<?= base_url().'assets/ordering/js/ajaxfunctions.js';?>"></script>
 
     <!--notify-->
@@ -48,13 +52,13 @@
     <script src="<?= base_url().'assets/ordering/js/front.js';?>"></script>
    
     <!-- your stylesheet with modifications -->
-    <link rel="stylesheet" href="<?= base_url().'assets/ordering/css/etalage.css'?>">
-    <!-- <script type="text/javascript" src="<?= base_url().'assets/ordering/js/megamenu.js'?>"></script> -->
-    <script src="<?= base_url().'assets/ordering/js/jquery.etalage.min.js'; ?>"></script>
-
+    <script src="<?= base_url().'assets/ordering/js/imagezoom.js';?>"></script>
+    <script src="<?= base_url().'assets/ordering/js/jquery.flexslider.js';?>"></script>
+    <link rel="stylesheet"  href="<?= base_url().'assets/ordering/css/flexslider.css'; ?>"type="text/css" media="screen"/>
     <script src="<?= base_url().'assets/ordering/js/respond.min.js'; ?>"></script>
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <link rel="shortcut icon" href="<?= base_url().'assets/ordering/img/mobile_logo.png';?>">
+
     <style>
 
         @media only screen and (max-width:767px) {
@@ -207,10 +211,24 @@
 
     </style>
     <script>
-			$(document).ready(function($){
-				$('#etalage').etalage({
-				});
-			});
+    // Can also be used with $(document).ready()
+    
+  
+    $(window).load(function() {
+      $('.flexslider').flexslider({
+        animation: "slide",
+        controlNav: "thumbnails"
+      });
+
+    });
+    </script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+        
+            $().fancybox();
+
+        });
     </script>
 </head>
 <body>

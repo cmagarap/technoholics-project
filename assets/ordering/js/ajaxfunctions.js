@@ -112,9 +112,13 @@ $(document).ready(function () {
         
         $(document).on('click','#post',function () {
             var product_id = $(this).data("productid");
+            var product_category = $(this).data("productcategory");
+            var product_brand = $(this).data("productbrand");
             var rating = $('input[name=rating]:checked').val(); 
             var feedback = $('#comment').val();
             var product_name = $(this).data("productname");
+            var page = $(this).data("page");
+
             
             $.ajax({
                 url: base_url + "home/post",
@@ -122,7 +126,20 @@ $(document).ready(function () {
                 data: {product_id: product_id, product_name: product_name, feedback: feedback, rating: rating},
                 success: function (data)
                 {
-                    location.reload();
+                    $('#comments').load(base_url + "home/detail/"+product_category+"/"+product_brand+"/"+product_id +"/page/"+page+" #comments");
+                    $('#contents').load(base_url + "home/detail/"+product_category+"/"+product_brand+"/"+product_id +"/page/"+page+" #contents");
+
+                    $.notify({
+                        icon: 'ti-comment',
+                        message: "Your comment has been posted"
+                        },{
+                        type: 'info',
+                        timer: 2000,
+                            placement: {
+                            from: "top",
+                            align: "left"
+                        }
+                    });
                 }
             });
         });

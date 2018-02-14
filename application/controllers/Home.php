@@ -175,7 +175,7 @@ class Home extends CI_Controller {
         $this->session->set_userdata('search', $this->input->post('search') ? $this->input->post('search') : $this->session->userdata('search'));
         $search = $this->session->userdata('search');
 
-        $config['base_url'] = base_url() . "home/search/";
+        $config['base_url'] = base_url() . "home/search";
         $config['total_rows'] = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $count = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $this->pagination->initialize($config);
@@ -215,16 +215,43 @@ class Home extends CI_Controller {
 
     public function detail() {
 
-        $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(5)));
-        $feedback = $this->item_model->fetch('feedback', array('product_id' => $this->uri->segment(5)));
-        $rating = $this->item_model->avg('feedback', array('product_id' => $this->uri->segment(5)), 'rating');
-        $page = $this->uri->segment(2);
+        $page = "category";
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
         $id = $this->uri->segment(5);
 
+        $this->load->library('pagination');
+        $perpage = 5;
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand. "/" .$id."/page";
+        $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
+        $this->pagination->initialize($config);
+        $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7),'feedback_id', 'ASC',  array('product_id' =>$id));
+        $product = $this->item_model->fetch('product', array('product_id' => $id));
+        $rating = $this->item_model->avg('feedback', array('product_id' => $id), 'rating');
+
         $data = array(
-            'title' => 'Home',
+            'title' => 'Product Details',
             'product' => $product,
             'feedback' => $feedback,
             'page' => $page,
@@ -232,7 +259,7 @@ class Home extends CI_Controller {
             'brand' => $brand,
             'rating' => $rating,
             'CTI' => $this->basket->total_items(),
-            'id' => $id
+            'links' => $this->pagination->create_links()
         );
 
         $this->load->view('ordering/includes/header', $data);
