@@ -1,5 +1,4 @@
-<?php $account = $account[0];
-?>
+<?php $account = $account[0]; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">

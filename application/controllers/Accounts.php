@@ -201,7 +201,7 @@ class Accounts extends CI_Controller {
                 $preferred = "";
                 for($i = 0; $i < count($freq); $i++) {
                     for($j = 0; $j < count($freq[$i]); $j++) {
-                        if($j >= count($freq)) break;
+                        /*if($j >= count($freq)) break;
                         else {
                             if ($freq[$i][0] > $freq[$j][0]) {
                                 echo "AS | ";
@@ -214,7 +214,9 @@ class Accounts extends CI_Controller {
                                 $preferred .= $freq[$i][$j]. " | ";
                             } else
                                 echo $freq[$i][$j] . " | ";
-                        }
+                        }*/
+                        $preferred = max($freq);
+
                     }
                     echo "<br>";
                 }

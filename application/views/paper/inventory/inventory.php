@@ -49,7 +49,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <th><b>#</b></th>
-                                <th><b>Name</b></th>
+                                <th colspan="2"><b>Product</b></th>
                                 <th><b>Brand</b></th>
                                 <th><b>Category</b></th>
                                 <th><b>Price</b></th>
@@ -62,6 +62,11 @@
                                 foreach ($products as $products): ?>
                                 <tr>
                                     <td><?= $counter++ ?></td>
+
+                                    <?php $product_image = (string)$products->product_image1;
+                                    $image_array = explode(".", $product_image); ?>
+
+                                    <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
                                     <td><?= $products->product_name ?></td>
                                     <td><?= $products->product_brand ?></td>
                                     <td><?= $products->product_category ?></td>
