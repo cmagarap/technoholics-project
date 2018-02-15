@@ -676,18 +676,26 @@ class Accounts extends CI_Controller {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
             #$data = $this->db->query("SELECT COUNT(*) AS no_of_customer, a_range FROM customer WHERE gender = 'Female' AND status = 1 GROUP BY a_range");
-            #$this->db->select("order_id");
-            $orders = $this->item_model->fetch("audit_trail", "customer_id = 1");
+
+            $this->db->select(array("order_id", "order_quantity"));
+            $orders = $this->item_model->fetch("orders", "customer_id = 1");
+
             foreach($orders as $order) {
-                #$this->db->select(array("product_name", "product_brand"));
-                $products = $this->db->query("SELECT DISTINCT product_brand, SUM(product_quantity) FROM `product` WHERE product_id = " . $order->product_id . " GROUP BY product_brand");
-                foreach ($products->result() as $product) {
-                    $products2[] = $product;
-                }
+                $order_items[] = $this->item_model->fetch("order_items", "orderitems_id = " . $order->order_id);
             }
 
+            #$this->db->select("order_id");
+//            $orders = $this->item_model->fetch("audit_trail", "customer_id = 1");
+//            foreach($orders as $order) {
+//                #$this->db->select(array("product_name", "product_brand"));
+//                $products = $this->db->query("SELECT DISTINCT product_brand, SUM(product_quantity) FROM `product` WHERE product_id = " . $order->product_id . " GROUP BY product_brand");
+//                foreach ($products->result() as $product) {
+//                    $products2[] = $product;
+//                }
+//            }
+
             echo "<pre>";
-            print_r($products2);
+            print_r($order_items);
             echo "</pre>";
 //
 //            foreach($products as $prod) {

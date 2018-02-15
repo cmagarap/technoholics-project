@@ -104,8 +104,9 @@
                     </div>
                 </div>
             </div>
+        </div>
             <?php elseif ($this->uri->segment(3) == "admin"): ?>
-
+            </div>
             <div class="col-lg-7 col-md-5">
                 <div class="card">
                     <div class="header">
@@ -148,9 +149,6 @@
                     </div> <!-- content -->
                 </div> <!-- card -->
             </div> <!-- col-lg-5 col-md-7 -->
-        </div> <!-- row -->
-
-
         </div>
         <?php endif; ?>
     </div> <!-- container fluid -->
