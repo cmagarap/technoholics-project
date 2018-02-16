@@ -146,9 +146,9 @@ class Accounts extends CI_Controller {
                 }
             } elseif ($this->uri->segment(3) == "customer") {
                 $account = $this->item_model->fetch('customer', 'customer_id = ' . $this->uri->segment(4));
-                $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4), "at_id", "DESC", 8);
+                $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4) . " AND status = 1", "at_id", "DESC", 8);
                 $this->db->select("at_date");
-                $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4), "at_id", "DESC")[0];
+                $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "at_id", "DESC")[0];
 
                 $cover = $this->item_model->fetch("home")[0];
 
@@ -196,39 +196,13 @@ class Accounts extends CI_Controller {
                 } else {
                     $message = "There are no transactions recorded for this user.";
                 }
-
                 $freq = $this->apriori->getFreqItemsets();
-                $preferred = "";
-                for($i = 0; $i < count($freq); $i++) {
-                    for($j = 0; $j < count($freq[$i]); $j++) {
-                        /*if($j >= count($freq)) break;
-                        else {
-                            if ($freq[$i][0] > $freq[$j][0]) {
-                                echo "AS | ";
-                                $preferred .= $freq[$i][$j] . " | ";
-                                #break;
-                            } elseif($freq[$i][0] == $freq[$j][0]) {
-                                if($freq[$i][$j] == 0)
-                                    echo "0";
-                                echo "EQUAL";
-                                $preferred .= $freq[$i][$j]. " | ";
-                            } else
-                                echo $freq[$i][$j] . " | ";
-                        }*/
-                        $preferred = max($freq);
-
-                    }
-                    echo "<br>";
-                }
-
-                echo "<pre>";
-                print_r($preferred);
-                echo "</pre>";
-                echo "<pre>";
-                print_r($freq);
-                echo "</pre>";
                 # END OF CODE FOR APRIORI ======>
 
+                $preferred = (sizeof($freq) != 0) ? max($freq) : array();
+                $preferred_s = implode(", ", array_slice($preferred, 1));
+                $product_insert = ($preferred_s) ? $preferred_s : NULL;
+                $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->uri->segment(4));
 
                 if($account OR $user_log) {
                     $data = array(

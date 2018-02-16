@@ -6,25 +6,40 @@
                 <div class="card" style = "padding: 20px">
                     <div class="header">
                         <?php $order = $order_items[0]; ?>
-                        <h4 class="title"><b>Order #<?= $order->order_id; ?></b></h4>
+                        <h2 class="title"><b>Order #<?= $order->order_id; ?></b></h2>
                     </div>
-                    <div class="content table-responsive table-full-width">
+                    <hr style="margin-bottom: 0px">
+                    <div class="content">
+                        <div class="col-sm-4"><b>Customer Name:</b></div>
+                        <div class="col-sm-8"><?= $customer->firstname . " " . $customer->lastname ?></div>
+                        <div class="col-sm-4"><b>Contact No.:</b></div>
+                        <div class="col-sm-8"><?= $customer->contact_no ?></div>
+                        <div class="col-sm-4"><b>Shipping Address:</b></div>
+                        <div class="col-sm-8"><?= $customer->complete_address . ", " . $customer->barangay . ", " . $customer->city_municipality . ", " . $customer->province ?></div>
+                        <div class="col-sm-4"><b>Payment Method:</b></div>
+                        <div class="col-sm-8"><?= ucfirst($order_details->payment_method) ?></div>
+                        <div class="col-sm-4"><b>Date of Transaction:</b></div>
+                        <div class="col-sm-8"><?= date("F j, Y", $order_details->transaction_date) ?></div>
+                        <div class="col-sm-4"><b>Date Delivered:</b></div>
+                        <div class="col-sm-8"><?= date("F j, Y", $order_details->delivery_date) ?></div>
+                    </div>
+                    <hr>
+                    <div class="content table-responsive">
                         <table class="table table-striped" style = "width: 100%">
                             <thead>
-                            <th align = "right"><i class="ti-image" style = "color: #31bbe0"></i></th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
+                            <th><u style = "color: #31bbe0">Price</u></th>
+                            <th><u style = "color: #31bbe0">Quantity</u></th>
                             </thead>
                             <tbody>
                             <?php foreach ($order_items as $order_items): ?>
                                 <tr>
-                                    <td>
+                                    <td align="center">
                                         <?php
                                         $product_image = (string) $order_items->product_image1;
                                         $image_array = explode(".", $product_image);
                                         ?>
-                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" style="margin: -5px">
+                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>">
                                     </td>
                                     <td>
                                         <?= $order_items->product_name ?>

@@ -58,7 +58,7 @@ date_default_timezone_set("Asia/Manila");
                             ?>
                 </li>
                 <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('Reports'); ?>">
+                    <a href="<?= site_url('reports'); ?>">
                         <i class="ti-notepad"></i>
                         <p>Reports</p>
                     </a>

@@ -127,6 +127,35 @@
             -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
         }
+
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+        .star-ratings-css {
+            unicode-bidi: bidi-override;
+            color: #c5c5c5;
+            font-size: 25px;
+            height: 25px;
+            width: 100px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0;
+            text-shadow: 0px 1px 0 #a2a2a2;
+        }
+        .star-ratings-css-top {
+            color: #F3DF00;
+            padding: 0;
+            position: absolute;
+            z-index: 1;
+            display: block;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        .star-ratings-css-bottom {
+            padding: 0;
+            display: block;
+            z-index: 0;
+        }
+
     </style>
 </head>
 <body>

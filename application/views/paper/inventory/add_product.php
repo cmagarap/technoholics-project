@@ -15,11 +15,6 @@
                             $product_price = $_POST['product_price'];
                             $product_quantity = $_POST['product_quantity'];
                             $product_desc = $_POST['product_desc'];
-                        } elseif(isset($_POST['reset'])) {
-                            $product_name = "";
-                            $product_price = "";
-                            $product_quantity = "";
-                            $product_desc = "";
                         } else {
                             $product_name = "";
                             $product_price = "";
@@ -116,7 +111,7 @@
                             </div>
                             <hr>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
+                                <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
                                 <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>

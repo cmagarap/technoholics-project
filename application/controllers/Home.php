@@ -482,8 +482,8 @@ class Home extends CI_Controller {
                     "at_detail" => "Purchase",
                     "at_date" => time(),
                     "customer_id" => $this->session->uid, # logged in
-                    "order_id" => $order_id
-                    # status has a default value of 1
+                    "order_id" => $order_id,
+                    "product_id" => $item['id']
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);
 
@@ -542,7 +542,7 @@ class Home extends CI_Controller {
                     'product_name' => $item['name'],
                     'product_price' => $item['price'],
                     'product_image1' => $item['img'],
-                    'quantity' => $item['qty']
+                    'quantity' => $item['qty'],
                 );
                 $this->item_model->insertData('order_items', $data);
 
@@ -552,7 +552,8 @@ class Home extends CI_Controller {
                     "at_detail" => "Purchase",
                     "at_date" => time(),
                     "customer_id" => $customer_id,
-                    "order_id" => $order_id
+                    "order_id" => $order_id,
+                    "product_id" => $item['id']
                     # status has a default value of 1
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);

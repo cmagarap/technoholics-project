@@ -52,8 +52,7 @@ class Orders extends CI_Controller {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('orders', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('orders', array('status' => 1));
             $this->pagination->initialize($config);
-            $orders = $this->input->post('date')?$this->item_model->getItemsWithLimit('orders', $perpage,
-            $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1));
+            $orders = ($this->input->post('date')) ? ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date')))) : ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1)));
 
             $data = array(
                 'title' => 'Orders Management',
@@ -74,12 +73,17 @@ class Orders extends CI_Controller {
 
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));
+            $order = $this->item_model->fetch("orders", 'order_id = ' . $this->uri->segment(3))[0];
+            $customer = $this->item_model->fetch("customer", "customer_id = " . $order->customer_id)[0];
+            $order_items = $this->item_model->fetch('order_items', 'order_id = ' . $this->uri->segment(3));
+
             if($order_items) {
                 $data = array(
                     'title' => "Orders: View Order",
                     'heading' => "Orders Management",
-                    'order_items' => $order_items
+                    'order_items' => $order_items,
+                    'customer' => $customer,
+                    'order_details' => $order
                 );
                 $this->load->view('paper/includes/header', $data);
                 $this->load->view("paper/includes/navbar");
@@ -96,12 +100,15 @@ class Orders extends CI_Controller {
 
     public function track() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));
+            $this->db->select("delivery_date");
+            $delivery_date = $this->item_model->fetch('orders', 'order_id = ' . $this->uri->segment(3))[0];
+            $order_items = $this->item_model->fetch('order_items', 'order_id = ' . $this->uri->segment(3));
             if($order_items) {
                 $data = array(
                     'title' => "Orders: Track Order",
                     'heading' => "Orders Management",
-                    'order_items' => $order_items
+                    'order_items' => $order_items,
+                    'delivery' => $delivery_date
                 );
                 $this->load->view('paper/includes/header', $data);
                 $this->load->view("paper/includes/navbar");
@@ -118,20 +125,30 @@ class Orders extends CI_Controller {
     public function track_exec() {
         $data = array(
             "shipper_id" => $this->input->post("shipper"),
-            # "delivery_date" =>
             "process_status" => $this->input->post("progress"),
             "admin_id" => $this->session->uid
         );
         $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+        $change_delivery = $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
 
-        if($track) {
-            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+        if ($track) {
             $for_log = array(
-                "$user_id" => $this->session->uid,
+                "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
                 "username" => $this->session->userdata('username'),
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3)
+            );
+            $this->item_model->insertData("user_log", $for_log);
+        }
+
+        if ($change_delivery) {
+            $for_log = array(
+                "admin_id" => $this->session->uid,
+                "user_type" => $this->session->userdata('type'),
+                "username" => $this->session->userdata('username'),
+                "date" => time(),
+                "action" => 'Changed delivery date of order #' . $this->uri->segment(3) . " to " . $this->input->post("order_date")
             );
             $this->item_model->insertData("user_log", $for_log);
         }
@@ -181,6 +198,7 @@ class Orders extends CI_Controller {
                 "action" => 'Cancelled order #' . $this->uri->segment(3)
             );
             $this->item_model->insertData("user_log", $for_log);
+            $this->item_model->updatedata("audit_trail", array("status" => 0), "order_id = " . $this->uri->segment(3));
             redirect("orders/page");
         }
     }

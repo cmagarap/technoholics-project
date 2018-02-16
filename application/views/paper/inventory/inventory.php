@@ -35,7 +35,10 @@
                     <div class="header">
                         <div align = "left">
                             <h3 class="title"><b>Products List</b></h3>
-                            <p class="category"><i>Here are the list of products as of <?= date("F j, Y"); ?>.</i></p><br>
+                            <p class="category">
+                                Here are the list of products as of <?= date("F j, Y"); ?>.<br>
+                                <a href="<?= base_url() ?>reports/inventory"> <u>See inventory report.</u></a>
+                            </p><br>
                             <a href = "<?= $this->config->base_url() ?>inventory/add_product" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
                             <a href = "<?= $this->config->base_url() ?>inventory/recover_product" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
                         </div>

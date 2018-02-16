@@ -134,7 +134,7 @@
                                                 <span class="text-muted"><small style = "color: #CCCCCC"><?= date("F j, Y", $logs->date) ?></small></span>
                                             </div>
                                             <div class="col-xs-3 text-right">
-                                                <font color="#31bbe0"><?= date("h:i A", $logs->date) ?></font>
+                                                <p style="color: #31bbe0"><?= date("h:i A", $logs->date) ?></p>
                                             </div>
                                         </div>
                                     </li>
