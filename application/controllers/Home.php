@@ -283,7 +283,7 @@ class Home extends CI_Controller {
             $this->checkout2();
         } else {
             $data = array(
-                'title' => "Checkout",
+                'title' => "Checkout - Address",
                 'CTI' => $this->basket->total_items(),
                 'page' => "Home"
             );
@@ -294,20 +294,23 @@ class Home extends CI_Controller {
         }
     }
 
-    public function checkout() {
+    public function checkout2(){
+
         $data = array(
-            'title' => "Checkout",
-            'page' => "Home"
+            'title' => "Checkout - Delivery method",
+            'page' => "Home",
+            'CTI' => $this->basket->total_items()
         );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkouty');
+        $this->load->view('ordering/checkout2');
         $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout2() {
+    public function checkout3() {
         $data = array(
-            'title' => "Checkout",
+            'title' => "Checkout - Payment Method",
             'page' => "Home",
             'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
             'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
@@ -322,13 +325,13 @@ class Home extends CI_Controller {
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout2');
+        $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout3() {
+    public function checkout4() {
         $data = array(
-            'title' => "My Shopping Cart",
+            'title' => "Checkout - Order Review",
             'cartItems' => $this->basket->contents(),
             'CT' => $this->basket->total(),
             'CTI' => $this->basket->total_items(),
@@ -347,7 +350,7 @@ class Home extends CI_Controller {
 
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout3');
+        $this->load->view('ordering/checkout4');
         $this->load->view('ordering/includes/footer');
     }
 
@@ -456,18 +459,49 @@ class Home extends CI_Controller {
     }
 
     public function trackorder() {
-        if($this->session->has_userdata('isloggedin')) {
+
+        if($this->session->has_userdata('isloggedin')){
+
+            $orders = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid));
+
             $data = array(
                 'title' => "Track my Order",
-                'page' => "Track my Order",
-                'CTI' => $this->basket->total_items(),
+                'page' => "Home",
+                'orders' => $orders,
+                'CTI' => $this->basket->total_items()
             );
 
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/trackorder');
             $this->load->view('ordering/includes/footer');
-            //echo $this->uri->segment(1) ;
+        }
+
+        else {
+            redirect('login');
+        }
+    }
+
+        public function orderstatus() {
+
+        if($this->session->has_userdata('isloggedin')){
+
+            $order = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)))[0];
+
+            $orderstatus = $this->item_model->fetch('order_status', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)));
+
+            $data = array(
+                'title' => "Order Status",
+                'page' => "Home",
+                'order' => $order,
+                'orderstatus' => $orderstatus,
+                'CTI' => $this->basket->total_items()
+            );
+
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/orderstatus');
+            $this->load->view('ordering/includes/footer');
         }
 
         else {

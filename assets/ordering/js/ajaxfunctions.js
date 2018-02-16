@@ -23,8 +23,8 @@ $(document).ready(function () {
                         type: 'info',
                         timer: 2000,
                             placement: {
-                            from: "top",
-                            align: "left"
+                            from: "bottom",
+                            align: "right"
                         }
                     });
                 }
@@ -49,8 +49,8 @@ $(document).ready(function () {
                         type: 'info',
                         timer: 2000,
                             placement: {
-                            from: "top",
-                            align: "left"
+                            from: "bottom",
+                            align: "right"
                         }
                     });
                     }
@@ -76,8 +76,8 @@ $(document).ready(function () {
                         type: 'info',
                         timer: 2000,
                             placement: {
-                            from: "top",
-                            align: "left"
+                            from: "bottom",
+                            align: "right"
                         }
                     });
                 }
@@ -136,8 +136,8 @@ $(document).ready(function () {
                         type: 'info',
                         timer: 2000,
                             placement: {
-                            from: "top",
-                            align: "left"
+                            from: "bottom",
+                            align: "right"
                         }
                     });
                 }

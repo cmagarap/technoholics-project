@@ -181,7 +181,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </div>
                             <div class="col-sm-9 col-md-10">
                             <h5 >Tell people what you think</h5>
-                                <fieldset class="starability-basic">
+                                <fieldset class="starability-checkmark">
                                     <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
 
                                     <input type="radio" id="rate1" name="rating" value="1" />
