@@ -1,3 +1,9 @@
+<?php
+
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +17,7 @@
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/icon2.png">
+     <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>assets/ordering/img/<?= $image->logo_icon ?>">
     <!-- Bootstrap core CSS -->
     <link href="<?= $this->config->base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications -->
@@ -26,6 +32,15 @@
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/prism.css" rel="stylesheet"/>
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/css/calendar-style.css" rel="stylesheet"/>
     <link type="text/css" href="<?= $this->config->base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
+
+   
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
+   
+
+       
 
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
 
@@ -50,7 +65,7 @@
     <script src="<?= $this->config->base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="<?= $this->config->base_url()?>assets/paper/js/demo.js"></script>
-
+       
     <style>
         input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
             background-color: lightblue;

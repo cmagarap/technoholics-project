@@ -20,6 +20,7 @@ class Dashboard extends CI_Controller {
 
     public function index() {
         if($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+            
             $this->db->select_sum('income');
             $income = $this->item_model->fetch("sales", "status = 1");
             $this->db->select_sum('product_quantity');

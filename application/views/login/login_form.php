@@ -1,3 +1,9 @@
+<?php
+
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+
+?>
 <!DOCTYPE html>
 <!-- saved from url=(0081)https://wrappixel.com/demos/admin-templates/monster-admin/main/pages-login-2.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= $this->config->base_url() ?>images/icon2.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>assets/ordering/img/<?= $image->logo_icon ?>">
     <title>Technoholics Login</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?= $this->config->base_url() ?>assets/css/monster/bootstrap.min.css" rel="stylesheet">
