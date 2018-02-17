@@ -1,36 +1,40 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/sales/getSalesData",
+        url: "http://localhost/project/dashboard/getTrend",
         method: "POST",
         success: function(data) {
-            var dates = [];
-            var income = [];
-
+            var td = [];
+            var bought = [];
+            console.log(data);
             for(var i in data) {
-                var month = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                var formattedMonth = month[data[i].sales_month];
-                dates.push(formattedMonth);
-                income.push(data[i].income);
+                if(i == 0) {
+                    td.push(data[i].td);
+                    bought.push(data[i].bought);
+                } else {
+                    var x = ((data[i].bought / data[0].bought) * data[i].bought) + Number(data[i].bought);
+                    console.log(x);
+                    td.push(data[i].td);
+                    bought.push(x);
+                }
             }
-            console.log(dates);
+
             var chartdata = {
-                labels: dates,
+                labels: td,
                 datasets : [{
-                    label: 'Sales',
-                    data: income,
-                    borderColor: 'rgba(220, 47, 84, 1)',
-                    pointBorderColor: 'rgba(220, 47, 84, 1)',
+                    label: 'Brand Trend',
+                    data: bought,
+                    borderColor: '#31bbe0',
+                    backgroundColor: 'rgb(49, 187, 224, 0.1)',
+                    pointBorderColor: '#31bbe0',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
                     pointHoverBackgroundColor: 'rgb(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,
-                    borderWidth: 5,
-                    fill: false
+                    borderWidth: 5
                 }]};
 
-            var ctx = $("#salesLine");
-            Chart.defaults.global.defaultFontFamily = "Arial";
-            Chart.defaults.global.defaultFontSize = 12;
+            var ctx = document.getElementById("trendLine");
+            ctx.height = 150;
             var lineGraph = new Chart(ctx, {
                 type: 'line',
                 data: chartdata,
@@ -42,7 +46,7 @@ $(document).ready(function(){
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem, chartData) {
-                                return 'Sales: ' + chartData.datasets[0].data[tooltipItem.index];
+                                return ' Trend: ' + chartData.datasets[0].data[tooltipItem.index];
                             }
                         }
                     },
@@ -58,6 +62,11 @@ $(document).ready(function(){
                                 borderDash: [2, 2]
                             }
                         }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0, // disables bezier curves
+                        }
                     }
                 }
             });

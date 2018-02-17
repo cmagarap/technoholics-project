@@ -54,4 +54,14 @@ class Dashboard extends CI_Controller {
             redirect("home");
         }
     }
+
+    public function getTrend() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT product.product_brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'Apple' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
+            print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
 }

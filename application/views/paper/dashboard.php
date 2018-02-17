@@ -127,17 +127,19 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Users Behavior</h4>
-                        <p class="category">24 Hours performance</p>
+                        <h3 class="title"><b>Brand Trend</b></h3>
+                        <!--<p class="category">24 Hours performance</p>-->
                     </div>
                     <div class="content">
-                        <div id="chartHours" class="ct-chart"></div>
+                        <div id="chart-container">
+                            <canvas id="trendLine" style="height: 300px"></canvas>
+                        </div>
                         <div class="footer">
-                            <div class="chart-legend">
+                            <!--<div class="chart-legend">
                                 <i class="fa fa-circle text-info"></i> Open
                                 <i class="fa fa-circle text-danger"></i> Click
                                 <i class="fa fa-circle text-warning"></i> Click Second Time
-                            </div>
+                            </div>-->
                             <hr>
                             <div class="stats">
                                 <i class="ti-reload"></i> Updated 3 minutes ago
@@ -151,7 +153,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Brand Stock</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Brand Stock</b></h3>
                         <p class="category">
                             <i class="ti-archive" style = "font-size: 12px;"></i> Product stock per brand.
                         </p>
@@ -173,7 +175,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-6">
                 <div class="card ">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>2017 Sales</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>2017 Sales</b></h3>
                         <p class="category"><i class="ti-stats-up" style = "font-size: 12px;"></i> Sales per month in 2017.</p>
                     </div>
                     <hr>
@@ -195,7 +197,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Latest Customer Activities</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Latest Customer Activities</b></h3>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
@@ -245,7 +247,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Weekly Active Customers</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Weekly Active Customers</b></h3>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
@@ -293,7 +295,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Age of Male Customers</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Age of Male Customers</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -314,7 +316,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Orders by Gender</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Orders by Gender</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -335,7 +337,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Age of Female Customers</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Age of Female Customers</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -358,7 +360,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Viewed Products</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Viewed Products</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -378,7 +380,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Searched Products</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Searched Products</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -398,7 +400,7 @@ foreach ($customer_all as $customer_all){
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Purchased Products</b></h4>
+                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Purchased Products</b></h3>
                     </div>
                     <hr>
                     <div class="content">
@@ -419,11 +421,12 @@ foreach ($customer_all as $customer_all){
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/inventory_bar.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/views_hbar.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/purchase_hbar.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/search_hbar.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/sales_line.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/male_doughnut.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/female_doughnut.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/gender_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/inventory_bar.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/views_hbar.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/purchase_hbar.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/search_hbar.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/sales_line.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/male_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/female_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/gender_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/brand_trend_line.js"></script>
