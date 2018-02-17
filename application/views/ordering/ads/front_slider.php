@@ -11,10 +11,14 @@
                      </div>
                      <div class="item">
                          <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $image->image_3 ?>" alt= "" style=" width:100%">
+
                      </div>
                  </div>
                  <!-- /#main-slider -->
              </div>
          </div>
 <!-- /#hot -->
+
+
+
 

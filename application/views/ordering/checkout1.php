@@ -12,16 +12,17 @@
             </div>
 
             <div class="col-md-12" id="checkout">
-
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout2';?>">
-                        <h1>Checkout</h1>
+                    <form Method="post" action="<?= base_url().'home/checkout2';?>">
+                        <h1>Checkout - Address</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a>
                             </li>
+                            <li class="disabled"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
+                            </li>
                             <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
-                            <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
+                            <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order review</a>
                             </li>
                         </ul>
 
@@ -96,10 +97,10 @@
 
                         <div class="box-footer">
                             <div class="pull-left">
-                                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to basket</a>
+                                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Basket</a>
                             </div>
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
+                                <button type="submit" class="btn btn-primary">Continue to Delivery Method<i class="fa fa-chevron-right"></i>
                                 </button>
                             </div>
                         </div>

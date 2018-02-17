@@ -123,6 +123,7 @@ class Orders extends CI_Controller {
             "admin_id" => $this->session->uid
         );
         $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
 
         if($track) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
@@ -133,7 +134,35 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            if($this->input->post("progress") == 1){
+                $data = array (
+                  "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 2){
+                $data = array (
+                  "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 3){
+                $data = array (
+                  "description_status" => "Thank you for shopping with Technoholics! your order has arrived at your location.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+
+            $this->item_model->insertData("order_status", $data);
         }
 
         $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
@@ -170,7 +199,8 @@ class Orders extends CI_Controller {
     }
 
     public function cancel() {
-        $cancel = $this->item_model->updatedata("orders", array("status" => 0), "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
         if($cancel) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
@@ -180,7 +210,18 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Cancelled order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            $data = array (
+              "description_status" => "Your order has been cancelled.",
+              "customer_id" => $customer->customer_id,
+              "order_id" => $customer->order_id,
+              "transaction_date" => time()
+            ); 
+
+            $this->item_model->insertData("order_status", $data);
+
             redirect("orders/page");
         }
     }
