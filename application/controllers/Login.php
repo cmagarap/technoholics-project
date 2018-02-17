@@ -7,16 +7,21 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session', 'form_validation'));
+        $this->load->library(array('email', 'session', 'form_validation','basket'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
     }
 
     public function index() {
+
+         $image = $this->item_model->fetch('content')[0];
+
         $data = array(
             'title' => "TECHNOHOLICS Login",
-            'page' => "Home"
+            'CTI' => $this->basket->total_items(),
+            'page' => "Home",
+            'image' => $image
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
@@ -30,8 +35,8 @@ class Login extends CI_Controller {
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
-            $admin = $this->item_model->fetch("admin", "username = '" . $this->input->post('user') . "' OR email = '" . $this->input->post('user') . "'");
-            $customer = $this->item_model->fetch("customer", "username = '" . $this->input->post('user') . "' OR email = '" . $this->input->post('user') . "'");
+            $admin = $this->item_model->fetch("admin", "username = '" . html_escape($this->input->post('user')) . "' OR email = '" . $this->input->post('user') . "'");
+            $customer = $this->item_model->fetch("customer", "username = '" . html_escape($this->input->post('user')) . "' OR email = '" . $this->input->post('user') . "'");
             if ($customer) { # if customer
                 $customer = $customer[0];
                 if ($customer->status == 1) { # if the account is active
@@ -50,6 +55,7 @@ class Login extends CI_Controller {
                             $this->session->uid = $customer->customer_id;
                             $this->session->set_userdata($for_session, true);
                             $this->session->set_userdata('isloggedin', true);
+                            session_regenerate_id(true);
                             $this->session->set_flashdata('myflashdata', true);
                             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                             $for_log = array(

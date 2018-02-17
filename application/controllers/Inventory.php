@@ -8,6 +8,7 @@ class Inventory extends CI_Controller {
         $this->load->library(array('session', 'form_validation'));
         $this->load->helper('form');
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
@@ -65,15 +66,33 @@ class Inventory extends CI_Controller {
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: View Product",
-                'heading' => "Inventory",
-                'products' => $product
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view("paper/includes/navbar");
-            $this->load->view('paper/inventory/view');
-            $this->load->view('paper/includes/footer');
+            if($product) {
+                $order_items = $this->item_model->fetch('order_items', array('product_id' => $this->uri->segment(3)));
+                if ($order_items) {
+                    foreach ($order_items as $order_item) {
+                        $this->db->select("customer_id");
+                        $orders = $this->item_model->fetch("orders", array("order_id" => $order_item->order_id));
+                        foreach ($orders as $order) {
+                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id));
+                        }
+                    }
+                } else {
+                    $customer = NULL;
+                }
+
+                $data = array(
+                    'title' => "Inventory: View Product",
+                    'heading' => "Inventory",
+                    'products' => $product,
+                    'buyers' => $customer
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/inventory/view');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect('inventory');
+            }
         } else {
             redirect('home');
         }
@@ -146,7 +165,7 @@ class Inventory extends CI_Controller {
                 'product_category' => $category_fetch->category,
                 'product_price' => html_escape($this->input->post('product_price')),
                 'product_quantity' => html_escape($this->input->post('product_quantity')),
-                'product_image1' => $dataInfo[0],
+                'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : "default-product.jpg",
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
                 'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
@@ -183,18 +202,23 @@ class Inventory extends CI_Controller {
             $category = $this->item_model->fetch("category", NULL, "category", "ASC");
             $brand = $this->item_model->fetch("brand", NULL, "brand_name", "ASC");
             $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
-            $data = array(
-                'title' => "Inventory: Edit Product",
-                'heading' => "Inventory",
-                'products' => $product,
-                'supplier' => $supplier,
-                'category' => $category,
-                'brand' => $brand
-            );
-            $this->load->view('paper/includes/header', $data);
-            $this->load->view("paper/includes/navbar");
-            $this->load->view('paper/inventory/edit');
-            $this->load->view('paper/includes/footer');
+
+            if($product) {
+                $data = array(
+                    'title' => "Inventory: Edit Product",
+                    'heading' => "Inventory",
+                    'products' => $product,
+                    'supplier' => $supplier,
+                    'category' => $category,
+                    'brand' => $brand
+                );
+                $this->load->view('paper/includes/header', $data);
+                $this->load->view("paper/includes/navbar");
+                $this->load->view('paper/inventory/edit');
+                $this->load->view('paper/includes/footer');
+            } else {
+                redirect("inventory");
+            }
         } else {
             redirect("home/");
         }
@@ -235,15 +259,17 @@ class Inventory extends CI_Controller {
                 $this->image_lib->resize();
                 $this->image_lib->initialize($config2);
             }
-            $brand_fetch = $this->item_model->fetch("brand", array("brand_id" => $this->input->post('product_brand')))[0];
-            $category_fetch = $this->item_model->fetch("category", array("category_id" => $this->input->post('product_category')))[0];
+            $brand_fetch = $this->item_model->fetch("brand", "brand_id = " . $this->input->post('product_brand'))[0];
+            $category_fetch = $this->item_model->fetch("category", "category_id = " . $this->input->post('product_category'))[0];
+            $this->db->select("product_image1");
+            $image1_fetch = $this->item_model->fetch("product", "product_id = " . $this->input->post("product_id"))[0];
             $data = array(
                 'product_name' => html_escape(trim($this->input->post('product_name'))),
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => html_escape($this->input->post('product_price')),
                 'product_quantity' => html_escape($this->input->post('product_quantity')),
-                'product_image1' => $dataInfo[0],
+                'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : $image1_fetch->product_image1,
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
                 'product_image4' => ($dataInfo[3]) ? $dataInfo[3] : NULL,
@@ -264,8 +290,11 @@ class Inventory extends CI_Controller {
                 'status' => '1'
             );
 
-            $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
+            $update = $this->item_model->updatedata("product", $data, array('product_id' => $this->uri->segment(3)));
             $this->item_model->insertData('user_log', $for_log);
+            $statusMsg = $update ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been updated successfully.' : 'Some problem occured, please try again.';
+            $this->session->set_flashdata('statusMsg', $statusMsg);
+
             redirect("inventory/page");
         } else {
             $this->edit_product();
@@ -273,7 +302,12 @@ class Inventory extends CI_Controller {
     }
 
     public function delete_product() {
-        $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+        $this->db->select("product_name");
+        $product_name = $this->item_model->fetch("product", "product_id = " . $this->uri->segment(3))[0];
+        $update = $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
+        $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been deleted.' : 'Some problem occured, please try again.';
+        $this->session->set_flashdata('statusMsg', $statusMsg);
+
         $for_log = array(
             "admin_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
@@ -330,7 +364,12 @@ class Inventory extends CI_Controller {
     }
 
     public function recover_product_exec() {
-        $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
+        $this->db->select("product_name");
+        $product_name = $this->item_model->fetch("product", "product_id = " . $this->uri->segment(3))[0];
+        $update = $this->item_model->updatedata("product", array("status" => 1), array('product_id' => $this->uri->segment(3)));
+        $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been recovered.' : 'Some problem occured, please try again.';
+        $this->session->set_flashdata('statusMsg', $statusMsg);
+
         $for_log = array(
             "admin_id" => $this->session->uid,
             "user_type" => $this->session->userdata('type'),
@@ -390,6 +429,24 @@ class Inventory extends CI_Controller {
         } else {
             redirect("home");
         }
+    }
+
+    public function auto() {
+        $output = '';
+        $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
+        $output = '<ul class="box list-unstyled" style="width:295px;">';
+        if($query)
+        {
+            foreach($query as $query){
+                $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }
+        }
+        else
+        {
+            $output .= '<li class="text-left" >Item Not Found</li>';
+        }
+        $output .= '</ul>';
+        echo $output;
     }
 
 }

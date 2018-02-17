@@ -1,4 +1,9 @@
 <?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
+
+$home1 = $content->color_1;
 if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
     $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
     $user = $user[0];
@@ -6,6 +11,8 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     $user = $this->item_model->fetch("customer", array("customer_id" => $this->session->uid));
     $user = $user[0];
 }
+
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <div class="wrapper">
@@ -45,7 +52,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
                     <?php
                     if($this->session->userdata('type') == 0) { ?>
-                    <a href="<?= site_url('accounts/admin'); ?>">
+                    <a href="<?= site_url('accounts/customer'); ?>">
                         <i class="ti-user"></i>
                         <?php echo "<p>Accounts</p></a>";
                         } elseif($this->session->userdata('type') == 1){ ?>
@@ -54,6 +61,12 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                             <?php echo "<p>Customer Accounts</p></a>";
                             }
                             ?>
+                </li>
+                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('Reports'); ?>">
+                        <i class="ti-notepad"></i>
+                        <p>Reports</p>
+                    </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail'); ?>">
@@ -72,7 +85,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default" style = "background-color: #595959">
+        <nav class="navbar navbar-default" style = "background-color: <?= $home1?>">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">
@@ -111,7 +124,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="<?= $this->config->base_url() ?>Settings">
                                 <span class="navtxt">
                                 <i class="ti-settings"></i>
                                 <p>Settings</p>

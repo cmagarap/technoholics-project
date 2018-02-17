@@ -1,5 +1,12 @@
+<?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
+
+$home1 = $content->color_1;
+?>
 <footer class="footer">
-    <div class="container-fluid">
+    <div class="container-fluid" style = "background-color: <?= $home1?>">
         <!--<nav class="pull-left">
             <ul>
                 <li></li>
@@ -42,6 +49,9 @@
         });
     </script>
 <?php endif; ?>
+ 
+         
+
 
 <script>
 
@@ -97,6 +107,32 @@ $('body').on('change', '#file', function(){
             e.preventDefault();
         }
     });
+});
+
+$('input[name=search]').keyup(function(){
+    var query = $(this).val();
+    if(query != '')
+    {
+        $.ajax({
+            url:"<?php echo base_url(); ?>inventory/auto",
+            method:"POST",
+            data:{query:query},
+            success:function(data)
+            {
+                $('#productlist').fadeIn();
+                $('#productlist').html(data);
+            }
+        });
+    }
+});
+
+$(document).on('click', '#link', function(){
+    $('input[name=search]').val($(this).text());
+    $('#productlist').fadeOut();
+});
+
+$(document).on('focusout', 'input[name=search]', function(){
+    $('#productlist').fadeOut();
 });
 
 NProgress.configure({ showSpinner: false });

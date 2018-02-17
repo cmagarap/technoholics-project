@@ -13,6 +13,7 @@ class Sales extends CI_Controller {
         $this->load->model('item_model');
         $this->load->library('session');
         if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
         }
     }
@@ -46,14 +47,17 @@ class Sales extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
+        $date = $this->input->post('date') ? "Here are the list of sales for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
+
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('sales', "status = 1");
+            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('sales', array('status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('sales', 'status = 1');
             $this->pagination->initialize($config);
-            $sales = $this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', "status = 1");
+            $sales = $this->input->post('date')?$this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1));
             $data = array(
                 'title' => 'Sales Management',
                 'heading' => 'Sales Management',
                 'sales' => $sales,
+                'date' => $date,
                 'links' => $this->pagination->create_links()
             );
             $this->load->view("paper/includes/header", $data);
@@ -86,8 +90,17 @@ class Sales extends CI_Controller {
         $this->db->select("sales_date");
         $this->db->select("income");
 
-        #$data = $this->item_model->fetch('sales', "status = 1", "sales_date", "ASC");
-        $data = $this->db->query("SELECT SUM(income) AS income, sales_m FROM sales WHERE status = 1 GROUP BY sales_m");
+        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%c') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
+        print json_encode($data->result());
+    }
+
+    public function getDailySales() {
+        header('Content-Type: application/json');
+        $this->db->select("sales_id");
+        $this->db->select("sales_date");
+        $this->db->select("income");
+
+        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM `sales` WHERE status = 1 GROUP BY sales_d ORDER BY sales_date ASC LIMIT 12 OFFSET 12");
         print json_encode($data->result());
     }
 }

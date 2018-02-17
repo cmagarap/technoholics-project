@@ -12,6 +12,10 @@ class Orders extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session'));
+        if (!$this->session->has_userdata('isloggedin')) {
+            $this->session->set_flashdata("error", "You must login first to continue.");
+            redirect('/login');
+        }
     }
 
     public function index() {
@@ -43,16 +47,22 @@ class Orders extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
+        $date = $this->input->post('date') ? "Here are the list of orders for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "orders'>Click  here to view all recorded transactions.</a>" : "Here are the overall orders of the customers.";
+
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->item_model->getCount('orders', "status = 1");
+            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('orders', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('orders', array('status' => 1));
             $this->pagination->initialize($config);
-            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', "status = 1");
+            $orders = $this->input->post('date')?$this->item_model->getItemsWithLimit('orders', $perpage,
+            $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array( 'status' => 1));
+
             $data = array(
                 'title' => 'Orders Management',
                 'heading' => 'Orders Management',
                 'orders' => $orders,
+                'date' => $date,
                 'links' => $this->pagination->create_links()
             );
+            
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/orders/orders");
@@ -113,6 +123,7 @@ class Orders extends CI_Controller {
             "admin_id" => $this->session->uid
         );
         $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
 
         if($track) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
@@ -123,7 +134,35 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            if($this->input->post("progress") == 1){
+                $data = array (
+                  "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 2){
+                $data = array (
+                  "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 3){
+                $data = array (
+                  "description_status" => "Thank you for shopping with Technoholics! your order has arrived at your location.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+
+            $this->item_model->insertData("order_status", $data);
         }
 
         $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
@@ -139,7 +178,7 @@ class Orders extends CI_Controller {
 
             # insert to sales table:
             $for_sales = array(
-                "sales_detail" => "In this order, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
+                "sales_detail" => "In this transaction, $order->order_quantity items were bought and " . number_format($order->total_price, 2) . " is earned.",
                 "income" => $order->total_price,
                 "sales_date" => time(),
                 "admin_id" => $this->session->uid,
@@ -160,7 +199,8 @@ class Orders extends CI_Controller {
     }
 
     public function cancel() {
-        $cancel = $this->item_model->updatedata("orders", array("status" => 0), "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
         if($cancel) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
@@ -170,7 +210,18 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Cancelled order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            $data = array (
+              "description_status" => "Your order has been cancelled.",
+              "customer_id" => $customer->customer_id,
+              "order_id" => $customer->order_id,
+              "transaction_date" => time()
+            ); 
+
+            $this->item_model->insertData("order_status", $data);
+
             redirect("orders/page");
         }
     }
@@ -180,6 +231,18 @@ class Orders extends CI_Controller {
             header('Content-Type: application/json');
             $data = $this->db->query("SELECT COUNT(customer.gender) AS gender_count, customer.gender AS gender FROM orders INNER JOIN customer ON orders.customer_id = customer.customer_id WHERE orders.status = 1 GROUP BY customer.gender");
             print json_encode($data->result());
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function getProcessStatus() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT COUNT(*) AS no_of_orders, process_status FROM orders WHERE status = 1 AND FROM_UNIXTIME(transaction_date, '%m-%d-%Y') = '". date("m-d-Y") ."' GROUP BY process_status");
+            # '02-21-2017'
+            # echo date("m-d-Y", strtotime('02-11-2018'));
+            print json_encode(($data) ? $data->result() : NULL);
         } else {
             redirect("home");
         }

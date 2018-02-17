@@ -1,11 +1,21 @@
+<?php
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+$content = $content[0];
+$home1 = $content->customer_color1;
+
+?>
 <!-- *** TOPBAR ***
 _________________________________________________________ -->
 <!-- *** TOP BAR END *** -->
 <!-- *** NAVBAR ***
 _________________________________________________________ -->
-<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; ?>
+<?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; 
+date_default_timezone_set("Asia/Manila");
+?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-    <div id="top">
+<!-- COlor Here -->
+    <div id="top" style = "background-color: <?= $home1?>">
         <div class="container">
             <div class="" data-animate="fadeInDown">
                 <ul class="menu">
@@ -28,6 +38,10 @@ _________________________________________________________ -->
                                 </div>
                             </div>
                         </li>
+                        <li><a href="<?= base_url().'home/trackorder'; ?>">Track my Order</a>
+                        </li>
+                        <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
+                        </li>
                     <?php else: ?>
                         <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
                         </li>
@@ -38,6 +52,7 @@ _________________________________________________________ -->
                     </li>
                     <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -46,19 +61,22 @@ _________________________________________________________ -->
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
-                <img src="<?= base_url().'assets/ordering/img/logo.png'; ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
+                <img src="<?= base_url() ?>assets/ordering/img/<?= $image->company_logo ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
             </a>
-            <div class="navbar-buttons">
+            <div class="navbar-buttons" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
                     <span class="sr-only">Toggle navigation</span>
                     <i class="fa fa-align-justify"></i>
                 </button>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search" >
                     <span class="sr-only">Toggle search</span>
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search" ></i>
                 </button>
                 <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                    <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 items in cart</span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <?php if($CTI) : ?>
+                        <span class="label label-danger" style="position:absolute; top:-8px; left:-7px;"><?=$CTI?></span>
+                    <?php endif; ?>
                 </a>
             </div>
         </div> <!--/.navbar-header -->
@@ -68,13 +86,13 @@ _________________________________________________________ -->
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
-            <?php endif; ?>
+                    <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
                 <li class="active dropdown yamm-fw">
             <?php else : ?>
                 <li class="dropdown yamm-fw">
-            <?php endif; ?>
+                    <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -86,7 +104,7 @@ _________________________________________________________ -->
                                             <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                            ?>">Samsung</a>
+                                                ?>">Samsung</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
@@ -215,9 +233,14 @@ _________________________________________________________ -->
             </ul>
         </div> <!--/.nav-collapse -->
 
-        <div class="navbar-buttons">
+        <div class="navbar-buttons" id="CTI">
             <div class="navbar-collapse collapse right" id="basket-overview">
-                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm"></span></a>
+                <a href="<?= base_url().'home/basket'; ?>" class="btn btn-primary navbar-btn">
+                <i class="fa fa-shopping-cart"></i>
+            <?php if($CTI) : ?>
+                <span class="label label-danger" style="position:absolute; top:12px;"><?=$CTI?></span>
+            <?php endif; ?>
+                </a>
             </div>
             <!--/.nav-collapse -->
             <div class="navbar-collapse collapse right" id="search-not-mobile">
@@ -236,39 +259,10 @@ _________________________________________________________ -->
 			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
-                <div id="productlist" style="position:absolute;"></div>  
+                <div id="productlist" style="position:absolute;"></div>
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->
 </div> <!-- /#navbar -->
 
 <!-- *** NAVBAR END *** -->
-
-<!-- MODAL
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Login">Login</h4>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url().'home/customer_orders'; ?>" method="post">
-                    <div class="form-group">
-                        <label for = "username">Username</label>
-                        <input type="text" class="form-control" name = "username" id="email-modal" placeholder="Enter username here...">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="password-modal" placeholder="password">
-                    </div>
-                    <p class="text-center">
-                        <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                    </p>
-                </form>
-                <p class="text-center text-muted">Not registered yet?</p>
-                <p class="text-center text-muted"><a href="<?= base_url().'home/register'; ?>"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
-            </div>
-        </div>
-    </div>
-</div>
--->

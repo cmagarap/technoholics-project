@@ -1,5 +1,12 @@
 <!-- *** FOOTER ***
 _________________________________________________________ -->
+<?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
+
+$home1 = $content->customer_color1;
+?>
 <div id="footer" data-animate="fadeInUp">
     <div class="container">
         <div class="row">
@@ -69,8 +76,8 @@ _________________________________________________________ -->
                     <div class="input-group">
                         <input type="text" class="form-control">
                         <span class="input-group-btn">
-			                <button class="btn btn-default" type="button">Subscribe!</button>
-			            </span>
+                            <button class="btn btn-default" type="button">Subscribe!</button>
+                        </span>
                     </div> <!-- /input-group -->
                 </form>
                 <hr>
@@ -89,7 +96,7 @@ _________________________________________________________ -->
 <!-- *** FOOTER END *** -->
 <!-- *** COPYRIGHT ***
 _________________________________________________________ -->
-<div id="copyright">
+<div id="copyright"  style = "background-color: <?= $home1?>">
     <div class="container">
         <div class="col-md-6">
             <p class="pull-left">© <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
@@ -101,21 +108,21 @@ _________________________________________________________ -->
         </div>
     </div>
 </div>
-<!-- *** COPYRIGHT END *** -->
 </div>
-<!-- /#all -->
+</div>
+<!-- *** COPYRIGHT END *** -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
 <script>
     /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
+     toggle between hiding and showing the dropdown content */
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
 
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -128,131 +135,8 @@ _________________________________________________________ -->
             }
         }
     }
-
-    // Veo's AJAX
-    $(document).ready(function () {
-
-        $('.add_cart').click(function () {
-            var product_id = $(this).data("productid");
-            var product_name = $(this).data("productname");
-            var product_img = $(this).data("productimg");
-            var product_price = $(this).data("price");
-            var product_quantity = $(this).data("productquantity");
-            var minimum_quantity = 1;
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/add",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
-                success: function (data)
-                {
-                    alert("Product Added into Cart");
-                    $('#' + product_id).val('');
-                }
-            });
-        });
-
-        $(document).on('click', '.remove_inventory', function () {
-            var row_id = $(this).attr("id");
-                $.ajax({
-                    url: "<?php echo base_url(); ?>home/remove",
-                    method: "POST",
-                    data: {row_id: row_id},
-                    success: function (data)
-                    {
-                        $('#all').load("<?php echo base_url(); ?>home/basket");
-                        $('#all').html(data);
-                    }
-                });
-        });
-
-        $(document).on('click','.update',function () {
-            var product_id = $(this).data("productid");
-            var product_quantity = $(this).val();
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/update",
-                method: "POST",
-                data: {product_id: product_id, product_quantity: product_quantity},
-                success: function (data)
-                {
-                    location.reload();
-                }
-            });
-        });
-
-        $(document).on('click', '#clear_cart', function () {
-            if (confirm("Are you sure you want to clear cart?"))
-            {
-                $.ajax({
-                    url: "<?php echo base_url(); ?> home/clear",
-                    success: function (data)
-                    {
-                        alert("Your cart has been cleared...");
-                        $('#cart_details').html(data);
-                    }
-                });
-            } else
-            {
-                return false;
-            }
-        });
-
-        $('input[name=search]').keyup(function(){  
-           var query = $(this).val();  
-           if(query != '')  
-           {  
-                $.ajax({  
-                     url:"<?php echo base_url(); ?>home/auto", 
-                     method:"POST",  
-                     data:{query:query},  
-                     success:function(data)  
-                     {  
-                          $('#productlist').fadeIn();  
-                          $('#productlist').html(data);  
-                     }  
-                });  
-           }  
-        });  
-
-        $(document).on('click', 'li', function(){
-            $('input[name=search]').val($(this).text());  
-            $('#productlist').fadeOut();  
-        });  
-
-        $(document).on('focusout', 'input[name=search]', function(){
-            $('#productlist').fadeOut();  
-        });  
-        
-        $(document).on('click','#post',function () {
-            var product_id = $(this).data("productid");
-            var rating = $('input[name=rating]:checked').val(); 
-            var feedback = $('#comment').val();
-            var product_name = $(this).data("productname");
-            
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/post",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, feedback: feedback, rating: rating},
-                success: function (data)
-                {
-                    location.reload();
-                }
-            });
-        });
-        
-        NProgress.configure({ showSpinner: false });
-        NProgress.start();
-        var interval = setInterval(function() { NProgress.inc(); }, 1000);        
-
-        $(window).load(function () {
-            clearInterval(interval);
-            NProgress.done();
-        });
-
-        $(window).unload(function () {
-            NProgress.start();
-        });
-
-    });
 </script>
+
+
 </body>
 </html>

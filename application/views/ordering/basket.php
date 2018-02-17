@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
+                    <li><a href="<?= base_url().'home'; ?>">Home</a>
                     </li>
                     <li>Shopping cart</li>
                 </ul>
@@ -33,19 +33,19 @@
                                 <tr>
                                     <td>
                                         <a href="#">
-                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="<?= $item["name"] ?>">
                                         </a>
                                     </td>
                                     <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-rowid= "<?=$item["rowid"]?>">
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
-                                    <td id="subtotal"><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                    <td id="subtotal<?=$item["id"]?>" ><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
                                     <td>
-                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
+                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" data-rowid="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>
                                 </tr>
                                     <?php } }else{ ?>
