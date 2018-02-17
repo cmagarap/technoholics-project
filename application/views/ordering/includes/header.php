@@ -1,6 +1,5 @@
 <?php
-
-  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
 $image = $content[0];
 
 ?>
