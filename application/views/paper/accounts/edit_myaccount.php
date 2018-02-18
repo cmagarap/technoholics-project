@@ -4,7 +4,7 @@
             <div class="col-lg-4 col-md-5">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="<?= $this->config->base_url() ?>images/bf.jpg" alt="..."/>
+                        <img src="<?= $this->config->base_url() ?>assets/ordering/img/<?= $cover->image_1 ?>" alt="..."/>
                     </div>
                     <div class="content">
                         <div class="author">

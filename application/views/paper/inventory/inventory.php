@@ -35,7 +35,10 @@
                     <div class="header">
                         <div align = "left">
                             <h3 class="title"><b>Products List</b></h3>
-                            <p class="category"><i>Here are the list of products as of <?= date("F j, Y"); ?>.</i></p><br>
+                            <p class="category">
+                                Here are the list of products as of <?= date("F j, Y"); ?>.<br>
+                                <a href="<?= base_url() ?>reports/inventory"> <u>See inventory report.</u></a>
+                            </p><br>
                             <a href = "<?= $this->config->base_url() ?>inventory/add_product" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
                             <a href = "<?= $this->config->base_url() ?>inventory/recover_product" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View deleted items">Recover Items</a>
                         </div>
@@ -49,7 +52,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <th><b>#</b></th>
-                                <th><b>Name</b></th>
+                                <th colspan="2"><b>Product</b></th>
                                 <th><b>Brand</b></th>
                                 <th><b>Category</b></th>
                                 <th><b>Price</b></th>
@@ -62,6 +65,11 @@
                                 foreach ($products as $products): ?>
                                 <tr>
                                     <td><?= $counter++ ?></td>
+
+                                    <?php $product_image = (string)$products->product_image1;
+                                    $image_array = explode(".", $product_image); ?>
+
+                                    <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
                                     <td><?= $products->product_name ?></td>
                                     <td><?= $products->product_brand ?></td>
                                     <td><?= $products->product_category ?></td>

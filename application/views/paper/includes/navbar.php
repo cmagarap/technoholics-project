@@ -27,14 +27,8 @@ date_default_timezone_set("Asia/Manila");
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('dashboard'); ?>">
-                        <i class="ti-pie-chart"></i>
+                        <i class="ti-dashboard"></i>
                         <p>Dashboard</p>
-                    </a>
-                </li>
-                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('inventory/page'); ?>">
-                        <i class="ti-archive"></i> <!-- ti-package -->
-                        <p>Inventory</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Orders Management") { echo 'class="active"'; } ?>>
@@ -47,6 +41,12 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('sales'); ?>">
                         <i class="ti-stats-up"></i>
                         <p>Sales</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('inventory/page'); ?>">
+                        <i class="ti-archive"></i> <!-- ti-package -->
+                        <p>Inventory</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
@@ -62,8 +62,14 @@ date_default_timezone_set("Asia/Manila");
                             }
                             ?>
                 </li>
+                <li <?php if($heading == "Feedback") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('feedback'); ?>">
+                        <i class="ti-comments"></i>
+                        <p>Feedback</p>
+                    </a>
+                </li>
                 <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('Reports'); ?>">
+                    <a href="<?= site_url('reports'); ?>">
                         <i class="ti-notepad"></i>
                         <p>Reports</p>
                     </a>

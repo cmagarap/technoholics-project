@@ -94,10 +94,10 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         }
                         ?>
-                    </div>
                 </div>
             </div>
         </div>
@@ -168,4 +168,4 @@
         $('.menu .item').tab();
     });
 </script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/orders_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/orders_doughnut.js"></script>

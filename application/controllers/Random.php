@@ -12,13 +12,12 @@ class Random extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('session', 'apriori'));
+        $this->load->library(array('session'));
         $this->load->helper('string');
     }
 
     public function index() {
-
-        $this->load->view("paper/practice_charts");
+        #$this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');
         $hash = random_string('alnum', 20);
@@ -42,59 +41,8 @@ class Random extends CI_Controller {
         $ciphertext = $this->encryption->encrypt($plain_text);
 
         // Outputs: This is a plain-text message! (decrypt())
-        echo $this->encryption->decrypt($ciphertext)."<br>";
+        echo $this->encryption->decrypt($ciphertext)."<br>";*/
         // ==========================================================================================
-
-
-        # To check, get the salt first:
-        # getSalt($user_table, $saltFromDB, $columnForUserID, $user_id)
-        $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", 2);
-        echo "<b>This is the salt:</b> $salt<br>";
-
-        # To set the password:
-        # setPassword($passwordString, $user_table, $saltFromDB, $columnForUserID, $user_id)
-        $password = $this->item_model->setPassword("qwertyuiop123", $salt);
-        echo "<b>This is the password:</b> $password<br>";
-        # To verify:
-        # password_verify($stringToBeTested, $actualPassword)
-        if(password_verify($salt."qwertyuiop123", $password)) {
-            echo "<br><b style = 'color: green'><u>EQUAL</u></b>";
-        } else {
-            echo "<br><b style = 'color: red'>NOT EQUAL</b>";
-        }
-
-        #echo "<br><pre>";
-        $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
-        $hex = bin2hex($bytes); # length of hex is double the bytes
-        # var_dump($hex);
-        # var_dump($crypto_strong);
-        #echo $hex."</pre>";
-
-        */
-        #$sample = $this->item_model->fetch("user_log");
-        #$sample = $sample[0];
-        #echo date("F j, Y", 1516409137);
-        #$lastweek = time() - (6 * 24 * 60 * 60);
-        #echo date("F j, Y", $lastweek);
-        # echo $lastweek."<br>";
-        $d = strtotime("Sept 17, 1996 18:27");
-        echo date("Y-m-d h:i:sa", $d)."<br>";
-        echo $d."<br>";
-        if(strtotime("December") == $d) {
-            echo "december!!";
-        } else {
-            echo "boring month";
-        }
-    }
-
-    public function getProductdata() {
-        header('Content-Type: application/json');
-        #$this->db->select("product_quantity");
-        $data = $this->item_model->fetch('product', NULL, NULL, NULL, 6);
-        echo json_encode($data);
-    }
-
-    public function apr() {
-        $this->load->view("paper/ap/example");
+        echo date("m-j-Y", 1517985368);
     }
 }

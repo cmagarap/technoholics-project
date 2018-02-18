@@ -7,7 +7,6 @@ class Register extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session', 'form_validation', 'email', 'recaptcha','basket'));
-      
         $this->load->helper('form');
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home/');

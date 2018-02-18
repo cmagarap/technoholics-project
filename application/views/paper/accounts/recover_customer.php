@@ -34,7 +34,7 @@
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
-                            <th><b>Username</b></th>
+                            <th colspan="2"><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
                             <th><b>Contact No.</b></th>
@@ -44,6 +44,12 @@
                             <?php foreach ($users as $users) { ?>
                                 <tr>
                                     <td><?= $users->customer_id ?></td>
+
+                                    <?php $user_image = (string)$users->image;
+                                    $image_array = explode(".", $user_image); ?>
+
+                                    <td align="center"><img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="<?= $users->firstname . " " . $users->lastname ?>"></td>
+
                                     <td>
                                         <?php
                                         if ($users->username == NULL)

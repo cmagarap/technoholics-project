@@ -76,9 +76,9 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         } ?>
-                    </div>
                 </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
 
         swal({
             title: "Are you sure you want to delete this?",
-            // text: "You will not be able to undo this action once cancelled.",
+            text: "You won't be able to undo this action once cancelled.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -101,7 +101,7 @@
                 if (willDelete) {
                     window.location = "<?= $this->config->base_url() ?>sales/delete/" + id;
                 } else {
-                    // swal("This order is safe!");
+                    swal("This sales record is safe!");
                 }
             });
     });
@@ -148,4 +148,4 @@
             // This use for DEMO page tab component.
         });
 </script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/dailySales_line.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/dailySales_line.js"></script>

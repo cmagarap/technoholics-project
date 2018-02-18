@@ -40,7 +40,7 @@ $home1 = $content->color_1;
 
             $.notify({
                 icon: 'ti-direction',
-                message: "Welcome to <b>Technoholics Admin System</b> - a beautiful Bootstrap freebie for your next project."
+                message: "Welcome to <b>Technoholics Admin System</b> where you can manage inventory, orders, sales, etc."
             },{
                 type: 'info',
                 timer: 4000

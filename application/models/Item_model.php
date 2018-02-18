@@ -15,21 +15,21 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-    function avg($table, $where = NULL, $avg){
+    function avg($table, $where = NULL, $avg) {
         $this->db->select_avg($avg);
         $this->db->where($where);
         $query = $this->db->get($table);
         return $query->row();
     }
 
-    function max($table, $where = NULL, $max){
+    function max($table, $where = NULL, $max) {
         $this->db->select_max($max);
         $this->db->where($where);
         $query = $this->db->get($table);
         return $query->row();
     }
 
-    function sum($table, $where = NULL, $sum){
+    function sum($table, $where = NULL, $sum) {
         $this->db->select_sum($sum);
         $this->db->where($where);
         $query = $this->db->get($table);

@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Created by PhpStorm.
  * User: Seeeeej
@@ -23,11 +23,14 @@ class My_account extends CI_Controller {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
             $user_log = $this->item_model->fetch("user_log", array("admin_id" => $this->session->uid), "log_id", "DESC", 4);
+            $this->db->select("image_1");
+            $cover = $this->item_model->fetch("home")[0];
             $data = array(
                 'title' => 'Manage My Account',
                 'heading' => 'My Account',
                 'user' => $my_account,
-                'logs' => $user_log
+                'logs' => $user_log,
+                'cover' => $cover
             );
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");

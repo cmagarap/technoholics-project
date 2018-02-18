@@ -12,7 +12,7 @@ $(document).ready(function(){
                 dates.push(formattedMonth);
                 income.push(data[i].income);
             }
-            console.log(dates);
+
             var chartdata = {
                 labels: dates,
                 datasets : [{
@@ -42,7 +42,7 @@ $(document).ready(function(){
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem, chartData) {
-                                return 'Sales: ' + chartData.datasets[0].data[tooltipItem.index];
+                                return ' Sales: ' + chartData.datasets[0].data[tooltipItem.index];
                             }
                         }
                     },

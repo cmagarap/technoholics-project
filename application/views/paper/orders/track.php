@@ -10,15 +10,14 @@
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped" style = "width: 100%">
                             <thead>
-                            <th><i class="ti-image" style = "color: #31bbe0"></i></th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
+                            <th><u style = "color: #31bbe0">Price</u></th>
+                            <th><u style = "color: #31bbe0">Quantity</u></th>
                             </thead>
                             <tbody>
                             <?php foreach ($order_items as $order_items): ?>
                                 <tr>
-                                    <td>
+                                    <td align="center">
                                         <?php
                                         $product_image = (string) $order_items->product_image1;
                                         $image_array = explode(".", $product_image);
@@ -79,7 +78,7 @@
                                     <div class="form-group">
                                         <!-- SHOULD BE CALENDAR -->
                                         <label for="shipper">Change Delivery Date</label>
-                                        <input type="text" id="text-calendar" class="calendar form-control border-input file" placeholder="YYYY-MM-DD" />
+                                        <input type="text" id="text-calendar" class="calendar form-control border-input file" name="order_date" placeholder="YYYY-MM-DD" value="<?= date('Y-m-d', $delivery->delivery_date) ?>"/>
                                     </div>
                                 </div>
                             </div>
