@@ -45,7 +45,7 @@ class Dashboard extends CI_Controller {
                 'no_of_orders' => $no_of_orders,
                 'orders_date' => $orders_latest_date
             );
-            # print_r($_SESSION);
+
             $this->load->view('paper/includes/header', $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view('paper/dashboard');

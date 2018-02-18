@@ -13,8 +13,6 @@ $(document).ready(function(){
                 orders.push(data[i].no_of_orders);
             }
 
-            console.log(orders);
-
             var chartdata = {
                 labels: status,
                 datasets : [{

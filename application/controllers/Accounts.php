@@ -127,7 +127,7 @@ class Accounts extends CI_Controller {
                 $user_log = $this->item_model->fetch('user_log', array('admin_id' => $this->uri->segment(4)), "log_id", "DESC", 8);
                 $log_date = $this->item_model->fetch("user_log", "admin_id = " . $this->uri->segment(4), "date", "DESC")[0];
 
-                $cover = $this->item_model->fetch("home")[0];
+                $cover = $this->item_model->fetch("content")[0];
                 if($account OR $user_log) {
                     $data = array(
                         'title' => "Accounts: View User Info",
@@ -150,7 +150,7 @@ class Accounts extends CI_Controller {
                 $this->db->select("at_date");
                 $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "at_id", "DESC")[0];
 
-                $cover = $this->item_model->fetch("home")[0];
+                $cover = $this->item_model->fetch("content")[0];
 
                 # <======================= FOR APRIORI:
                 $this->apriori->setMaxScan(20);

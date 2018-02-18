@@ -12,7 +12,6 @@ $(document).ready(function(){
                     bought.push(data[i].bought);
                 } else {
                     var x = ((data[i].bought / data[0].bought) * data[i].bought) + Number(data[i].bought);
-                    console.log(x);
                     td.push(data[i].td);
                     bought.push(x);
                 }

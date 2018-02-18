@@ -22,7 +22,7 @@ date_default_timezone_set("Asia/Manila");
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('dashboard'); ?>">
-                        <i class="ti-pie-chart"></i>
+                        <i class="ti-dashboard"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
@@ -56,6 +56,12 @@ date_default_timezone_set("Asia/Manila");
                             <?php echo "<p>Customer Accounts</p></a>";
                             }
                             ?>
+                </li>
+                <li <?php if($heading == "Feedback") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('feedback'); ?>">
+                        <i class="ti-comments"></i>
+                        <p>Feedback</p>
+                    </a>
                 </li>
                 <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('reports'); ?>">
