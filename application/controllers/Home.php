@@ -76,53 +76,50 @@ class Home extends CI_Controller {
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = ctype_alpha($this->uri->segment(4)) ? $this->uri->segment(4) : NULL;
-        
-    $page = $this->uri->segment(2);
-    $cat = $this->uri->segment(3);
-    $brand = ctype_alpha($this->uri->segment(4))?$this->uri->segment(4):NULL;
 
-    $this->load->library('pagination');
-    $perpage = 12;
-    $config['per_page'] = $perpage;
-    $config['full_tag_open'] = '<nav><ul class="pagination">';
-    $config['full_tag_close'] = ' </ul></nav>';
-    $config['first_link'] = 'First';
-    $config['first_tag_open'] = '<li>';
-    $config['first_tag_close'] = '</li>';
-    $config['first_url'] = '';
-    $config['last_link'] = 'Last';
-    $config['last_tag_open'] = '<li>';
-    $config['last_tag_close'] = '</li>';
-    $config['next_link'] = '&raquo;';
-    $config['next_tag_open'] = '<li>';
-    $config['next_tag_close'] = '</li>';
-    $config['prev_link'] = '&laquo;';
-    $config['prev_tag_open'] = '<li>';
-    $config['prev_tag_close'] = '</li>';
-    $config['cur_tag_open'] = '<li class="active"><a href="#">';
-    $config['cur_tag_close'] = '</a></li>';
-    $config['num_tag_open'] = '<li>';
-    $config['num_tag_close'] = '</li>';
+        $page = $this->uri->segment(2);
+        $cat = $this->uri->segment(3);
+        $brand = ctype_alpha($this->uri->segment(4)) ? $this->uri->segment(4) : NULL;
 
-    if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
-        $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
-        $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
-        $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
-        $this->pagination->initialize($config);
-        $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
-        $data = array(
-            'title' => 'Category',
-            'products' => $product,
-            'count' => $count,
-            'page' => $page,
-            'category' => $cat, // category identifier
-            'brand' => $brand,
-            'CTI' => $this->basket->total_items(),
-            'links' => $this->pagination->create_links()
-        );
+        $this->load->library('pagination');
+        $perpage = 12;
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
 
-       
-
+        if ($brand == "Apple" || $brand == "Samsung" || $brand == "ASUS" || $brand == "Lenovo" || $brand == "Sony" || $brand == "HP" || $brand == "Dell" || $brand == "Acer" || $brand == "OPPO" || $brand == "Huawei") {
+            $config['base_url'] = base_url() . "home/category/" . $cat . "/" . $brand;
+            $config['total_rows'] = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+            $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+            $this->pagination->initialize($config);
+            $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), 'product_name', 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+            $data = array(
+                'title' => 'Category',
+                'products' => $product,
+                'count' => $count,
+                'page' => $page,
+                'category' => $cat, // category identifier
+                'brand' => $brand,
+                'CTI' => $this->basket->total_items(),
+                'links' => $this->pagination->create_links()
+            );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/category');
@@ -152,7 +149,6 @@ class Home extends CI_Controller {
     }
 
     public function search() {
-
         $this->load->library('pagination');
         $perpage = 12;
         $config['per_page'] = $perpage;
@@ -184,6 +180,9 @@ class Home extends CI_Controller {
         $count = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $this->pagination->initialize($config);
         $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', 'status = 1 AND product_name', $search);
+        $for_update = $product[0];
+
+        $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
 
         $data = array(
             'title' => 'Home',
@@ -202,7 +201,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-
     public function register() {
         $data = array(
             'title' => "TECHNOHOLICS | All the tech you need.",
@@ -213,7 +211,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/register');
         $this->load->view('ordering/includes/footer');
     }
-
 
     public function basket() {
         $data = array(
@@ -238,12 +235,12 @@ class Home extends CI_Controller {
         $id = $this->uri->segment(5);
 
         $cond = array(
-           'product_id' => $id,
-           'customer_id' => $this->session->uid
-      );
+            'product_id' => $id,
+            'customer_id' => $this->session->uid
+        );
 
-       $res2 = $this->item_model->checkWishlist($cond);
-      
+        $res2 = $this->item_model->checkWishlist($cond);
+
         $this->load->library('pagination');
         $perpage = 5;
         $config['per_page'] = $perpage;
@@ -267,12 +264,13 @@ class Home extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand. "/" .$id."/page";
+        $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
         $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
         $this->pagination->initialize($config);
-        $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7),'feedback_id', 'ASC',  array('product_id' =>$id));
+        $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', array('product_id' => $id));
         $product = $this->item_model->fetch('product', array('product_id' => $id));
         $rating = $this->item_model->avg('feedback', array('product_id' => $id), 'rating');
+
         $row = $product[0];
         $data = array(
             'title' => $row->product_name,
@@ -311,7 +309,7 @@ class Home extends CI_Controller {
         }
     }
 
-    public function checkout2(){
+    public function checkout2() {
 
         $data = array(
             'title' => "Checkout - Delivery method",
@@ -372,9 +370,9 @@ class Home extends CI_Controller {
     }
 
     public function do_wishlist() {
-        if($this->session->has_userdata('isloggedin')) {
+        if ($this->session->has_userdata('isloggedin')) {
 
-         //   $this->load->model(wishlist_model);
+            //   $this->load->model(wishlist_model);
             $product_name = $this->input->post('product_name');
             $product_price = $this->input->post('product_price');
             $product_desc = $this->input->post('product_desc');
@@ -385,7 +383,7 @@ class Home extends CI_Controller {
             $product_image1 = $this->input->post('product_image1');
 
             // if ($q == )
-            $wish = array (
+            $wish = array(
                 'product_name' => $product_name,
                 'product_price' => $product_price,
                 'product_desc' => $product_desc,
@@ -396,45 +394,40 @@ class Home extends CI_Controller {
                 'product_image1' => $product_image1
             );
 
-        $this->item_model->insertData('wishlist',$wish);
+            $this->item_model->insertData('wishlist', $wish);
 
-        redirect('Home/wishlist');
-
-        }
-
-        else{
-                redirect('login');
+            redirect('Home/wishlist');
+        } else {
+            redirect('login');
         }
     }
 
     public function wishlist() {
-    if($this->session->has_userdata('isloggedin')) {
-       $product = $this->item_model->fetch('product');
-        $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
+        if ($this->session->has_userdata('isloggedin')) {
+            $product = $this->item_model->fetch('product');
+            $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
 
-        $data = array(
-            'title' => "Wishlist",
-            'page' => "Wishlist",
-            'wishes' => $wishes,
-            'product' => $product,
-        );
+            $data = array(
+                'title' => "Wishlist",
+                'page' => "Wishlist",
+                'wishes' => $wishes,
+                'product' => $product,
+            );
 
-        // print_r($this->input->post('remove')); die();
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/menu_account');
-        $this->load->view('ordering/wishlist');
-        $this->load->view('ordering/includes/footer');
-        //echo $this->uri->segment(1) ;
+            // print_r($this->input->post('remove')); die();
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/menu_account');
+            $this->load->view('ordering/wishlist');
+            $this->load->view('ordering/includes/footer');
+            //echo $this->uri->segment(1) ;
+        } else {
+            redirect('login');
+        }
     }
-
-    else{
-        redirect('login');
-    }
-}
 
     public function delete_wishlist() {
-        if($this->session->has_userdata('isloggedin')) {
+        if ($this->session->has_userdata('isloggedin')) {
             $data = array(
                 'title' => "Wishlist",
                 'page' => "Wishlist",
@@ -443,19 +436,17 @@ class Home extends CI_Controller {
             $wishid = array(
                 'wishlist_id' => $this->input->post('wishlist_id')
             );
-            $res = $this->item_model->delete('wishlist',$wishid);
+            $res = $this->item_model->delete('wishlist', $wishid);
 
-            redirect ('Home/wishlist');
-        }
-
-        else{
+            redirect('Home/wishlist');
+        } else {
             redirect('login');
         }
     }
 
-     public function customer_orders() {
+    public function customer_orders() {
 
-        if($this->session->has_userdata('isloggedin')){
+        if ($this->session->has_userdata('isloggedin')) {
 
             $this->load->library('pagination');
             $perpage = 10;
@@ -483,7 +474,7 @@ class Home extends CI_Controller {
             $config['base_url'] = base_url() . "home/customer_orders";
             $config['total_rows'] = $this->item_model->getCount('orders', array('customer_id' => $this->session->uid));
             $this->pagination->initialize($config);
-            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3),'order_id', 'ASC',   array('customer_id' => $this->session->uid));
+            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'order_id', 'ASC', array('customer_id' => $this->session->uid));
 
             $data = array(
                 'title' => "My Orders",
@@ -497,26 +488,20 @@ class Home extends CI_Controller {
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/customer_orders');
             $this->load->view('ordering/includes/footer');
-        }
-
-        else {
+        } else {
             redirect('login');
         }
     }
 
     public function customer_order_view() {
-
-        if($this->session->has_userdata('isloggedin')){
-
-            $order = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)))[0];
+        if ($this->session->has_userdata('isloggedin')) {
+            $order = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid, 'order_id' => $this->uri->segment(3)))[0];
             $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));
-            $order_status = $this->item_model->fetch('order_status', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)));
+            $order_status = $this->item_model->fetch('order_status', array('customer_id' => $this->session->uid, 'order_id' => $this->uri->segment(3)));
 
-            if(!$order || !$order_items || !$order_status){
+            if (!$order || !$order_items || !$order_status) {
                 redirect('home/customer_orders');
-            }
-
-            else{
+            } else {
                 $data = array(
                     'title' => "Order Status",
                     'page' => "Home",
@@ -531,33 +516,27 @@ class Home extends CI_Controller {
                 $this->load->view('ordering/customer_order_view');
                 $this->load->view('ordering/includes/footer');
             }
-
-        }
-
-        else {
+        } else {
             redirect('login');
         }
     }
 
     public function cancel_order() {
-
         $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
-        if ($customer->process_status == 0 || $customer->process_status == 3 ){
+        if ($customer->process_status == 0 || $customer->process_status == 3) {
             redirect('home/customer_orders');
-        }
+        } else {
+            $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
+            $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
 
-        else{
-        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
-        $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
-
-        foreach ($restore as $restore) {
+            foreach ($restore as $restore) {
                 $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
                 $quantity = $item->product_quantity + $restore->quantity;
-                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
-                $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
-        }
+                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " . $restore->product_id);
+                $this->item_model->updatedata("order_items", array("status" => 0), "product_id = " . $restore->product_id);
+            }
 
-            if($cancel) {
+            if ($cancel) {
                 $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                 $for_log = array(
                     "$user_id" => $this->session->uid,
@@ -569,19 +548,18 @@ class Home extends CI_Controller {
 
                 $this->item_model->insertData("user_log", $for_log);
 
-                $data = array (
-                  "description_status" => "You cancelled your order.",
-                  "customer_id" => $customer->customer_id,
-                  "order_id" => $customer->order_id,
-                  "transaction_date" => time()
-                ); 
+                $data = array(
+                    "description_status" => "You cancelled your order.",
+                    "customer_id" => $customer->customer_id,
+                    "order_id" => $customer->order_id,
+                    "transaction_date" => time()
+                );
 
                 $this->item_model->insertData("order_status", $data);
 
                 redirect('home/customer_orders');
             }
         }
-
     }
 
     public function account() {
@@ -622,7 +600,6 @@ class Home extends CI_Controller {
     }
 
     public function add() {
-
         $data = array(
             'id' => $this->input->post("product_id"),
             'name' => $this->input->post("product_name"),
@@ -631,17 +608,14 @@ class Home extends CI_Controller {
             'qty' => $this->input->post("min_quantity"),
             'maxqty' => $this->input->post("max_quantity")
         );
-
         $insert = $this->basket->insert($data);
     }
 
     public function update() {
-
         $data = array(
             'rowid' => $this->input->post("row_id"),
             'qty' => $this->input->post("product_quantity")
         );
-
         $this->basket->update($data);
     }
 
@@ -650,7 +624,6 @@ class Home extends CI_Controller {
     }
 
     public function post() {
-
         $data = array(
             'customer_id' => $this->session->uid,
             'product_id' => $this->input->post("product_id"),
@@ -661,12 +634,10 @@ class Home extends CI_Controller {
 
         $post = $this->item_model->fetch("feedback", array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
 
-        if ($post){
-        $this->item_model->updatedata("feedback", $data, array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
-        }
-
-        else{
-        $this->item_model->insertData("feedback", $data);
+        if ($post) {
+            $this->item_model->updatedata("feedback", $data, array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
+        } else {
+            $this->item_model->insertData("feedback", $data);
         }
 
         $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
@@ -803,7 +774,7 @@ class Home extends CI_Controller {
             }
         }
         $this->basket->destroy();
-        $this->index(); # not yet sure
+        $this->index();
     }
 
 }

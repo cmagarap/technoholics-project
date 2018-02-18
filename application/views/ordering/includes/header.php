@@ -22,7 +22,6 @@ $image = $content[0];
     <script type="text/javascript" src"<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js'?>" ></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
 
     <!-- styles -->
     <link href="<?= base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
@@ -38,7 +37,6 @@ $image = $content[0];
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
-    
 
     <!-- theme stylesheet -->
     <link rel="stylesheet" href="<?= base_url().'assets/ordering/font-awesome/css/font-awesome.min.css' ?>">
@@ -229,7 +227,35 @@ $image = $content[0];
         background-color: #FF8F5E;
         color: #B33C12; }
 
+        .star-ratings-css {
+            unicode-bidi: bidi-override;
+            color: #c5c5c5;
+            font-size: 25px;
+            height: 25px;
+            width: 100px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0;
+            text-shadow: 0px 1px 0 #a2a2a2;
+        }
+        .star-ratings-css-top {
+            color: #f5bd23;
+            padding: 0;
+            position: absolute;
+            z-index: 1;
+            display: block;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        .star-ratings-css-bottom {
+            padding: 0;
+            display: block;
+            z-index: 0;
+        }
+
     </style>
+
     <script>
     // Can also be used with $(document).ready()
     

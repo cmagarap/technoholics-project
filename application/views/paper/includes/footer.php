@@ -6,14 +6,7 @@ $content = $content[0];
 $home1 = $content->color_1;
 ?>
 <footer class="footer">
-    <div class="container-fluid" style = "background-color: <?= $home1?>">
-        <!--<nav class="pull-left">
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </nav>-->
+    <div class="container-fluid">
         <div class="copyright pull-left">
         Template made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com" target = "_blank">Creative Tim</a>
         </div>
