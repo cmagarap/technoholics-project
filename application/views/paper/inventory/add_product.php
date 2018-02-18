@@ -90,10 +90,10 @@
                             </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Image</label>
-                                        <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>
+                                        <div id="filediv"><input name="user_file[]" type="file" id="file" class="file form-control border-input"/></div><br>
                                         <input type="button" id="add_more" class="upload" value="Add More Files"/>
                                     </div>
                                 </div>
