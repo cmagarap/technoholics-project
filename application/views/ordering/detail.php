@@ -151,7 +151,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
             <?php if (!$feedback): ?>
                 <h4>0 comment(s)</h4>
             <?php else: ?>
-                <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comments</h4>
+                <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comment(s)</h4>
             <?php foreach ($feedback as $feedback):
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
             $user_image = (string)$userinformation->image;
@@ -279,7 +279,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </a>
                             <div class="text">
                                 <h3><?=$suggest->product_name?></h3>
-                                <p class="price">₱<?= number_format($suggest->product_price,2) ?></p>
+                                <p class="price">&#8369; <?= number_format($suggest->product_price,2) ?></p>
                             </div>
                         </div>
                         <!-- /.product -->
