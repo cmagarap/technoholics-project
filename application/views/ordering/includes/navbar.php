@@ -161,67 +161,25 @@ date_default_timezone_set("Asia/Manila");
                         <li>
                             <div class="yamm-content">
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <h5>Clothing</h5>
+                                    <div class="col-sm-4">
+                                        <h5>Repair</h5>
                                         <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">T-shirts</a>
+                                            <li><a href="<?= base_url().'home/repair'; ?>">Apple Repair</a>
                                             </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Shirts</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Pants</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Accessories</a>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h5>Recovery</h5>
+                                        <ul>
+                                            <li><a href="<?= base_url().'home/recovery'; ?>">Data Recovery</a>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <h5>Shoes</h5>
-                                        <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <h5>Accessories</h5>
-                                        <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Casual</a>
-                                            </li>
-                                        </ul>
-                                        <h5>Looks and trends</h5>
-                                        <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <div class="banner">
                                             <a href="#">
                                                 <img src="<?= base_url().'assets/ordering/img/banner.jpg'; ?>" class="img img-responsive" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="banner">
-                                            <a href="#">
-                                                <img src="<?= base_url().'assets/ordering/img/banner2.jpg'; ?>" class="img img-responsive" alt="">
                                             </a>
                                         </div>
                                     </div>

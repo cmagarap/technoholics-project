@@ -20,9 +20,9 @@
                             </li>
                             <li class="disabled"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
                             </li>
-                            <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
-                            </li>
                             <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order review</a>
+                            </li>
+                            <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                             </li>
                         </ul>
 

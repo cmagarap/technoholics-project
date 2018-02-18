@@ -161,8 +161,6 @@ $(document).ready(function () {
         var interval = setInterval(function() { NProgress.inc(); }, 1000);        
 
         $(window).load(function () {
-
-       >>>>>>> andrew
             clearInterval(interval);
             NProgress.done();
         });

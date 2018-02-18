@@ -334,10 +334,11 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout3() {
+    public function checkout4() {
         $data = array(
             'title' => "Checkout - Payment Method",
             'page' => "Home",
+            'CT' => $this->basket->total(),
             'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
             'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
             'address' => html_escape(trim(ucwords($this->input->post('address')))),
@@ -347,15 +348,18 @@ class Home extends CI_Controller {
             'zip' => html_escape(trim($this->input->post('zip'))),
             'contact' => html_escape(trim($this->input->post('contact'))),
             'email' => html_escape(trim($this->input->post('email'))),
+            'delivery' => html_escape(trim($this->input->post('delivery'))),
+            'total' =>  html_escape(trim($this->input->post('total'))),
             'CTI' => $this->basket->total_items()
         );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout3');
+        $this->load->view('ordering/checkout4');
         $this->load->view('ordering/includes/footer');
     }
 
-    public function checkout4() {
+    public function checkout3() {
         $data = array(
             'title' => "Checkout - Order Review",
             'cartItems' => $this->basket->contents(),
@@ -371,12 +375,13 @@ class Home extends CI_Controller {
             'zip' => html_escape(trim($this->input->post('zip'))),
             'contact' => html_escape(trim($this->input->post('contact'))),
             'email' => html_escape(trim($this->input->post('email'))),
+            'delivery' => html_escape(trim($this->input->post('delivery'))),
             'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout4');
+        $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
     }
 
@@ -634,20 +639,18 @@ class Home extends CI_Controller {
     }
 
     public function placeorder() {
-        // if logged in
+
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
-            $CT = $this->basket->total() + 70;
-
-            $data = array(
-                'customer_id' => $this->session->uid,
-                'total_price' => $CT,
-                'order_quantity' => $this->basket->total_items(),
-                'transaction_date' => time(),
-                'delivery_date' => time() + 259200,
-                'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
-                'payment_method' => html_escape($this->input->post('payment'))
-            );
+        $data = array(
+            'customer_id' => $this->session->uid,
+            'total_price' => $this->input->post('total') ,
+            'order_quantity' => $this->basket->total_items(),
+            'transaction_date' => time(),
+            'delivery_date' => time() + 259200,
+            'shipping_address' => "$userinformation->complete_address, $userinformation->barangay, $userinformation->city_municipality, $userinformation->province",
+            'payment_method' => html_escape(trim($this->input->post('payment'))),
+        );
 
             $order_id = $this->item_model->insert_id('orders', $data);
             // get cart items
@@ -754,8 +757,34 @@ class Home extends CI_Controller {
         }
         $this->basket->destroy();
         $this->index(); # not yet sure
+
     }
 
+    public function recovery() {
+    $data = array(
+        'page' => "Home",
+        'title' => 'Data Recovery',
+        'CTI' => $this->basket->total_items()
+    );
+    $this->load->view('ordering/includes/header', $data);
+    $this->load->view('ordering/includes/navbar');
+    // $this->load->view('ordering/menu_account');
+    $this->load->view('ordering/recovery');
+    $this->load->view('ordering/includes/footer');
+}
+
+    public function repair() {
+        $data = array(
+            'page' => "Home",
+            'title' => 'Apple Repair',
+            'CTI' => $this->basket->total_items()
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        // $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/repair');
+        $this->load->view('ordering/includes/footer');
+    }
 }
 
 ?>

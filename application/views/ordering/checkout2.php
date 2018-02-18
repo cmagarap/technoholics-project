@@ -20,9 +20,9 @@
                                 </li>
                                 <li class="active"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
                                 </li>
-                                <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
-                                </li>
                                 <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
+                                </li>
+                                <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                                 </li>
                             </ul>
 
@@ -31,26 +31,26 @@
                                     <div class="col-sm-6">
                                         <div class="box shipping-Method">
 
-                                            <h4>USPS Next Day</h4>
+                                            <h4>LBC Medium - ₱290.00</h4>
 
-                                            <p>Get it right on next day - fastest option possible.</p>
+                                            <p>For Smartphones, Smartwatches or other small items.</p>
 
-                                            <div class="box-footer text-center">
+                                            <div class="box-footer text-center" style="height:65px;">
 
-                                                <input type="radio" name="delivery" value="delivery1">
+                                                <input type="radio" checked="checked" name="delivery" value="290">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="box shipping-Method">
 
-                                            <h4>USPS Next Day</h4>
+                                            <h4>Same Day Delivery - ₱350.00</h4>
 
-                                            <p>Get it right on next day - fastest option possible.</p>
+                                            <p>Get it right on this day - for Makati, Mandaluyong, and Quezon City area only.</p>
 
-                                            <div class="box-footer text-center">
+                                            <div class="box-footer text-center" style="height:65px;">
 
-                                                <input type="radio" name="delivery" value="delivery2">
+                                                <input type="radio" checked="checked" name="delivery" value="350">
                                             </div>
                                         </div>
                                     </div>
@@ -58,13 +58,27 @@
                                     <div class="col-sm-6">
                                         <div class="box shipping-Method">
 
-                                            <h4>USPS Next Day</h4>
+                                            <h4>LBC Large - ₱490.00</h4>
 
-                                            <p>Get it right on next day - fastest option possible.</p>
+                                            <p>For DSLRs, Tablets or other medium items.</p>
 
-                                            <div class="box-footer text-center">
+                                            <div class="box-footer text-center" style="height:65px;">
 
-                                                <input type="radio" name="delivery" value="delivery3">
+                                                <input type="radio" checked="checked" name="delivery" value="490">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="box shipping-Method">
+
+                                            <h4>LBC XL - ₱790.00</h4>
+
+                                            <p>For Laptops, Desktops or other large items.</p>
+
+                                            <div class="box-footer text-center" style="height:65px;">
+
+                                                <input type="radio" checked="checked" name="delivery" value="790">
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +93,7 @@
                                     <a href="<?= base_url().'home/checkout1';?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
                                 </div>
                                 <div class="pull-right">
-                                    <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
+                                    <button type="submit" class="btn btn-primary">Continue to Order Review<i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>
