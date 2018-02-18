@@ -1,5 +1,12 @@
 <!-- *** FOOTER ***
 _________________________________________________________ -->
+<?php
+
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $content[0];
+
+$home1 = $content->customer_color1;
+?>
 <div id="footer" data-animate="fadeInUp">
     <div class="container">
         <div class="row">
@@ -89,7 +96,7 @@ _________________________________________________________ -->
 <!-- *** FOOTER END *** -->
 <!-- *** COPYRIGHT ***
 _________________________________________________________ -->
-<div id="copyright">
+<div id="copyright"  style = "background-color: <?= $home1?>">
     <div class="container">
         <div class="col-md-6">
             <p class="pull-left">© <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
@@ -129,5 +136,7 @@ _________________________________________________________ -->
         }
     }
 </script>
+
+
 </body>
 </html>

@@ -129,6 +129,7 @@ class Orders extends CI_Controller {
             "admin_id" => $this->session->uid
         );
         $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
         $change_delivery = $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
 
         if ($track) {
@@ -139,7 +140,35 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Edited order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            if($this->input->post("progress") == 1){
+                $data = array (
+                  "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 2){
+                $data = array (
+                  "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+            else if($this->input->post("progress") == 3){
+                $data = array (
+                  "description_status" => "Thank you for shopping with Technoholics! your order has arrived at your location.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+            }
+
+            $this->item_model->insertData("order_status", $data);
         }
 
         if ($change_delivery) {
@@ -187,7 +216,17 @@ class Orders extends CI_Controller {
     }
 
     public function cancel() {
-        $cancel = $this->item_model->updatedata("orders", array("status" => 0), "order_id = " . $this->uri->segment(3));
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
+        $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
+
+        foreach ($restore as $restore) {
+                $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+                $quantity = $item->product_quantity + $restore->quantity;
+                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+                $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
+        }
+
         if($cancel) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(
@@ -197,7 +236,17 @@ class Orders extends CI_Controller {
                 "date" => time(),
                 "action" => 'Cancelled order #' . $this->uri->segment(3)
             );
+
             $this->item_model->insertData("user_log", $for_log);
+
+            $data = array (
+              "description_status" => "Your order has been cancelled.",
+              "customer_id" => $customer->customer_id,
+              "order_id" => $customer->order_id,
+              "transaction_date" => time()
+            ); 
+
+            $this->item_model->insertData("order_status", $data);
             $this->item_model->updatedata("audit_trail", array("status" => 0), "order_id = " . $this->uri->segment(3));
             redirect("orders/page");
         }

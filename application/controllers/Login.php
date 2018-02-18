@@ -14,10 +14,14 @@ class Login extends CI_Controller {
     }
 
     public function index() {
+
+         $image = $this->item_model->fetch('content')[0];
+
         $data = array(
             'title' => "TECHNOHOLICS Login",
             'CTI' => $this->basket->total_items(),
-            'page' => "Home"
+            'page' => "Home",
+            'image' => $image
         );
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');

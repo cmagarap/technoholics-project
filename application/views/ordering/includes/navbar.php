@@ -1,3 +1,10 @@
+<?php
+  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$image = $content[0];
+$content = $content[0];
+$home1 = $content->customer_color1;
+
+?>
 <!-- *** TOPBAR ***
 _________________________________________________________ -->
 <!-- *** TOP BAR END *** -->
@@ -7,7 +14,8 @@ _________________________________________________________ -->
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-    <div id="top">
+<!-- COlor Here -->
+    <div id="top" style = "background-color: <?= $home1?>">
         <div class="container">
             <div class="" data-animate="fadeInDown">
                 <ul class="menu">
@@ -30,7 +38,8 @@ date_default_timezone_set("Asia/Manila");
                                 </div>
                             </div>
                         </li>
-
+                        <li><a href="<?= base_url().'home/customer_orders'; ?>">Track my Order</a>
+                        </li>
                         <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>
                     <?php else: ?>
@@ -52,7 +61,7 @@ date_default_timezone_set("Asia/Manila");
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
-                <img src="<?= base_url().'assets/ordering/img/logo.png'; ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
+                <img src="<?= base_url() ?>assets/ordering/img/<?= $image->company_logo ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
             </a>
             <div class="navbar-buttons" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
@@ -77,13 +86,13 @@ date_default_timezone_set("Asia/Manila");
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
-            <?php endif; ?>
+                    <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
                 <li class="active dropdown yamm-fw">
             <?php else : ?>
                 <li class="dropdown yamm-fw">
-            <?php endif; ?>
+                    <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -95,7 +104,7 @@ date_default_timezone_set("Asia/Manila");
                                             <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                            ?>">Samsung</a>
+                                                ?>">Samsung</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
@@ -250,7 +259,7 @@ date_default_timezone_set("Asia/Manila");
 			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
-                <div id="productlist" style="position:absolute;"></div>  
+                <div id="productlist" style="position:absolute;"></div>
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->
