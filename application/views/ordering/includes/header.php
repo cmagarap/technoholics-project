@@ -21,6 +21,7 @@ $image = $content[0];
     <link rel="stylesheet" type="text/css" href="<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.css'?>" />
     <script type="text/javascript" src"<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js'?>" ></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
 
     <!-- styles -->
@@ -33,7 +34,7 @@ $image = $content[0];
     <link href="<?= base_url().'assets/ordering/css/starability-all.min.css';?>" rel="stylesheet">
 
     <!-- color picker for customer -->
-        <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
+    <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
@@ -87,6 +88,10 @@ $image = $content[0];
             }
         }
 
+        .product_image {
+            width:50%;
+        }
+
         .dropbtn {
             background-color: unset;
             color: white;
@@ -119,9 +124,9 @@ $image = $content[0];
             display: block;
         }
 
-        .dropdown a:hover {
+/*        .dropdown a:hover {
             background-color: #31bbe0
-        }
+        }*/
 
         .show {
             display: block;

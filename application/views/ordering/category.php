@@ -128,12 +128,13 @@
                                     <div class="flipper">
                                         <div class="front"><center>
                                                 <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id .'/page'?>">
-                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                                    <img class="product_image" src="<?= base_url() . 'uploads_products/' .
+                                                    $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                                 </a></center>
                                         </div>
                                         <div class="back"><center>
                                                 <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id.'/page' ?>">
-                                                    <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
+                                                    <img class="product_image" src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
                                                 </a></center>
                                         </div>
                                     </div>
@@ -143,7 +144,7 @@
                                 </a>
                                 <div class="text">
                                     <h3><a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id.'/page'?>"><?= $row->product_name ?></a></h3>
-                                    <p class="price">₱<?= number_format($row->product_price, 2) ?></p>
+                                    <p class="price">&#8369;<?= number_format($row->product_price, 2) ?></p>
                                     <p class="buttons">
                                         <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
                                         <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>" /><i class="fa fa-shopping-cart"></i>Add to cart</button>

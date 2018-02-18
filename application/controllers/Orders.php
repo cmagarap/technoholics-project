@@ -201,6 +201,15 @@ class Orders extends CI_Controller {
     public function cancel() {
         $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
         $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
+        $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
+
+        foreach ($restore as $restore) {
+                $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+                $quantity = $item->product_quantity + $restore->quantity;
+                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+                $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
+        }
+
         if($cancel) {
             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
             $for_log = array(

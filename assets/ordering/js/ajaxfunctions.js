@@ -39,7 +39,7 @@ $(document).ready(function () {
             data: {row_id: row_id},
             success: function (data)
             {
-                $('#all').load(base_url + "home/basket #all");
+                $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
 
                 $.notify({
@@ -66,7 +66,7 @@ $(document).ready(function () {
             data: {row_id: row_id, product_quantity: product_quantity},
             success: function (data)
             {
-                $('#all').load(base_url + "home/basket #all");
+                $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
 
                 $.notify({

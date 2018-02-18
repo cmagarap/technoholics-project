@@ -38,7 +38,7 @@ date_default_timezone_set("Asia/Manila");
                                 </div>
                             </div>
                         </li>
-                        <li><a href="<?= base_url().'home/trackorder'; ?>">Track my Order</a>
+                        <li><a href="<?= base_url().'home/customer_orders'; ?>">Track my Order</a>
                         </li>
                         <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>

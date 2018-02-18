@@ -380,28 +380,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function customer_orders() {
-        $data = array(
-            'page' => "Home"
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/menu_account');
-        $this->load->view('ordering/customer_orders');
-        $this->load->view('ordering/includes/footer');
-    }
-
-    public function customer_order_view() {
-        $data = array(
-            'page' => "Home"
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/menu_account');
-        $this->load->view('ordering/customer_order_view');
-        $this->load->view('ordering/includes/footer');
-    }
-
     public function do_wishlist() {
         if($this->session->has_userdata('isloggedin')) {
 
@@ -484,22 +462,49 @@ class Home extends CI_Controller {
         }
     }
 
-    public function trackorder() {
+     public function customer_orders() {
 
         if($this->session->has_userdata('isloggedin')){
 
-            $orders = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid));
+            $this->load->library('pagination');
+            $perpage = 10;
+            $config['per_page'] = $perpage;
+            $config['full_tag_open'] = '<nav><ul class="pagination">';
+            $config['full_tag_close'] = ' </ul></nav>';
+            $config['first_link'] = 'First';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['first_url'] = '';
+            $config['last_link'] = 'Last';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo;';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo;';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+
+            $config['base_url'] = base_url() . "home/customer_orders";
+            $config['total_rows'] = $this->item_model->getCount('orders', array('customer_id' => $this->session->uid));
+            $this->pagination->initialize($config);
+            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3),'order_id', 'ASC',   array('customer_id' => $this->session->uid));
 
             $data = array(
-                'title' => "Track my Order",
+                'title' => "My Orders",
                 'page' => "Home",
                 'orders' => $orders,
-                'CTI' => $this->basket->total_items()
+                'CTI' => $this->basket->total_items(),
+                'links' => $this->pagination->create_links()
             );
 
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/trackorder');
+            $this->load->view('ordering/customer_orders');
             $this->load->view('ordering/includes/footer');
         }
 
@@ -508,31 +513,84 @@ class Home extends CI_Controller {
         }
     }
 
-        public function orderstatus() {
+    public function customer_order_view() {
 
         if($this->session->has_userdata('isloggedin')){
 
             $order = $this->item_model->fetch('orders', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)))[0];
+            $order_items = $this->item_model->fetch('order_items', array('order_id' => $this->uri->segment(3)));
+            $order_status = $this->item_model->fetch('order_status', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)));
 
-            $orderstatus = $this->item_model->fetch('order_status', array('customer_id' => $this->session->uid,'order_id' => $this->uri->segment(3)));
+            if(!$order || !$order_items || !$order_status){
+                redirect('home/customer_orders');
+            }
 
-            $data = array(
-                'title' => "Order Status",
-                'page' => "Home",
-                'order' => $order,
-                'orderstatus' => $orderstatus,
-                'CTI' => $this->basket->total_items()
-            );
+            else{
+                $data = array(
+                    'title' => "Order Status",
+                    'page' => "Home",
+                    'order' => $order,
+                    'order_items' => $order_items,
+                    'order_status' => $order_status,
+                    'CTI' => $this->basket->total_items()
+                );
 
-            $this->load->view('ordering/includes/header', $data);
-            $this->load->view('ordering/includes/navbar');
-            $this->load->view('ordering/orderstatus');
-            $this->load->view('ordering/includes/footer');
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/customer_order_view');
+                $this->load->view('ordering/includes/footer');
+            }
+
         }
 
         else {
             redirect('login');
         }
+    }
+
+    public function cancel_order() {
+
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+        if ($customer->process_status == 0 || $customer->process_status == 3 ){
+            redirect('home/customer_orders');
+        }
+
+        else{
+        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
+        $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
+
+        foreach ($restore as $restore) {
+                $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+                $quantity = $item->product_quantity + $restore->quantity;
+                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+                $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
+        }
+
+            if($cancel) {
+                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+                $for_log = array(
+                    "$user_id" => $this->session->uid,
+                    "user_type" => $this->session->userdata('type'),
+                    "username" => $this->session->userdata('username'),
+                    "date" => time(),
+                    "action" => 'Cancelled order #' . $this->uri->segment(3)
+                );
+
+                $this->item_model->insertData("user_log", $for_log);
+
+                $data = array (
+                  "description_status" => "You cancelled your order.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+
+                $this->item_model->insertData("order_status", $data);
+
+                redirect('home/customer_orders');
+            }
+        }
+
     }
 
     public function account() {
