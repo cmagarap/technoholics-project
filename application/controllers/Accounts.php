@@ -146,9 +146,13 @@ class Accounts extends CI_Controller {
                 }
             } elseif ($this->uri->segment(3) == "customer") {
                 $account = $this->item_model->fetch('customer', 'customer_id = ' . $this->uri->segment(4));
-                $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4) . " AND status = 1", "at_id", "DESC", 8);
+                $user_log = $this->item_model->fetch('audit_trail', 'customer_id = ' . $this->uri->segment(4) . " AND status = 1 AND at_detail = 'Purchase'", "at_id", "DESC", 8);
                 $this->db->select("at_date");
                 $at_date = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "at_id", "DESC")[0];
+
+                $spent = $this->item_model->sum('orders', "customer_id = " . $this->uri->segment(4) . " AND status = 1", 'total_price');
+                $bought = $this->item_model->sum('orders', "customer_id = " . $this->uri->segment(4) . " AND status = 1", 'order_quantity');
+                $rated = $this->item_model->getCount('feedback', "customer_id = " . $this->uri->segment(4) . " AND status = 1");
 
                 $cover = $this->item_model->fetch("content")[0];
 
@@ -212,6 +216,9 @@ class Accounts extends CI_Controller {
                         'logs' => $user_log,
                         'at_date' => $at_date,
                         'message' => $message,
+                        'spent' => $spent,
+                        'bought' => $bought,
+                        'rated' => $rated,
                         'cover' => $cover
                     );
                     $this->load->view('paper/includes/header', $data);

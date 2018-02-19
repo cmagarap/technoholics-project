@@ -105,8 +105,14 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                     <div align = "center" id ="contents">
                     <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                     ?>
-                    <h2 class="text-center" style="color:#dc2f54;">₱<?= number_format($row->product_price,2) ?></h2>
-                    <p class="starability-result" data-rating="<?=abs(round($rating->rating))?>"></p>
+                    <h2 class="text-center" style="color:#dc2f54;">&#8369; <?= number_format($row->product_price,2) ?></h2>
+
+                        <div class="star-ratings-css">
+                            <div class="star-ratings-css-top" style="width: <?= ($rating->rating / 5) * 100 ?>%" title="<?= number_format($rating->rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                            <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                            <p style="color: #f5bd23; font-size: 15px"><?= number_format($rating->rating, 1) ?> / 5</p>
+                        </div>
+                        <br><br><br>
                     </div>
                         <form method="POST" action="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/do_wishlist'; } else { echo base_url().'login';} ?>" >
                             <input type="hidden" name="product_name" value="<?= $row->product_name ?>">
@@ -145,27 +151,38 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
             <?php if (!$feedback): ?>
                 <h4>0 comment(s)</h4>
             <?php else: ?>
-                <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comments</h4>
+                <h4><?= $this->item_model->getCount('feedback', 'product_id = ' . $row->product_id . ' AND status = 1'); ?> comment(s)</h4>
             <?php foreach ($feedback as $feedback):
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
             $user_image = (string)$userinformation->image;
             $image_array = explode(".", $user_image);
                 ?>
+                    <hr>
                     <div class="row comment">
-                        <div class="col-sm-3 col-md-2 text-center-xs">
+                        <div class="col-sm-1 col-md-1 text-center-xs">
                             <p>
                                 <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
                             </p>
                         </div>
                         <div class="col-sm-9 col-md-10">
                             <h5><?= $userinformation->username?></h5>
-                            <p class="posted"> <p class="starability-result" data-rating="<?=$feedback->rating?>"></p><i class="fa fa-clock-o"></i><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
-                            <p><?=$feedback->feedback?></p>
+                            <p class="posted">
+                                <div class="star-ratings-css">
+                                    <div class="star-ratings-css-top" style="width: <?= ($feedback->rating / 5) * 100 ?>%" title="<?= number_format($feedback->rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                                    <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+
+                                </div>
+                            <br>
+                            <p><?= $feedback->feedback ?></p>
+                            <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
+                            </p>
+
                         </div>
                     </div> 
                 <?php endforeach ?>
                     <?php echo "<div align = 'center'>" . $links . "</div>";?>
             <?php endif ?>
+                <hr>
                 <div id="comment-form">
                     <h4>Leave comment</h4>
                     <?php if ($this->session->has_userdata('isloggedin')):
@@ -262,7 +279,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </a>
                             <div class="text">
                                 <h3><?=$suggest->product_name?></h3>
-                                <p class="price">₱<?= number_format($suggest->product_price,2) ?></p>
+                                <p class="price">&#8369; <?= number_format($suggest->product_price,2) ?></p>
                             </div>
                         </div>
                         <!-- /.product -->

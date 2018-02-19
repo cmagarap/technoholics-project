@@ -1,8 +1,8 @@
 <?php
-  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
 $image = $content[0];
-$content = $content[0];
-$home1 = $content->customer_color1;
+//$content = $content[0];
+//$home1 = $content->customer_color1;
 
 ?>
 <!-- *** TOPBAR ***
@@ -14,8 +14,7 @@ _________________________________________________________ -->
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-<!-- COlor Here -->
-    <div id="top" style = "background-color: <?= $home1?>">
+    <div id="top" style="background-color: <?= $image->color_1 ?>">
         <div class="container">
             <div class="" data-animate="fadeInDown">
                 <ul class="menu">
@@ -34,13 +33,11 @@ date_default_timezone_set("Asia/Manila");
                                             <br><?= $userinformation->username; ?>
                                         </div>
                                     </a>
+                                    <a href="<?= base_url().'home/customer_orders'; ?>">Track my Order</a>
+                                    <a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                                     <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
-                        </li>
-                        <li><a href="<?= base_url().'home/customer_orders'; ?>">Track my Order</a>
-                        </li>
-                        <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>
                     <?php else: ?>
                         <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
@@ -132,15 +129,6 @@ date_default_timezone_set("Asia/Manila");
                                         <h5>Featured</h5>
                                         <ul>
                                             <li><a href="<?= base_url().'home/category/'; ?>">Trainers</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                        </ul>
-                                        <h5>Looks and trends</h5>
-                                        <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
                                             </li>
