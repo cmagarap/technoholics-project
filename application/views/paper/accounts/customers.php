@@ -20,9 +20,11 @@
                         <h2 class="title"><b>List of Customers</b></h2>
                         <?php if($this->session->userdata('type') == 0) { ?>
                             <p class="category">For admin accounts,
-                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.
+                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.<br>
+                                <a href="<?= base_url() ?>reports/product_preference"> <u>See customers' product preference.</u></a>
                         <?php } elseif($this->session->userdata('type') == 1) { ?>
                             <p class="category">Here are the list of customers as of <?= date("F j, Y"); ?>.</p>
+                            <a href="<?= base_url() ?>reports/product_preference"> <u>See customers' product preference.</u></a>
                         <?php } ?>
                         </p>
                         <br>

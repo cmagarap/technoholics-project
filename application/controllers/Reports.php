@@ -11,18 +11,16 @@ class Reports extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            # These are the values when a user first visits the page. Should be changeable using dropdown or text input
-            $daily = $this->db->query("SELECT sales_date, FROM_UNIXTIME(sales_date, '%b %d, %Y') as sales_d, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(SALES_DATE, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales_date DESC");
-            $weekly = $this->db->query("SELECT sales_date, FROM_UNIXTIME(sales_date, '%U'), SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(SALES_DATE))");
-            $monthly = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%M') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
-            $annual = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%Y') as sales_y, SUM(income) as income FROM `sales` WHERE status = 1 GROUP BY sales_y ORDER BY sales_y DESC");
+            # These are the values when a user first visits the page. Should be changeable using dropdown or text inputo
+            $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
 
-            $feedback = $this->db->query("SELECT customer_id, feedback_id, product_id, feedback, added_at, rating FROM `feedback` ORDER BY added_at DESC");
+            $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_d, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_d, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
-            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference"));
-            $customer = $this->item_model->fetch("customer", "status = 1");
+            $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') as sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales.sales_date");
+
+            $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
 
             $dailytotal = 0;
             foreach($daily->result() as $day)
@@ -41,8 +39,8 @@ class Reports extends CI_Controller {
                 $annualtotal += $ann->income;
 
             $data = array(
-                'title' => 'Business Reports',
-                'heading' => 'Reports',
+                'title' => 'Sales Report',
+                'heading' => 'Sales Management',
                 'daily' => $daily->result(),
                 'weekly' => $weekly->result(),
                 'monthly' => $monthly->result(),
@@ -50,9 +48,7 @@ class Reports extends CI_Controller {
                 'dailytotal' => $dailytotal,
                 'weeklytotal' => $weeklytotal,
                 'monthlytotal' => $monthlytotal,
-                'annualtotal' => $annualtotal,
-                'customer' => $customer,
-                'feedback' => $feedback->result()
+                'annualtotal' => $annualtotal
             );
 
             $this->load->view("paper/includes/header", $data);
@@ -98,6 +94,26 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/user_log/active_users");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function product_preference() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference"));
+            $customer = $this->item_model->fetch("customer", "status = 1");
+
+            $data = array(
+                'title' => 'Customer Product Preferences',
+                'heading' => 'Accounts',
+                'customer' => $customer
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/accounts/product_preference");
             $this->load->view("paper/includes/footer");
         } else {
             redirect('home');

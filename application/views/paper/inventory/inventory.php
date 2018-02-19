@@ -33,7 +33,7 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Products List</b></h3>
+                            <h2 class="title"><b>Products List</b></h2>
                             <p class="category">
                                 Here are the list of products as of <?= date("F j, Y"); ?>.<br>
                                 <a href="<?= base_url() ?>reports/inventory"> <u>See inventory report.</u></a>

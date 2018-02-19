@@ -40,6 +40,7 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #dc2f54;"></span>&nbsp; <b>List of Sales</b></h3>
                         <p class="category"><?= $date ?></p>
+                        <a href="<?= base_url() ?>reports/sales">See sales report.</a>
                     </div>
                     <?php if(!$sales) {
                         echo "<center><h3><hr><br>There are no sales recorded for the date you have selected.</h3><br></center><br><br>";
