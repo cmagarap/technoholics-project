@@ -243,13 +243,6 @@ $image = $content[0];
     });
     </script>
 
-<script type="text/javascript">
-        $(document).ready(function() {
-        
-            $().fancybox();
-
-        });
-    </script>
 </head>
 <body>
 <div style="margin-top:130px">

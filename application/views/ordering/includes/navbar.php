@@ -264,5 +264,23 @@ date_default_timezone_set("Asia/Manila");
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->
 </div> <!-- /#navbar -->
-
 <!-- *** NAVBAR END *** -->
+<?php if($this->session->has_userdata('statusMsg')):?>
+    <script>
+    $(document).ready(function(){
+        $.notify({
+            icon: 'ti-check',
+            message: "<?= $this->session->userdata('statusMsg') ?>"
+        },{
+            type: 'info',
+            timer: 2000,
+            placement: {
+            from: "top",
+            align: "center"
+            }
+        });
+    });
+    </script>
+<?php endif; 
+$this->session->unset_userdata('statusMsg');
+?>
