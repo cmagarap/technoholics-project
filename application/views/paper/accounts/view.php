@@ -164,8 +164,8 @@
                         </ul>
                     </div> <!-- content -->
                 </div> <!-- card -->
-            </div> <!-- col-lg-5 col-md-7 -->
+            </div>
         </div>
         <?php endif; ?>
     </div> <!-- container fluid -->
-</div> <!-- content -->
+</div>

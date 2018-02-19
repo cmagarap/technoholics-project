@@ -19,11 +19,10 @@ class Reports extends CI_Controller {
             $monthly = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%M') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
             $annual = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%Y') as sales_y, SUM(income) as income FROM `sales` WHERE status = 1 GROUP BY sales_y ORDER BY sales_y DESC");
 
+            $feedback = $this->db->query("SELECT customer_id, feedback_id, product_id, feedback, added_at, rating FROM `feedback` ORDER BY added_at DESC");
 
             $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference"));
             $customer = $this->item_model->fetch("customer", "status = 1");
-
-            $feedback = $this->db->query("SELECT customer_id, feedback_id, product_id, feedback, added_at, rating FROM `feedback` ORDER BY added_at DESC");
 
             $dailytotal = 0;
             foreach($daily->result() as $day)
@@ -79,6 +78,26 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/inventory/report");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function active_customers() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image"));
+            $customer = $this->item_model->fetch("customer", "status = 1");
+
+            $data = array(
+                'title' => 'Weekly Active Customers',
+                'heading' => 'User Log',
+                'customer' => $customer,
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/user_log/active_users");
             $this->load->view("paper/includes/footer");
         } else {
             redirect('home');

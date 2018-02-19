@@ -33,6 +33,7 @@ class Dashboard extends CI_Controller {
             $this->db->where("status = 1 AND process_status != 3");
             $no_of_orders = $this->db->count_all_results("orders");
             $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);
+            $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);
 
             $data = array(
                 'title' => "Admin Home",

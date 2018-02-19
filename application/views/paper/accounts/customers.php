@@ -17,12 +17,12 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Customers</b></h3>
+                        <h2 class="title"><b>List of Customers</b></h2>
                         <?php if($this->session->userdata('type') == 0) { ?>
-                            <p class="category"><i>For admin accounts,
-                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.</i>
+                            <p class="category">For admin accounts,
+                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.
                         <?php } elseif($this->session->userdata('type') == 1) { ?>
-                            <p class="category"><i>Here are the list of customers as of <?= date("F j, Y"); ?>.</i></p>
+                            <p class="category">Here are the list of customers as of <?= date("F j, Y"); ?>.</p>
                         <?php } ?>
                         </p>
                         <br>

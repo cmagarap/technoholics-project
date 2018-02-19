@@ -4,9 +4,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div align = "left">
-                            <h3 class="title"><b>Inventory Report</b></h3></br>
-                        </div>
+                        <h3 class="title"><b>Inventory Report</b></h3>
+                        <p class="category">
+                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                        </p>
+                        <br>
                         <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                     </div>
                     <?php

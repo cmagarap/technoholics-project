@@ -151,7 +151,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
             <?php if (!$feedback): ?>
                 <h4>0 comment(s)</h4>
             <?php else: ?>
-                <h4><?= $this->item_model->getCount('feedback', array('product_id' => $row->product_id)); ?> comment(s)</h4>
+                <h4><?= $this->item_model->getCount('feedback', 'product_id = ' . $row->product_id . ' AND status = 1'); ?> comment(s)</h4>
             <?php foreach ($feedback as $feedback):
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
             $user_image = (string)$userinformation->image;

@@ -152,7 +152,7 @@ $image = $content[0]; ?>
             text-shadow: 0px 1px 0 #a2a2a2;
         }
         .star-ratings-css-top {
-            color: #F3DF00;
+            color: #f5bd23;
             padding: 0;
             position: absolute;
             z-index: 1;

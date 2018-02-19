@@ -32,8 +32,8 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Admin Users</b></h3>
-                        <p class="category"><i>For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</i></p>
+                        <h2 class="title"><b>List of Admin Users</b></h2>
+                        <p class="category">For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</p>
                         <br>
                         <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
                         <a href = "<?= $this->config->base_url() ?>accounts/recover_account/admin" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Admin Accounts">Recover Users</a>

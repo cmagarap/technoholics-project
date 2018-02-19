@@ -180,9 +180,24 @@ class Home extends CI_Controller {
         $count = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $this->pagination->initialize($config);
         $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', 'status = 1 AND product_name', $search);
+
         $for_update = $product[0];
 
         $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
+
+        if($this->session->has_userdata('isloggedin')) {
+            foreach ($product as $product_r) {
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $product_r->product_name,
+                    "at_detail" => "Search",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid,
+                    "product_id" => $product_r->product_id
+                );
+                $this->item_model->insertData('audit_trail', $for_audit);
+            }
+        }
 
         $data = array(
             'title' => 'Home',
@@ -267,9 +282,9 @@ class Home extends CI_Controller {
         $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
         $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
         $this->pagination->initialize($config);
-        $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', array('product_id' => $id));
+        $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', 'product_id = ' . $id . ' AND status = 1');
         $product = $this->item_model->fetch('product', array('product_id' => $id));
-        $rating = $this->item_model->avg('feedback', array('product_id' => $id), 'rating');
+        $rating = $this->item_model->avg('feedback', 'product_id = ' . $id . ' AND status = 1', 'rating');
 
         $row = $product[0];
         $data = array(

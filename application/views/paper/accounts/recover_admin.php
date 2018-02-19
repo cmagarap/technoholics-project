@@ -19,7 +19,7 @@
                     <div class="header">
                         <div align = "left">
                             <h3 class="title"><b>Deleted <?= ucwords($this->uri->segment(3)) ?> List</b></h3>
-                            <p class="category"><i>You can recover deleted accounts here.</i></p><br>
+                            <p class="category">You can recover deleted accounts here.</p><br>
                             <a href = "<?= base_url() ?>accounts/admin" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
                     </div>

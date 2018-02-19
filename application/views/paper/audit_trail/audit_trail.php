@@ -4,8 +4,8 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>Audit Trail</b></h3>
-                        <p class="category"><i>Cutomer's record of transactions, viewed, and rated products.</i></p>
+                        <h2 class="title"><b>Audit Trail</b></h2>
+                        <p class="category">Customers' record of transactions, viewed, and rated products.</p>
                     </div>
                     <?php if(!$trail) { ?>
                         <center>
