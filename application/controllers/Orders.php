@@ -143,15 +143,7 @@ class Orders extends CI_Controller {
 
             $this->item_model->insertData("user_log", $for_log);
 
-            if($this->input->post("progress") == 1){
-                $data = array (
-                  "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
-                  "customer_id" => $customer->customer_id,
-                  "order_id" => $customer->order_id,
-                  "transaction_date" => time()
-                ); 
-            }
-            else if($this->input->post("progress") == 2){
+            if($this->input->post("progress") == 2){
                 $data = array (
                   "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
                   "customer_id" => $customer->customer_id,
@@ -180,6 +172,15 @@ class Orders extends CI_Controller {
                 "action" => 'Changed delivery date of order #' . $this->uri->segment(3) . " to " . $this->input->post("order_date")
             );
             $this->item_model->insertData("user_log", $for_log);
+
+            $data = array (
+                  "description_status" => 'Changed delivery date of order #' . $this->uri->segment(3) . " to " . $this->input->post("order_date"),
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+                ); 
+
+            $this->item_model->insertData("order_status", $data);
         }
 
         $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];

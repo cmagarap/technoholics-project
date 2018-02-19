@@ -90,7 +90,7 @@
                                 </button>
                             </div>
                         </div>
-
+                    <?php if (!$this->session->has_userdata('isloggedin')) :?>
                         <input type="hidden" name="firstname" value="<?= $fname ?>">
                         <input type="hidden" name="lastname" value="<?= $lname ?>">
                         <input type="hidden" name="address" value="<?= $address ?>">
@@ -101,6 +101,13 @@
                         <input type="hidden" name="email" value="<?= $email ?>">
                         <input type="hidden" name="contact" value="<?= $contact ?>">
                         <input type="hidden" name="payment" value="<?= $payment ?>">
+                        <input type="hidden" name="shipper_name" value="<?= $shipper_name ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $shipper_price?>">
+                    <?php else :?>
+                        <input type="hidden" name="payment" value="<?= $payment ?>">
+                        <input type="hidden" name="shipper_name" value="<?= $shipper_name ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $shipper_price?>">
+                    <?php endif;?>
                     </form>
                 </div>
                 <!-- /.box -->
@@ -127,7 +134,7 @@
                             <tr>
                                 <td>Shipping and handling</td>
                                 <!-- SHIPPING FEE IS STILL STATIC, THE AMOUNT SHOULD BE ASKED TO THE CLIENT -->
-                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>70.00</th>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p><?=$shipper_price?></th>
                             </tr>
                             <!--<tr>
                                 <td>Discount</td>
@@ -135,7 +142,7 @@
                             </tr>-->
                             <tr class="total">
                                 <td>Total</td>
-                                <th><u>&#8369;<?= number_format($CT + 70.00,2)?></u></th>
+                                <th><u>&#8369;<?= number_format($CT + $shipper_price,2)?></u></th>
                             </tr>
                             </tbody>
                         </table>

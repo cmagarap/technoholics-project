@@ -19,7 +19,7 @@
                                 <tr>
                                     <th colspan="2">Product</th>
                                     <th>Quantity</th>
-                                    <th>Unit price</th>
+                                    <th>Unit Price</th>
                                     <!-- <th>Discount</th> -->
                                     <th colspan="2">Subtotal</th>
                                 </tr>

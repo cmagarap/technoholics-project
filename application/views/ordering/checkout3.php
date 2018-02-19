@@ -1,6 +1,4 @@
-
 <div id="all">
-
     <div id="content">
         <div class="container">
 
@@ -11,11 +9,9 @@
                     <li>Checkout - Payment Method</li>
                 </ul>
             </div>
-
             <div class="col-md-12" id="checkout">
-
                 <div class="box">
-                    <form Method="post" action="<?= base_url().'home/checkout4'; ?>">
+                    <form Method="post" action="<?= base_url().'home/checkout3_exec'; ?>">
                         <h1>Checkout - Payment Method</h1>
                         <ul class="nav nav-pills nav-justified">
                             <li><a href="<?= base_url().'home/checkout1'; ?>"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -72,7 +68,11 @@
                                 </div>
                             </div>
                             <!-- /.row -->
-
+                            <?php if(form_error("payment")): ?>
+                                <div align="center">
+                                    <span style = 'color: red'><?= form_error("payment") ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <!-- /.content -->
 
@@ -85,15 +85,22 @@
                                 </button>
                             </div>
                         </div>
-                        <input type="hidden" name="firstname" value="<?= $fname ?>">
-                        <input type="hidden" name="lastname" value="<?= $lname ?>">
-                        <input type="hidden" name="address" value="<?= $address ?>">
-                        <input type="hidden" name="province" value="<?= $province ?>">
-                        <input type="hidden" name="city" value="<?= $city ?>">
-                        <input type="hidden" name="barangay" value="<?= $barangay ?>">
-                        <input type="hidden" name="zip" value="<?= $zip ?>">
-                        <input type="hidden" name="email" value="<?= $email ?>">
-                        <input type="hidden" name="contact" value="<?= $contact ?>">
+                    <?php if (!$this->session->has_userdata('isloggedin')) :?>
+                        <input type="hidden" name="firstname" value="<?= $this->session->userdata['checkout1_session']['fname'] ?>">
+                        <input type="hidden" name="lastname" value="<?= $this->session->userdata['checkout1_session']['lname'] ?>">
+                        <input type="hidden" name="address" value="<?= $this->session->userdata['checkout1_session']['address'] ?>">
+                        <input type="hidden" name="province" value=<?= $this->session->userdata['checkout1_session']['province'] ?>">
+                        <input type="hidden" name="city" value="<?= $this->session->userdata['checkout1_session']['city'] ?>">
+                        <input type="hidden" name="barangay" value="<?= $this->session->userdata['checkout1_session']['barangay'] ?>">
+                        <input type="hidden" name="zip" value="<?= $this->session->userdata['checkout1_session']['zip'] ?>">
+                        <input type="hidden" name="email" value="<?= $this->session->userdata['checkout1_session']['email'] ?>">
+                        <input type="hidden" name="contact" value="<?= $this->session->userdata['checkout1_session']['contact'] ?>">
+                        <input type="hidden" name="shipper_name" value="<?= $this->session->userdata['checkout2_session']['shipper_name'] ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $this->session->userdata['checkout2_session']['shipper_price'] ?>">
+                    <?php else :?>
+                        <input type="hidden" name="shipper_name" value="<?= $this->session->userdata['checkout2_session']['shipper_name'] ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $this->session->userdata['checkout2_session']['shipper_price'] ?>">
+                    <?php endif;?>
                     </form>
                 </div>
                 <!-- /.box -->

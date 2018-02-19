@@ -38,7 +38,7 @@ $percent = 100;
                                     <a href="customer-wishlist.html"><i class="fa fa-heart"></i> My wishlist</a>
                                 </li>
                                 <li>
-                                    <a href="customer-account.html"><i class="fa fa-user"></i> My account</a>
+                                    <a href="<?= base_url().'home/account'?>"><i class="fa fa-user"></i> My account</a>
                                 </li>
                                 <li>
                                     <a href="index.html"><i class="fa fa-sign-out"></i> Logout</a>
@@ -101,8 +101,8 @@ $percent = 100;
                                         <th></th>
                                         <th colspan="2">Product</th>
                                         <th>Quantity</th>
-                                        <th>Total Price</th>
-                                        <th></th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,6 +117,7 @@ $percent = 100;
                                         <td><a href="#"><?= $order_items->product_name ?></a></td>
                                         <td><?= $order_items->quantity ?></td>
                                         <td>&#8369;<?= number_format($order_items->product_price, 2) ?></td>
+                                        <td>&#8369;<?= number_format($order_items->product_subtotal, 2) ?></td>
                                     </tr>
                                 <?php endforeach ?>
                                 </tbody>

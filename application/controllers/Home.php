@@ -11,7 +11,9 @@ class Home extends CI_Controller {
     public function index() {
         if ($this->session->has_userdata('isloggedin')) {
             if ($this->session->userdata("type") == 2) { # if customer
-                $image = $this->item_model->fetch('content')[0];
+
+            $image = $this->item_model->fetch('content')[0];
+
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
                     'CTI' => $this->basket->total_items(),
@@ -28,7 +30,11 @@ class Home extends CI_Controller {
                 redirect("dashboard");
             }
         } else { # if not logged in
+            
+
             $image = $this->item_model->fetch('content')[0];
+
+
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",
                 'CTI' => $this->basket->total_items(),
@@ -324,12 +330,92 @@ class Home extends CI_Controller {
         }
     }
 
+
+    public function checkout1_exec(){
+
+    $shipper = $this->item_model->fetch('shipper');
+
+        if ($this->session->has_userdata('isloggedin')) {
+            $data = array(
+                    'title' => "Checkout - Delivery method",
+                    'page' => "Home",
+                    'shipper' => $shipper,
+                    'CTI' => $this->basket->total_items()
+                );
+
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/checkout2');
+            $this->load->view('ordering/includes/footer');
+        }
+
+        else{
+            
+            $this->form_validation->set_rules('email', "Please put your email.", "required");
+            $this->form_validation->set_rules('firstname', "Please put your first name.", "required");
+            $this->form_validation->set_rules('lastname', "Please put your lastname name.", "required");
+            $this->form_validation->set_rules('address', "Please put your complete address.", "required");
+            $this->form_validation->set_rules('province', "Please put the name of your province.", "required");
+            $this->form_validation->set_rules('city', "Please put the name of your City / Municipality.", "required");
+            $this->form_validation->set_rules('barangay', "Please put the name of your barangay.", "required");
+            $this->form_validation->set_rules('zip', "Please put your zip number.", "required|numeric");
+            $this->form_validation->set_rules('contact', "Please put your contact number.", "required|numeric");
+            $this->form_validation->set_rules('email', "Please put a valid email address.", 'required|valid_email|is_unique[customer.email]');
+            $this->form_validation->set_message('required', '{field}');
+
+            if ($this->form_validation->run()) {
+
+                $data = array(
+                    'title' => "Checkout - Delivery method",
+                    'page' => "Home",
+                    'shipper' => $shipper,
+                    'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+                    'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+                    'address' => html_escape(trim(ucwords($this->input->post('address')))),
+                    'province' => html_escape(trim(ucwords($this->input->post('province')))),
+                    'city' => html_escape(trim(ucwords($this->input->post('city')))),
+                    'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+                    'zip' => html_escape(trim($this->input->post('zip'))),
+                    'contact' => html_escape(trim($this->input->post('contact'))),
+                    'email' => html_escape(trim($this->input->post('email'))),
+                    'CTI' => $this->basket->total_items()
+                );
+
+                $checkout1_session = array(
+                    'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+                    'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+                    'address' => html_escape(trim(ucwords($this->input->post('address')))),
+                    'province' => html_escape(trim(ucwords($this->input->post('province')))),
+                    'city' => html_escape(trim(ucwords($this->input->post('city')))),
+                    'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+                    'zip' => html_escape(trim($this->input->post('zip'))),
+                    'contact' => html_escape(trim($this->input->post('contact'))),
+                    'email' => html_escape(trim($this->input->post('email')))
+                );
+
+                $this->session->set_userdata('checkout1_session', $checkout1_session);
+
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/checkout2');
+                $this->load->view('ordering/includes/footer');
+            }
+
+            else {
+                $this->checkout1();
+            }
+
+        }
+    }
+
     public function checkout2() {
 
+    $shipper = $this->item_model->fetch('shipper');
         $data = array(
-            'title' => "Checkout - Delivery method",
-            'page' => "Home",
-            'CTI' => $this->basket->total_items()
+            'title' => "Checkout - Delivery Method",
+            'page' => "Home",       
+            'CTI' => $this->basket->total_items(),
+            'shipper' => $shipper,
         );
 
         $this->load->view('ordering/includes/header', $data);
@@ -338,44 +424,153 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
+    public function checkout2_exec() {
+
+        $this->form_validation->set_rules('shipper_id', "Please choose a shipper.", "required");
+        $this->form_validation->set_message('required', '{field}');
+        $shipper = $this->item_model->fetch('shipper', array('shipper_id' => $this->input->post('shipper_id')))[0];
+
+
+        if ($this->form_validation->run()) {
+
+            if ($this->session->has_userdata('isloggedin')) {
+
+              $data = array(
+                    'title' => "Checkout - Payment Method",
+                    'page' => "Home",
+                    'CTI' => $this->basket->total_items()
+                );
+
+            $checkout2_session = array(
+                    'shipper_name' => $shipper->shipper_name,
+                    'shipper_price' => $shipper->shipper_price, 
+            );
+
+            $this->session->set_userdata('checkout2_session', $checkout2_session);
+
+            }
+
+            else {
+
+            $data = array(
+                'title' => "Checkout - Payment Method",
+                'page' => "Home",
+                'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+                'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+                'address' => html_escape(trim(ucwords($this->input->post('address')))),
+                'province' => html_escape(trim(ucwords($this->input->post('province')))),
+                'city' => html_escape(trim(ucwords($this->input->post('city')))),
+                'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+                'zip' => html_escape(trim($this->input->post('zip'))),
+                'contact' => html_escape(trim($this->input->post('contact'))),
+                'email' => html_escape(trim($this->input->post('email'))),
+                'CTI' => $this->basket->total_items()
+            );
+
+            $checkout2_session = array(
+                    'shipper_name' => $shipper->shipper_name,
+                    'shipper_price' => $shipper->shipper_price, 
+            );
+
+            $this->session->set_userdata('checkout2_session', $checkout2_session);
+
+            }
+
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/checkout3');
+                $this->load->view('ordering/includes/footer');
+        }
+
+        else {
+            $this->checkout2();
+        }
+
+    }
+
     public function checkout3() {
+
         $data = array(
-            'title' => "Checkout - Payment Method",
+            'title' => "Checkout - Order Review",
             'page' => "Home",
-            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
-            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
-            'address' => html_escape(trim(ucwords($this->input->post('address')))),
-            'province' => html_escape(trim(ucwords($this->input->post('province')))),
-            'city' => html_escape(trim(ucwords($this->input->post('city')))),
-            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
-            'zip' => html_escape(trim($this->input->post('zip'))),
-            'contact' => html_escape(trim($this->input->post('contact'))),
-            'email' => html_escape(trim($this->input->post('email'))),
-            'CTI' => $this->basket->total_items()
+            'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
+            'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
+            'CTI' => $this->basket->total_items(),
         );
+
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
         $this->load->view('ordering/checkout3');
         $this->load->view('ordering/includes/footer');
     }
 
+    public function checkout3_exec() {
+
+        $this->form_validation->set_rules('payment', "Please choose a payment.", "required");
+        $this->form_validation->set_message('required', '{field}');
+
+        if ($this->form_validation->run()) {
+
+            if ($this->session->has_userdata('isloggedin')) {
+
+              $data = array(
+                'title' => "Checkout - Order Review",
+                'page' => "Home",
+                'cartItems' => $this->basket->contents(),
+                'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
+                'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
+                'CT' => $this->basket->total(),
+                'CTI' => $this->basket->total_items(),
+                'payment' => html_escape($this->input->post('payment'))
+                );
+            }
+
+            else{
+
+            $data = array(
+                'title' => "Checkout - Order Review",
+                'page' => "Home",
+                'cartItems' => $this->basket->contents(),
+                'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
+                'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
+                'CT' => $this->basket->total(),
+                'CTI' => $this->basket->total_items(),
+                'payment' => html_escape($this->input->post('payment')),
+                'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
+                'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
+                'address' => html_escape(trim(ucwords($this->input->post('address')))),
+                'province' => html_escape(trim(ucwords($this->input->post('province')))),
+                'city' => html_escape(trim(ucwords($this->input->post('city')))),
+                'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
+                'zip' => html_escape(trim($this->input->post('zip'))),
+                'contact' => html_escape(trim($this->input->post('contact'))),
+                'email' => html_escape(trim($this->input->post('email'))),
+            );
+
+            }
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view('ordering/checkout4');
+                $this->load->view('ordering/includes/footer');
+
+        }
+
+        else {
+            $this->checkout3();
+        }
+
+    }
+
     public function checkout4() {
+
         $data = array(
             'title' => "Checkout - Order Review",
+            'page' => "Home",
+            'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
+            'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
             'cartItems' => $this->basket->contents(),
             'CT' => $this->basket->total(),
             'CTI' => $this->basket->total_items(),
-            'payment' => html_escape($this->input->post('payment')),
-            'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
-            'lname' => html_escape(trim(ucwords($this->input->post('lastname')))),
-            'address' => html_escape(trim(ucwords($this->input->post('address')))),
-            'province' => html_escape(trim(ucwords($this->input->post('province')))),
-            'city' => html_escape(trim(ucwords($this->input->post('city')))),
-            'barangay' => html_escape(trim(ucwords($this->input->post('barangay')))),
-            'zip' => html_escape(trim($this->input->post('zip'))),
-            'contact' => html_escape(trim($this->input->post('contact'))),
-            'email' => html_escape(trim($this->input->post('email'))),
-            'page' => "Home"
         );
 
         $this->load->view('ordering/includes/header', $data);
@@ -383,6 +578,8 @@ class Home extends CI_Controller {
         $this->load->view('ordering/checkout4');
         $this->load->view('ordering/includes/footer');
     }
+
+
 
     public function do_wishlist() {
         if ($this->session->has_userdata('isloggedin')) {
@@ -418,16 +615,17 @@ class Home extends CI_Controller {
     }
 
     public function wishlist() {
-        if ($this->session->has_userdata('isloggedin')) {
-            $product = $this->item_model->fetch('product');
-            $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
+    if($this->session->has_userdata('isloggedin')) {
+       $product = $this->item_model->fetch('product');
+        $wishes = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid));
 
-            $data = array(
-                'title' => "Wishlist",
-                'page' => "Wishlist",
-                'wishes' => $wishes,
-                'product' => $product,
-            );
+        $data = array(
+            'title' => "Wishlist",
+            'page' => "Wishlist",
+            'wishes' => $wishes,
+            'product' => $product,
+            'CTI' => $this->basket->total_items()
+        );
 
             // print_r($this->input->post('remove')); die();
             $this->load->view('ordering/includes/header', $data);
@@ -489,7 +687,8 @@ class Home extends CI_Controller {
             $config['base_url'] = base_url() . "home/customer_orders";
             $config['total_rows'] = $this->item_model->getCount('orders', array('customer_id' => $this->session->uid));
             $this->pagination->initialize($config);
-            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'order_id', 'ASC', array('customer_id' => $this->session->uid));
+          
+            $orders = $this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3),'order_id', 'DESC',   array('customer_id' => $this->session->uid));
 
             $data = array(
                 'title' => "My Orders",
@@ -537,57 +736,134 @@ class Home extends CI_Controller {
     }
 
     public function cancel_order() {
-        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
-        if ($customer->process_status == 0 || $customer->process_status == 3) {
-            redirect('home/customer_orders');
-        } else {
+    if($this->session->has_userdata('isloggedin')){
+
+            $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+            if ($customer->process_status == 0 || $customer->process_status == 3 ){
+                redirect('home/customer_orders');
+            }
+
+            else {
             $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
             $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
 
             foreach ($restore as $restore) {
-                $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
-                $quantity = $item->product_quantity + $restore->quantity;
-                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " . $restore->product_id);
-                $this->item_model->updatedata("order_items", array("status" => 0), "product_id = " . $restore->product_id);
+                    $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+                    $quantity = $item->product_quantity + $restore->quantity;
+                    $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+                    $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
             }
 
-            if ($cancel) {
-                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-                $for_log = array(
-                    "$user_id" => $this->session->uid,
-                    "user_type" => $this->session->userdata('type'),
-                    "username" => $this->session->userdata('username'),
-                    "date" => time(),
-                    "action" => 'Cancelled order #' . $this->uri->segment(3)
-                );
+                if($cancel) {
+                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+                    $for_log = array(
+                        "$user_id" => $this->session->uid,
+                        "user_type" => $this->session->userdata('type'),
+                        "username" => $this->session->userdata('username'),
+                        "date" => time(),
+                        "action" => 'Cancelled order #' . $this->uri->segment(3)
+                    );
 
-                $this->item_model->insertData("user_log", $for_log);
+                    $this->item_model->insertData("user_log", $for_log);
 
-                $data = array(
-                    "description_status" => "You cancelled your order.",
-                    "customer_id" => $customer->customer_id,
-                    "order_id" => $customer->order_id,
-                    "transaction_date" => time()
-                );
+                    $data = array (
+                      "description_status" => "You cancelled your order.",
+                      "customer_id" => $customer->customer_id,
+                      "order_id" => $customer->order_id,
+                      "transaction_date" => time()
+                    ); 
 
-                $this->item_model->insertData("order_status", $data);
+                    $this->item_model->insertData("order_status", $data);
 
-                redirect('home/customer_orders');
+                    redirect('home/customer_orders');
+                }
             }
+
+        }
+
+        else {
+            redirect('login');
         }
     }
 
     public function account() {
-        $data = array(
-            'title' => 'My Account',
-            'CTI' => $this->basket->total_items(),
-            'page' => "Home"
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/menu_account');
-        $this->load->view('ordering/account');
-        $this->load->view('ordering/includes/footer');
+        if($this->session->has_userdata('isloggedin')){
+            $account = $this->item_model->fetch('customer',array('customer_id' => $this->session->uid))[0];
+
+            $data = array(
+                'title' => 'My Account',
+                'account' => $account,
+                'CTI' => $this->basket->total_items(),
+                'page' => "Home"
+            );
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/menu_account');
+            $this->load->view('ordering/account');
+            $this->load->view('ordering/includes/footer');
+        }
+
+        else{
+            redirect('login');
+        }
+    }
+
+        public function save_changes() {
+
+        if($this->session->has_userdata('isloggedin')){
+
+            $this->form_validation->set_rules('firstname', "Please put your first name.", "required");
+            $this->form_validation->set_rules('lastname', "Please put your lastname name.", "required");
+            $this->form_validation->set_rules('complete_address', "Please put your complete address.", "required");
+            $this->form_validation->set_rules('province', "Please put the name of your province.", "required");
+            $this->form_validation->set_rules('city', "Please put the name of your City / Municipality.", "required");
+            $this->form_validation->set_rules('barangay', "Please put the name of your barangay.", "required");
+            $this->form_validation->set_rules('zip', "Please put your zip number.", "required|numeric");
+            $this->form_validation->set_rules('contact', "Please put your contact number.", "required|numeric");
+
+            $this->form_validation->set_message('required', '{field}');
+
+            if ($this->form_validation->run()) {
+
+                $data = array(
+                    'firstname' => $this->input->post('firstname'),
+                    'lastname' => $this->input->post('lastname'),
+                    'complete_address' => $this->input->post('complete_address'),
+                    'province' => $this->input->post('province'),
+                    'city_municipality' => $this->input->post('city'),
+                    'barangay' => $this->input->post('barangay'),
+                    'zip_code' => $this->input->post('zip'),
+                    'contact_no' => $this->input->post('contact')
+                );
+
+                $update = $this->item_model->updatedata('customer', $data, array('customer_id' => $this->session->uid));
+
+                $for_log = array(
+                        "customer_id" => html_escape($this->session->uid),
+                        "user_type" => html_escape($this->session->userdata('type')),
+                        "username" => html_escape($this->session->userdata('username')),
+                        "date" => html_escape(time()),
+                        "action" => html_escape('Updated his/her profile.'),
+                        'status' => html_escape('1')
+                );
+
+                $this->item_model->insertData('user_log', $for_log);
+
+                $statusMsg = $update?'Your profile has been updated successfully.':'A problem has occured, please try again';
+                $this->session->set_userdata('statusMsg', $statusMsg);
+
+
+                redirect("home/account");               
+            }
+
+            else{
+                $this->account();
+            }
+        }
+        
+        else{
+            redirect('login');
+        }
     }
 
     public function contact() {
@@ -672,7 +948,7 @@ class Home extends CI_Controller {
         // if logged in
         if ($this->session->has_userdata('isloggedin')) {
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
-            $CT = $this->basket->total() + 70;
+            $CT = $this->basket->total() + $this->input->post('shipper_price');
 
             $data = array(
                 'customer_id' => $this->session->uid,
@@ -693,7 +969,8 @@ class Home extends CI_Controller {
                     'order_id' => $order_id,
                     'product_id' => $item['id'],
                     'product_name' => $item['name'],
-                    'product_price' => $item['subtotal'],
+                    'product_price' => $item['price'],
+                    'product_subtotal' => $item['subtotal'],
                     'product_image1' => $item['img'],
                     'quantity' => $item['qty']
                 );
@@ -705,8 +982,9 @@ class Home extends CI_Controller {
                     "at_detail" => "Purchase",
                     "at_date" => time(),
                     "customer_id" => $this->session->uid, # logged in
-                    "order_id" => $order_id,
-                    "product_id" => $item['id']
+                    "product_id" => $item['id'],
+                    "order_id" => $order_id
+                    # status has a default value of 1
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);
 
@@ -716,6 +994,16 @@ class Home extends CI_Controller {
                 );
                 $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
             }
+
+            $for_orderstatus = array (
+              "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+              "customer_id" => $this->session->uid,
+              "order_id" => $order_id,
+              "transaction_date" => time()
+            ); 
+
+            $this->item_model->insertData("order_status", $for_orderstatus);
+            $this->session->set_userdata('statusMsg', 'You have successfully placed an order, an email will be sent at <b>'.$userinformation->email.'</b>.');
         }
         // if not
         else {
@@ -764,8 +1052,9 @@ class Home extends CI_Controller {
                     'product_id' => $item['id'],
                     'product_name' => $item['name'],
                     'product_price' => $item['price'],
+                    'product_subtotal' => $item['subtotal'],
                     'product_image1' => $item['img'],
-                    'quantity' => $item['qty'],
+                    'quantity' => $item['qty']
                 );
                 $this->item_model->insertData('order_items', $data);
 
@@ -775,8 +1064,8 @@ class Home extends CI_Controller {
                     "at_detail" => "Purchase",
                     "at_date" => time(),
                     "customer_id" => $customer_id,
-                    "order_id" => $order_id,
-                    "product_id" => $item['id']
+                    "product_id" => $item['id'],
+                    "order_id" => $order_id
                     # status has a default value of 1
                 );
                 $this->item_model->insertData("audit_trail", $for_audit);
@@ -787,7 +1076,19 @@ class Home extends CI_Controller {
                 );
                 $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
             }
+
+            $for_orderstatus = array (
+              "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+              "customer_id" => $customer_id,
+              "order_id" => $order_id,
+              "transaction_date" => time()
+            ); 
+
+            $this->item_model->insertData("order_status", $for_orderstatus);
+            $this->session->set_userdata('statusMsg', 'You have successfully placed an order, an email will be sent at <b>'.$this->input->post('email').'</b>.');
         }
+        $this->session->unset_userdata('checkout1_session');
+        $this->session->unset_userdata('checkout2_session');
         $this->basket->destroy();
         $this->index();
     }

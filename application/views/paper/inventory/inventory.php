@@ -5,7 +5,6 @@
             <?php if($this->session->flashdata('statusMsg')):?>
                 <script>
                 $(document).ready(function(){
-                    demo.initChartist();
                     $.notify({
                         icon: 'ti-direction',
                         message: "<?= $this->session->flashdata('statusMsg') ?>"
