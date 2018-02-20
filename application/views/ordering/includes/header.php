@@ -14,7 +14,7 @@ $image = $content[0];
     <meta name="author" content="Agarap, Calimlim, Leona, Mallari">
     <meta name="keywords" content="">
     <title><?= $title ?></title>
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>assets/ordering/img/<?= $image->logo_icon ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url()?>images/<?= $image->logo_icon ?>">
     <meta name="keywords" content="">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
     <script type="text/javascript" src"<?= base_url().'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js'?>" ></script>

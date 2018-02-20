@@ -1,7 +1,8 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Inventory Report</b></h3>

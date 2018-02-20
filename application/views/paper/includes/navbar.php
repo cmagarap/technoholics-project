@@ -65,12 +65,6 @@ date_default_timezone_set("Asia/Manila");
                         <p>Feedback</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('reports'); ?>">
-                        <i class="ti-notepad"></i>
-                        <p>Reports</p>
-                    </a>
-                </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('audit_trail'); ?>">
                         <i class="ti-menu-alt"></i>
