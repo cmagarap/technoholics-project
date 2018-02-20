@@ -308,10 +308,10 @@ class Home extends CI_Controller {
             'links' => $this->pagination->create_links()
         );
 
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/detail');
-        $this->load->view('ordering/includes/footer');
+            $this->load->view('ordering/includes/header', $data);
+            $this->load->view('ordering/includes/navbar');
+            $this->load->view('ordering/detail');
+            $this->load->view('ordering/includes/footer');
     }
 
     public function checkout1() {
@@ -621,7 +621,7 @@ class Home extends CI_Controller {
 
         $data = array(
             'title' => "Wishlist",
-            'page' => "Wishlist",
+            'page' => "Home",
             'wishes' => $wishes,
             'product' => $product,
             'CTI' => $this->basket->total_items()

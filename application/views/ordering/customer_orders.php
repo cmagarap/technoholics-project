@@ -19,13 +19,13 @@
                                 <a href="<?= base_url().'home/customer_orders'?>"><i class="fa fa-list"></i> My orders</a>
                             </li>
                             <li>
-                                <a href="customer-wishlist.html"><i class="fa fa-heart"></i> My wishlist</a>
+                                <a href="<?= base_url().'home/wishlist'?>"><i class="fa fa-heart"></i> My wishlist</a>
                             </li>
                             <li>
                                 <a href="<?= base_url().'home/account'?>"><i class="fa fa-user"></i> My account</a>
                             </li>
                             <li>
-                                <a href="index.html"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a href="<?= base_url().'home/logout'?>"><i class="fa fa-sign-out"></i> Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -70,7 +70,6 @@
                         </tbody>
                     </table>
                     <?php echo "<div align = 'center'>" . $links . "</div>"; ?>
-                </div>
             </div>
         </div>
     </div>
