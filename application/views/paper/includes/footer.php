@@ -6,14 +6,7 @@ $content = $content[0];
 $home1 = $content->color_1;
 ?>
 <footer class="footer">
-    <div class="container-fluid" style = "background-color: <?= $home1?>">
-        <!--<nav class="pull-left">
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </nav>-->
+    <div class="container-fluid">
         <div class="copyright pull-left">
         Template made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com" target = "_blank">Creative Tim</a>
         </div>
@@ -40,7 +33,7 @@ $home1 = $content->color_1;
 
             $.notify({
                 icon: 'ti-direction',
-                message: "Welcome to <b>Technoholics Admin System</b> - a beautiful Bootstrap freebie for your next project."
+                message: "Welcome to <b>Technoholics Admin System</b> where you can manage inventory, orders, sales, etc."
             },{
                 type: 'info',
                 timer: 4000
@@ -107,6 +100,32 @@ $('body').on('change', '#file', function(){
             e.preventDefault();
         }
     });
+});
+
+$('input[name=search]').keyup(function(){
+    var query = $(this).val();
+    if(query != '')
+    {
+        $.ajax({
+            url:"<?php echo base_url(); ?>inventory/auto",
+            method:"POST",
+            data:{query:query},
+            success:function(data)
+            {
+                $('#productlist').fadeIn();
+                $('#productlist').html(data);
+            }
+        });
+    }
+});
+
+$(document).on('click', '#link', function(){
+    $('input[name=search]').val($(this).text());
+    $('#productlist').fadeOut();
+});
+
+$(document).on('focusout', 'input[name=search]', function(){
+    $('#productlist').fadeOut();
 });
 
 NProgress.configure({ showSpinner: false });

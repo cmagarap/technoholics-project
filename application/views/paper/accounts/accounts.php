@@ -32,8 +32,8 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Admin Users</b></h3>
-                        <p class="category"><i>For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</i></p>
+                        <h2 class="title"><b>List of Admin Users</b></h2>
+                        <p class="category">For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</p>
                         <br>
                         <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
                         <a href = "<?= $this->config->base_url() ?>accounts/recover_account/admin" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Admin Accounts">Recover Users</a>
@@ -47,7 +47,7 @@
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
-                            <th><b>Username</b></th>
+                            <th colspan="2"><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
                             <th><b>Contact No.</b></th>
@@ -59,6 +59,12 @@
                             foreach ($users as $users):?>
                                 <tr>
                                     <td><?= $users->admin_id ?></td>
+
+                                    <?php $user_image = (string)$users->image;
+                                    $image_array = explode(".", $user_image); ?>
+
+                                    <td align="center"><img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="<?= $users->firstname . " " . $users->lastname ?>"></td>
+
                                     <td>
                                         <?php
                                         if($users->username == NULL) echo "<i style = 'color: #CCCCCC'>NULL</i>";

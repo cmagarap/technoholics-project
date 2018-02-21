@@ -1,19 +1,204 @@
 /*!
-    
+
  =========================================================
  * Paper Dashboard - v1.1.2
  =========================================================
- 
+
  * Product Page: http://www.creative-tim.com/product/paper-dashboard
  * Copyright 2017 Creative Tim (http://www.creative-tim.com)
  * Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE.md)
- 
+
  =========================================================
- 
+
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
+
  */
 /*      light colors - used for select dropdown         */
+
+
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: 20px;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  background-color: transparent;
+  border: 2px solid #31bbe0;
+  border-radius: 20px;
+  color: #31bbe0;
+  height: 36px;
+  font-weight: 600;
+  margin: 0 2px;
+  min-width: 36px;
+  padding: 6px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.pagination > li > a:hover,
+.pagination > li > a:focus,
+.pagination > li > a:active,
+.pagination > li.active > a,
+.pagination > li.active > span,
+.pagination > li.active > a:hover,
+.pagination > li.active > span:hover,
+.pagination > li.active > a:focus,
+.pagination > li.active > span:focus {
+  background-color: #31bbe0;
+  border-color: #31bbe0;
+  color: #FFFFFF;
+}
+
+.nav-pills-primary > li > a,
+.pagination-primary > li > a,
+.pagination-primary > li > span,
+.pagination-primary > li:first-child > a,
+.pagination-primary > li:first-child > span,
+.pagination-primary > li:last-child > a,
+.pagination-primary > li:last-child > span {
+  border: 2px solid #7A9E9F;
+  color: #7A9E9F;
+}
+
+.nav-pills-primary > li.active > a,
+.nav-pills-primary > li.active > a:hover,
+.nav-pills-primary > li.active > a:focus,
+.pagination-primary > li > a:hover,
+.pagination-primary > li > a:focus,
+.pagination-primary > li > a:active,
+.pagination-primary > li.active > a,
+.pagination-primary > li.active > span,
+.pagination-primary > li.active > a:hover,
+.pagination-primary > li.active > span:hover,
+.pagination-primary > li.active > a:focus,
+.pagination-primary > li.active > span:focus {
+  background-color: #7A9E9F;
+  border-color: #7A9E9F;
+  color: #FFFFFF;
+}
+
+.nav-pills-info > li > a,
+.pagination-info > li > a,
+.pagination-info > li > span,
+.pagination-info > li:first-child > a,
+.pagination-info > li:first-child > span,
+.pagination-info > li:last-child > a,
+.pagination-info > li:last-child > span {
+  border: 2px solid #68B3C8;
+  color: #68B3C8;
+}
+
+.nav-pills-info > li.active > a,
+.nav-pills-info > li.active > a:hover,
+.nav-pills-info > li.active > a:focus,
+.pagination-info > li > a:hover,
+.pagination-info > li > a:focus,
+.pagination-info > li > a:active,
+.pagination-info > li.active > a,
+.pagination-info > li.active > span,
+.pagination-info > li.active > a:hover,
+.pagination-info > li.active > span:hover,
+.pagination-info > li.active > a:focus,
+.pagination-info > li.active > span:focus {
+  background-color: #68B3C8;
+  border-color: #68B3C8;
+  color: #FFFFFF;
+}
+
+.nav-pills-success > li > a,
+.pagination-success > li > a,
+.pagination-success > li > span,
+.pagination-success > li:first-child > a,
+.pagination-success > li:first-child > span,
+.pagination-success > li:last-child > a,
+.pagination-success > li:last-child > span {
+  border: 2px solid #7AC29A;
+  color: #7AC29A;
+}
+
+.nav-pills-success > li.active > a,
+.nav-pills-success > li.active > a:hover,
+.nav-pills-success > li.active > a:focus,
+.pagination-success > li > a:hover,
+.pagination-success > li > a:focus,
+.pagination-success > li > a:active,
+.pagination-success > li.active > a,
+.pagination-success > li.active > span,
+.pagination-success > li.active > a:hover,
+.pagination-success > li.active > span:hover,
+.pagination-success > li.active > a:focus,
+.pagination-success > li.active > span:focus {
+  background-color: #7AC29A;
+  border-color: #7AC29A;
+  color: #FFFFFF;
+}
+
+.nav-pills-warning > li > a,
+.pagination-warning > li > a,
+.pagination-warning > li > span,
+.pagination-warning > li:first-child > a,
+.pagination-warning > li:first-child > span,
+.pagination-warning > li:last-child > a,
+.pagination-warning > li:last-child > span {
+  border: 2px solid #F3BB45;
+  color: #F3BB45;
+}
+
+.nav-pills-warning > li.active > a,
+.nav-pills-warning > li.active > a:hover,
+.nav-pills-warning > li.active > a:focus,
+.pagination-warning > li > a:hover,
+.pagination-warning > li > a:focus,
+.pagination-warning > li > a:active,
+.pagination-warning > li.active > a,
+.pagination-warning > li.active > span,
+.pagination-warning > li.active > a:hover,
+.pagination-warning > li.active > span:hover,
+.pagination-warning > li.active > a:focus,
+.pagination-warning > li.active > span:focus {
+  background-color: #F3BB45;
+  border-color: #F3BB45;
+  color: #FFFFFF;
+}
+
+.nav-pills-danger > li > a,
+.pagination-danger > li > a,
+.pagination-danger > li > span,
+.pagination-danger > li:first-child > a,
+.pagination-danger > li:first-child > span,
+.pagination-danger > li:last-child > a,
+.pagination-danger > li:last-child > span {
+  border: 2px solid #EB5E28;
+  color: #EB5E28;
+}
+
+.nav-pills-danger > li.active > a,
+.nav-pills-danger > li.active > a:hover,
+.nav-pills-danger > li.active > a:focus,
+.pagination-danger > li > a:hover,
+.pagination-danger > li > a:focus,
+.pagination-danger > li > a:active,
+.pagination-danger > li.active > a,
+.pagination-danger > li.active > span,
+.pagination-danger > li.active > a:hover,
+.pagination-danger > li.active > span:hover,
+.pagination-danger > li.active > a:focus,
+.pagination-danger > li.active > span:focus {
+  background-color: #EB5E28;
+  border-color: #EB5E28;
+  color: #FFFFFF;
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #cfcfca;
+  border-color: #cfcfca;
+}
 .ct-blue {
   stroke: #7A9E9F !important; }
 

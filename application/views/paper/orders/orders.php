@@ -4,8 +4,19 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-stats-up" style = "color: #31bbe0;"></span>&nbsp;<b>Chart</b></h3>
+                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders for today</b></h3>
                         <hr>
+                    </div>
+                    <div class="content">
+                        <div id="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                            <canvas id="order_doughnut" style = "height: 300px"></canvas>
+                        </div>
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated <?= date("F j, Y h:i A"); ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- DATE PICKER -->
@@ -28,12 +39,13 @@
             <div class="col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h3><b>List of Orders</b></h3>
-                        <p class="category"><i><?=$date?></i></p>
+                        <h3><span class="ti-notepad" style = "color: #31bbe0"></span>&nbsp; <b>List of Orders</b></h3>
+                        <p class="category"><?= $date ?></p>
+
                     </div>
                     <?php
                     if (!$orders) {
-                        echo "<center><h3><hr><br>There are no orders recorded in the database.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are no orders recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">
@@ -82,10 +94,10 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         }
                         ?>
-                    </div>
                 </div>
             </div>
         </div>
@@ -156,4 +168,4 @@
         $('.menu .item').tab();
     });
 </script>
-</script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/orders_doughnut.js"></script>

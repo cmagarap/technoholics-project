@@ -1,12 +1,6 @@
 <!-- *** FOOTER ***
 _________________________________________________________ -->
-<?php
-
-  $content = $this->item_model->fetch("content",  array("content_id" => 1));
-$content = $content[0];
-
-$home1 = $content->customer_color1;
-?>
+<?php $content = $this->item_model->fetch("content",  array("content_id" => 1))[0]; ?>
 <div id="footer" data-animate="fadeInUp">
     <div class="container">
         <div class="row">
@@ -17,18 +11,20 @@ $home1 = $content->customer_color1;
                     </li>
                     <li><a href="text.html">Terms and conditions</a>
                     </li>
-                    <li><a href="faq.html">FAQ</a>
+                    <li><a href="<?= site_url('home/faq') ?>">FAQ</a>
                     </li>
-                    <li><a href="contact.html">Contact us</a>
+                    <li><a href="<?= site_url('home/contact') ?>">Contact us</a>
                     </li>
                 </ul>
                 <hr>
                 <h4>User section</h4>
                 <ul>
-                    <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-                    </li>
-                    <li><a href="register.html">Regiter</a>
-                    </li>
+                    <?php if ($this->session->has_userdata('isloggedin')) { ?>
+                        <li><a href="<?= site_url('logout') ?>">Logout</a></li>
+                    <?php } else { ?>
+                        <li><a href="<?= site_url('login') ?>">Login</a></li>
+                        <li><a href="register.html">Regiter</a></li>
+                    <?php } ?>
                 </ul>
                 <hr class="hidden-md hidden-lg hidden-sm">
             </div> <!-- /.col-md-3 -->
@@ -56,30 +52,17 @@ $home1 = $content->customer_color1;
                 </ul>
                 <hr class="hidden-md hidden-lg">
             </div> <!-- /.col-md-3 -->
+            <div class="col-md-3 col-sm-6"></div>
             <div class="col-md-3 col-sm-6">
                 <h4>Where to find us</h4>
-                <p><strong>Obaju Ltd.</strong>
-                    <br>13/25 New Avenue
-                    <br>New Heaven
-                    <br>45Y 73J
-                    <br>England
-                    <br>
-                    <strong>Great Britain</strong>
+                <p>
+                    Grass Residences, Unit 1717-B Tower 1
+                    <br>SMDC The, Nueva Viscaya, Bago
+                    <br>Bantay, Quezon City, Metro Manila
+                    <br>Philippines
                 </p>
-                <a href="contact.html">Go to contact page</a>
-                <hr class="hidden-md hidden-lg">
-            </div> <!-- /.col-md-3 -->
-            <div class="col-md-3 col-sm-6">
-                <h4>Get the news</h4>
-                <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                <form>
-                    <div class="input-group">
-                        <input type="text" class="form-control">
-                        <span class="input-group-btn">
-			                <button class="btn btn-default" type="button">Subscribe!</button>
-			            </span>
-                    </div> <!-- /input-group -->
-                </form>
+                <a href="<?= site_url('home/contact')?>">Go to contact page</a>
+
                 <hr>
                 <h4>Stay in touch</h4>
                 <p class="social">
@@ -96,7 +79,7 @@ $home1 = $content->customer_color1;
 <!-- *** FOOTER END *** -->
 <!-- *** COPYRIGHT ***
 _________________________________________________________ -->
-<div id="copyright"  style = "background-color: <?= $home1?>">
+<div id="copyright"  style = "background-color: <?= $content->color_1; ?>">
     <div class="container">
         <div class="col-md-6">
             <p class="pull-left">© <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
@@ -108,21 +91,21 @@ _________________________________________________________ -->
         </div>
     </div>
 </div>
-<!-- *** COPYRIGHT END *** -->
 </div>
-<!-- /#all -->
+</div>
+<!-- *** COPYRIGHT END *** -->
 <!-- *** SCRIPTS TO INCLUDE ***
 _________________________________________________________ -->
 
 <script>
     /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
+     toggle between hiding and showing the dropdown content */
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
 
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -135,126 +118,8 @@ _________________________________________________________ -->
             }
         }
     }
-
-    // Veo's AJAX
-    $(document).ready(function () {
-
-        $('.add_cart').click(function () {
-            var product_id = $(this).data("productid");
-            var product_name = $(this).data("productname");
-            var product_img = $(this).data("productimg");
-            var product_price = $(this).data("price");
-            var product_quantity = $(this).data("productquantity");
-            var minimum_quantity = 1;
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/add",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
-                success: function (data)
-                {
-                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                    $('#' + product_id).val('');
-
-                    $.notify({
-                        icon: 'ti-direction',
-                        message: product_name +" has been added into cart"
-                    },{
-                        type: 'info',
-                        timer: 2000,
-                        	placement: {
-		from: "top",
-		align: "left"
-	}
-                    });
-                }
-            });
-        });
-
-        $(document).on('click', '.remove_inventory', function () {
-            var row_id = $(this).attr("id");
-                $.ajax({
-                    url: "<?php echo base_url(); ?>home/remove",
-                    method: "POST",
-                    data: {row_id: row_id},
-                    success: function (data)
-                    {
-                        $('#all').load("<?php echo base_url(); ?>home/basket #all");
-                        $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                    }
-                });
-        });
-        
-        $(document).on('change','#update',function () {
-            var product_id = $(this).data("productid");
-            var product_quantity = $(this).val();
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/update",
-                method: "POST",
-                data: {product_id: product_id, product_quantity: product_quantity},
-                success: function (data)
-                {   
-                    $('#all').load("<?php echo base_url(); ?>home/basket #all");
-                    $('#CTI').load("<?php echo base_url(); ?>home/category #CTI");
-                }
-            });
-        });
-
-        $('input[name=search]').keyup(function(){  
-           var query = $(this).val();  
-           if(query != '')  
-           {  
-                $.ajax({  
-                     url:"<?php echo base_url(); ?>home/auto", 
-                     method:"POST",  
-                     data:{query:query},  
-                     success:function(data)  
-                     {  
-                          $('#productlist').fadeIn();  
-                          $('#productlist').html(data);  
-                     }  
-                });  
-           }  
-        });  
-
-        $(document).on('click', 'li', function(){
-            $('input[name=search]').val($(this).text());  
-            $('#productlist').fadeOut();  
-        });  
-
-        $(document).on('focusout', 'input[name=search]', function(){
-            $('#productlist').fadeOut();  
-        });  
-        
-        $(document).on('click','#post',function () {
-            var product_id = $(this).data("productid");
-            var rating = $('input[name=rating]:checked').val(); 
-            var feedback = $('#comment').val();
-            var product_name = $(this).data("productname");
-            
-            $.ajax({
-                url: "<?php echo base_url(); ?>home/post",
-                method: "POST",
-                data: {product_id: product_id, product_name: product_name, feedback: feedback, rating: rating},
-                success: function (data)
-                {
-                    location.reload();
-                }
-            });
-        });
-        
-        NProgress.configure({ showSpinner: false });
-        NProgress.start();
-        var interval = setInterval(function() { NProgress.inc(); }, 1000);        
-
-        $(window).load(function () {
-            clearInterval(interval);
-            NProgress.done();
-        });
-
-        $(window).unload(function () {
-            NProgress.start();
-        });
-    });
 </script>
+
+
 </body>
 </html>

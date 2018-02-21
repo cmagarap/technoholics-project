@@ -364,6 +364,7 @@ if (isset($_POST['enter'])) {
                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
                 </div>
             </div>
+
     </form>
 
     <div align = "left">

@@ -52,12 +52,12 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title"><b>Previous Buyers</b></h4>
-                        <!--<p class="category"><i>The last buyers of the product</i></p>-->
                     </div>
                     <div class="content">
                         <ul class="list-unstyled team-members">
                             <?php if($buyers):
-                            for($i = 0; $i < sizeof($buyers); $i++): ?>
+                                $times = (sizeof($buyers) > 8) ? 8 : sizeof($buyers);
+                                for($i = 0; $i < $times; $i++): ?>
                             <li>
                                 <div class="row">
                                     <div class="col-xs-3">
@@ -70,12 +70,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
-                                        <?= $buyers[$i][0]->username ?>
-                                        <br />
-                                        <span class="text-muted"><small>Offline</small></span>
-                                    </div>
-                                    <div class="col-xs-3 text-right">
-                                        <button class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></button>
+                                        <p style="margin-top: 10px"><?= $buyers[$i][0]->username ?></p>
                                     </div>
                                 </div>
                             </li>

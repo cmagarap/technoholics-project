@@ -1,8 +1,8 @@
 <?php
-  $content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $this->item_model->fetch("content",  array("content_id" => 1));
 $image = $content[0];
-$content = $content[0];
-$home1 = $content->customer_color1;
+//$content = $content[0];
+//$home1 = $content->customer_color1;
 
 ?>
 <!-- *** TOPBAR ***
@@ -14,8 +14,7 @@ _________________________________________________________ -->
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-<!-- COlor Here -->
-    <div id="top" style = "background-color: <?= $home1?>">
+    <div id="top" style="background-color: <?= $image->color_1 ?>">
         <div class="container">
             <div class="" data-animate="fadeInDown">
                 <ul class="menu">
@@ -34,12 +33,11 @@ date_default_timezone_set("Asia/Manila");
                                             <br><?= $userinformation->username; ?>
                                         </div>
                                     </a>
+                                    <a href="<?= base_url().'home/customer_orders'; ?>">Track my Order</a>
+                                    <a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                                     <a href="<?= $this->config->base_url() ?>logout">Logout</a>
                                 </div>
                             </div>
-                        </li>
-
-                        <li><a href="<?= base_url().'home/wishlist'; ?>">Wishlist</a>
                         </li>
                     <?php else: ?>
                         <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
@@ -85,13 +83,13 @@ date_default_timezone_set("Asia/Manila");
                 <li class="active"><a href="<?= base_url().'home'; ?>">Home</a>
             <?php else : ?>
                 <li><a href="<?= base_url().'home'; ?>">Home</a>
-            <?php endif; ?>
+                    <?php endif; ?>
                 </li>
             <?php if($page == "category") : ?>
                 <li class="active dropdown yamm-fw">
             <?php else : ?>
                 <li class="dropdown yamm-fw">
-            <?php endif; ?>
+                    <?php endif; ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">PRODUCTS <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -103,7 +101,7 @@ date_default_timezone_set("Asia/Manila");
                                             <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                            ?>">Samsung</a>
+                                                ?>">Samsung</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
                                             </li>
@@ -131,15 +129,6 @@ date_default_timezone_set("Asia/Manila");
                                         <h5>Featured</h5>
                                         <ul>
                                             <li><a href="<?= base_url().'home/category/'; ?>">Trainers</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                            </li>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                            </li>
-                                        </ul>
-                                        <h5>Looks and trends</h5>
-                                        <ul>
-                                            <li><a href="<?= base_url().'home/category'; ?>">Trainers</a>
                                             </li>
                                             <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
                                             </li>
@@ -258,39 +247,28 @@ date_default_timezone_set("Asia/Manila");
 			            <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
                     </span>
                 </div>
-                <div id="productlist" style="position:absolute;"></div>  
+                <div id="productlist" style="position:absolute;"></div>
             </form>
         </div> <!--/.nav-collapse -->
     </div> <!-- /.container -->
 </div> <!-- /#navbar -->
-
 <!-- *** NAVBAR END *** -->
-
-<!-- MODAL
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="Login">Login</h4>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url().'home/customer_orders'; ?>" method="post">
-                    <div class="form-group">
-                        <label for = "username">Username</label>
-                        <input type="text" class="form-control" name = "username" id="email-modal" placeholder="Enter username here...">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="password-modal" placeholder="password">
-                    </div>
-                    <p class="text-center">
-                        <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                    </p>
-                </form>
-                <p class="text-center text-muted">Not registered yet?</p>
-                <p class="text-center text-muted"><a href="<?= base_url().'home/register'; ?>"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
-            </div>
-        </div>
-    </div>
-</div>
--->
+<?php if($this->session->has_userdata('statusMsg')):?>
+    <script>
+    $(document).ready(function(){
+        $.notify({
+            icon: 'ti-check',
+            message: "<?= $this->session->userdata('statusMsg') ?>"
+        },{
+            type: 'info',
+            timer: 2000,
+            placement: {
+            from: "top",
+            align: "center"
+            }
+        });
+    });
+    </script>
+<?php endif; 
+$this->session->unset_userdata('statusMsg');
+?>

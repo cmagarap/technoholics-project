@@ -65,15 +65,15 @@ class Inventory extends CI_Controller {
 
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+            $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1');
             if($product) {
                 $order_items = $this->item_model->fetch('order_items', array('product_id' => $this->uri->segment(3)));
                 if ($order_items) {
                     foreach ($order_items as $order_item) {
-                        $this->db->select("customer_id");
+                        $this->db->select(array("customer_id", "transaction_date"));
                         $orders = $this->item_model->fetch("orders", array("order_id" => $order_item->order_id));
                         foreach ($orders as $order) {
-                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id));
+                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id), NULL, NULL, 5);
                         }
                     }
                 } else {
@@ -429,6 +429,24 @@ class Inventory extends CI_Controller {
         } else {
             redirect("home");
         }
+    }
+
+    public function auto() {
+        $output = '';
+        $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
+        $output = '<ul class="box list-unstyled" style="width:295px;">';
+        if($query)
+        {
+            foreach($query as $query){
+                $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+            }
+        }
+        else
+        {
+            $output .= '<li class="text-left" >Item Not Found</li>';
+        }
+        $output .= '</ul>';
+        echo $output;
     }
 
 }

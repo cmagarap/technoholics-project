@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-9" id="basket">
                 <div class="box">
-                    <form method="post" action="<?= base_url().'home/checkout1'; ?>">
+                    <form method="post" action="<?= base_url().'home/checkout1'; ?>" id="form">
                         <h1>Shopping cart</h1>
                         <p class="text-muted">You currently have <?= $CTI ?> item(s) in your cart.</p>
                         <div class="table-responsive">
@@ -19,7 +19,7 @@
                                 <tr>
                                     <th colspan="2">Product</th>
                                     <th>Quantity</th>
-                                    <th>Unit price</th>
+                                    <th>Unit Price</th>
                                     <!-- <th>Discount</th> -->
                                     <th colspan="2">Subtotal</th>
                                 </tr>
@@ -33,19 +33,19 @@
                                 <tr>
                                     <td>
                                         <a href="#">
-                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="White Blouse Armani">
+                                            <img src="<?= base_url().'uploads_products/'.$item["img"]?>" alt="<?= $item["name"] ?>">
                                         </a>
                                     </td>
                                     <td><a href="#"><?= $item["name"] ?></a>
                                     </td>
                                     <td>
-                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-productid= "<?=$item["rowid"]?>">
+                                        <input type="number" id="update" name="update" max="<?=$item["maxqty"]?>" class="form-control text-center update" value="<?= $item["qty"]; ?>" data-rowid= "<?=$item["rowid"]?>">
                                     </td>
                                     <td><?php echo '₱'.number_format($item["price"],2)?> </td>
                                     <!-- <td>$0.00</td> -->
-                                    <td id="subtotal<?=$item["id"]?>" ><?php echo '₱'.number_format($item["subtotal"],2) ?></td>
+                                    <td id="subtotal<?=$item["id"]?>" >&#8369;<?php echo number_format($item["subtotal"],2) ?></td>
                                     <td>
-                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" id="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
+                                    <button type="button" name="remove" class="btn btn-danger remove_inventory" data-rowid="<?=$item["rowid"]?>"><i class="fa fa-trash-o fa-lg"></i></button>
                                     </td>
                                 </tr>
                                     <?php } }else{ ?>
@@ -56,7 +56,7 @@
                                 <tr>
                                 <?php if($CTI > 0){ ?>
                                     <th colspan="5">Total</th>
-                                    <th colspan="2"><?='₱'.number_format($CT,2)?></th>
+                                    <th colspan="2">&#8369;<?=number_format($CT,2)?></th>
                                     <?php } ?>
                                 </tr>
                                 </tfoot>

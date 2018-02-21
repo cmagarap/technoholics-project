@@ -4,8 +4,8 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>Customer Log</b></h3>
-                        <p class="category"><i>The activities performed by the customers.</i></p>
+                        <h2 class="title"><b>Customer Log</b></h2>
+                        <p class="category">The activities performed by the customers.<br><a href="<?= base_url() ?>reports/active_customers"><u>See active customers.</u></a></p>
                     </div>
                     <?php if(!$logs) { ?>
                         <center>
