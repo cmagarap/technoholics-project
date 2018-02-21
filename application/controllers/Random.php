@@ -44,5 +44,6 @@ class Random extends CI_Controller {
         echo $this->encryption->decrypt($ciphertext)."<br>";*/
         // ==========================================================================================
         echo date("m-j-Y", 1517985368);
+        echo bin2hex(openssl_random_pseudo_bytes(10));
     }
 }

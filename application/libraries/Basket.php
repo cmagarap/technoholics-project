@@ -42,8 +42,8 @@ class Basket {
      */
     public function get_item($row_id){
         return (in_array($row_id, array('total_items', 'cart_total'), TRUE) OR ! isset($this->cart_contents[$row_id]))
-            ? FALSE
-            : $this->cart_contents[$row_id];
+        ? FALSE
+        : $this->cart_contents[$row_id];
     }
 
     /**
@@ -91,7 +91,7 @@ class Basket {
                 // re-create the entry with unique identifier and updated quantity
                 $item['rowid'] = $rowid;
                 // check if it exceed the maxqty of the item
-                if($old_qty == $item['maxqty']){
+                if($old_qty == $item['maxqty'] || $this->total_items() >= 10 ){
                     return FALSE;
                 }
                 $item['qty'] += $old_qty;
@@ -119,9 +119,10 @@ class Basket {
                 return FALSE;
             }else{
                 // prep the quantity
-                if(isset($item['qty'])){
+                if(isset($item['qty'], $item['maxqty'])){
                     $item['qty'] = (float) $item['qty'];
                     // remove the item from the cart, if quantity is zero
+
                     if ($item['qty'] == 0){
                         unset($this->cart_contents[$item['rowid']]);
                         $this->save_cart();
@@ -129,6 +130,9 @@ class Basket {
                     }
                 }
 
+                if ($item['qty'] > $item['maxqty'] || $this->total_items() >= 10){
+                    return FALSE;
+                }
                 // find updatable keys
                 $keys = array_intersect(array_keys($this->cart_contents[$item['rowid']]), array_keys($item));
                 // prep the price
@@ -139,6 +143,7 @@ class Basket {
                 foreach(array_diff($keys, array('id', 'name')) as $key){
                     $this->cart_contents[$item['rowid']][$key] = $item[$key];
                 }
+
                 // save cart data
                 $this->save_cart();
                 return TRUE;
@@ -152,6 +157,8 @@ class Basket {
      */
     protected function save_cart(){
         $this->cart_contents['total_items'] = $this->cart_contents['cart_total'] = 0;
+
+
         foreach ($this->cart_contents as $key => $val){
             // make sure the array contains the proper indexes
             if(!is_array($val) OR !isset($val['price'], $val['qty'])){
