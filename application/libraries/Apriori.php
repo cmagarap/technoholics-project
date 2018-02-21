@@ -337,7 +337,7 @@ class Apriori {
                     $tmp1 = $k[$i];
                 }
             }
-
+          
             # Should be used in a table
             echo '<tr>';
             echo "<td>$tmp</td>";
