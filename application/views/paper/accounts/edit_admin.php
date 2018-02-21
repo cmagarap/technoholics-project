@@ -5,7 +5,7 @@
             <div class="col-lg-4 col-md-5">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="<?= base_url() ?>assets/ordering/img/<?= $cover->image_2 ?>" alt="..."/>
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $cover->image_1 ?>" alt="..."/>
                     </div>
                     <div class="content">
                         <div class="author">
@@ -36,7 +36,7 @@
                     </div>
                     <hr>
                     <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>accounts/edit_exec/<?= $accounts->customer_id ?>" method = "POST">
+                        <form action = "<?= $this->config->base_url() ?>accounts/edit_admin_exec/<?= $accounts->admin_id ?>" method = "POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

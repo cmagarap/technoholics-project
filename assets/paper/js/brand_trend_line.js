@@ -5,7 +5,6 @@ $(document).ready(function(){
         success: function(data) {
             var td = [];
             var bought = [];
-            console.log(data);
             for(var i in data) {
                 if(i == 0) {
                     td.push(data[i].td);
@@ -23,10 +22,10 @@ $(document).ready(function(){
                     label: 'Brand Trend',
                     data: bought,
                     borderColor: '#31bbe0',
-                    backgroundColor: 'rgb(49, 187, 224, 0.1)',
+                    backgroundColor: 'rgba(49, 187, 224, 0.1)',
                     pointBorderColor: '#31bbe0',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
-                    pointHoverBackgroundColor: 'rgb(255,255,255, 1)',
+                    pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,
                     borderWidth: 5
