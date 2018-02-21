@@ -74,9 +74,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
         </div>
     </div>
     <div class="banner">
-        <a href="#">
-            <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
-        </a>
+
     </div>
 </div>
 <div class="col-md-9">
@@ -167,16 +165,11 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                         <div class="col-sm-9 col-md-10">
                             <h5><?= $userinformation->username?></h5>
                             <p class="posted">
-                                <div class="star-ratings-css">
-                                    <div class="star-ratings-css-top" style="width: <?= ($feedback->rating / 5) * 100 ?>%" title="<?= number_format($feedback->rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-                                    <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-
-                                </div>
+                                <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
                             <br>
-                            <p><?= $feedback->feedback ?></p>
+                            <p><blockquote style="border-color: color: #dc2f54"><?= $feedback->feedback ?></blockquote></p>
                             <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
                             </p>
-
                         </div>
                     </div> 
                 <?php endforeach ?>
@@ -191,12 +184,12 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                     $image_array = explode(".", $user_image);
                     ?>
                         <div class="row">
-                            <div class="col-sm-3 col-md-2 text-center-xs">
-                                <p>
-                                    <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                                </p>
+                            <div class="col-sm-3 col-md-1 text-center-xs">
+
+                                    <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $this->session->userdata('username') ?>">
+
                             </div>
-                            <div class="col-sm-9 col-md-10">
+                            <div class="col-sm-9 col-md-7">
                             <h5 >Tell people what you think</h5>
                                 <fieldset class="starability-checkmark">
                                     <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
