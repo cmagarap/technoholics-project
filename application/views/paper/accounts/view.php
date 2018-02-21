@@ -104,14 +104,38 @@
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content">
-                        <?php if (!$message) {
-                            echo '<h3 style = "color: #31bbe0; margin-bottom: 0px">Frequent Itemsets</h3>';
-                            echo '<p class="category">Most frequent products involved in multiple record of transactions.</p><br>';
-                            $this->apriori->printFreqItemsets();
-                            echo '<h3 style = "color: #31bbe0; margin-bottom: 0px">Association Rules</h3>';
-                            echo '<p class="category">If-then statements used to uncover relationships between data.</p><br>';
-                            $this->apriori->printAssociationRules();
-                        } else {
+                        <?php if (!$message) { ?>
+                            <h3 style = "color: #31bbe0; margin-bottom: 0px">Frequent Itemsets</h3>
+                            <p class="category">Most frequent products involved in multiple record of transactions.</p><br>
+
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <th>Products</th>
+                                    <th>Support</th>
+                                    </thead>
+                                    <tbody>
+                                    <?= $this->apriori->printFreqItemsets(); ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 style = "color: #31bbe0; margin-bottom: 0px">Association Rules</h3>
+                            <p class="category">If-then statements used to uncover relationships between data.</p><br>
+
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <th>Products</th>
+                                    <th>Confidence</th>
+                                    </thead>
+                                    <tbody>
+                                        <?= $this->apriori->printAssociationRules(); ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        <?php } else {
                             echo '<div align="center"><br><i>';
                             echo $message;
                             echo '</i></div>';

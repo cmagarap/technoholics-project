@@ -162,7 +162,7 @@ class Accounts extends CI_Controller {
                 $this->apriori->setMinConf(50);
                 $this->apriori->setDelimiter(', ');
 
-                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "order_id", "ASC");
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND status = 1", "order_id", "order_id", "ASC");
 
                 if ($order_id) {
                     # store the fetched values into an array:
@@ -172,7 +172,7 @@ class Accounts extends CI_Controller {
                     # get the orders of customer based on order_id_array[]:
                     for ($i = 0; $i < sizeof($order_id_array); $i++) {
                         $this->db->select("item_name");
-                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND order_id = " . $order_id_array[$i] . " AND at_detail = 'Purchase'");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(4) . " AND order_id = " . $order_id_array[$i]);
                     }
                     $customer_transactions = array();
 
