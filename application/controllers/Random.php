@@ -17,6 +17,10 @@ class Random extends CI_Controller {
     }
 
     public function index() {
+        $bytes_code = openssl_random_pseudo_bytes(30, $crypto_strong);
+        $hash_code = bin2hex($bytes_code);
+        echo $hash_code."<br>";
+        echo password_hash($hash_code.'seej101', PASSWORD_BCRYPT);
         #$this->load->view("paper/practice_charts");
 
         /*$this->load->library('encryption');

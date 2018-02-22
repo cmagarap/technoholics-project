@@ -59,12 +59,12 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $where, $column, $order = NULL) {
+    function getDistinct($table, $where, $column, $order = NULL, $orderby = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
         if (!empty($order)) {
-            $this->db->order_by($column, $order);
+            $this->db->order_by($order, $orderby);
         }
         $this->db->distinct();
         $this->db->select($column);
@@ -120,7 +120,7 @@ class Item_model extends CI_Model {
     }
 
     function getCountsearch($table, $where = NULL, $like = NULL) {
-        
+
         if (!empty($where && $like)) {
             $this->db->like($where,$like);
         }
@@ -128,9 +128,9 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return $query->num_rows();
     }
-    
+
     function getItemsWithLimitSearch($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL, $like = NULL) {
-        
+
         if (!empty($where && $like)) {
             $this->db->like($where,$like);
         }

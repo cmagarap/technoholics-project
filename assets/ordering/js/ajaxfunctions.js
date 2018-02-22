@@ -101,6 +101,7 @@ $(document).ready(function () {
                 $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
 
+
                 $.notify({
                     icon: 'ti-shopping-cart',
                     message: "Your cart has been updated"
@@ -110,6 +111,7 @@ $(document).ready(function () {
                     placement: {
                         from: "bottom",
                         align: "right"
+
                     }
                 });
             }

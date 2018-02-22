@@ -8,9 +8,19 @@
                         <hr>
                     </div>
                     <div class="content">
-                        <div id="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
-                            <canvas id="order_doughnut" style = "height: 300px"></canvas>
-                        </div>
+                        <?php
+                        $this->db->select('process_status');
+                        $data = $this->item_model->fetch('orders', "status = 1 AND FROM_UNIXTIME(transaction_date, '%m-%d-%Y') = '". date("m-d-Y") ."'");
+                        if($data) {
+                            ?>
+                            <div id="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                                <canvas id="order_doughnut" style = "height: 300px"></canvas>
+                            </div>
+                            <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/orders_doughnut.js"></script>
+                        <?php } else { ?>
+                            <div align="center"><h4>There are no customer orders for today. </h4></div>
+                        <br><br>
+                        <?php } ?>
                         <div class="footer">
                             <hr>
                             <div class="stats">
@@ -168,4 +178,3 @@
         $('.menu .item').tab();
     });
 </script>
-<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/orders_doughnut.js"></script>

@@ -28,7 +28,7 @@
                         <?php } ?>
                         </p>
                         <br>
-                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account/customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/recover_customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
                     </div>
                     <br>
                     <?php if(!$users) {
@@ -73,10 +73,10 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/customer/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Account Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/customer/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $users->customer_id ?>" title = "Delete Account" alt = "Delete Product">
@@ -108,7 +108,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/customer/" + id;
+                        window.location = "<?= base_url() ?>accounts/delete_customer/" + id;
                     } else {
                         swal("The account is safe!");
                     }

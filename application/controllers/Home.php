@@ -331,7 +331,6 @@ class Home extends CI_Controller {
         }
     }
 
-
     public function checkout1_exec(){
 
         $shipper = $this->item_model->fetch('shipper');
@@ -407,6 +406,7 @@ class Home extends CI_Controller {
             }
 
         }
+
     }
 
     public function checkout2() {

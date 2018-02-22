@@ -39,6 +39,12 @@
                                         <?php } else { ?>
                                                 <input type="password" class="form-control border-input" placeholder="Your old password" name="old_password" value="<?= $old_pass ?>">
                                         <?php } ?>
+                                        <?php if(!validation_errors()):
+                                            if ($this->session->flashdata('error') != ''): ?>
+                                            <span style='color: red'><p><?php echo $this->session->flashdata('error'); ?></p>
+                                            </span>
+                                            <?php endif;
+                                        endif; ?>
                                     </div>
                                 </div>
                             </div>

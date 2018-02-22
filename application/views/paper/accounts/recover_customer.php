@@ -18,7 +18,7 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Deleted <?= ucwords($this->uri->segment(3)) ?> List</b></h3>
+                            <h2 class="title"><b>Deleted Customer List</b></h2>
                             <p class="category">You can recover deleted accounts here.</p><br>
                             <a href = "<?= base_url() ?>accounts/customer" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
@@ -103,7 +103,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/customer/" + id;
+                    window.location = "<?= $this->config->base_url() ?>accounts/recover_customer_exec/" + id;
                 } else {
                     swal("The account remained inactive.");
                 }

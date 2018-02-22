@@ -18,7 +18,7 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Deleted <?= ucwords($this->uri->segment(3)) ?> List</b></h3>
+                            <h2 class="title"><b>Deleted Admin List</b></h2>
                             <p class="category">You can recover deleted accounts here.</p><br>
                             <a href = "<?= base_url() ?>accounts/admin" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
@@ -78,10 +78,10 @@
                                             ?>
                                         </td>
                                         <td>
-                                            <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
+                                            <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view_admin/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
                                                 <span class="ti-eye"></span>
                                             </a>
-                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit_admin/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
                                                 <span class="ti-pencil"></span>
                                             </a>
                                             <a class="btn btn-danger recover" href="#" data-id="<?= $users->admin_id ?>" title = "Recover Account" alt = "Reactivate this Account" style = "color: #7ace4c; background: white; border-color: #7ace4c">
@@ -114,7 +114,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/admin/" + id;
+                    window.location = "<?= $this->config->base_url() ?>accounts/recover_admin_exec/" + id;
                 } else {
                     swal("The account remained inactive.");
                 }

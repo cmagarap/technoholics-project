@@ -24,7 +24,7 @@ class My_account extends CI_Controller {
             $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
             $user_log = $this->item_model->fetch("user_log", array("admin_id" => $this->session->uid), "log_id", "DESC", 4);
             $this->db->select("image_1");
-            $cover = $this->item_model->fetch("home")[0];
+            $cover = $this->item_model->fetch("content")[0];
             $data = array(
                 'title' => 'Manage My Account',
                 'heading' => 'My Account',
@@ -42,9 +42,17 @@ class My_account extends CI_Controller {
     }
 
     public function edit_myprofile_exec() {
+        $this->db->select(array('email', 'username'));
+        $my_acc = $this->item_model->fetch('admin', 'admin_id = ' . $this->session->uid)[0];
         $this->form_validation->set_rules('lastname', "last name", "required");
         $this->form_validation->set_rules('firstname', "first name", "required");
-        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[admin.email]");
+        if($my_acc->email != $this->input->post('email')) {
+            $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[admin.email]");
+        }
+        if($my_acc->username != $this->input->post('username')) {
+            $this->form_validation->set_rules('username', "username", "is_unique[admin.username]");
+        }
+
         $this->form_validation->set_message('required', 'Please enter your {field}.');
         $username = ($this->input->post('username') == NULL) ? NULL : $this->input->post('username'); # because having a username is optional
 
@@ -77,7 +85,7 @@ class My_account extends CI_Controller {
 
     public function change_password() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
+            $my_account = $this->item_model->fetch("admin", "admin_id = " . $this->session->uid);
             $data = array(
                 'title' => 'Change password',
                 'heading' => 'My Account',
@@ -97,8 +105,7 @@ class My_account extends CI_Controller {
         $this->form_validation->set_rules('new_password', "new password", "required");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|matches[new_password]");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
-        $my_account = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
-        $my_account = $my_account[0];
+        $my_account = $this->item_model->fetch("admin", "admin_id = " . $this->session->uid)[0];
 
         if ($this->form_validation->run()) {
             $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", $my_account->admin_id);
@@ -106,14 +113,13 @@ class My_account extends CI_Controller {
                 $bytes = openssl_random_pseudo_bytes(30, $crypto_strong);
                 $hash = bin2hex($bytes);
                 $data = array(
-                    'password' => html_escape($this->item_model->setPassword($this->input->post('new_password'), $hash)),
+                    'password' => $this->item_model->setPassword($this->input->post('new_password'), $hash),
                     'verification_code' => $hash
                 );
                 $update = $this->item_model->updatedata("admin", $data, array("admin_id" => $this->session->uid));
                 if ($update) {
-                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                     $for_log = array(
-                        "$user_id" => $this->db->escape_str($this->session->uid),
+                        "admin_id" => $this->db->escape_str($this->session->uid),
                         "user_type" => $this->db->escape_str($this->session->userdata('type')),
                         "username" => $this->db->escape_str($this->session->userdata('username')),
                         "date" => $this->db->escape_str(time()),

@@ -71,6 +71,74 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </ul>
                         </li>
                     </ul>
+                </li>
+                <li <?php if ($category == "Tablet") echo'class="active"'?>>
+                    <a href="<?= base_url() . 'home/category/tablet'; ?>">Tablets<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Tablet')); ?></span></a>
+                    <ul>
+                        <li><a href="<?= base_url() . 'home/category/tablet/Apple'; ?>">Apple</a>
+                        </li>
+                        <li><a href="<?= base_url() . 'home/category/tablet/Samsung'; ?>">Samsung</a>
+                        </li>
+                        <li><a href="<?= base_url() . 'home/category/tablet/ASUS'; ?>">Asus</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+
+    </div>
+</div>
+<div class="col-md-9">
+   <div class="box row" id="productMain">
+                <!-- start content -->
+                <div class="col-sm-5">
+                    <div class="flexslider">
+                        <ul class="slides">
+                            <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>">
+                                <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                            </li>
+                            <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
+                                 <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                            </li>
+                            <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
+                               <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                            </li>
+                            <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
+                               <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <div class="col-sm-7">
+                    <h1 class = "text-center"><?= $row->product_name ?></h1>
+                    <div align = "center" id ="contents">
+                    <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                    ?>
+                    <h2 class="text-center" style="color:#dc2f54;">&#8369; <?= number_format($row->product_price,2) ?></h2>
+
+                        <div class="star-ratings-css">
+                            <div class="star-ratings-css-top" style="width: <?= ($rating->rating / 5) * 100 ?>%" title="<?= number_format($rating->rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                            <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                            <p style="color: #f5bd23; font-size: 15px"><?= number_format($rating->rating, 1) ?> / 5</p>
+                        </div>
+                        <br><br><br>
+                    </div>
+                        <form method="POST" action="<?php if($this->session->has_userdata('isloggedin')){ echo base_url() . 'home/do_wishlist'; } else { echo base_url().'login';} ?>" >
+                            <input type="hidden" name="product_name" value="<?= $row->product_name ?>">
+                            <input type="hidden" name="product_price" value="<?= $row->product_price ?>">
+                            <input type="hidden" name="product_desc" value="<?= $row->product_desc ?>">
+                            <input type="hidden" name="customer_id" value="<?= $this->session->uid ?>">
+                            <input type="hidden" name="product_id" value="<?= $row->product_id ?>">
+                            <input type="hidden" name="product_category" value="<?= $row->product_category ?>">
+                            <input type="hidden" name="product_brand" value="<?= $row->product_brand ?>">
+                            <input type="hidden" name="product_image1" value="<?= $row->product_image1 ?>">
+                        <p class="text-center buttons">
+                        <button <?php if(!$row->product_quantity) { echo 'disabled'; }?> type="button" name="add_cart" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>"/><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            <?php if(!$res){ ?><button type="submit" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist </button></td><?php } ?>
+                        </p>
+                        </form>
                 </div>
             </div>
             <div class="banner">
@@ -148,50 +216,44 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
             $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
             $user_image = (string)$userinformation->image;
             $image_array = explode(".", $user_image);
-            ?>
-            <hr>
-            <div class="row comment">
-                <div class="col-sm-1 col-md-1 text-center-xs">
-                    <p>
-                        <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                    </p>
-                </div>
-                <div class="col-sm-9 col-md-10">
-                    <h5><?= $userinformation->username?></h5>
-                    <p class="posted">
-                        <div class="row">
-                            <div class="star-ratings-css">
-                                <div class="star-ratings-css-top" style="width: <?= ($feedback->rating / 5) * 100 ?>%" title="<?= number_format($feedback->rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-                                <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-                            </div>
+                ?>
+                    <hr>
+                    <div class="row comment">
+                        <div class="col-sm-1 col-md-1 text-center-xs">
+                            <p>
+                                <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                            </p>
                         </div>
-                    </p>
-                    <br>
-                    <p><?=$feedback->feedback?></p>
-                    <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
-                </div>
-            </div> 
-        <?php endforeach ?>
-        <?php echo "<div align = 'center'>" . $links . "</div>";?>
-    <?php endif ?>
-    <hr>
-    <div id="comment-form">
-        <h4>Leave comment</h4>
-        <?php if ($this->session->has_userdata('isloggedin')):
-        $userinformation = $this->item_model->fetch('customer', array('customer_id' =>  $this->session->uid))[0];
-        $user_image = (string)$userinformation->image;
-        $image_array = explode(".", $user_image);
-        ?>
-        <div class="row">
-            <div class="col-sm-3 col-md-2 text-center-xs">
-                <p>
-                    <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                </p>
-            </div>
-            <div class="col-sm-9 col-md-10">
-                <h5 >Tell people what you think</h5>
-                <fieldset class="starability-checkmark">
-                    <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                        <div class="col-sm-9 col-md-10">
+                            <h5><?= $userinformation->username?></h5>
+                            <p class="posted">
+                                <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
+                            <br>
+                            <p><blockquote style="border-color: color: #dc2f54"><?= $feedback->feedback ?></blockquote></p>
+                            <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
+                            </p>
+                        </div>
+                    </div> 
+                <?php endforeach ?>
+                    <?php echo "<div align = 'center'>" . $links . "</div>";?>
+            <?php endif ?>
+                <hr>
+                <div id="comment-form">
+                    <h4>Leave comment</h4>
+                    <?php if ($this->session->has_userdata('isloggedin')):
+                    $userinformation = $this->item_model->fetch('customer', array('customer_id' =>  $this->session->uid))[0];
+                    $user_image = (string)$userinformation->image;
+                    $image_array = explode(".", $user_image);
+                    ?>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-1 text-center-xs">
+
+                                    <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $this->session->userdata('username') ?>">
+                    </div>
+                    <div class="col-sm-9 col-md-7">
+                    <h5 >Tell people what you think</h5>
+                        <fieldset class="starability-checkmark">
+                            <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
 
                     <input type="radio" id="rate1" name="rating" value="1" />
                     <label for="rate1">1 star.</label>
