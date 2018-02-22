@@ -28,9 +28,6 @@ $home1 = $content->color_1;
 <?php if ($heading == "Dashboard"): ?>
     <script type="text/javascript">
         $(document).ready(function(){
-
-            demo.initChartist();
-
             $.notify({
                 icon: 'ti-direction',
                 message: "Welcome to <b>Technoholics Admin System</b> where you can manage inventory, orders, sales, etc."
@@ -42,12 +39,8 @@ $home1 = $content->color_1;
         });
     </script>
 <?php endif; ?>
- 
-         
-
 
 <script>
-
 var abc = 0; //Declaring and defining global increement variable
 var max_fields = 4;
 var counter = 1;

@@ -118,9 +118,8 @@ class My_account extends CI_Controller {
                 );
                 $update = $this->item_model->updatedata("admin", $data, array("admin_id" => $this->session->uid));
                 if ($update) {
-                    $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                     $for_log = array(
-                        "$user_id" => $this->db->escape_str($this->session->uid),
+                        "admin_id" => $this->db->escape_str($this->session->uid),
                         "user_type" => $this->db->escape_str($this->session->userdata('type')),
                         "username" => $this->db->escape_str($this->session->userdata('username')),
                         "date" => $this->db->escape_str(time()),
