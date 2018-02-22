@@ -228,6 +228,7 @@ class Orders extends CI_Controller {
             $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
             $quantity = $item->product_quantity + $restore->quantity;
             $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+            $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
         }
 
         if($cancel) {

@@ -99,7 +99,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="products-sort-by">
                                         <strong>Sort by</strong>
-                                        <select name="sort" class="form-control"  onchange="this.form.submit()">
+                                        <select name="sort" class="form-control" onchange="this.form.submit()">
                                             <option <?php if($sort == "product_name"){ echo "selected";}?> value="product_name" >Name</option>
                                             <option <?php if($sort == "product_price"){ echo "selected";}?> value="product_price" >Price</option>
                                             <option <?php if($sort == "times_bought"){ echo "selected";}?> value="times_bought" >Sales first</option>
