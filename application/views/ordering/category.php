@@ -103,7 +103,8 @@
                                             <option <?php if($sort == "product_name"){ echo "selected";}?> value="product_name" >Name</option>
                                             <option <?php if($sort == "product_price"){ echo "selected";}?> value="product_price" >Price</option>
                                             <option <?php if($sort == "times_bought"){ echo "selected";}?> value="times_bought" >Sales first</option>
-                                            <option <?php if($sort == "times_search"){ echo "selected";}?>  value="times_search" >Most viewed</option>
+                                            <option <?php if($sort == "times_searched"){ echo "selected";}?>
+                                                    value="times_searched" >Most viewed</option>
                                             <option <?php if($sort == "no_of_views"){ echo "selected";}?>  value="no_of_views" >Most searched</option>
                                             <option <?php if($sort == "product_rating"){ echo "selected";}?> value="product_rating">Top rated</option>
                                         </select>
