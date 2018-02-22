@@ -26,7 +26,7 @@
                         <a href="<?= $this->config->base_url() ?>my_account/change_password">Change Password</a>
                     </div>
                     <hr>
-                    <div class="text-center">
+                    <!--<div class="text-center">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <h5>12<br /><small>Files</small></h5>
@@ -38,7 +38,7 @@
                                 <h5>24,6$<br /><small>Spent</small></h5>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
             </div>

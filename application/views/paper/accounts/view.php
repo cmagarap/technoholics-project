@@ -21,19 +21,34 @@
                                 <?= "Member since " . date("F j, Y", $account->registered_at) ?></p>
                         </div>
                         <hr>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Email Address:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->email ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Address:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= "$account->complete_address, $account->barangay, $account->city_municipality, $account->province" ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Age:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->age ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Birthdate:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= date('F j, Y', $account->birthdate) ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Contact No.:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->contact_no ?></p></div>
-
+                        <table>
+                            <tr>
+                                <th width="140px"><p style="font-size: 14px"><b>Email Address:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->email ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Address:</b></p></th>
+                                <td><p style="font-size: 14px"><?= "$account->complete_address, $account->barangay, $account->city_municipality, $account->province" ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Age:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->age ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Gender:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->gender ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Birthdate:</b></p></th>
+                                <td><p style="font-size: 14px"><?= date('F j, Y', $account->birthdate) ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Contact No.:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->contact_no ?></p></td>
+                            </tr>
+                        </table>
                     </div>
-                    <br><br><br>
+
                     <hr>
                     <div class="text-center">
                         <div class="row">
