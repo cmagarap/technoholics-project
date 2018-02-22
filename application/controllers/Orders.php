@@ -144,23 +144,26 @@ class Orders extends CI_Controller {
             $this->item_model->insertData("user_log", $for_log);
 
             if($this->input->post("progress") == 2){
-                $data = array (
+                $for_orderstatus = array (
                   "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
                   "customer_id" => $customer->customer_id,
                   "order_id" => $customer->order_id,
                   "transaction_date" => time()
-                ); 
+              ); 
+                
+                $this->item_model->insertData("order_status", $for_orderstatus);
             }
             else if($this->input->post("progress") == 3){
-                $data = array (
+                $for_orderstatus = array (
                   "description_status" => "Thank you for shopping with Technoholics! your order has arrived at your location.",
                   "customer_id" => $customer->customer_id,
                   "order_id" => $customer->order_id,
                   "transaction_date" => time()
-                ); 
+              ); 
+
+                $this->item_model->insertData("order_status", $for_orderstatus);
             }
 
-            $this->item_model->insertData("order_status", $data);
         }
 
         if ($change_delivery) {
@@ -173,14 +176,14 @@ class Orders extends CI_Controller {
             );
             $this->item_model->insertData("user_log", $for_log);
 
-            $data = array (
-                  "description_status" => 'Changed delivery date of order #' . $this->uri->segment(3) . " to " . $this->input->post("order_date"),
-                  "customer_id" => $customer->customer_id,
-                  "order_id" => $customer->order_id,
-                  "transaction_date" => time()
-                ); 
+            $for_orderstatus = array (
+              "description_status" => 'Changed delivery date of order #' . $this->uri->segment(3) . " to " . $this->input->post("order_date"),
+              "customer_id" => $customer->customer_id,
+              "order_id" => $customer->order_id,
+              "transaction_date" => time()
+          ); 
 
-            $this->item_model->insertData("order_status", $data);
+            $this->item_model->insertData("order_status", $for_orderstatus);
         }
 
         $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
@@ -222,10 +225,10 @@ class Orders extends CI_Controller {
         $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
 
         foreach ($restore as $restore) {
-                $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
-                $quantity = $item->product_quantity + $restore->quantity;
-                $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
-                $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
+            $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+            $quantity = $item->product_quantity + $restore->quantity;
+            $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+            $this->item_model->updatedata("order_items", array("status" =>  0), "product_id = " .$restore->product_id);
         }
 
         if($cancel) {
@@ -240,14 +243,14 @@ class Orders extends CI_Controller {
 
             $this->item_model->insertData("user_log", $for_log);
 
-            $data = array (
+            $for_orderstatus = array (
               "description_status" => "Your order has been cancelled.",
               "customer_id" => $customer->customer_id,
               "order_id" => $customer->order_id,
               "transaction_date" => time()
-            ); 
+          ); 
 
-            $this->item_model->insertData("order_status", $data);
+            $this->item_model->insertData("order_status", $for_orderstatus);
             $this->item_model->updatedata("audit_trail", array("status" => 0), "order_id = " . $this->uri->segment(3));
             redirect("orders/page");
         }
@@ -275,4 +278,4 @@ class Orders extends CI_Controller {
         }
     }
 }
- ?>
+?>

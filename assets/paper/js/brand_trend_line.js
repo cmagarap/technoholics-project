@@ -57,47 +57,46 @@ $(document).ready(function(){
                         borderWidth: 5
                     },
                 ]};
-
-            var ctx = document.getElementById("trendLine");
-            ctx.height = 150;
-            var lineGraph = new Chart(ctx, {
-                type: 'line',
-                data: chartdata,
-                options: {
-                    legend: {
-                        display: false,
-                        position: "right"
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function (tooltipItem, chartData) {
-                                return ' Trend: ' + chartData.datasets[0].data[tooltipItem.index];
+                var ctx = document.getElementById("trendLine");
+                ctx.height = 150;
+                var lineGraph = new Chart(ctx, {
+                    type: 'line',
+                    data: chartdata,
+                    options: {
+                        legend: {
+                            display: false,
+                            position: "right"
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, chartData) {
+                                    return ' Trend: ' + chartData.datasets[0].data[tooltipItem.index];
+                                }
                             }
-                        }
-                    },
-                    scales: {
-                        xAxes: [{
-                            gridLines: {
-                                color: "rgba(0, 0, 0, 0)",
-                            }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                drawBorder: false,
-                                borderDash: [2, 2]
-                            }
-                        }]
-                    },
-                    elements: {
-                        line: {
+                        },
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    color: "rgba(0, 0, 0, 0)",
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines: {
+                                    drawBorder: false,
+                                    borderDash: [2, 2]
+                                }
+                            }]
+                        },
+                        elements: {
+                            line: {
                             tension: 0, // disables bezier curves
                         }
                     }
                 }
             });
-        },
-        error: function(data) {
-            console.log(data);
-        }
-    });
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
 })

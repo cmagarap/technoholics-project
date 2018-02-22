@@ -214,22 +214,12 @@ else{
                                 <a href="<?= base_url().'home/basket'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Basket</a>
                             </div>
                             <div class="pull-right">
-
-                                <button type="submit" class="btn btn-primary">Continue to Delivery Method<i class="fa fa-chevron-right"></i>
-
+                                <button type="submit" class="btn btn-primary" name="enter">Continue to Delivery Method<i class="fa fa-chevron-right"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <!-- /.box -->
-
-
             </div>
-            <!-- /.col-md-9 -->
-
-
         </div>
-        <!-- /.container -->
     </div>
-    <!-- /#content -->

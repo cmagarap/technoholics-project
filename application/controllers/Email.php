@@ -17,10 +17,10 @@ class Email extends CI_Controller {
 
     function sendmail() {
         //This should be same as the smtp_user in the email config
-        $this->email->from('veocalimlim@gmail.com', "Veyo");
+        $this->email->from('veocalimlim@gmail.com', "Veo");
 
         //Email recipient
-        $this->email->to($this->input->post('rece   ipient'));
+        $this->email->to($this->input->post('receipient'));
 
         //Email Subject
         $this->email->subject($this->input->post('subject'));
