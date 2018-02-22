@@ -43,7 +43,7 @@ $image = $content[0];
     <link href="<?= base_url() . 'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <link href="<?= base_url() ?>assets/paper/css/themify-icons.css" rel="stylesheet">
-    <link href="<?= base_url() ?>assets/ordering/css/navbar.css" rel="stylesheet">
+
 
 
     <!-- web sheets -->

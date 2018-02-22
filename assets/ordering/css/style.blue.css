@@ -1188,6 +1188,13 @@ h1 {
     background-image: none;
   }
 }
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #31bbe0;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 1;
+  text-decoration: none; 
+}
 @media (min-width: 768px) {
   .navbar-nav {
     float: left;

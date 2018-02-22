@@ -1,23 +1,13 @@
 <?php
 $content = $this->item_model->fetch("content",  array("content_id" => 1));
 $image = $content[0];
-//$content = $content[0];
-//$home1 = $content->customer_color1;
-
+$userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+date_default_timezone_set("Asia/Manila");
 ?>
-<!-- *** TOPBAR ***
-    _________________________________________________________ -->
-    <!-- *** TOP BAR END *** -->
-<!-- *** NAVBAR ***
-    _________________________________________________________ -->
-    <?php $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0]; 
-    date_default_timezone_set("Asia/Manila");
-    ?>
     <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
         <div id="top" style="background-color: <?= $image->color_1 ?>">
             <div class="container">
                 <ul class="menu">
-
                     <!-- If a customer is logged in -->
                     <?php if($this->session->has_userdata('isloggedin')):
                     $user_image = (string)$userinformation->image;
