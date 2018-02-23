@@ -125,7 +125,8 @@ class Login extends CI_Controller {
         if (!$this->session->has_userdata('isloggedin')) {
             $data = array(
                 'title' => "Request for password reset",
-                'page' => "Home"
+                'page' => "Home",
+                'CTI' => $this->basket->total_items()
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');

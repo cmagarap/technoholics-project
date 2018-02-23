@@ -337,8 +337,12 @@ class Apriori {
                     $tmp1 = $k[$i];
                 }
             }
-
-            echo '{' . $tmp . '} = ' . $this->allsups[$tmp1] . ' times <br />';
+          
+            # Should be used in a table
+            echo '<tr>';
+            echo "<td>$tmp</td>";
+            echo '<td>' . $this->allsups[$tmp1] . '</td>';
+            echo '</tr>';
         }
     }
 
@@ -371,7 +375,7 @@ class Apriori {
 
         foreach ($this->freqItmsts as $k => $v) {
             $tmp = array();
-            $tmp['sup'] = $this->allsups[$k];
+            $tmp[0] = $this->allsups[$k];
             $k = explode($this->delimiter, $k);
             $num = count($k);
             for ($i = 0; $i < $num; $i++) {
@@ -387,9 +391,13 @@ class Apriori {
     public function printAssociationRules() {
         # echo 'Time: ' . $this->arTime . ' second(s)<br />===============================================================================<br />';
 
+        # Should be used in a table
         foreach ($this->rules as $a => $arr) {
             foreach ($arr as $b => $conf) {
-                echo "$a => $b = $conf%<br />";
+                echo '<tr>';
+                echo "<td>$a => $b</td>";
+                echo "<td>$conf%</td>";
+                echo '<tr>';
             }
         }
     }

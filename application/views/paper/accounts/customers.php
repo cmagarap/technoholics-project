@@ -17,16 +17,18 @@
             <div class="col-md-12">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
-                        <h3 class="title"><b>List of Customers</b></h3>
+                        <h2 class="title"><b>List of Customers</b></h2>
                         <?php if($this->session->userdata('type') == 0) { ?>
-                            <p class="category"><i>For admin accounts,
-                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.</i>
+                            <p class="category">For admin accounts,
+                                <a href = "<?= $this->config->base_url() ?>accounts/admin">click here</a>.<br>
+                                <a href="<?= base_url() ?>reports/product_preference"> <u>See customers' product preference.</u></a>
                         <?php } elseif($this->session->userdata('type') == 1) { ?>
-                            <p class="category"><i>Here are the list of customers as of <?= date("F j, Y"); ?>.</i></p>
+                            <p class="category">Here are the list of customers as of <?= date("F j, Y"); ?>.</p>
+                            <a href="<?= base_url() ?>reports/product_preference"> <u>See customers' product preference.</u></a>
                         <?php } ?>
                         </p>
                         <br>
-                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account/customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/recover_customer" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Customer Accounts">Recover Users</a>
                     </div>
                     <br>
                     <?php if(!$users) {
@@ -37,7 +39,7 @@
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
-                            <th><b>Username</b></th>
+                            <th colspan="2"><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
                             <th><b>Contact no.</b></th>
@@ -48,6 +50,11 @@
                             foreach ($users as $users):?>
                                 <tr>
                                     <td><?= $users->customer_id ?></td>
+
+                                    <?php $user_image = (string)$users->image;
+                                    $image_array = explode(".", $user_image); ?>
+
+                                    <td align="center"><img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="<?= $users->firstname . " " . $users->lastname ?>"></td>
                                     <td>
                                         <?php
                                         if($users->username == NULL) {
@@ -57,7 +64,7 @@
                                         }
                                         ?>
                                     </td>
-                                    <td><?php echo $users->lastname . ", " . $users->firstname ?></td>
+                                    <td><?= $users->lastname . ", " . $users->firstname ?></td>
                                     <td><?= $users->email ?></td>
                                     <td>
                                         <?php
@@ -66,10 +73,10 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/customer/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Account Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/<?= $users->customer_id ?>" title = "View Product Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/customer/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/<?= $users->customer_id ?>" title = "Edit Product" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $users->customer_id ?>" title = "Delete Account" alt = "Delete Product">
@@ -101,7 +108,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/customer/" + id;
+                        window.location = "<?= base_url() ?>accounts/delete_customer/" + id;
                     } else {
                         swal("The account is safe!");
                     }

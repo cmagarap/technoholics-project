@@ -15,21 +15,21 @@ class Item_model extends CI_Model {
         return ($query->num_rows()) ? $query->result() : FALSE;
     }
 
-    function avg($table, $where = NULL, $avg){
+    function avg($table, $where = NULL, $avg) {
         $this->db->select_avg($avg);
         $this->db->where($where);
         $query = $this->db->get($table);
         return $query->row();
     }
 
-    function max($table, $where = NULL, $max){
+    function max($table, $where = NULL, $max) {
         $this->db->select_max($max);
         $this->db->where($where);
         $query = $this->db->get($table);
         return $query->row();
     }
 
-    function sum($table, $where = NULL, $sum){
+    function sum($table, $where = NULL, $sum) {
         $this->db->select_sum($sum);
         $this->db->where($where);
         $query = $this->db->get($table);
@@ -59,12 +59,12 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $where, $column, $order = NULL) {
+    function getDistinct($table, $where, $column, $order = NULL, $orderby = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }
         if (!empty($order)) {
-            $this->db->order_by($column, $order);
+            $this->db->order_by($order, $orderby);
         }
         $this->db->distinct();
         $this->db->select($column);
@@ -120,7 +120,7 @@ class Item_model extends CI_Model {
     }
 
     function getCountsearch($table, $where = NULL, $like = NULL) {
-        
+
         if (!empty($where && $like)) {
             $this->db->like($where,$like);
         }
@@ -128,9 +128,9 @@ class Item_model extends CI_Model {
         $query = $this->db->get($table);
         return $query->num_rows();
     }
-    
+
     function getItemsWithLimitSearch($table, $limit = NULL, $offset = NULL, $orderby = NULL, $order = NULL, $where = NULL, $like = NULL) {
-        
+
         if (!empty($where && $like)) {
             $this->db->like($where,$like);
         }

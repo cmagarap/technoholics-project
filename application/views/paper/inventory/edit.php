@@ -64,7 +64,7 @@
                                         <label>Supplier Company <span style = "color: red">*</span></label>
                                         <select name="product_supplier" class = "form-control border-input file">
                                             <?php foreach($supplier as $supplier): ?>
-                                                <option value="<?= $supplier->supplier_id ?>" <?php if($supplier->supplier_id == $supplier->supplier_id) echo "selected"; ?>>
+                                                <option value="<?= $supplier->supplier_id ?>" <?php if($supplier->supplier_id == $products->supplier_id) echo "selected"; ?>>
                                                     <?= $supplier->company_name ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -76,7 +76,7 @@
                                         <label>Product Brand <span style = "color: red">*</span></label>
                                         <select name="product_brand" id="" class = "form-control border-input file">
                                             <?php foreach($brand as $brand): ?>
-                                                <option value="<?= $brand->brand_id ?>">
+                                                <option value="<?= $brand->brand_id ?>" <?php if($brand->brand_id == $products->brand_id) echo "selected"; ?>>
                                                     <?= $brand->brand_name ?></option>
                                             <?php endforeach; ?>
                                         </select>
@@ -95,7 +95,7 @@
                                         <label>Product Category <font color="red">*</font></label>
                                         <select name="product_category" id="" class = "form-control border-input file">
                                             <?php foreach($category as $category): ?>
-                                                <option value="<?= $category->category_id ?>">
+                                                <option value="<?= $category->category_id ?>" <?php if($category->category_id == $products->category_id) echo "selected"; ?>>
                                                     <?= $category->category ?></option>
                                             <?php endforeach; ?>
                                         </select>
@@ -120,7 +120,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Image</label>
-                                        <div id="filediv"><input name="user_file[]" type="file" id="file"/></div><br>           
+                                        <div id="filediv"><input name="user_file[]" type="file" id="file" class="file form-control border-input"/></div><br>
                                             <input type="button" id="add_more" class="upload" value="Add More Files"/>
                                     </div>
                                 </div>

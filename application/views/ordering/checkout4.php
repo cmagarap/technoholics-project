@@ -88,6 +88,8 @@
                                 <?//= $delivery+$CT ?>
                             </div>
                         </div>
+
+                    <?php if (!$this->session->has_userdata('isloggedin')) :?>
                         <input type="hidden" name="firstname" value="<?= $fname ?>">
                         <input type="hidden" name="lastname" value="<?= $lname ?>">
                         <input type="hidden" name="address" value="<?= $address ?>">
@@ -97,8 +99,14 @@
                         <input type="hidden" name="zip" value="<?= $zip ?>">
                         <input type="hidden" name="email" value="<?= $email ?>">
                         <input type="hidden" name="contact" value="<?= $contact ?>">
-                        <input type="hidden" name="delivery" value="<?= $delivery ?>">
-                        <input type="hidden" id="total" name="total" value="<?= $delivery+$CT?>">
+                        <input type="hidden" name="payment" value="<?= $payment ?>">
+                        <input type="hidden" name="shipper_name" value="<?= $shipper_name ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $shipper_price?>">
+                    <?php else :?>
+                        <input type="hidden" name="payment" value="<?= $payment ?>">
+                        <input type="hidden" name="shipper_name" value="<?= $shipper_name ?>">
+                        <input type="hidden" name="shipper_price" value="<?= $shipper_price?>">
+                    <?php endif;?>
                     </form>
                 </div>
                 <!-- /.box -->
@@ -106,7 +114,42 @@
 
             </div>
             <!-- /.col-md-9 -->
+            <div class="col-md-3">
 
+                <div class="box" id="order-summary">
+                    <div class="box-header">
+                        <h3>Order summary</h3>
+                    </div>
+                    <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>Order subtotal</td>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p><?= number_format($CT,2); ?></th>
+                            </tr>
+                            <tr>
+                                <td>Shipping and handling</td>
+                                <!-- SHIPPING FEE IS STILL STATIC, THE AMOUNT SHOULD BE ASKED TO THE CLIENT -->
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p><?=$shipper_price?></th>
+                            </tr>
+                            <!--<tr>
+                                <td>Discount</td>
+                                <th><p style = "font-size: 12px; display: inline">&#8369;</p>0.00</th>
+                            </tr>-->
+                            <tr class="total">
+                                <td>Total</td>
+                                <th><u>&#8369;<?= number_format($CT + $shipper_price,2)?></u></th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.col-md-3 -->
         </div>
         <!-- /.container -->
     </div>
