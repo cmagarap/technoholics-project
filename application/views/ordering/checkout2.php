@@ -20,9 +20,9 @@
                                 </li>
                                 <li class="active"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
                                 </li>
-                                <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
-                                </li>
                                 <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
+                                </li>
+                                <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                                 </li>
                             </ul>
                             <div class="content">
@@ -50,7 +50,7 @@
                                     <a href="<?= base_url().'home/checkout1';?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
                                 </div>
                                 <div class="pull-right">
-                                    <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
+                                    <button type="submit" class="btn btn-primary">Continue to Order Review<i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>

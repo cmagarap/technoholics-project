@@ -134,7 +134,6 @@ date_default_timezone_set("Asia/Manila");
                             </li>
                         </ul>
                     </li>
-
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">SERVICES <b class="caret"></b></a>
                         <ul class="dropdown-menu">

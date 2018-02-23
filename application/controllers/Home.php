@@ -424,7 +424,7 @@ class Home extends CI_Controller {
         $this->load->view('ordering/checkout2');
         $this->load->view('ordering/includes/footer');
     }
-
+  
     public function checkout2_exec() {
 
         $this->form_validation->set_rules('shipper_id', "Please choose a shipper.", "required");
@@ -475,14 +475,11 @@ class Home extends CI_Controller {
 
             $this->session->set_userdata('checkout2_session', $checkout2_session);
 
-        }
-
         $this->load->view('ordering/includes/header', $data);
         $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/checkout3');
+        $this->load->view('ordering/checkout4');
         $this->load->view('ordering/includes/footer');
     }
-
     else {
         $this->checkout2();
     }
@@ -527,7 +524,6 @@ public function checkout3_exec() {
       }
 
       else{
-
         $data = array(
             'title' => "Checkout - Order Review",
             'page' => "Home",
@@ -947,7 +943,6 @@ public function post() {
 
         $this->item_model->insertData('user_log', $for_log);
     }
-
 }
 
 public function placeorder() {
@@ -1099,6 +1094,31 @@ public function placeorder() {
     $this->index();
 }
 
+    public function recovery() {
+    $data = array(
+        'page' => "Home",
+        'title' => 'Data Recovery',
+        'CTI' => $this->basket->total_items()
+    );
+    $this->load->view('ordering/includes/header', $data);
+    $this->load->view('ordering/includes/navbar');
+    // $this->load->view('ordering/menu_account');
+    $this->load->view('ordering/recovery');
+    $this->load->view('ordering/includes/footer');
+}
+
+    public function repair() {
+        $data = array(
+            'page' => "Home",
+            'title' => 'Apple Repair',
+            'CTI' => $this->basket->total_items()
+        );
+        $this->load->view('ordering/includes/header', $data);
+        $this->load->view('ordering/includes/navbar');
+        // $this->load->view('ordering/menu_account');
+        $this->load->view('ordering/repair');
+        $this->load->view('ordering/includes/footer');
+    }
 }
 
 ?>
