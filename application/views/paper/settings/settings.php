@@ -1,8 +1,7 @@
-<?php $counter = 1; ?>
-<?php $counter1 = 1; ?>
-<?php $counter2 = 1; ?>
-<?php $counter3 = 1; ?>
-<?php
+<?php $counter = 1;
+$counter1 = 1;
+$counter2 = 1;
+$counter3 = 1;
 if (isset($_POST['enter'])) {
     $colorpicker = $_POST['colorpicker'];
 }
@@ -147,12 +146,12 @@ if (isset($_POST['enter'])) {
                                     <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white; margin-left: 20px">Enter</button>
                                 </form>
                             </div>
-                            <?php if($this->session->userdata('type') == 0): ?>
-                            <div class="col-md-3">
-                                <p class="title"><b>Backup Database</b></p>
-                                <br>
-                                <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Generate SQL</a>
-                            </div>
+                            <?php if ($this->session->userdata('type') == 0): ?>
+                                <div class="col-md-3">
+                                    <p class="title"><b>Backup Database</b></p>
+                                    <br>
+                                    <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Generate SQL</a>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -163,21 +162,20 @@ if (isset($_POST['enter'])) {
 
     <div class = "row">
         <div class = "col-md-12">
-        <div class = "col-md-6">
-            <div class="card">
-                <div class="header">
-                    <h2 class="title"><b>Brands</b></h2>
-                    <br>
-                    <div align = "left">
-                        <a href = "<?= $this->config->base_url() ?>Settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
+            <div class = "col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="title"><b>Brands</b></h2>
+                        <br>
+                        <div align = "left">
+                            <a href = "<?= $this->config->base_url() ?>settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
+                        </div>
                     </div>
-                </div>
+                    <hr>
                     <?php
                     if (!$brand) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
-                    } else {
-                        ?>
-
+                        echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
+                    } else { ?>
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
@@ -190,10 +188,10 @@ if (isset($_POST['enter'])) {
                                     <td><?= $counter1++ ?></td>
                                     <td><?= $brand->brand_name ?></td>
                                     <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand" alt = "Edit Brand">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand" alt = "Delete Brand">
+                                        <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -205,22 +203,23 @@ if (isset($_POST['enter'])) {
                         echo "<div align = 'center'>" . "</div>";
                     }
                     ?>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="card" style = "padding: 30px">
-                <h4 class="title"><b>Categories</b></h4>
-                <br>
-                <div align = "left">
-                    <a href = "<?= $this->config->base_url() ?>Settings/add_category" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Category</a>
-
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="title"><b>Categories</b></h2>
+                        <br>
+                        <div align = "left">
+                            <a href = "<?= $this->config->base_url() ?>settings/add_category" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Category</a>
+                        </div>
+                    </div>
+                    <hr>
                     <?php
                     if (!$category) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
-                    } else {
-                        ?>
-
+                        echo "<center><h3><hr><br>There are no categories recorded in the database.</h3><br></center><br><br>";
+                    } else { ?>
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
@@ -232,12 +231,11 @@ if (isset($_POST['enter'])) {
                                 <tr>
                                     <td><?= $counter2++ ?></td>
                                     <td><?= $category->category ?></td>
-                                    </td>
                                     <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_category/<?= $category->category_id ?>" title = "Edit Category" alt = "Edit Category">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_category/<?= $category->category_id ?>" title = "Edit Category">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category" alt = "Delete Category">
+                                        <a class="btn btn-danger delete_category" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -248,107 +246,105 @@ if (isset($_POST['enter'])) {
                         <?php
                         echo "<div align = 'center'>" . "</div>";
                     }
-                    ?> </div>
+                    ?>
+                </div>
             </div>
-        </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-        <div class="col-md-6">
-            <div class="card" style = "padding: 30px">
-                <h4 class="title"><b>Shippers</b></h4>
-                <br>
-                <div align = "left">
-                    <a href = "<?= $this->config->base_url() ?>Settings/add_shipper" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new shipper">Add Shipper</a>
-
-                    <?php
-                    if (!$shipper) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
-                    } else {
-                        ?>
-
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b>#</b></th>
-                            <th><b>Shipper Name</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($shipper as $shipper): ?>
-                                <tr>
-                                    <td><?= $counter3++ ?></td>
-                                    <td><?= $shipper->shipper_name ?></td>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $shipper->shipper_id ?>" title = "Delete Category" alt = "Delete Category">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                            </tbody>
-                        </table>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="title"><b>Shippers</b></h2>
+                        <br>
+                        <div align = "left">
+                            <a href = "<?= $this->config->base_url() ?>settings/add_shipper" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title="Insert new shipper">Add Shipper</a>
+                        </div>
+                    </div>
+                    <hr>
                         <?php
-                        echo "<div align = 'center'>" . "</div>";
-                    }
-                    ?> </div>
+                        if (!$shipper) {
+                            echo "<center><h3><hr><br>There are no shippers recorded in the database.</h3><br></center><br><br>";
+                        } else { ?>
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>#</b></th>
+                                <th><b>Shipper Name</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($shipper as $shipper): ?>
+                                    <tr>
+                                        <td><?= $counter3++ ?></td>
+                                        <td><?= $shipper->shipper_name ?></td>
+                                        <td>
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
+                                                <span class="ti-pencil"></span>
+                                            </a>
+                                            <a class="btn btn-danger delete_shipper" href="#" data-id="<?= $shipper->shipper_id ?>" title = "Delete Category" alt = "Delete Category">
+                                                <span class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                                </tbody>
+                            </table>
+                            <?php
+                            echo "<div align = 'center'>" . "</div>";
+                        } ?>
+                </div>
             </div>
-        </div>
 
-        <div class = "col-md-6">
-            <div class ="card" style = "padding: 30px">
-                <h4 class="title"><b>Suppliers</b></h4>
-                <br>
-
-                <div align = "left">
-                    <a href = "<?= $this->config->base_url() ?>Settings/add_supplier" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new supplier">Add Supplier</a>
-
-                    <?php
-                    if (!$supplier) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
-                    } else {
-                        ?>
-
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b>#</b></th>
-                            <th><b>Supplier Name</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($supplier as $supplier): ?>
-                                <tr>
-                                    <td><?= $counter++ ?></td>
-                                    <td><?= $supplier->company_name ?></td>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_supplier/<?= $supplier->supplier_id ?>" title = "Edit Supplier" alt = "Edit Supplier">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $supplier->supplier_id ?>" title = "Delete Supplier" alt = "Delete Supplier">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                            </tbody>
-                        </table>
+            <div class = "col-md-6">
+                <div class ="card">
+                    <div class="header">
+                        <h2 class="title"><b>Suppliers</b></h2>
+                        <br>
+                        <div align = "left">
+                            <a href = "<?= $this->config->base_url() ?>settings/add_supplier" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new supplier">Add Supplier</a>
+                        </div>
+                    </div>
+                    <hr>
                         <?php
-                        echo "<div align = 'center'>" . "</div>";
-                    }
-                    ?> </div>
+                        if (!$supplier) {
+                            echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
+                        } else { ?>
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>#</b></th>
+                                <th><b>Supplier Name</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($supplier as $supplier): ?>
+                                    <tr>
+                                        <td><?= $counter++ ?></td>
+                                        <td><?= $supplier->company_name ?></td>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_supplier/<?= $supplier->supplier_id ?>" title = "Edit Supplier" alt = "Edit Supplier">
+                                                <span class="ti-pencil"></span>
+                                            </a>
+                                            <a class="btn btn-danger delete_supplier" href="#" data-id="<?= $supplier->supplier_id ?>" title = "Delete Supplier" alt = "Delete Supplier">
+                                                <span class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                                </tbody>
+                            </table>
+                            <?php
+                            echo "<div align = 'center'>" . "</div>";
+                        } ?>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(".delete").click(function () {
+    $(".delete_category").click(function () {
         var id = $(this).data('id');
 
         swal({
@@ -359,7 +355,7 @@ if (isset($_POST['enter'])) {
         })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_category/" + id;
+                        window.location = "<?= $this->config->base_url() ?>settings/delete_category/" + id;
                     } else {
                         swal("The category is safe!");
                     }
@@ -389,7 +385,7 @@ if (isset($_POST['enter'])) {
 </script>
 
 <script>
-    $(".delete").click(function () {
+    $(".delete_supplier").click(function () {
         var id = $(this).data('id');
 
         swal({
@@ -400,7 +396,7 @@ if (isset($_POST['enter'])) {
         })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_supplier/" + id;
+                        window.location = "<?= $this->config->base_url() ?>settings/delete_supplier/" + id;
                     } else {
                         swal("The supplier is safe!");
                     }
@@ -409,7 +405,7 @@ if (isset($_POST['enter'])) {
 </script>
 
 <script>
-    $(".delete").click(function () {
+    $(".delete_shipper").click(function () {
         var id = $(this).data('id');
 
         swal({
@@ -420,7 +416,7 @@ if (isset($_POST['enter'])) {
         })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_shipper/" + id;
+                        window.location = "<?= $this->config->base_url() ?>settings/delete_shipper/" + id;
                     } else {
                         swal("The shipper is safe!");
                     }

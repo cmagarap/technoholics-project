@@ -8,7 +8,10 @@ $(document).ready(function(){
             var brand = {
                 Apple : [],
                 HP : [],
-                ASUS: []
+                ASUS: [],
+                Acer: [],
+                Lenovo: [],
+                Samsung: []
             };
             //var len = data.length;
             for (i in data) {
@@ -18,6 +21,12 @@ $(document).ready(function(){
                     brand.HP.push(data[i].bought);
                 } else if (data[i].brand == "ASUS") {
                     brand.ASUS.push(data[i].bought);
+                } else if (data[i].brand == "Acer") {
+                    brand.Acer.push(data[i].bought);
+                } else if (data[i].brand == "Lenovo") {
+                    brand.Lenovo.push(data[i].bought);
+                } else if (data[i].brand == "Samsung") {
+                    brand.Samsung.push(data[i].bought);
                 }
             }
             for(var i in data) {
@@ -35,6 +44,17 @@ $(document).ready(function(){
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets : [
                     {
+                        label: 'Acer',
+                        data: brand.Acer,
+                        borderColor: 'rgba(235, 94, 40, 1)',
+                        backgroundColor: 'rgba(235, 94, 40, 0.3)',
+                        pointBorderColor: 'rgba(235, 94, 40, 1)',
+                        pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
+                        pointHoverBorderWidth: 2,
+                        pointHoverRadius: 10,
+                        borderWidth: 5
+                    },
+                    {
                         label: 'Apple',
                         data: brand.Apple,
                         borderColor: '#31bbe0',
@@ -46,19 +66,41 @@ $(document).ready(function(){
                         borderWidth: 5
                     },
                     {
-                        label: 'HP',
-                        data: brand.HP,
-                        borderColor: '#dc2f54',
+                        label: 'ASUS',
+                        data: brand.ASUS,
+                        borderColor: 'rgba(220, 47, 84, 1)',
                         backgroundColor: 'rgba(220, 47, 84, 0.3)',
-                        pointBorderColor: '#dc2f54',
+                        pointBorderColor: 'rgba(220, 47, 84, 1)',
                         pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
                         pointHoverBorderWidth: 2,
                         pointHoverRadius: 10,
                         borderWidth: 5
                     },
                     {
-                        label: 'ASUS',
-                        data: brand.ASUS,
+                        label: 'HP',
+                        data: brand.HP,
+                        borderColor: 'rgba(122, 44, 201, 1)',
+                        backgroundColor: 'rgba(122, 44, 201, 0.3)',
+                        pointBorderColor: 'rgba(122, 44, 201, 1)',
+                        pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
+                        pointHoverBorderWidth: 2,
+                        pointHoverRadius: 10,
+                        borderWidth: 5
+                    },
+                    {
+                        label: 'Lenovo',
+                        data: brand.Lenovo,
+                        borderColor: 'rgba(122, 194, 154, 1)',
+                        backgroundColor: 'rgba(122, 194, 154, 0.3)',
+                        pointBorderColor: 'rgba(122, 194, 154, 1)',
+                        pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
+                        pointHoverBorderWidth: 2,
+                        pointHoverRadius: 10,
+                        borderWidth: 5
+                    },
+                    {
+                        label: 'Samsung',
+                        data: brand.Samsung,
                         borderColor: '#F3BB45',
                         backgroundColor: 'rgba(243, 187, 69, 0.3)',
                         pointBorderColor: '#F3BB45',

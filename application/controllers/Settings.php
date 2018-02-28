@@ -119,15 +119,18 @@ class Settings extends CI_Controller {
             $this->load->view("paper/includes/navbar");
             $this->load->view('paper/settings/add_category');
             $this->load->view('paper/includes/footer');
+        } else {
+            redirect('home');
         }
     }
 
     public function add_category_exec() {
-        $this->form_validation->set_rules('category_name', "Please put the category name.", "required");
+        $this->form_validation->set_rules('category_name', "category", "required|is_unique[category.category]");
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
-                'category' => html_escape(trim($this->input->post('category_name')))
+                'category' => trim($this->input->post('category_name', TRUE))
             );
             $insert = $this->item_model->insertData('category', $data);
             redirect("settings");
@@ -155,7 +158,14 @@ class Settings extends CI_Controller {
     }
 
     public function edit_category_exec() {
-        $this->form_validation->set_rules('category_name', "Please put the category name.", "required");
+        $this->db->select('category');
+        $category = $this->item_model->fetch('category', 'category_id = ' . $this->uri->segment(3))[0];
+        if($category->category != $this->input->post('category_name', TRUE)) {
+            $this->form_validation->set_rules('category_name', "category", "required|is_unique[category.category]");
+        } else {
+            $this->form_validation->set_rules('category_name', "category", "required");
+        }
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
@@ -170,7 +180,7 @@ class Settings extends CI_Controller {
 
     public function delete_category() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $this->item_model->updatedata("category", array("status" => false), array('category_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("category", array("status" => 0), 'category_id = ' . $this->uri->segment(3));
             redirect("settings");
         } else {
             redirect('home');
@@ -196,7 +206,6 @@ class Settings extends CI_Controller {
     public function add_brand_exec() {
         $this->form_validation->set_rules('brand_name', "brand name", "required|is_unique[brand.brand_name]");
         $this->form_validation->set_message('required', 'Please put the {field}.');
-
 
         if ($this->form_validation->run()) {
             $data = array(
@@ -274,9 +283,10 @@ class Settings extends CI_Controller {
     }
 
     public function add_supplier_exec() {
-        $this->form_validation->set_rules('supplier_name', "Please put the supplier name.", "required");
-        $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
-        $this->form_validation->set_rules('address', "Please put the address.", "required");
+        $this->form_validation->set_rules('supplier_name', "supplier", "required|is_unique[supplier.company_name]");
+        $this->form_validation->set_rules('contact_number', "contact number", "required|numeric");
+        $this->form_validation->set_rules('address', "address", "required");
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
@@ -295,8 +305,8 @@ class Settings extends CI_Controller {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
             $supplier = $this->item_model->fetch("supplier", array('supplier_id' => $this->uri->segment(3)), "company_name", "ASC");
             $data = array(
-                'title' => 'Settings: Edit Category',
-                'heading' => 'Brand',
+                'title' => 'Settings: Edit Supplier',
+                'heading' => 'Supplier',
                 'company_name' => $supplier
             );
 
@@ -310,9 +320,17 @@ class Settings extends CI_Controller {
     }
 
     public function edit_supplier_exec() {
-        $this->form_validation->set_rules('supplier_name', "Please put the supplier name.", "required");
-        $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
-        $this->form_validation->set_rules('address', "Please put the address.", "required");
+        $this->db->select('company_name');
+        $supplier = $this->item_model->fetch('supplier', 'supplier_id = ' . $this->uri->segment(3))[0];
+        if($supplier->company_name != $this->input->post('supplier_name', TRUE)) {
+            $this->form_validation->set_rules('supplier_name', "supplier", "required|is_unique[supplier.company_name]");
+        } else {
+            $this->form_validation->set_rules('supplier_name', "supplier", "required");
+        }
+
+        $this->form_validation->set_rules('contact_number', "contact number", "required|numeric");
+        $this->form_validation->set_rules('address', "address", "required");
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
@@ -329,7 +347,7 @@ class Settings extends CI_Controller {
 
     public function delete_supplier() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $this->item_model->updatedata("supplier", array("status" => false), array('supplier_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("supplier", array("status" => 0), 'supplier_id = ' . $this->uri->segment(3));
             redirect("settings");
         } else {
             redirect('home');
@@ -353,23 +371,27 @@ class Settings extends CI_Controller {
     }
 
     public function add_shipper_exec() {
-        $this->form_validation->set_rules('shipper_name', "Please put the brand name.", "required");
+        $this->form_validation->set_rules('shipper_name', "shipper", "required|is_unique[shipper.shipper_name]");
+        $this->form_validation->set_rules('contact_number', "contact number", "required");
+        $this->form_validation->set_rules('shipping_price', "shipping price", "required");
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
-                'shipper_name' => html_escape(trim($this->input->post('shipper_name'))),
-                'contact_no' => html_escape($this->input->post('contact_number'))
+                'shipper_name' => trim($this->input->post('shipper_name', TRUE)),
+                'contact_no' => $this->input->post('contact_number', TRUE),
+                'shipper_price' => $this->input->post('shipping_price', TRUE)
             );
             $insert = $this->item_model->insertData('shipper', $data);
             redirect("settings");
         } else {
-            $this->add_brand();
+            $this->add_shipper();
         }
     }
 
     public function edit_shipper() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $shipper = $this->item_model->fetch("shipper", array('shipper_id' => $this->uri->segment(3)), "shipper_name", "ASC");
+            $shipper = $this->item_model->fetch("shipper", 'shipper_id = ' . $this->uri->segment(3), "shipper_name", "ASC");
             $data = array(
                 'title' => 'Settings: Edit Category',
                 'heading' => 'Shipper',
@@ -386,15 +408,25 @@ class Settings extends CI_Controller {
     }
 
     public function edit_shipper_exec() {
-        $this->form_validation->set_rules('shipper_name', "Please put the supplier name.", "required");
-        $this->form_validation->set_rules('contact_number', "Please put the contact_number.", "required|numeric");
+        $this->db->select('shipper_name');
+        $shipper = $this->item_model->fetch('shipper', 'shipper_id = ' . $this->uri->segment(3))[0];
+        if($shipper->shipper_name != $this->input->post('shipper_name', TRUE)) {
+            $this->form_validation->set_rules('shipper_name', "shipper name", "required|is_unique[shipper.shipper_name]");
+        } else {
+            $this->form_validation->set_rules('shipper_name', "shipper name", "required");
+        }
+
+        $this->form_validation->set_rules('contact_number', "contact number", "required|numeric");
+        $this->form_validation->set_rules('shipping_price', "shipping price", "required|numeric");
+        $this->form_validation->set_message('required', 'Please put the {field}.');
 
         if ($this->form_validation->run()) {
             $data = array(
-                'shipper_name' => html_escape(trim($this->input->post('shipper_name'))),
-                'contact_no' => html_escape($this->input->post('contact_number'))
+                'shipper_name' => trim($this->input->post('shipper_name', TRUE)),
+                'contact_no' => $this->input->post('contact_number', TRUE),
+                'shipper_price' => $this->input->post('shipping_price', TRUE)
             );
-            $this->item_model->updatedata("shipper", $data, array('shipper_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("shipper", $data, 'shipper_id = ' . $this->uri->segment(3));
             redirect("settings");
         } else {
             $this->edit_shipper();
@@ -403,7 +435,7 @@ class Settings extends CI_Controller {
 
     public function delete_shipper() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $this->item_model->updatedata("shipper", array("status" => false), array('shipper_id' => $this->uri->segment(3)));
+            $this->item_model->updatedata("shipper", array("status" => 0), 'shipper_id = ' . $this->uri->segment(3));
             redirect("settings");
         } else {
             redirect('home');
@@ -411,20 +443,20 @@ class Settings extends CI_Controller {
     }
 
     public function add_color_admin() {
-        $content = $this->item_model->fetch("content", array("content_id" => 1));
+        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'color_1' => $this->input->post("admin_colorpicker")
         );
-        $this->item_model->updatedata("content", $data, array('content_id' => 1));
+        $this->item_model->updatedata("content", $data, 'content_id = 1');
         redirect("settings");
     }
 
     public function add_color_customer() {
-        $content = $this->item_model->fetch("content", array("content_id" => 1));
+        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'customer_color1' => $this->input->post("customer_colorpicker")
         );
-        $this->item_model->updatedata("content", $data, array('content_id' => 1));
+        $this->item_model->updatedata("content", $data, 'content_id = ');
         redirect("settings");
     }
 
@@ -462,7 +494,7 @@ class Settings extends CI_Controller {
             'company_logo' => $dataInfo[0]
         );
 
-        $this->item_model->updatedata("content", $data);
+        $this->item_model->updatedata("content", $data, "content_id = 1");
         redirect("settings");
 
         //}
