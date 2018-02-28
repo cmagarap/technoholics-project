@@ -58,7 +58,7 @@ if (isset($_POST['enter'])) {
                 </div>   
             </div>
 
-            
+
 
             <div class="col-md-4">
                 <div class="card" style = "padding: 30px">
@@ -77,7 +77,7 @@ if (isset($_POST['enter'])) {
                             ?>
                         </div>
 
-                        
+
 
 
                         <div align = "left">                            
@@ -88,8 +88,8 @@ if (isset($_POST['enter'])) {
 
                 </div>   
             </div>
-            
-             <div class="col-md-4">
+
+            <div class="col-md-4">
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <h4 class="title"><b>Edit Company  Logo Icon </b></h4>
@@ -106,7 +106,7 @@ if (isset($_POST['enter'])) {
                             ?>
                         </div>
 
-                        
+
 
 
                         <div align = "left">                            
@@ -149,7 +149,7 @@ if (isset($_POST['enter'])) {
                                         </td>    
                                         <td>
 
-                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Category" alt = "Edit Category">
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand" alt = "Edit Brand">
                                                 <span class="ti-pencil"></span>
                                             </a>
                                             <a class="btn btn-danger delete" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand" alt = "Delete Brand">
@@ -242,7 +242,7 @@ if (isset($_POST['enter'])) {
                                             <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
                                                 <span class="ti-pencil"></span>
                                             </a>
-                                            <a class="btn btn-danger delete" href="#" data-id="<?= $shipper->shipper_id ?>" title = "Delete Category" alt = "Delete Category">
+                                            <a class="btn btn-danger delete" href="#" data-id="<?= $shipper->shipper_id ?>" title = "Delete Shipper" alt = "Delete Shipper">
                                                 <span class="ti-trash"></span>
                                             </a>
                                         </td>
@@ -311,57 +311,57 @@ if (isset($_POST['enter'])) {
     <form action = "<?= $this->config->base_url() ?>Settings/add_color_admin"  method = "POST" enctype = "multipart/form-data">
         <div class = "row">
             <div class = "col-md-3">
-            <div class="card" style = "padding: 30px">
-                <h4 class="title"><b>Edit Heading Color for Admin</b></h4>
-                <br>
+                <div class="card" style = "padding: 30px">
+                    <h4 class="title"><b>Edit Heading Color for Admin</b></h4>
+                    <br>
 
 
-                <select name="colorpicker" value = "<?= $colorpicker ?>">
-                    <option value="#7bd148">Green</option>
-                    <option value="#5484ed">Bold blue</option>
-                    <option value="#a4bdfc">Blue</option>
-                    <option value="#46d6db">Turquoise</option>
-                    <option value="#7ae7bf">Light green</option>
-                    <option value="#51b749">Bold green</option>
-                    <option value="#fbd75b">Yellow</option>
-                    <option value="#ffb878">Orange</option>
-                    <option value="#ff887c">Red</option>
-                    <option value="#dc2127">Bold red</option>
-                    <option value="#dbadff">Purple</option>
-                    <option value="#e1e1e1">Gray</option>
-                    <option value="#595959">Black</option>
-                </select>
+                    <select name="colorpicker" value = "<?= $colorpicker ?>">
+                        <option value="#7bd148">Green</option>
+                        <option value="#5484ed">Bold blue</option>
+                        <option value="#a4bdfc">Blue</option>
+                        <option value="#46d6db">Turquoise</option>
+                        <option value="#7ae7bf">Light green</option>
+                        <option value="#51b749">Bold green</option>
+                        <option value="#fbd75b">Yellow</option>
+                        <option value="#ffb878">Orange</option>
+                        <option value="#ff887c">Red</option>
+                        <option value="#dc2127">Bold red</option>
+                        <option value="#dbadff">Purple</option>
+                        <option value="#e1e1e1">Gray</option>
+                        <option value="#595959">Black</option>
+                    </select>
 
-                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
+                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
                 </div>
             </div>
     </form>
 
-        <form action = "<?= $this->config->base_url() ?>Settings/add_color_customer"  method = "POST" enctype = "multipart/form-data">
+    <form action = "<?= $this->config->base_url() ?>Settings/add_color_customer"  method = "POST" enctype = "multipart/form-data">
         <div class = "row">
             <div class = "col-md-3">
-            <div class="card" style = "padding: 30px">
-                <h4 class="title"><b>Edit Heading Color for Customer</b></h4>
-                <br>
+                <div class="card" style = "padding: 30px">
+                    <h4 class="title"><b>Edit Heading Color for Customer</b></h4>
+                    <br>
 
 
-                <select name="colorpicker" value = "<?= $colorpicker ?>">
-                    <option value="#7bd148">Green</option>
-                    <option value="#5484ed">Bold blue</option>
-                    <option value="#a4bdfc">Blue</option>
-                    <option value="#46d6db">Turquoise</option>
-                    <option value="#7ae7bf">Light green</option>
-                    <option value="#51b749">Bold green</option>
-                    <option value="#fbd75b">Yellow</option>
-                    <option value="#ffb878">Orange</option>
-                    <option value="#ff887c">Red</option>
-                    <option value="#dc2127">Bold red</option>
-                    <option value="#dbadff">Purple</option>
-                    <option value="#e1e1e1">Gray</option>
-                    <option value="#595959">Black</option>
-                </select>
+                    <select name="colorpicker" value = "<?= $colorpicker ?>">
+                        <option value="#7bd148">Green</option>
+                        <option value="#5484ed">Bold blue</option>
+                        <option value="#a4bdfc">Blue</option>
+                        <option value="#46d6db">Turquoise</option>
+                        <option value="#7ae7bf">Light green</option>
+                        <option value="#51b749">Bold green</option>
+                        <option value="#fbd75b">Yellow</option>
+                        <option value="#ffb878">Orange</option>
+                        <option value="#ff887c">Red</option>
+                        <option value="#dc2127">Bold red</option>
+                        <option value="#dbadff">Purple</option>
+                        <option value="#e1e1e1">Gray</option>
+                        <option value="#595959">Black</option>
+                    </select>
 
-                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
+                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
                 </div>
             </div>
 
@@ -373,34 +373,11 @@ if (isset($_POST['enter'])) {
 </div>
 </div>
 
+</div>
 
 
 
 
-
-
-
-
-
-<script>
-    $(".delete").click(function () {
-        var id = $(this).data('id');
-
-        swal({
-            title: "Are you sure you want to delete this category?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_category/" + id;
-                    } else {
-                        swal("The category is safe!");
-                    }
-                });
-    });
-</script>
 
 
 <script>
@@ -430,20 +407,22 @@ if (isset($_POST['enter'])) {
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to delete this supplier?",
+            title: "Are you sure you want to delete this category?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_supplier/" + id;
+                        window.location = "<?= $this->config->base_url() ?>Settings/delete_category/" + id;
                     } else {
-                        swal("The supplier is safe!");
+                        swal("The category is safe!");
                     }
                 });
     });
 </script>
+
+
 
 <script>
     $(".delete").click(function () {
@@ -464,6 +443,28 @@ if (isset($_POST['enter'])) {
                 });
     });
 </script>
+
+<script>
+    $(".dataelete").click(function () {
+        var id = $(this).data('id');
+
+        swal({
+            title: "Are you sure you want to delete this supplier?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "<?= $this->config->base_url() ?>Settings/delete_supplier/" + id;
+                    } else {
+                        swal("The supplier is safe!");
+                    }
+                });
+    });
+</script>
+
+
 
 <script src="<?= $this->config->base_url() ?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
 

@@ -48,7 +48,7 @@ class Settings extends CI_Controller {
 
     public function database_backup() {
         $this->load->dbutil();
-        $db_format = array('format' => 'zip','filename' => 'itemdb_backup.sql');
+        $db_format = array('format' => 'zip','filename' => 'itemdb_backup.sql','add_insert'=> TRUE, 'foreign_key_checks'=> FALSE);
         $backup =& $this->dbutil->backup($db_format);
         $dbname = 'backup-on'.date('Y-m-d').'.zip';
         $save = 'export/db_backup'.$dbname;
@@ -297,7 +297,7 @@ class Settings extends CI_Controller {
               if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
         $data = array(
                 'title' => 'Cms: Edit Category',
-                'heading' => 'Brand',
+                'heading' => 'Supplier',
                 'company_name' => $supplier
             );
 

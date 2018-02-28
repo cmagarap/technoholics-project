@@ -17,7 +17,7 @@
             <div class="col-lg-8 col-md-7">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title"><b>Edit Supplier </b></h4>
+                        <h4 class="title"><b>Edit Shipper </b></h4>
                     </div>
                     <div class="content">
                         <hr>
@@ -47,7 +47,7 @@
                             
                             <hr>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Update Category</button>
+                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Update Shipper</button>
                                 <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;">Reset</button>
                             </div>
                             <br>
