@@ -9,64 +9,17 @@ if (isset($_POST['enter'])) {
 ?>
 <div class="content">
     <div class="container-fluid">
-        <div class = "row">
-            <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Edit Sliding Images</b></h3>
-                    </div>
-                    <hr>
+                        <h2 class="title"><b>Content Management</b></h2>
+                    </div><hr style="margin-bottom: -15px">
                     <div class="content">
-                    <form action = "<?= $this->config->base_url() ?>settings/edit_images/" method = "POST" enctype = "multipart/form-data">
-                        <p>Image 1</p>
-                            <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_1 ?>">
-                            <br>
-                            <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div></br>
-                            <?php
-                            if (validation_errors()):
-                                echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
-                            endif;
-                            ?>
-
-                        <p>Image 2</p>
-                            <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_2 ?>">
-                            <br>
-                            <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
-                            <?php
-                            if (validation_errors()):
-                                echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
-                            endif;
-                            ?>
-
-                        <p>Image 3</p>
-                            <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_3 ?>">
-                            <br>
-                            <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
-                            <?php
-                            if (validation_errors()):
-                                echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
-                            endif;
-                            ?>
-
-                        <hr>
-                        <div align = "center">
-                            <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Picture Slider</button>
-                        </div>
-                        <br>
-                    </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title"><b>Edit Company  Logo</b></h3>
-                    </div>
-                    <hr><br>
-                    <div class="content">
-                        <form action = "<?= $this->config->base_url() ?>settings/edit_logo/" method = "POST" enctype = "multipart/form-data">
-                            <div class = "col-md-12">
-                                <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->company_logo ?>">
+                        <form action = "<?= $this->config->base_url() ?>settings/edit_images/" method = "POST" enctype = "multipart/form-data">
+                            <div class="col-md-4">
+                                <p>Image 1</p>
+                                <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_1 ?>">
                                 <br>
                                 <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div></br>
                                 <?php
@@ -75,39 +28,133 @@ if (isset($_POST['enter'])) {
                                 endif;
                                 ?>
                             </div>
+                            <div class="col-md-4">
+                                <p>Image 2</p>
+                                <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_2 ?>">
+                                <br>
+                                <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
+                                <?php
+                                if (validation_errors()):
+                                    echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                endif;
+                                ?>
+                            </div>
+                            <div class="col-md-4">
+                                <p>Image 3</p>
+                                <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->image_3 ?>">
+                                <br>
+                                <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
+                                <?php
+                                if (validation_errors()):
+                                    echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                endif;
+                                ?>
+                            </div>
+                            <hr>
                             <div align = "center">
-                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Company Logo</button>
+                                <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Picture Slider</button>
                             </div>
                             <br>
                         </form>
-                    </div>
-                </div>
-            </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="header">
+                                    <p class="title"><b>Edit Company Logo</b></p><br>
+                                </div>
+                                <form action = "<?= $this->config->base_url() ?>settings/edit_logo/" method = "POST" enctype = "multipart/form-data">
+                                    <div class = "col-md-12">
+                                        <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->company_logo ?>">
+                                        <br>
+                                        <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div></br>
+                                        <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                        endif;
+                                        ?>
+                                    </div>
+                                    <div align = "center">
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Company Logo</button>
+                                    </div>
+                                    <br>
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="header">
+                                    <p class="title"><b>Edit Company Icon</b></p><br>
+                                </div>
+                                <form action = "<?= $this->config->base_url() ?>settings/edit_logo_icon/" method = "POST" enctype = "multipart/form-data">
+                                    <div align="center">
+                                        <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->logo_icon ?>">
+                                    </div>
+                                    <br>
+                                    <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
+                                    <?php
+                                    if (validation_errors()):
+                                        echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
+                                    endif;
+                                    ?>
 
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title"><b>Edit Company Icon </b></h3>
-                    </div>
-                    <hr><br>
-                    <div class="content">
-                    <form action = "<?= $this->config->base_url() ?>settings/edit_logo_icon/" method = "POST" enctype = "multipart/form-data">
-                            <div align="center">
-                                <img class="img-responsive" src="<?= base_url() ?>assets/ordering/img/<?= $content->logo_icon ?>">
+                                    <div align = "center">
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Company Icon</button>
+                                    </div>
+                                    <br>
+                                </form>
                             </div>
                             <br>
-                            <div id="filediv"><input name="user_file[]" type="file" id="file" class="form-control border-input file"/></div><br>
-                            <?php
-                            if (validation_errors()):
-                                echo "<span style = 'color: red'>" . form_error("user_file[]") . "</span>";
-                            endif;
-                            ?>
+                            <div class="col-md-3">
+                                <p class="title"><b>Edit Heading Color for Admin</b></p>
+                                <br>
+                                <form action = "<?= $this->config->base_url() ?>settings/add_color_admin"  method = "POST">
+                                    <select name="admin_colorpicker" value = "<?= $colorpicker ?>">
+                                        <option value="#7bd148" <?php if ($content->color_1 == "#7bd148") echo 'selected'; ?>>Green</option>
+                                        <option value="#5484ed" <?php if ($content->color_1 == "#5484ed") echo 'selected'; ?>>Bold blue</option>
+                                        <option value="#a4bdfc" <?php if ($content->color_1 == "#a4bdfc") echo 'selected'; ?>>Blue</option>
+                                        <option value="#46d6db" <?php if ($content->color_1 == "#46d6db") echo 'selected'; ?>>Turquoise</option>
+                                        <option value="#7ae7bf" <?php if ($content->color_1 == "#7ae7bf") echo 'selected'; ?>>Light green</option>
+                                        <option value="#51b749" <?php if ($content->color_1 == "#51b749") echo 'selected'; ?>>Bold green</option>
+                                        <option value="#fbd75b" <?php if ($content->color_1 == "#fbd75b") echo 'selected'; ?>>Yellow</option>
+                                        <option value="#ffb878" <?php if ($content->color_1 == "#ffb878") echo 'selected'; ?>>Orange</option>
+                                        <option value="#ff887c" <?php if ($content->color_1 == "#ff887c") echo 'selected'; ?>>Red</option>
+                                        <option value="#dc2127" <?php if ($content->color_1 == "#dc2127") echo 'selected'; ?>>Bold red</option>
+                                        <option value="#dbadff" <?php if ($content->color_1 == "#dbadff") echo 'selected'; ?>>Purple</option>
+                                        <option value="#e1e1e1" <?php if ($content->color_1 == "#e1e1e1") echo 'selected'; ?>>Gray</option>
+                                        <option value="#595959" <?php if ($content->color_1 == "#595959") echo 'selected'; ?>>Black</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white; margin-left: 20px">Enter</button>
+                                </form>
 
-                        <div align = "center">
-                            <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Company Icon</button>
+                                <br><br>
+
+                                <p class="title"><b>Edit Heading Color for Customer</b></p>
+                                <br>
+                                <form action = "<?= $this->config->base_url() ?>settings/add_color_customer"  method = "POST">
+                                    <select name="customer_colorpicker" value="<?= $colorpicker ?>">
+                                        <option value="#7bd148" <?php if ($content->customer_color1 == "#7bd148") echo 'selected'; ?>>Green</option>
+                                        <option value="#5484ed" <?php if ($content->customer_color1 == "#5484ed") echo 'selected'; ?>>Bold blue</option>
+                                        <option value="#a4bdfc" <?php if ($content->customer_color1 == "#a4bdfc") echo 'selected'; ?>>Blue</option>
+                                        <option value="#46d6db" <?php if ($content->customer_color1 == "#46d6db") echo 'selected'; ?>>Turquoise</option>
+                                        <option value="#7ae7bf" <?php if ($content->customer_color1 == "#7ae7bf") echo 'selected'; ?>>Light green</option>
+                                        <option value="#51b749" <?php if ($content->customer_color1 == "#51b749") echo 'selected'; ?>>Bold green</option>
+                                        <option value="#fbd75b" <?php if ($content->customer_color1 == "#fbd75b") echo 'selected'; ?>>Yellow</option>
+                                        <option value="#ffb878" <?php if ($content->customer_color1 == "#ffb878") echo 'selected'; ?>>Orange</option>
+                                        <option value="#ff887c" <?php if ($content->customer_color1 == "#ff887c") echo 'selected'; ?>>Red</option>
+                                        <option value="#dc2127" <?php if ($content->customer_color1 == "#dc2127") echo 'selected'; ?>>Bold red</option>
+                                        <option value="#dbadff" <?php if ($content->customer_color1 == "#dbadff") echo 'selected'; ?>>Purple</option>
+                                        <option value="#e1e1e1" <?php if ($content->customer_color1 == "#e1e1e1") echo 'selected'; ?>>Gray</option>
+                                        <option value="#595959" <?php if ($content->customer_color1 == "#595959") echo 'selected'; ?>>Black</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white; margin-left: 20px">Enter</button>
+                                </form>
+                            </div>
+                            <?php if($this->session->userdata('type') == 0): ?>
+                            <div class="col-md-3">
+                                <p class="title"><b>Backup Database</b></p>
+                                <br>
+                                <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Generate SQL</a>
+                            </div>
+                            <?php endif; ?>
                         </div>
-                        <br>
-                    </form>
                     </div>
                 </div>
             </div>
@@ -115,18 +162,22 @@ if (isset($_POST['enter'])) {
     </div>
 
     <div class = "row">
-        <div class = "col-md-3">
-            <div class="card" style = "padding: 30px">
-                <h4 class="title"><b>Brands</b></h4>
-                <br>
-                <div align = "left">
-                    <a href = "<?= $this->config->base_url() ?>Settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
-
+        <div class = "col-md-12">
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="header">
+                    <h2 class="title"><b>Brands</b></h2>
+                    <br>
+                    <div align = "left">
+                        <a href = "<?= $this->config->base_url() ?>Settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
+                    </div>
+                </div>
                     <?php
                     if (!$brand) {
                         echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
                     } else {
                         ?>
+
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
@@ -138,13 +189,11 @@ if (isset($_POST['enter'])) {
                                 <tr>
                                     <td><?= $counter1++ ?></td>
                                     <td><?= $brand->brand_name ?></td>
-                                    </td>
                                     <td>
-
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Category" alt = "Edit Category">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand" alt = "Edit Brand">
                                             <span class="ti-pencil"></span>
                                         </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand" alt = "Delete Brand">
+                                        <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand" alt = "Delete Brand">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -155,11 +204,11 @@ if (isset($_POST['enter'])) {
                         <?php
                         echo "<div align = 'center'>" . "</div>";
                     }
-                    ?> </div>
+                    ?>
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="card" style = "padding: 30px">
                 <h4 class="title"><b>Categories</b></h4>
                 <br>
@@ -185,7 +234,6 @@ if (isset($_POST['enter'])) {
                                     <td><?= $category->category ?></td>
                                     </td>
                                     <td>
-
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_category/<?= $category->category_id ?>" title = "Edit Category" alt = "Edit Category">
                                             <span class="ti-pencil"></span>
                                         </a>
@@ -203,8 +251,11 @@ if (isset($_POST['enter'])) {
                     ?> </div>
             </div>
         </div>
-
-        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card" style = "padding: 30px">
                 <h4 class="title"><b>Shippers</b></h4>
                 <br>
@@ -230,7 +281,6 @@ if (isset($_POST['enter'])) {
                                     <td><?= $shipper->shipper_name ?></td>
                                     </td>
                                     <td>
-
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_shipper/<?= $shipper->shipper_id ?>" title = "Edit Shipper" alt = "Edit Shipper">
                                             <span class="ti-pencil"></span>
                                         </a>
@@ -249,7 +299,7 @@ if (isset($_POST['enter'])) {
             </div>
         </div>
 
-        <div class = "col-md-3">
+        <div class = "col-md-6">
             <div class ="card" style = "padding: 30px">
                 <h4 class="title"><b>Suppliers</b></h4>
                 <br>
@@ -276,7 +326,6 @@ if (isset($_POST['enter'])) {
                                     <td><?= $supplier->company_name ?></td>
                                     </td>
                                     <td>
-
                                         <a class="btn btn-warning" href="<?= $this->config->base_url() ?>Settings/edit_supplier/<?= $supplier->supplier_id ?>" title = "Edit Supplier" alt = "Edit Supplier">
                                             <span class="ti-pencil"></span>
                                         </a>
@@ -294,75 +343,8 @@ if (isset($_POST['enter'])) {
                     ?> </div>
             </div>
         </div>
+        </div>
     </div>
-
-
-
-
-
-    <form action = "<?= $this->config->base_url() ?>Settings/add_color_admin"  method = "POST" enctype = "multipart/form-data">
-        <div class = "row">
-            <div class = "col-md-3">
-                <div class="card" style = "padding: 30px">
-                    <h4 class="title"><b>Edit Heading Color for Admin</b></h4>
-                    <br>
-
-
-                    <select name="colorpicker" value = "<?= $colorpicker ?>">
-                        <option value="#7bd148">Green</option>
-                        <option value="#5484ed">Bold blue</option>
-                        <option value="#a4bdfc">Blue</option>
-                        <option value="#46d6db">Turquoise</option>
-                        <option value="#7ae7bf">Light green</option>
-                        <option value="#51b749">Bold green</option>
-                        <option value="#fbd75b">Yellow</option>
-                        <option value="#ffb878">Orange</option>
-                        <option value="#ff887c">Red</option>
-                        <option value="#dc2127">Bold red</option>
-                        <option value="#dbadff">Purple</option>
-                        <option value="#e1e1e1">Gray</option>
-                        <option value="#595959">Black</option>
-                    </select>
-
-                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
-                </div>
-            </div>
-    </form>
-
-    <form action = "<?= $this->config->base_url() ?>Settings/add_color_customer"  method = "POST" enctype = "multipart/form-data">
-        <div class = "row">
-            <div class = "col-md-3">
-                <div class="card" style = "padding: 30px">
-                    <h4 class="title"><b>Edit Heading Color for Customer</b></h4>
-                    <br>
-
-
-                    <select name="colorpicker" value = "<?= $colorpicker ?>">
-                        <option value="#7bd148">Green</option>
-                        <option value="#5484ed">Bold blue</option>
-                        <option value="#a4bdfc">Blue</option>
-                        <option value="#46d6db">Turquoise</option>
-                        <option value="#7ae7bf">Light green</option>
-                        <option value="#51b749">Bold green</option>
-                        <option value="#fbd75b">Yellow</option>
-                        <option value="#ffb878">Orange</option>
-                        <option value="#ff887c">Red</option>
-                        <option value="#dc2127">Bold red</option>
-                        <option value="#dbadff">Purple</option>
-                        <option value="#e1e1e1">Gray</option>
-                        <option value="#595959">Black</option>
-                    </select>
-
-                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
-                </div>
-            </div>
-
-    </form>
-
-    <div align = "left">
-        <a href = "<?= $this->config->base_url() ?>Settings/database_backup" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Export Database">Backup Database</a>
-    </div>
-</div>
 </div>
 
 <script>
@@ -387,7 +369,7 @@ if (isset($_POST['enter'])) {
 
 
 <script>
-    $(".delete").click(function () {
+    $(".delete_brand").click(function () {
         var id = $(this).data('id');
 
         swal({
@@ -398,15 +380,13 @@ if (isset($_POST['enter'])) {
         })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>Settings/delete_brand/" + id;
+                        window.location = "<?= $this->config->base_url() ?>settings/delete_brand/" + id;
                     } else {
                         swal("The brand is safe!");
                     }
                 });
     });
 </script>
-
-
 
 <script>
     $(".delete").click(function () {
@@ -451,7 +431,13 @@ if (isset($_POST['enter'])) {
 <script src="<?= $this->config->base_url() ?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
 
 <script>
-    $('select[name="colorpicker"]').simplecolorpicker({
+    $('select[name="admin_colorpicker"]').simplecolorpicker({
+        picker: true,
+        theme: 'fontawesome'
+    });
+</script>
+<script>
+    $('select[name="customer_colorpicker"]').simplecolorpicker({
         picker: true,
         theme: 'fontawesome'
     });

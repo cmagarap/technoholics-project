@@ -14,7 +14,7 @@ class Reports extends CI_Controller {
     public function sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             # These are the values when a user first visits the page. Should be changeable using dropdown or text inputo
-            $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+            $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY sales_d ORDER BY sales.sales_date DESC LIMIT 10");
 
             $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_d, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_d, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
