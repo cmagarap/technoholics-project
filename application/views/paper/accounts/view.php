@@ -12,25 +12,43 @@
                             <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $account->image ?>" alt="admin-user" title="Admin User">
                             <h2 class="title"><?= $account->firstname . " " . $account->lastname ?> <br />
                             </h2>
-                            <p style="font-size: 11px; color: darkgrey"><?php if($account->username == NULL) echo $account->email;
-                                else echo $account->username; ?>
-                            <br>
-                            <?= "Member since ".date("F j, Y", $account->registered_at) ?></p>
+                            <p style="font-size: 11px; color: darkgrey"><?php if ($account->username == NULL)
+                                    echo $account->email;
+                                else
+                                    echo $account->username;
+                                ?>
+                                <br>
+                                <?= "Member since " . date("F j, Y", $account->registered_at) ?></p>
                         </div>
                         <hr>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Email Address:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->email ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Address:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= "$account->complete_address, $account->barangay, $account->city_municipality, $account->province" ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Age:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->age ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Birthdate:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= date('F j, Y', $account->birthdate) ?></p></div>
-                        <div class="col-md-4"><p style="font-size: 14px"><b>Contact No.:</b></p></div>
-                        <div class="col-md-8"><p style="font-size: 14px"><?= $account->contact_no ?></p></div>
-
+                        <table>
+                            <tr>
+                                <th width="140px"><p style="font-size: 14px"><b>Email Address:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->email ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Address:</b></p></th>
+                                <td><p style="font-size: 14px"><?= "$account->complete_address, $account->barangay, $account->city_municipality, $account->province" ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Age:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->age ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Gender:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->gender ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Birthdate:</b></p></th>
+                                <td><p style="font-size: 14px"><?= date('F j, Y', $account->birthdate) ?></p></td>
+                            </tr>
+                            <tr>
+                                <th><p style="font-size: 14px"><b>Contact No.:</b></p></th>
+                                <td><p style="font-size: 14px"><?= $account->contact_no ?></p></td>
+                            </tr>
+                        </table>
                     </div>
-                    <br><br><br>
+
                     <hr>
                     <div class="text-center">
                         <div class="row">
@@ -41,8 +59,11 @@
                                 <h5>&#8369; <?= number_format($spent->total_price, 2) ?><br /><small>Spent</small></h5>
                             </div>
                             <div class="col-xs-3">
-                                <h5><?php if($bought->order_quantity == '') echo '0';
-                                elseif($bought->order_quantity != '') echo $bought->order_quantity; ?><br /><small>Items bought</small></h5>
+                                <h5><?php if ($bought->order_quantity == '')
+                                        echo '0';
+                                    elseif ($bought->order_quantity != '')
+                                        echo $bought->order_quantity;
+                                    ?><br /><small>Items bought</small></h5>
                             </div>
                         </div>
                         <hr>
@@ -53,23 +74,27 @@
                         <br>
                     </div>
                 </div>
-                <?php if ($this->uri->segment(3) == "customer"): ?>
+
                 <div class="card">
                     <div class="header">
                         <h4 class="title"><b>Previous Transactions</b></h4>
-                        <?php if($at_date) {
+                        <?php
+                        if ($at_date) {
                             $overflow = 'style = "overflow-y: scroll; height: 200px;"';
                             ?>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A", $at_date->at_date); ?>
                             </p><hr style = 'margin: 5px'>
-                        <?php } else { $overflow = ''; }?>
+                        <?php } else {
+                            $overflow = '';
+                        } ?>
                     </div>
                     <div class="content" <?= $overflow; ?>>
                         <ul class="list-unstyled team-members">
                             <?php
                             if ($logs) {
-                                foreach ($logs as $logs) { ?>
+                                foreach ($logs as $logs) {
+                                    ?>
                                     <li>
                                         <div class="row">
                                             <div class="col-xs-3">
@@ -86,7 +111,8 @@
                                         </div>
                                     </li>
                                 <?php }
-                            } else { ?>
+                            } else {
+                                ?>
                                 <div align="center">
                                     <br><i>There are no transactions recorded for this user.</i><br><br>
                                 </div>
@@ -104,10 +130,43 @@
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content">
+                        <h3 style = "color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
+                        <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Minimum Support <span style = "color: red">*</span></label>
+                                        <input type="number" class="form-control border-input" placeholder="" name="support" value="2" min="1" max="10"><?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("support") . "</span>";
+                                        endif;
+                                        ?>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Minimum Confidence <span style = "color: red">*</span></label>
+                                        <select name="confidence" class = "form-control border-input file">
+                                            <option value="100" selected>100%</option>
+                                            <option value="75">75%</option>
+                                            <option value="50">50%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="hidden" name="customer_id" value="<?= $this->uri->segment(4) ?>">
+                                        <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; margin-top: 25px; width: 100%" name="enter">Enter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
                         <?php if (!$message) { ?>
+
                             <h3 style = "color: #31bbe0; margin-bottom: 0px">Frequent Itemsets</h3>
                             <p class="category">Most frequent products involved in multiple record of transactions.</p><br>
-
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
@@ -119,23 +178,24 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            <hr>
                             <h3 style = "color: #31bbe0; margin-bottom: 0px">Association Rules</h3>
-                            <p class="category">If-then statements used to uncover relationships between data.</p><br>
+                            <p class="category">If-then statements used to uncover relationships between the products.</p><br>
 
-                            <div class="content table-responsive table-full-width">
+                            <div class="content table-responsive table-full-width" style="margin-top: 0px;">
                                 <table class="table table-striped">
                                     <thead>
                                     <th>Products</th>
                                     <th>Confidence</th>
                                     </thead>
                                     <tbody>
-                                        <?= $this->apriori->printAssociationRules(); ?>
+                                    <?= $this->apriori->printAssociationRules(); ?>
                                     </tbody>
                                 </table>
                             </div>
 
-                        <?php } else {
+                            <?php
+                        } else {
                             echo '<div align="center"><br><i>';
                             echo $message;
                             echo '</i></div>';
@@ -145,51 +205,5 @@
                 </div>
             </div>
         </div>
-            <?php elseif ($this->uri->segment(3) == "admin"): ?>
-            </div>
-            <div class="col-lg-7 col-md-5">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title"><b>Previous Actions</b></h4>
-                        <?php if($log_date) {
-                            $overflow = 'style = "overflow-y: scroll; height: 200px;"';
-                            ?>
-                            <p class="category">
-                                <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A", $log_date->date); ?>
-                            </p><hr style = 'margin: 5px'>
-                        <?php }?>
-                    </div>
-                    <div class="content">
-                        <ul class="list-unstyled team-members">
-                            <?php
-                            if ($logs) {
-                                foreach ($logs as $logs) { ?>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <?= "#" . $logs->log_id ?>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <?= $logs->action ?>
-                                                <br/>
-                                                <span class="text-muted"><small style = "color: #CCCCCC"><?= date("F j, Y", $logs->date) ?></small></span>
-                                            </div>
-                                            <div class="col-xs-3 text-right">
-                                                <p style="color: #31bbe0"><?= date("h:i A", $logs->date) ?></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                <?php }
-                            } else { ?>
-                                <div align="center">
-                                    <br><i>There are no transactions recorded for this user.</i><br><br>
-                                </div>
-                            <?php } ?>
-                        </ul>
-                    </div> <!-- content -->
-                </div> <!-- card -->
-            </div>
-        </div>
-        <?php endif; ?>
     </div> <!-- container fluid -->
 </div>

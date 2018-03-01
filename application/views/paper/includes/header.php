@@ -13,7 +13,7 @@ $image = $content[0]; ?>
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url() ?>images/<?= $image->logo_icon ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url() ?>assets/ordering/img/<?= $image->logo_icon ?>">
     <!-- Bootstrap core CSS -->
     <link href="<?= base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications -->
@@ -30,14 +30,10 @@ $image = $content[0]; ?>
     <link type="text/css" href="<?= base_url()?>assets/paper/dist/pignose.calendar.min.css" rel="stylesheet" />
     <link type="text/css" href="<?= base_url()?>assets/ordering/css/starability-all.min.css" rel="stylesheet" />
 
-   
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
     <link href="<?= $this->config->base_url()?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
-   
-
-       
 
     <script src="<?= base_url().'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

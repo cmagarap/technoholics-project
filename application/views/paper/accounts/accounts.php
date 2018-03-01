@@ -36,7 +36,7 @@
                         <p class="category">For customer accounts, <a href = "<?= $this->config->base_url() ?>accounts/customer">click here</a>.</p>
                         <br>
                         <a href = "<?= $this->config->base_url() ?>accounts/add_account" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Add new user">New Account</a>
-                        <a href = "<?= $this->config->base_url() ?>accounts/recover_account/admin" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Admin Accounts">Recover Users</a>
+                        <a href = "<?= $this->config->base_url() ?>accounts/recover_admin" class="btn btn-info btn-fill" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "View Deactivated Admin Accounts">Recover Users</a>
                     </div>
                     <br>
                     <?php if(!$users) {
@@ -87,10 +87,10 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view/admin/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
+                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>accounts/view_admin/<?= $users->admin_id ?>" title = "View Account Info" alt = "View Account Info">
                                             <span class="ti-eye"></span>
                                         </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit/admin/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
+                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>accounts/edit_admin/<?= $users->admin_id ?>" title = "Manage Account" alt = "Edit Account">
                                             <span class="ti-pencil"></span>
                                         </a>
                                         <a class="btn btn-danger delete" href="#" data-id="<?= $users->admin_id ?>" title = "Delete Account" alt = "Delete User">
@@ -121,7 +121,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.location = "<?= base_url() ?>accounts/delete/admin/" + id;
+                        window.location = "<?= base_url() ?>accounts/delete_admin/" + id;
                     } else {
                         swal("The account is safe!");
                     }

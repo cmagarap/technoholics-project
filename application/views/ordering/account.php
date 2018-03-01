@@ -3,14 +3,13 @@
         <div class="container">
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
+                    <li><a href="<?= base_url().'home'?>">Home</a>
                     </li>
                     <li>My account</li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <div class="panel panel-default sidebar-menu">
-
                     <div class="panel-heading">
                         <h3 class="panel-title">Customer section</h3>
                     </div>
@@ -20,26 +19,24 @@
                                 <a href="<?= base_url().'home/customer_orders'?>"><i class="fa fa-list"></i> My orders</a>
                             </li>
                             <li>
-                                <a href="customer-wishlist.html"><i class="fa fa-heart"></i> My wishlist</a>
+                                <a href="<?= base_url().'home/wishlist'?>"><i class="fa fa-heart"></i> My wishlist</a>
                             </li>
                             <li class="active">
                                 <a href="<?= base_url().'home/account'?>"><i class="fa fa-user"></i> My account</a>
                             </li>
                             <li>
-                                <a href="index.html"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a href="<?= base_url().'home/logout'?>"><i class="fa fa-sign-out"></i> Logout</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9" id="customer-orders">
                 <div class="box">
                     <h1>My account</h1>
                     <p class="lead">Change your personal details or your password here.</p>
                     <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-
                     <h3>Change password</h3>
-
                     <form>
                         <div class="row">
                             <div class="col-sm-6">
