@@ -79,7 +79,7 @@ _________________________________________________________ -->
 <!-- *** FOOTER END *** -->
 <!-- *** COPYRIGHT ***
 _________________________________________________________ -->
-<div id="copyright"  style = "background-color: <?= $content->color_1; ?>">
+<div id="copyright"  style = "background-color: <?= $content->customer_color1; ?>">
     <div class="container">
         <div class="col-md-6">
             <p class="pull-left">© <?= date("Y"); ?> <img src = "<?= $this->config->base_url() ?>images/icon2.png" width = "9%">TECHNOHOLICS</p>
