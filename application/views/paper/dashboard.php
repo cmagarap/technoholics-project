@@ -25,7 +25,11 @@ foreach ($customer_all as $customer_all){
                                 <div class="numbers">
                                     <p>Revenue</p>
                                     &#8369; <?php $revenue = $revenue[0];
+                                    # try {
                                     echo number_format($revenue->income, 0);
+                                    /*} catch (Exception $e) {
+                                        echo 'Message: ' .$e->getMessage();
+                                    }*/
                                     ?>
                                 </div>
                             </div>
@@ -202,37 +206,43 @@ foreach ($customer_all as $customer_all){
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
                     </div>
+
                     <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
-                        <table class="table table-striped" style = "margin-top: -20px">
-                            <thead>
-                            <th></th>
-                            <th><u style = "color: #31bbe0">Customer</u></th>
-                            <th><u style = "color: #31bbe0">Action</u></th>
-                            <th><u style = "color: #31bbe0">Date</u></th>
-                            <th><u style = "color: #31bbe0">Time</u></th>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($trail as $trail):?>
-                                <tr>
-                                    <?php $this->db->select("image");
-                                    $this->db->select("lastname");
-                                    $this->db->select("firstname");
-                                    $image = $this->item_model->fetch("customer", "customer_id = " . $trail->customer_id);
-                                    foreach ($image as $image):
-                                        $user_image = (string)$image->image;
-                                        $image_array = explode(".", $user_image); ?>
-                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $trail->customer_name ?>" title="<?= $image->firstname . " " . $image->lastname ?>"></p></td>
-                                    <?php endforeach; ?>
-                                    <td><?= $trail->customer_name ?></td>
-                                    <td><?php if($trail->at_detail == NULL) echo "<font color = '#ccc' ><i>NULL</i></font>";
-                                        else echo $trail->at_detail; ?></td>
-                                    <td><?= date("m-j-Y", $trail->at_date) ?></td>
-                                    <td><?= date("h:i A", $trail->at_date) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <?php if($trail): ?>
+                            <table class="table table-striped" style = "margin-top: -20px">
+                                <thead>
+                                <th></th>
+                                <th><u style = "color: #31bbe0">Customer</u></th>
+                                <th><u style = "color: #31bbe0">Action</u></th>
+                                <th><u style = "color: #31bbe0">Date</u></th>
+                                <th><u style = "color: #31bbe0">Time</u></th>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach ($trail as $trail):?>
+                                    <tr>
+                                        <?php $this->db->select("image");
+                                        $this->db->select("lastname");
+                                        $this->db->select("firstname");
+                                        $image = $this->item_model->fetch("customer", "customer_id = " . $trail->customer_id);
+                                        foreach ($image as $image):
+                                            $user_image = (string)$image->image;
+                                            $image_array = explode(".", $user_image); ?>
+                                            <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $trail->customer_name ?>" title="<?= $image->firstname . " " . $image->lastname ?>"></p></td>
+                                        <?php endforeach; ?>
+                                        <td><?= $trail->customer_name ?></td>
+                                        <td><?php if($trail->at_detail == NULL) echo "<font color = '#ccc' ><i>NULL</i></font>";
+                                            else echo $trail->at_detail; ?></td>
+                                        <td><?= date("m-j-Y", $trail->at_date) ?></td>
+                                        <td><?= date("h:i A", $trail->at_date) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php else: ?>
+                            <br>
+                            <h3 align="center"><i>There are no recent customer activities recorded.</i></h3>
+                        <?php endif; ?>
                     </div>
                     <div class="content">
                         <div class="footer">
@@ -253,33 +263,38 @@ foreach ($customer_all as $customer_all){
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
-                        <table class="table table-striped" style = "margin-top: -20px">
-                            <thead>
-                            <th></th>
-                            <th ><u style = "color: #31bbe0">Customer</u></th>
-                            <th><u style = "color: #31bbe0">Status</u></th>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($customer_limit as $customer):
-                                $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
-                                $active_identifier = time() - $date->date;
-                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
-                                $user_image = (string)$userinformation->image;
-                                $image_array = explode(".", $user_image);
-                            ?>
-                                <tr>
-                                    <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                    <td><?= $customer->username ?></td>
-                                <?php if ($active_identifier < $week) : ?>
-                                    <td><span class="text-success">ACTIVE</span></td>
-                                <?php else : ?>
-                                    <td><span class="text-danger">INACTIVE</span></td>
-                                <?php endif; ?>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <?php if($customer_limit): ?>
+                            <table class="table table-striped" style = "margin-top: -20px">
+                                <thead>
+                                <th></th>
+                                <th ><u style = "color: #31bbe0">Customer</u></th>
+                                <th><u style = "color: #31bbe0">Status</u></th>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach ($customer_limit as $customer):
+                                    $date = $this->item_model->max('user_log', array('customer_id' => $customer->customer_id),'date');
+                                    $active_identifier = time() - $date->date;
+                                    $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
+                                    $user_image = (string)$userinformation->image;
+                                    $image_array = explode(".", $user_image);
+                                    ?>
+                                    <tr>
+                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                        <td><?= $customer->username ?></td>
+                                        <?php if ($active_identifier < $week) : ?>
+                                            <td><span class="text-success">ACTIVE</span></td>
+                                        <?php else : ?>
+                                            <td><span class="text-danger">INACTIVE</span></td>
+                                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php else: ?>
+                            <br>
+                            <h3 align="center"><i>There are no weekly active customers.</i></h3>
+                        <?php endif; ?>
                     </div>
                     <div class="content">
                         <div class="footer">
@@ -291,133 +306,133 @@ foreach ($customer_all as $customer_all){
                     </div>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Age of Male Customers</b></h3>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container">
-                            <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
-                                <canvas id="gender_doughnut1" style = "height: 300px"></canvas>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Age of Male Customers</b></h3>
+                        </div>
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container">
+                                <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                                    <canvas id="gender_doughnut1" style = "height: 300px"></canvas>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
                             </div>
                         </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Orders by Gender</b></h3>
+                        </div>
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container">
+                                <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                                    <canvas id="gender_doughnut" style = "height: 300px"></canvas>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Age of Female Customers</b></h3>
+                        </div>
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container">
+                                <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
+                                    <canvas id="gender_doughnut2" style = "height: 300px"></canvas>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Orders by Gender</b></h3>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container">
-                            <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
-                                <canvas id="gender_doughnut" style = "height: 300px"></canvas>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Viewed Products</b></h3>
+                        </div>
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container" style = "margin-top: -20px">
+                                <canvas id="productViews"></canvas>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
                             </div>
                         </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Age of Female Customers</b></h3>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container">
-                            <div class="doughnut-chart-container" style = "margin-top: -25px; margin-bottom: 10px;">
-                                <canvas id="gender_doughnut2" style = "height: 300px"></canvas>
-                            </div>
-                        </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Viewed Products</b></h3>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="productViews"></canvas>
-                        </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Searched Products</b></h3>
                     </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="productSearch"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Searched Products</b></h3>
                         </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container" style = "margin-top: -20px">
+                                <canvas id="productSearch"></canvas>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Purchased Products</b></h3>
                     </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="mostPurchased"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="header">
+                            <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Purchased Products</b></h3>
                         </div>
-                        <div class="footer">
-                            <hr />
-                            <div class="stats">
-                                <i class="ti-reload"></i> Updated Now
+                        <hr>
+                        <div class="content">
+                            <div id="chart-container" style = "margin-top: -20px">
+                                <canvas id="mostPurchased"></canvas>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-reload"></i> Updated Now
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

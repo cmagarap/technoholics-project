@@ -5,7 +5,7 @@ $userinformation = $this->item_model->fetch('customer', array('customer_id' => $
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
-    <div id="top" style="background-color: <?= $image->color_1 ?>">
+    <div id="top" style="background-color: <?= $image->customer_color1 ?>">
         <div class="container">
             <ul class="menu">
                 <!-- If a customer is logged in -->

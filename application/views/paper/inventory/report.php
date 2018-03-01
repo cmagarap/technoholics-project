@@ -25,7 +25,7 @@
                                 <th><b>Asset</b></th>
                                 <th><b>Quantity</b></th>
                                 <th><b>Value</b></th>
-                                <th><b title = "Exact Value">Ext. Value</b></th>
+                                <th><b>Exact Value</b></th>
                             </tr>
                             </thead>
                             <tbody>
