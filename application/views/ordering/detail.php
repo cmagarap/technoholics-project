@@ -82,7 +82,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
             <div class="col-md-9">
                 <div class="box row" id="productMain">
                     <!-- start content -->
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <div class="flexslider">
                             <ul class="slides">
                                 <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>">
@@ -100,7 +100,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-6">
                         <div align ="center" id ="contents">
                             <h1><?= $row->product_name ?></h1>
                             <?php if($row->product_quantity != 0) echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";else echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
@@ -145,135 +145,130 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                         <?php else: ?>
                             <h4><?= $this->item_model->getCount('feedback', 'product_id = ' . $row->product_id . ' AND status = 1'); ?> comment(s)</h4>
                             <?php foreach ($feedback as $feedback):
-                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
-                                $user_image = (string)$userinformation->image;
-                                $image_array = explode(".", $user_image);
-                                ?>
-                                <hr>
-                                <div class="row comment">
-                                    <div class="col-sm-1 col-md-1 text-center-xs">
-                                        <p>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                                        </p>
-                                    </div>
-                                    <div class="col-sm-9 col-md-10">
-                                        <h5><?= $userinformation->username?></h5>
-                                        <p class="posted">
-                                            <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
-                                        </p>
-                                        <p><?=$feedback->feedback?></p>
-                                        <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
-                                    </div>
+                            $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
+                            $user_image = (string)$userinformation->image;
+                            $image_array = explode(".", $user_image);
+                            ?>
+                            <hr>
+                            <div class="row comment">
+                                <div class="col-sm-1 col-md-1 text-center-xs">
+                                    <p>
+                                        <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                                    </p>
                                 </div>
-                            <?php endforeach ?>
-                            <?php echo "<div align = 'center'>" . $links . "</div>";?>
-                        <?php endif ?>
-                        <hr>
-                        <div id="comment-form">
-                            <h4>Leave comment</h4>
-                            <?php if ($this->session->has_userdata('isloggedin')):
-                                $userinformation = $this->item_model->fetch('customer', array('customer_id' =>  $this->session->uid))[0];
-                                $user_image = (string)$userinformation->image;
-                                $image_array = explode(".", $user_image);
-                                ?>
-                                <div class="row">
-                                    <div class="col-sm-3 col-md-2 text-center-xs">
-                                        <p>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                                        </p>
-                                    </div>
-                                    <div class="col-sm-9 col-md-10">
-                                        <h5 >Tell people what you think</h5>
-                                        <fieldset class="starability-checkmark">
-                                            <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
-
-                                            <input type="radio" id="rate1" name="rating" value="1" />
-                                            <label for="rate1">1 star.</label>
-
-                                            <input type="radio" id="rate2" name="rating" value="2" />
-                                            <label for="rate2">2 stars.</label>
-
-                                            <input type="radio" id="rate3" name="rating" value="3" />
-                                            <label for="rate3">3 stars.</label>
-
-                                            <input type="radio" id="rate4" name="rating" value="4" />
-                                            <label for="rate4">4 stars.</label>
-
-                                            <input type="radio" id="rate5" name="rating" value="5" />
-                                            <label for="rate5">5 stars.</label>
-
-                                            <span class="starability-focus-ring"></span>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="comment">Comment <span class="required">*</span>
-                                            </label>
-                                            <textarea class="form-control" id="comment" rows="4" name="feedback" ></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 text-right">
-                                        <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?=$this->uri->segment(7)?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
-                                    </div>
-                                </div>
-                            <?php else: ?>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row same-height-row">
-                    <div class="col-md-3 col-sm-6">
-                        <div class="box same-height">
-                            <h3>You may also like these products</h3>
-                        </div>
-                    </div>
-                    <?php
-                    $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
-                    $this->session->set_userdata('suggest', $suggest);
-                    ?>
-                    <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container" style="padding: 10px;" >
-                                    <div class="flipper">
-                                        <div class="front"><center>
-                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id ?>">
-                                                    <img class="product_image_suggest" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                                </a></center>
-                                        </div>
-                                        <div class="back"><center>
-                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id ?>">
-                                                    <img class="product_image_suggest" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                                </a></center>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id ?>" class="invisible">
-                                    <img src="<?= base_url() . 'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><?=$suggest->product_name?></h3>
-                                    <p class="price">&#8369; <?= number_format($suggest->product_price,2) ?></p>
+                                <div class="col-sm-9 col-md-10">
+                                    <h5><?= $userinformation->username?></h5>
+                                    <p class="posted">
+                                        <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
+                                    </p>
+                                    <p><?=$feedback->feedback?></p>
+                                    <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
                                 </div>
                             </div>
-                            <!-- /.product -->
+                        <?php endforeach ?>
+                        <?php echo "<div align = 'center'>" . $links . "</div>";?>
+                    <?php endif ?>
+                    <hr>
+                    <div id="comment-form">
+                        <h4>Leave comment</h4>
+                        <?php if ($this->session->has_userdata('isloggedin')):
+                        $userinformation = $this->item_model->fetch('customer', array('customer_id' =>  $this->session->uid))[0];
+                        $user_image = (string)$userinformation->image;
+                        $image_array = explode(".", $user_image);
+                        ?>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2 text-center-xs">
+                                <p>
+                                    <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                                </p>
+                            </div>
+                            <div class="col-sm-9 col-md-10">
+                                <h5 >Tell people what you think</h5>
+                                <fieldset class="starability-checkmark">
+                                    <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+
+                                    <input type="radio" id="rate1" name="rating" value="1" />
+                                    <label for="rate1">1 star.</label>
+
+                                    <input type="radio" id="rate2" name="rating" value="2" />
+                                    <label for="rate2">2 stars.</label>
+
+                                    <input type="radio" id="rate3" name="rating" value="3" />
+                                    <label for="rate3">3 stars.</label>
+
+                                    <input type="radio" id="rate4" name="rating" value="4" />
+                                    <label for="rate4">4 stars.</label>
+
+                                    <input type="radio" id="rate5" name="rating" value="5" />
+                                    <label for="rate5">5 stars.</label>
+
+                                    <span class="starability-focus-ring"></span>
+                                </fieldset>
+                            </div>
                         </div>
-                    <?php endforeach ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="comment">Comment <span class="required">*</span>
+                                    </label>
+                                    <textarea class="form-control" id="comment" rows="4" name="feedback" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?=$this->uri->segment(7)?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>
+        <div class="box">
+            <h3>You may also like these products.</h3>
+        </div>
+        <div class="row products">
+            <?php
+            $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
+            $this->session->set_userdata('suggest', $suggest);
+            ?>
+            <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
+                <div class="col-md-4 col-sm-6">
+                    <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                        <div class="image_container" align="center" >
+                            <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
+                                <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
+                            <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
+                            <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
+                                <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </p>
+                        </div>
+                        <!-- /.text -->
+                        <?php if (!$suggest->product_quantity): ?>
+                            <div class="ribbon sale" >
+                                <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                    <!-- /.product -->
+                </div>
+            <?php endforeach ?>
+        </div>
     </div>
+</div>
 </div>
 <!-- /.container -->
 <!-- end content -->

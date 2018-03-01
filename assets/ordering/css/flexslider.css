@@ -12,7 +12,7 @@
 /* ====================================================================================================================
  * FONT-FACE
  * ====================================================================================================================*/
-@font-face {
+ @font-face {
   font-family: 'flexslider-icon';
   src: url('../fonts/webfont/flexslider-icon.html');
   src: url('../fonts/webfonts/flexslider-icond41d.html?#iefix') format('embedded-opentype'), url('../fonts/webfonts/flexslider-icon.html') format('woff'), url('../fonts/webfonts/flexslider-icon-2.html') format('truetype'), url('../fonts/webfonts/flexslider-icon-3.html#flexslider-icon') format('svg');
@@ -22,10 +22,10 @@
 /* ====================================================================================================================
  * RESETS
  * ====================================================================================================================*/
-.flex-container a:hover,
-.flex-slider a:hover,
-.flex-container a:focus,
-.flex-slider a:focus {
+ .flex-container a:hover,
+ .flex-slider a:hover,
+ .flex-container a:focus,
+ .flex-slider a:focus {
   outline: none;
 }
 .slides,
@@ -42,7 +42,7 @@
 /* ====================================================================================================================
  * BASE STYLES
  * ====================================================================================================================*/
-.flexslider {
+ .flexslider {
   margin: 0;
   padding: 0;
 }
@@ -74,7 +74,7 @@ html[xmlns] .flexslider .slides {
 /* ====================================================================================================================
  * DEFAULT THEME
  * ====================================================================================================================*/
-.flexslider {
+ .flexslider {
   margin: 0 0 10px;
   background: #ffffff;
   border: 4px solid #ffffff;
@@ -92,17 +92,17 @@ html[xmlns] .flexslider .slides {
   zoom: 1;
 }
 .flexslider .slides img {
-  height: auto;
+  height: 268px;
+  object-fit: contain;
 }
 .flex-viewport {
-  max-height: 450px;
+  max-height: 268px;
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -ms-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 1s ease;
   border: 1px solid #D1CFCF;
-
 }
 
 .loading .flex-viewport {
@@ -233,12 +233,13 @@ html[xmlns] .flexslider .slides {
   margin: 0 1% 0 0;
 }
 .flex-control-thumbs li:nth-child(4){
-	margin:0;
+  margin:0;
 }
 .flex-control-thumbs img {
   width: 100%;
-  height: auto;
+  height: 60px;
   display: block;
+  object-fit:  contain;
   opacity: .7;
   cursor: pointer;
   -webkit-transition: all 1s ease;
@@ -246,7 +247,7 @@ html[xmlns] .flexslider .slides {
   -ms-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 1s ease;
-    border: 1px solid #D1CFCF;
+  border: 1px solid #D1CFCF;
 }
 .flex-control-thumbs img:hover {
   opacity: 1;
@@ -258,7 +259,7 @@ html[xmlns] .flexslider .slides {
 /* ====================================================================================================================
  * RESPONSIVE
  * ====================================================================================================================*/
-@media screen and (max-width: 860px) {
+ @media screen and (max-width: 860px) {
   .flex-direction-nav .flex-prev {
     opacity: 1;
     left: 10px;

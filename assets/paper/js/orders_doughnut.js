@@ -16,7 +16,7 @@ $(document).ready(function(){
             var chartdata = {
                 labels: status,
                 datasets : [{
-                    label: 'Orders',
+                    label: 'Age Range',
                     data: orders,
                     backgroundColor: [
                         '#dc2f54',

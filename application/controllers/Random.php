@@ -49,18 +49,5 @@ class Random extends CI_Controller {
         // ==========================================================================================
         echo date("m-j-Y", 1517985368);
         echo bin2hex(openssl_random_pseudo_bytes(10));
-        $some_var = '';
-        if ($some_var == '')
-        {
-            log_message('error', 'Some variable did not contain a value.');
-        }
-        else
-        {
-            log_message('debug', 'Some variable was correctly set');
-        }
-
-        log_message('info', 'The purpose of some variable is to provide some value.');
-
-
     }
 }

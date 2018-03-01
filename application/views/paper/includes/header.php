@@ -13,7 +13,7 @@ $image = $content[0]; ?>
     <meta name="author" content="Ethereal">
     <title><?= $title ?></title>
     <link href="<?= $this->config->base_url().'assets/ordering/css/nprogress.css'; ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url() ?>assets/ordering/img/<?= $image->logo_icon ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url() ?>images/<?= $image->logo_icon ?>">
     <!-- Bootstrap core CSS -->
     <link href="<?= base_url()?>assets/paper/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Animation library for notifications -->

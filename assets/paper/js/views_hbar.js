@@ -52,7 +52,6 @@ $(document).ready(function(){
                             }
                         }],
                         xAxes: [{
-                            stacked: true,
                             gridLines: {
                                 drawOnChartArea: false
                             },

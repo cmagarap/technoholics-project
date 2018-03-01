@@ -14,10 +14,13 @@ class Home extends CI_Controller {
 
                 $image = $this->item_model->fetch('content')[0];
 
+                $product = $this->item_model->fetch('product', array('is_featured' => 1 ));
+
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
                     'CTI' => $this->basket->total_items(),
                     'page' => "Home", // active column identifier
+                    'product' => $product,
                     'image' => $image
                 );
 
@@ -31,14 +34,15 @@ class Home extends CI_Controller {
             }
         } else { # if not logged in
 
-
             $image = $this->item_model->fetch('content')[0];
-
+            $product = $this->item_model->fetch('product', array('is_featured' => 1 ));
 
             $data = array(
+
                 'title' => "TECHNOHOLICS | All the tech you need.",
                 'CTI' => $this->basket->total_items(),
                 'page' => "Home",
+                'product' => $product,
                 'image' => $image
             );
 
@@ -57,16 +61,16 @@ class Home extends CI_Controller {
 
         $diff = $today->diff($bday);
 
-        $age = sprintf('%d years, %d month, %d days', $diff->y, $diff->m, $diff->d);
+        $age = sprintf('%d', $diff->y, $diff->m, $diff->d);
 
         echo $age;
     }
 
     public function auto() {
         $output = '';
-        $query = $this->item_model->search('product', 'status = 1 AND product_name', $this->input->post('query'));
+        $query = $this->item_model->search('product', 'status = 1 AND product_name', $this->input->post('query',TRUE));
         $output = '<ul class="box list-unstyled" style="width:420px;">';
-
+        
         if ($query) {
             foreach ($query as $query) {
                 $output .= '<li id="link" class="text-left" style="cursor:pointer;">' . $query->product_name . '</li>';
@@ -230,17 +234,6 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
-    public function register() {
-        $data = array(
-            'title' => "TECHNOHOLICS | All the tech you need.",
-            'CTI' => $this->basket->total_items()
-        );
-        $this->load->view('ordering/includes/header', $data);
-        $this->load->view('ordering/includes/navbar');
-        $this->load->view('ordering/register');
-        $this->load->view('ordering/includes/footer');
-    }
-
     public function basket() {
         $product = $this->item_model->fetch('product',NULL,NULL,NULL, 3);
         $data = array(
@@ -359,7 +352,7 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules('city', "Please put the name of your City / Municipality.", "required");
             $this->form_validation->set_rules('barangay', "Please put the name of your barangay.", "required");
             $this->form_validation->set_rules('zip', "Please put your zip number.", "required|numeric");
-            $this->form_validation->set_rules('contact', "Please put your contact number.", "required|numeric");
+            $this->form_validation->set_rules('contact', "Please put your contact number.", "required|numeric|min_length[11]|max_length[11]");
             $this->form_validation->set_rules('email', "Please put a valid email address.", 'required|valid_email|is_unique[customer.email]');
             $this->form_validation->set_message('required', '{field}');
 
@@ -439,6 +432,7 @@ class Home extends CI_Controller {
               $data = array(
                 'title' => "Checkout - Payment Method",
                 'page' => "Home",
+                'CT' => $this->basket->total(),
                 'CTI' => $this->basket->total_items()
             );
 
@@ -465,6 +459,7 @@ class Home extends CI_Controller {
                 'zip' => html_escape(trim($this->input->post('zip'))),
                 'contact' => html_escape(trim($this->input->post('contact'))),
                 'email' => html_escape(trim($this->input->post('email'))),
+                'CT' => $this->basket->total(),
                 'CTI' => $this->basket->total_items()
             );
 
@@ -496,6 +491,7 @@ public function checkout3() {
         'page' => "Home",
         'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
         'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
+        'CT' => $this->basket->total(),
         'CTI' => $this->basket->total_items(),
     );
 
@@ -553,7 +549,6 @@ public function checkout3_exec() {
     $this->load->view('ordering/includes/navbar');
     $this->load->view('ordering/checkout4');
     $this->load->view('ordering/includes/footer');
-
 }
 
 else {
@@ -1096,9 +1091,34 @@ public function placeorder() {
     $this->session->unset_userdata('checkout1_session');
     $this->session->unset_userdata('checkout2_session');
     $this->basket->destroy();
-    $this->index();
+    redirect('home');
 }
 
+public function recovery() {
+    $data = array(
+        'page' => "services",
+        'title' => 'Data Recovery',
+        'CTI' => $this->basket->total_items()
+    );
+    $this->load->view('ordering/includes/header', $data);
+    $this->load->view('ordering/includes/navbar');
+    // $this->load->view('ordering/menu_account');
+    $this->load->view('ordering/recovery');
+    $this->load->view('ordering/includes/footer');
+}
+
+public function repair() {
+    $data = array(
+        'page' => "services",
+        'title' => 'Apple Repair',
+        'CTI' => $this->basket->total_items()
+    );
+    $this->load->view('ordering/includes/header', $data);
+    $this->load->view('ordering/includes/navbar');
+        // $this->load->view('ordering/menu_account');
+    $this->load->view('ordering/repair');
+    $this->load->view('ordering/includes/footer');
+}
 }
 
 ?>

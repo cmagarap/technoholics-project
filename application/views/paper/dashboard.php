@@ -25,11 +25,7 @@ foreach ($customer_all as $customer_all){
                                 <div class="numbers">
                                     <p>Revenue</p>
                                     &#8369; <?php $revenue = $revenue[0];
-                                    # try {
-                                        echo number_format($revenue->income, 0);
-                                    /*} catch (Exception $e) {
-                                        echo 'Message: ' .$e->getMessage();
-                                    }*/
+                                    echo number_format($revenue->income, 0);
                                     ?>
                                 </div>
                             </div>
@@ -206,9 +202,7 @@ foreach ($customer_all as $customer_all){
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
                     </div>
-
                     <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
-                        <?php if($trail): ?>
                         <table class="table table-striped" style = "margin-top: -20px">
                             <thead>
                             <th></th>
@@ -239,10 +233,6 @@ foreach ($customer_all as $customer_all){
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <?php else: ?>
-                            <br>
-                            <h3 align="center"><i>There are no recent customer activities recorded.</i></h3>
-                        <?php endif; ?>
                     </div>
                     <div class="content">
                         <div class="footer">
@@ -263,7 +253,6 @@ foreach ($customer_all as $customer_all){
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
-                        <?php if($customer_limit): ?>
                         <table class="table table-striped" style = "margin-top: -20px">
                             <thead>
                             <th></th>
@@ -291,10 +280,6 @@ foreach ($customer_all as $customer_all){
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-                            <?php else: ?>
-                            <br>
-                            <h3 align="center"><i>There are no weekly active customers.</i></h3>
-                        <?php endif; ?>
                     </div>
                     <div class="content">
                         <div class="footer">

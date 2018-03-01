@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2014 http://0401morita.github.io/imagezoom-plugin A project by Yosuke Morita
  */
-(function($){
+ (function($){
   var defaults = {
     cursorcolor:'255,255,255',
     opacity:0.5,
@@ -55,13 +55,19 @@
           'background':'#000',
           'z-index':2147483647,
           'overflow':'hidden',
-          'border': settings.zoomviewborder
+          'border': settings.zoomviewborder,
+          'overflow': 'hidden',
+          'background': 'white',
+          'object-fit': 'contain'
         });
 
         $(imagezoomView.selector).children('img').css({
           'position':'absolute',
           'width': imageWidth*settings.magnification,
           'height': imageHeight*settings.magnification,
+          'overflow': 'hidden',
+          'background': 'white',
+          'object-fit': 'contain'
         });
 
         $(imagezoomCursor.selector).css({
@@ -71,7 +77,10 @@
           'background-color':'rgb('+settings.cursorcolor+')',
           'z-index':settings.zindex,
           'opacity':settings.opacity,
-          'cursor':settings.cursor
+          'cursor':settings.cursor,
+          'overflow': 'hidden',
+          'background': 'white',
+          'object-fit': 'contain'
         });
         $(imagezoomCursor.selector).css({'top':posY-(cursorSize[1]/2),'left':posX});
         $(document).on('mousemove',document.body,methods.cursorPos);
