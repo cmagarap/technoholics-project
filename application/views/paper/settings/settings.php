@@ -348,7 +348,7 @@ if (isset($_POST['enter'])) {
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to delete this category?",
+            title: "Are you sure you want to delete this brand?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -357,19 +357,18 @@ if (isset($_POST['enter'])) {
                     if (willDelete) {
                         window.location = "<?= $this->config->base_url() ?>settings/delete_category/" + id;
                     } else {
-                        swal("The category is safe!");
+                        swal("The brand is safe!");
                     }
                 });
     });
 </script>
-
 
 <script>
     $(".delete_brand").click(function () {
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to delete this brand?",
+            title: "Are you sure you want to delete this category?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -378,7 +377,7 @@ if (isset($_POST['enter'])) {
                     if (willDelete) {
                         window.location = "<?= $this->config->base_url() ?>settings/delete_brand/" + id;
                     } else {
-                        swal("The brand is safe!");
+                        swal("The category is safe!");
                     }
                 });
     });
@@ -389,7 +388,7 @@ if (isset($_POST['enter'])) {
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to delete this supplier?",
+            title: "Are you sure you want to delete this shipper?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -398,7 +397,7 @@ if (isset($_POST['enter'])) {
                     if (willDelete) {
                         window.location = "<?= $this->config->base_url() ?>settings/delete_supplier/" + id;
                     } else {
-                        swal("The supplier is safe!");
+                        swal("The shipper is safe!");
                     }
                 });
     });
@@ -409,7 +408,7 @@ if (isset($_POST['enter'])) {
         var id = $(this).data('id');
 
         swal({
-            title: "Are you sure you want to delete this shipper?",
+            title: "Are you sure you want to delete this supplier?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -418,11 +417,13 @@ if (isset($_POST['enter'])) {
                     if (willDelete) {
                         window.location = "<?= $this->config->base_url() ?>settings/delete_shipper/" + id;
                     } else {
-                        swal("The shipper is safe!");
+                        swal("The supplier is safe!");
                     }
                 });
     });
 </script>
+
+
 
 <script src="<?= $this->config->base_url() ?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
 
