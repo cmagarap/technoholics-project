@@ -73,6 +73,11 @@ $image = $content[0];
     <script src="<?= base_url() . 'assets/ordering/js/nprogress.js'; ?>"></script>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <style>
+        input:checked {
+            height: 20px;
+            width: 20px;
+
+        }
 
     @media only screen and (max-width:767px) {
         .navbar-brand img {
