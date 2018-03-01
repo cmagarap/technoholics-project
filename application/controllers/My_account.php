@@ -37,7 +37,7 @@ class My_account extends CI_Controller {
             $this->load->view("paper/accounts/edit_myaccount");
             $this->load->view("paper/includes/footer");
         } else {
-            $this->load->view("paper/accounts/my_account"); # AAYUSIN KO PA ITO - seej
+            redirect('home');
         }
     }
 
@@ -96,7 +96,7 @@ class My_account extends CI_Controller {
             $this->load->view("paper/accounts/change_password");
             $this->load->view("paper/includes/footer");
         } else {
-            $this->load->view("paper/accounts/my_account"); # AAYUSIN KO PA ITO - seej
+            redirect('home');
         }
     }
 

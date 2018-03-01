@@ -13,12 +13,12 @@ $image = $content[0];
     <meta name="author" content="Agarap, Calimlim, Leona, Mallari">
     <meta name="keywords" content="">
     <title><?= $title ?></title>
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url() ?>images/<?= $image->logo_icon ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url() ?>assets/ordering/img/<?= $image->logo_icon ?>">
     <meta name="keywords" content="">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
     <script type="text/javascript" src"<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js' ?>" ></script>
     <link rel="stylesheet" type="text/css" href="<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.css' ?>" />
-    <script type="text/javascript" src"<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js' ?>" ></script>
+    <script type="text/javascript" src="<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js' ?>"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -43,8 +43,6 @@ $image = $content[0];
     <link href="<?= base_url() . 'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <link href="<?= base_url() ?>assets/paper/css/themify-icons.css" rel="stylesheet">
-
-
 
     <!-- web sheets -->
     <script  src="<?= base_url() . 'assets/ordering/js/jquery-1.11.0.min.js'; ?>"></script>

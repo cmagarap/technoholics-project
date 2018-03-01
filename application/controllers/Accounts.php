@@ -180,7 +180,7 @@ class Accounts extends CI_Controller {
                 $this->apriori->setDelimiter(', ');
             }
 
-            $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1", "order_id", "order_id", "ASC");
+            $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = 'Purchase'", "order_id", "order_id", "ASC");
 
             if ($order_id) {
                 # store the fetched values into an array:
@@ -190,8 +190,11 @@ class Accounts extends CI_Controller {
                 # get the orders of customer based on order_id_array[]:
                 for ($i = 0; $i < sizeof($order_id_array); $i++) {
                     $this->db->select("item_name");
-                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND order_id = " . $order_id_array[$i]);
+                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . "  AND at_detail = 'Purchase' AND order_id = " . $order_id_array[$i]);
                 }
+                echo '<pre>';
+                print_r($tilted_transactions);
+                echo '</pre>';
                 $customer_transactions = array();
 
                 $i = 0;
@@ -221,9 +224,25 @@ class Accounts extends CI_Controller {
             $freq = $this->apriori->getFreqItemsets();
             # END OF CODE FOR APRIORI ======>
 
-            $preferred = (sizeof($freq) != 0) ? max($freq) : array();
-            $preferred_s = implode(", ", array_slice($preferred, 1));
-            $product_insert = ($preferred_s) ? $preferred_s : NULL;
+            $p = array();
+            $b = 0;
+            for($i = 0; $i < sizeof($freq); $i++) {
+                for($j = 0; $j < sizeof($freq[$i]); $j++) {
+                    if($freq[$i][0] > $b) {
+                        $b = implode(", ", array_slice($freq[$i], 1));
+                    } /*elseif($freq[$i][0] == $b) {
+                        $b = array_merge($freq[$i], $freq[1]);
+                    }*/
+                }
+            }
+
+            echo '<pre>';
+            print_r($b);
+            echo '</pre>';
+
+            #$preferred = (sizeof($freq) != 0) ? max($freq) : array();
+            #$preferred_s = implode(", ", array_slice($preferred, 1));
+            $product_insert = ($b) ? $b : NULL;
             $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->uri->segment(3));
 
             if ($account OR $user_log) {

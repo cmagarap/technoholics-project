@@ -59,7 +59,7 @@ class Item_model extends CI_Model {
         $this->db->delete($table);
     }
 
-    function getDistinct($table, $where, $column, $order = NULL, $orderby = NULL) {
+    function getDistinct($table, $where = NULL, $column, $order = NULL, $orderby = NULL) {
         if (!empty($where)) {
             $this->db->where($where);
         }

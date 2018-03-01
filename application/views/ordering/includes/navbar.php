@@ -4,6 +4,7 @@ $image = $content[0];
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
 date_default_timezone_set("Asia/Manila");
 ?>
+
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top" style="background-color: <?= $image->color_1 ?>">
         <div class="container">

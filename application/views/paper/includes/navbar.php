@@ -18,7 +18,7 @@ date_default_timezone_set("Asia/Manila");
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
-                    <img src="<?= $this->config->base_url() ?>images/logo2.png" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="82%">
+                    <img src="<?= $this->config->base_url() ?>assets/ordering/img/<?= $content->company_logo ?>" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="82%">
                 </div>
             </div>
             <ul class="nav">
