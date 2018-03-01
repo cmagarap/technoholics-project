@@ -456,7 +456,7 @@ class Settings extends CI_Controller {
         $data = array(
             'customer_color1' => $this->input->post("customer_colorpicker")
         );
-        $this->item_model->updatedata("content", $data, 'content_id = ');
+        $this->item_model->updatedata("content", $data, 'content_id = 1');
         redirect("settings");
     }
 

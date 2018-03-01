@@ -118,7 +118,7 @@ if (isset($_POST['enter'])) {
                                         <option value="#dc2127" <?php if ($content->color_1 == "#dc2127") echo 'selected'; ?>>Bold red</option>
                                         <option value="#dbadff" <?php if ($content->color_1 == "#dbadff") echo 'selected'; ?>>Purple</option>
                                         <option value="#e1e1e1" <?php if ($content->color_1 == "#e1e1e1") echo 'selected'; ?>>Gray</option>
-                                        <option value="#595959" <?php if ($content->color_1 == "#595959") echo 'selected'; ?>>Black</option>
+                                        <option value="#555555" <?php if ($content->color_1 == "#555555") echo 'selected'; ?>>Black</option>
                                     </select>
                                     <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white; margin-left: 20px">Enter</button>
                                 </form>
@@ -141,7 +141,7 @@ if (isset($_POST['enter'])) {
                                         <option value="#dc2127" <?php if ($content->customer_color1 == "#dc2127") echo 'selected'; ?>>Bold red</option>
                                         <option value="#dbadff" <?php if ($content->customer_color1 == "#dbadff") echo 'selected'; ?>>Purple</option>
                                         <option value="#e1e1e1" <?php if ($content->customer_color1 == "#e1e1e1") echo 'selected'; ?>>Gray</option>
-                                        <option value="#595959" <?php if ($content->customer_color1 == "#595959") echo 'selected'; ?>>Black</option>
+                                        <option value="#555555" <?php if ($content->customer_color1 == "#555555") echo 'selected'; ?>>Black</option>
                                     </select>
                                     <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white; margin-left: 20px">Enter</button>
                                 </form>
