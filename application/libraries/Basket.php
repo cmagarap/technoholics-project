@@ -91,7 +91,7 @@ class Basket {
                 // re-create the entry with unique identifier and updated quantity
                 $item['rowid'] = $rowid;
                 // check if it exceed the maxqty of the item
-                if($old_qty == $item['maxqty'] || $this->total_items() >= 10 ){
+                if($old_qty == $item['maxqty']){
                     return FALSE;
                 }
                 $item['qty'] += $old_qty;
@@ -130,7 +130,9 @@ class Basket {
                     }
                 }
 
-                if ($item['qty'] > $item['maxqty'] || $this->total_items() >= 10){
+                $old_qty = isset($this->cart_contents[$item['rowid']]['qty']) ? (int) $this->cart_contents[$item['rowid']]['qty'] : 0;
+
+                if ($old_qty == $item['maxqty']){
                     return FALSE;
                 }
                 // find updatable keys
@@ -156,8 +158,8 @@ class Basket {
      * @return	bool
      */
     protected function save_cart(){
-        $this->cart_contents['total_items'] = $this->cart_contents['cart_total'] = 0;
 
+        $this->cart_contents['total_items'] = $this->cart_contents['cart_total'] = 0;
 
         foreach ($this->cart_contents as $key => $val){
             // make sure the array contains the proper indexes

@@ -7,9 +7,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<title>Welcome to Technoholics</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<style type="text/css">
 
@@ -82,25 +82,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		font-size: 35px;
 		padding: 12px 80px;
 	}
-	</style>
+</style>
 </head>
 <body>
 
-<div id="container">
-
-<h1>Hi! <?=$firstname." ".$lastname?></h1>
-	<div id="body"><center>
-		<p style="color: #016FFF"><b>Before we <span style="color: #FF00A1">get started...</span></b></p>
-		<br>
-		<p style="font-size: 23px">You have chosen the email <strong><?=$email?></strong> to be your email. 
-		Please activate your account by clicking the link below: </p>
-		<br>
-		<a href="<?= base_url()?>confirm/update/<?=$verification_code?>">VERIFY</a>
-		<br><br><br>
-		<div id="container2">
-			<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
-			Bago Bantay, Quezon City, Metro Manila
+	<div id="container">
+		<div id="body"><center>
+			<h1>Hi! <?=$firstname." ".$lastname?></h1>
+			<p style="color: #016FFF"><b>Before we <span style="color: #FF00A1">get started...</span></b></p>
 			<br>
+			<p style="font-size: 23px">You choosed <strong><?=$email?></strong> to be your email. 
+			Please activate your account by clicking the button below: </p>
+			<br>
+			<a href="<?= base_url()?>confirm/update/<?=$verification_code?>"  class="btn btn-danger btn-lg" size="50px" ><b>Confirm your email</b></a>
+			<br><br><br>
+			<div id="container2">
+				<p><img src="<?= base_url()?>images/logo2.png" alt="" style="width: auto; height: 80px;"/></p>
+				<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
+					Bago Bantay, Quezon City, Metro Manila
+					<br>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>

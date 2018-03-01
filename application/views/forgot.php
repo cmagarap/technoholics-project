@@ -6,9 +6,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<title>Welcome to CodeIgniter</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<style type="text/css">
 
@@ -81,28 +81,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		font-size: 35px;
 		padding: 12px 80px;
 	}
-	</style>
+</style>
 </head>
 <body>
 
-<div id="container">
-	<h1>Hi! <?=$firstname." ".$lastname?></h1>
+	<div id="container">
+		<h1>Hi! <?=$firstname." ".$lastname?></h1>
 
-	<div id="body">
-            <h3>You sent an email through <strong><?=$email?></strong> that you forgot your password.
-                
-                Reset it by clicking the link below: <br>
-                
-                <a href="<?= base_url()?>login/changepassword/<?=$verification_code?>">Change password</a>
-            
-            </h3>
-	</div>
-	<div id="container2">
-			<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
-			Bago Bantay, Quezon City, Metro Manila
-			<br>
+		<div id="body">
+			<h3>You sent an email through <strong><?=$email?></strong> that you forgot your password.
+				
+				Reset it by clicking the link below: <br>
+				
+				<a href="<?= base_url()?>login/change_password/<?=$verification_code?>">Change password</a>
+				
+			</h3>
 		</div>
-</div>
+		<div id="container2">
+			<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
+				Bago Bantay, Quezon City, Metro Manila
+				<br>
+			</div>
+		</div>
 
-</body>
-</html>
+	</body>
+	</html>

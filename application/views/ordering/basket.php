@@ -79,37 +79,32 @@
                                 </form>
                             </div>
                             <!-- /.box -->
-                            <div class="row same-height-row">
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box same-height">
-                                        <h3>You may also like these products</h3>
-                                    </div>
-                                </div>
-                                <?php if($this->session->has_userdata('suggest')){ $suggest = $this->session->userdata('suggest'); } else{ $suggest = $product;} ?>
-                                <?php foreach ($suggest as $suggest): ?>
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="product same-height">
-                                            <div class="flip-container" style="padding: 10px;" >
-                                                <div class="flipper">
-                                                    <div class="front"><center>
-                                                        <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id ?>">
-                                                            <img class="product_image_suggest" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                                        </a></center>
-                                                    </div>
-                                                    <div class="back"><center>
-                                                        <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id ?>">
-                                                            <img class="product_image_suggest" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="" class="img-responsive" style="width: auto; height: 150px;">
-                                                        </a></center>
-                                                    </div>
-                                                </div>
+                            <div class="box">
+                                <h3>You may also like these products.</h3>
+                            </div>
+                            <div class="row products">
+                                <?php if($this->session->has_userdata('suggest')){ $suggest = $this->session->userdata('suggest'); } else{ $suggest = $product;} foreach ($suggest as $suggest): ?>
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                                            <div class="image_container" align="center" >
+                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
+                                                    <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
+                                                </a>
                                             </div>
-                                            <a href="<?= base_url() . 'home/detail'; ?>" class="invisible">
-                                                <img src="<?= base_url() . 'assets/ordering/img/product2.jpg'; ?>" alt="" class="img-responsive">
-                                            </a>
                                             <div class="text">
-                                                <h3><?=$suggest->product_name?></h3>
-                                                <p class="price">&#8369; <?= number_format($suggest->product_price,2) ?></p>
+                                                <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
+                                                <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
+                                                <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
+                                                    <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </p>
                                             </div>
+                                            <!-- /.text -->
+                                            <?php if (!$suggest->product_quantity): ?>
+                                                <div class="ribbon sale" >
+                                                    <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
+                                                    <div class="ribbon-background"></div>
+                                                </div>
+                                            <?php endif ?>
                                         </div>
                                         <!-- /.product -->
                                     </div>

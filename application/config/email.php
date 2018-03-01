@@ -12,6 +12,6 @@ $config['newline']   = "\r\n";
 //Google Account Authetication
 
 $config['smtp_user'] = "veocalimlim@gmail.com";
-$config['smtp_pass'] = "utot";
+$config['smtp_pass'] = "eleventhdayofthetenthmonth";
 
 ?>

@@ -62,9 +62,9 @@
                                               <table>
                                                 <tr>
                                                     <td style="width: 155px;">
-                                                        <div class="front"><center>
+                                                        <div class="image_container"><center>
                                                             <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id ?>">
-                                                                <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" class="img-responsive" style=" width: auto; height: 150px;">
+                                                                <img class="product_image" src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="" style=" width: auto; height: 150px;">
                                                             </a></center>
                                                         </div>
                                                     </td>
