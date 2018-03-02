@@ -7,7 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title>Welcome to CodeIgniter</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<style type="text/css">
@@ -86,9 +85,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 	<div id="container">
+		<center>
+			<p><img src="https://image.ibb.co/hoZ6DH/logo.png" /></p>
+		</center>
 		<h1>Hi! <?=$firstname." ".$lastname?></h1>
-
-		<div id="body">
+		<div id="body" align="center">
 			<h3>You sent an email through <strong><?=$email?></strong> that you forgot your password.
 				
 				Reset it by clicking the link below: <br>
@@ -97,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 			</h3>
 		</div>
-		<div id="container2">
+		<div id="container2" align="center">
 			<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
 				Bago Bantay, Quezon City, Metro Manila
 				<br>
@@ -106,3 +107,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	</body>
 	</html>
+
+

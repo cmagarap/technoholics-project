@@ -138,8 +138,8 @@ class Login extends CI_Controller {
     }
 
     public function password_reset() {
-        $this->form_validation->set_rules('email', "email", "required|valid_email");
-        $this->form_validation->set_message('required', 'Please enter your {field}.');
+        $this->form_validation->set_rules('email', "Please enter your email.", "required|valid_email");
+        $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
             $accountDetails = $this->item_model->fetch("customer", array('email' => $this->input->post('email')));
@@ -154,7 +154,6 @@ class Login extends CI_Controller {
                 if (!$this->email->send()) {
                     $this->email->print_debugger();
                 } else {
-                    $this->session->set_flashdata('isreset', true);
                     $this->session->set_userdata('statusMsg', 'Reset password link has been sent to <b>'. trim($this->input->post('email', TRUE)).'</b>.');
                     redirect("login");
                 }

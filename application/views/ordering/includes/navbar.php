@@ -1,5 +1,5 @@
 <?php
-$content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $this->item_model->fetch("content");
 $image = $content[0];
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
 date_default_timezone_set("Asia/Manila");
@@ -110,15 +110,11 @@ date_default_timezone_set("Asia/Manila");
                                 </ul>
                             </div>
                             <div class="col-sm-3">
-                                <h5>Featured</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/'; ?>">Trainers</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                    </li>
-                                </ul>
+                                <div class="banner">
+                                    <a href="#">
+                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_2 ?>" class="img img-responsive" alt="">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +148,7 @@ date_default_timezone_set("Asia/Manila");
                             <div class="col-sm-4">
                                 <div class="banner">
                                     <a href="#">
-                                        <img src="<?= base_url().'assets/ordering/img/banner.jpg'; ?>" class="img img-responsive" alt="">
+                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" class="img img-responsive" alt="">
                                     </a>
                                 </div>
                             </div>

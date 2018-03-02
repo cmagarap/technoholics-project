@@ -23,8 +23,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
             }
@@ -54,8 +54,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
             }
@@ -80,8 +80,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
             }
@@ -109,8 +109,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
 
                     }
                 });
@@ -169,11 +169,28 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
+            },
+
+            error: function(jqXHR, textStatus, error){
+
+                $.notify({
+                    icon: 'ti-comment',
+                    message: "Please do not leave the rating and comment input blank."
+                },{
+                    type: 'fail',
+                    timer: 2000,
+                    placement: {
+                        from: "top",
+                        align: "center"
+                    }
+                });
+
             }
+
         });
     });
 

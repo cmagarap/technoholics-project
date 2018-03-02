@@ -55,15 +55,7 @@ class Home extends CI_Controller {
     }
 
     public function test() {
-        $bday = new DateTime('1994-9-17');
-
-        $today = new DateTime(Date('Y-m-d'));
-
-        $diff = $today->diff($bday);
-
-        $age = sprintf('%d', $diff->y, $diff->m, $diff->d);
-
-        echo $age;
+        $this->load->view('forgot');
     }
 
     public function auto() {
@@ -86,6 +78,7 @@ class Home extends CI_Controller {
         $page = $this->uri->segment(2);
         $cat = $this->uri->segment(3);
         $brand = ctype_alpha($this->uri->segment(4)) ? $this->uri->segment(4) : NULL;
+        $image = $this->item_model->fetch('content')[0];
 
         $this->load->library('pagination');
         $this->session->set_userdata('sort', $this->input->post('sort') ? $this->input->post('sort') : $this->session->userdata('sort'));
@@ -127,6 +120,7 @@ class Home extends CI_Controller {
                 'category' => $cat, // category identifier
                 'brand' => $brand,
                 'sort'=> $sort,
+                'image' => $image,
                 'perpage' => $perpage,
                 'CTI' => $this->basket->total_items(),
                 'links' => $this->pagination->create_links()
@@ -149,6 +143,7 @@ class Home extends CI_Controller {
                 'category' => $cat, // category identifier
                 'brand' => $brand,
                 'sort'=> $sort,
+                'image' => $image,
                 'perpage' => $perpage,
                 'CTI' => $this->basket->total_items(),
                 'links' => $this->pagination->create_links()
@@ -166,6 +161,7 @@ class Home extends CI_Controller {
         $this->session->set_userdata('sort', $this->input->post('sort') ? $this->input->post('sort') : $this->session->userdata('sort'));
         $sort = $this->session->userdata('sort')?$this->session->userdata('sort'):"product_name";
         $this->session->set_userdata('perpage', $this->input->post('limit') ? $this->input->post('limit') : $this->session->userdata('perpage'));
+        $image = $this->item_model->fetch('content')[0];
         $perpage = $this->session->userdata('perpage')?$this->session->userdata('perpage'):12;
         $config['per_page'] = $perpage;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
@@ -223,6 +219,7 @@ class Home extends CI_Controller {
             'category' => $search, // category identifier
             'brand' => "",
             'sort'=> $sort,
+            'image' => $image,
             'perpage' => $perpage,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
@@ -257,6 +254,7 @@ class Home extends CI_Controller {
         $cat = $this->uri->segment(3);
         $brand = $this->uri->segment(4);
         $id = $this->uri->segment(5);
+        $image = $this->item_model->fetch('content')[0];
 
         $this->load->library('pagination');
         $perpage = 5;
@@ -298,6 +296,7 @@ class Home extends CI_Controller {
             'brand' => $brand,
             'row' => $row,
             'condition' => $condition,
+            'image' => $image,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
@@ -883,6 +882,7 @@ public function add() {
         'maxqty' => $this->input->post("max_quantity")
     );
     $insert = $this->basket->insert($data);
+
 }
 
 public function update() {
@@ -901,16 +901,16 @@ public function remove() {
 
 public function post() {
 
-    $this->form_validation->set_rules('rating', "Please put a rating.", "required");
-    $this->form_validation->set_rules('feedback', "Please put a feedback.", "required");
+    $this->form_validation->set_rules('rating', "Please put a rating.", "required|numeric|greater_than_equal_to[1]");
+    $this->form_validation->set_rules('feedback', "Please put a feedback.", "required|max_length[100]");
     $this->form_validation->set_message('required', '{field}');
 
     if ($this->form_validation->run()) {
         $data = array(
             'customer_id' => $this->session->uid,
-            'product_id' => $this->input->post("product_id"),
-            'feedback' => $this->input->post("feedback"),
-            'rating' => $this->input->post("rating"),
+            'product_id' => $this->input->post("product_id",TRUE),
+            'feedback' => $this->input->post("feedback",TRUE),
+            'rating' => $this->input->post("rating",TRUE),
             'added_at' => time()
         );
 
@@ -919,7 +919,7 @@ public function post() {
         if ($post) {
             $this->item_model->updatedata("feedback", $data, array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
         } else {
-            $this->item_model->insertData("feedback", $data);   
+            $this->item_model->insertData("feedback", $data);  
         }
 
         $rating = $this->item_model->avg('feedback', 'product_id = ' . $this->input->post("product_id"). ' AND status = 1', 'rating');
@@ -941,6 +941,10 @@ public function post() {
         );
 
         $this->item_model->insertData('user_log', $for_log);
+    }
+
+    else{
+        $this->detail();
     }
 
 }
@@ -1033,61 +1037,85 @@ public function placeorder() {
             //returns the id of last query
         $customer_id = $this->item_model->insert_id('customer', $account);
 
-        $data = array(
-            'customer_id' => $customer_id,
-            'total_price' => $this->basket->total(),
-            'order_quantity' => $this->basket->total_items(),
-            'transaction_date' => time(),
-            'delivery_date' => time() + 259200,
-            'shipping_address' => $this->input->post('address'),
-            'payment_method' => $this->input->post('payment')
-        );
+        $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
+        $this->email->to($this->input->post('email'));
+        //change!
+        $this->email->subject('Email Verification');
+        $this->email->message($this->load->view('welcome_message', $data, true));
 
-        $order_id = $this->item_model->insert_id('orders', $data);
-            // get cart items
-        $basketItems = $this->basket->contents();
-            // loop
-        foreach ($basketItems as $item) {
+        if (!$this->email->send()) {
+            $this->email->print_debugger();
+        } else {
+            $this->item_model->insertData('customer', $data);
+            $new_account = $this->item_model->fetch("customer", array("email" => $this->input->post('email')));
+            $new_account = $new_account[0];
+            $for_log = array(
+                "customer_id" => $new_account->customer_id,
+                "user_type" => 1,
+                "username" => $new_account->firstname . " " . $new_account->lastname ,
+                "date" => time(),
+                "action" => 'Signed up.',
+                'status' => '1'
+            );
+            $this->item_model->insertData('user_log', $for_log);
+
             $data = array(
-                'order_id' => $order_id,
-                'product_id' => $item['id'],
-                'product_name' => $item['name'],
-                'product_price' => $item['price'],
-                'product_subtotal' => $item['subtotal'],
-                'product_image1' => $item['img'],
-                'quantity' => $item['qty']
+                'customer_id' => $customer_id,
+                'total_price' => $this->basket->total(),
+                'order_quantity' => $this->basket->total_items(),
+                'transaction_date' => time(),
+                'delivery_date' => time() + 259200,
+                'shipping_address' => $this->input->post('address'),
+                'payment_method' => $this->input->post('payment')
             );
-            $this->item_model->insertData('order_items', $data);
 
-            $for_audit = array(
-                "customer_name" => $user_and_pass,
-                "item_name" => $item['name'],
-                "at_detail" => "Purchase",
-                "at_date" => time(),
-                "customer_id" => $customer_id,
-                "product_id" => $item['id'],
-                "order_id" => $order_id
+            $order_id = $this->item_model->insert_id('orders', $data);
+            // get cart items
+            $basketItems = $this->basket->contents();
+            // loop
+            foreach ($basketItems as $item) {
+                $data = array(
+                    'order_id' => $order_id,
+                    'product_id' => $item['id'],
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'product_subtotal' => $item['subtotal'],
+                    'product_image1' => $item['img'],
+                    'quantity' => $item['qty']
+                );
+                $this->item_model->insertData('order_items', $data);
+
+                $for_audit = array(
+                    "customer_name" => $user_and_pass,
+                    "item_name" => $item['name'],
+                    "at_detail" => "Purchase",
+                    "at_date" => time(),
+                    "customer_id" => $customer_id,
+                    "product_id" => $item['id'],
+                    "order_id" => $order_id
                     # status has a default value of 1
-            );
-            $this->item_model->insertData("audit_trail", $for_audit);
+                );
+                $this->item_model->insertData("audit_trail", $for_audit);
 
-            $stock = $item['maxqty'] - $item['qty'];
-            $data1 = array(
-                'product_quantity' => $stock
-            );
-            $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+                $stock = $item['maxqty'] - $item['qty'];
+                $data1 = array(
+                    'product_quantity' => $stock
+                );
+                $this->item_model->updatedata("product", $data1, array('product_id' => $item['id']));
+            }
+
+            $for_orderstatus = array (
+              "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
+              "customer_id" => $customer_id,
+              "order_id" => $order_id,
+              "transaction_date" => time()
+          ); 
+
+            $this->item_model->insertData("order_status", $for_orderstatus);
+            $this->session->set_userdata('statusMsg', 'You have successfully placed an order, an email will be sent at <b>'.$this->input->post('email').'</b>.');
         }
-
-        $for_orderstatus = array (
-          "description_status" => "Your item(s) is being packed and ready for shipment at our merchant's warehouse.",
-          "customer_id" => $customer_id,
-          "order_id" => $order_id,
-          "transaction_date" => time()
-      ); 
-
-        $this->item_model->insertData("order_status", $for_orderstatus);
-        $this->session->set_userdata('statusMsg', 'You have successfully placed an order, an email will be sent at <b>'.$this->input->post('email').'</b>.');
     }
+
     $this->session->unset_userdata('checkout1_session');
     $this->session->unset_userdata('checkout2_session');
     $this->basket->destroy();

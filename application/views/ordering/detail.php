@@ -25,10 +25,10 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
 
-                            <li  <?php if ($category == "accessories") echo 'class="active"'?> >
-                                <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
+                            <li  <?php if ($category == 'Accessories') echo 'class="active"'?> >
+                                <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'accessories')); ?></span></a>
                             </li>
-                            <li <?php if ($category == "chargers") echo 'class="active"' ?>>
+                            <li <?php if ($category == "Chargers") echo 'class="active"' ?>>
                                 <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
                             </li>
                             <li <?php if ($category == "Laptop") echo 'class="active"' ?>>
@@ -74,8 +74,8 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                     </div>
                 </div>
                 <div class="banner">
-                    <a href="#">
-                        <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
+                    <a>
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y");?>" class="img-responsive">
                     </a>
                 </div>
             </div>
@@ -88,15 +88,24 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                                 <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>">
                                     <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" data-imagezoom="true" class="img-responsive"> </div>
                                 </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
+
+                                <?php if ($row->product_image2): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
+                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                    </li>
+                                <?php endif ?>
+
+                                <?php if ($row->product_image3): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
+                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                    </li>
+                                <?php endif ?>
+                                
+                                <?php if ($row->product_image4): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
+                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                    </li>
+                                <?php endif ?>
                             </ul>
                         </div>
                     </div>
@@ -161,7 +170,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                                     <p class="posted">
                                         <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
                                     </p>
-                                    <p><?=$feedback->feedback?></p>
+                                    <p class="text-left" style="word-wrap:break-word;"><?=$feedback->feedback?></p>
                                     <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
                                 </div>
                             </div>
@@ -184,6 +193,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                             </div>
                             <div class="col-sm-9 col-md-10">
                                 <h5 >Tell people what you think</h5>
+                                
                                 <fieldset class="starability-checkmark">
                                     <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
 
@@ -204,70 +214,73 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
 
                                     <span class="starability-focus-ring"></span>
                                 </fieldset>
+                                <?php if(form_error("rating")): ?>
+                                   <span style = 'color: red'><?= form_error("rating") ?></span>
+                               <?php endif; ?>
+                           </div>
+                       </div>
+                       <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="comment">Comment <span class="required">*</span>
+                                </label>
+                                <textarea class="form-control" id="comment" rows="4" name="feedback" maxlength="100" style="resize: none;" ></textarea>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="comment">Comment <span class="required">*</span>
-                                    </label>
-                                    <textarea class="form-control" id="comment" rows="4" name="feedback" ></textarea>
-                                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?=$this->uri->segment(7)?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12 text-right">
-                                <button type="submit" id="post" class="btn btn-primary" data-productid= "<?=$row->product_id?>" data-productname= "<?=$row->product_name?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?=$this->uri->segment(7)?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h5><a href="<?= base_url().'login'; ?>">Login</a> or <a href="<?= base_url().'register'; ?>">Register</a>  to leave a comment.</h5>
-                                </div>
-                            </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <h3>You may also like these products.</h3>
+    </div>
+    <div class="row products">
+        <?php
+        $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
+        $this->session->set_userdata('suggest', $suggest);
+        ?>
+        <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
+            <div class="col-md-4 col-sm-6">
+                <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                    <div class="image_container" align="center" >
+                        <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
+                            <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
+                        </a>
+                    </div>
+                    <div class="text">
+                        <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
+                        <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
+                        <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
+                            <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                        </p>
+                    </div>
+                    <!-- /.text -->
+                    <?php if (!$suggest->product_quantity): ?>
+                        <div class="ribbon sale" >
+                            <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
+                            <div class="ribbon-background"></div>
                         </div>
                     <?php endif ?>
                 </div>
+                <!-- /.product -->
             </div>
-        </div>
-        <div class="box">
-            <h3>You may also like these products.</h3>
-        </div>
-        <div class="row products">
-            <?php
-            $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
-            $this->session->set_userdata('suggest', $suggest);
-            ?>
-            <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
-                <div class="col-md-4 col-sm-6">
-                    <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
-                        <div class="image_container" align="center" >
-                            <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
-                                <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
-                            </a>
-                        </div>
-                        <div class="text">
-                            <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
-                            <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
-                            <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
-                                <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                            </p>
-                        </div>
-                        <!-- /.text -->
-                        <?php if (!$suggest->product_quantity): ?>
-                            <div class="ribbon sale" >
-                                <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                        <?php endif ?>
-                    </div>
-                    <!-- /.product -->
-                </div>
-            <?php endforeach ?>
-        </div>
+        <?php endforeach ?>
     </div>
+</div>
 </div>
 </div>
 <!-- /.container -->
