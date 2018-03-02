@@ -130,7 +130,7 @@
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content">
-                        <h3 style = "color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
+                        <h3 style="color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
                         <form action="" method="post">
                             <div class="row">
                                 <div class="col-md-4">
@@ -156,9 +156,21 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="hidden" name="customer_id" value="<?= $this->uri->segment(4) ?>">
-                                        <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; margin-top: 25px; width: 100%" name="enter">Enter</button>
+                                        <!--<input type="hidden" name="customer_id" value="<?= $this->uri->segment(4) ?>">
+                                        <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; margin-top: 25px; width: 100%" name="enter">Enter</button>-->
+                                        <label>Based on <span style="color: red">*</span></label>
+                                        <select name="basis" class="form-control border-input file">
+                                            <option value="Purchase" selected>Purchased Items</option>
+                                            <option value="Search">Searched Items</option>
+                                            <option value="Rated">Rated Items</option>
+                                        </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-5">
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 83%" name="enter">Enter</button>
                                 </div>
                             </div>
                         </form>

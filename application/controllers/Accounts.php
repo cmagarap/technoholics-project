@@ -167,21 +167,25 @@ class Accounts extends CI_Controller {
             $this->form_validation->set_message('required', '{field}');
 
             if ($this->form_validation->run()) {
-                $min_support = html_escape($this->input->post('support'));
-                $min_confidence = html_escape($this->input->post('confidence'));
+                $min_support = $this->input->post('support', TRUE);
+                $min_confidence = $this->input->post('confidence', TRUE);
+                $basis = $this->input->post('basis', TRUE);
                 $this->apriori->setMaxScan(20);
                 $this->apriori->setMinSup($min_support);
                 $this->apriori->setMinConf($min_confidence);
                 $this->apriori->setDelimiter(', ');
             } else {
+                $basis = 'Purchase';
                 $this->apriori->setMaxScan(20);
                 $this->apriori->setMinSup(2);
                 $this->apriori->setMinConf(100);
                 $this->apriori->setDelimiter(', ');
             }
-
-            $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1", "order_id", "order_id", "ASC");
-
+            if ($basis == 'Purchase') {
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "order_id", "order_id", "ASC");
+            } else if ($basis == 'Search') {
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "order_id", "order_id", "ASC");
+            }
             if ($order_id) {
                 # store the fetched values into an array:
                 foreach ($order_id as $order_id)
@@ -190,8 +194,11 @@ class Accounts extends CI_Controller {
                 # get the orders of customer based on order_id_array[]:
                 for ($i = 0; $i < sizeof($order_id_array); $i++) {
                     $this->db->select("item_name");
-                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND order_id = " . $order_id_array[$i]);
+                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . "  AND at_detail = '" . $basis . "' AND order_id = " . $order_id_array[$i]);
                 }
+                echo '<pre>';
+                print_r($tilted_transactions);
+                echo '</pre>';
                 $customer_transactions = array();
 
                 $i = 0;
@@ -221,9 +228,25 @@ class Accounts extends CI_Controller {
             $freq = $this->apriori->getFreqItemsets();
             # END OF CODE FOR APRIORI ======>
 
-            $preferred = (sizeof($freq) != 0) ? max($freq) : array();
-            $preferred_s = implode(", ", array_slice($preferred, 1));
-            $product_insert = ($preferred_s) ? $preferred_s : NULL;
+            $p = array();
+            $b = 0;
+            for($i = 0; $i < sizeof($freq); $i++) {
+                for($j = 0; $j < sizeof($freq[$i]); $j++) {
+                    if($freq[$i][0] > $b) {
+                        $b = implode(", ", array_slice($freq[$i], 1));
+                    } /*elseif($freq[$i][0] == $b) {
+                        $b = array_merge($freq[$i], $freq[1]);
+                    }*/
+                }
+            }
+
+            echo '<pre>';
+            print_r($b);
+            echo '</pre>';
+
+            #$preferred = (sizeof($freq) != 0) ? max($freq) : array();
+            #$preferred_s = implode(", ", array_slice($preferred, 1));
+            $product_insert = ($b) ? $b : NULL;
             $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->uri->segment(3));
 
             if ($account OR $user_log) {
@@ -488,20 +511,20 @@ class Accounts extends CI_Controller {
     }
 
     public function delete_admin() {
-            $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(3)));
-            if ($update) {
-                $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-                $for_log = array(
-                    "$user_id" => html_escape($this->session->uid),
-                    "user_type" => html_escape($this->session->userdata('type')),
-                    "username" => html_escape($this->session->userdata('username')),
-                    "date" => html_escape(time()),
-                    "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
-                    'status' => html_escape('1')
-                );
-                $this->item_model->insertData('user_log', $for_log);
-            }
-            redirect("accounts/admin");
+        $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(3)));
+        if ($update) {
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+            $for_log = array(
+                "$user_id" => html_escape($this->session->uid),
+                "user_type" => html_escape($this->session->userdata('type')),
+                "username" => html_escape($this->session->userdata('username')),
+                "date" => html_escape(time()),
+                "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
+                'status' => html_escape('1')
+            );
+            $this->item_model->insertData('user_log', $for_log);
+        }
+        redirect("accounts/admin");
     }
 
     public function delete_customer() {
@@ -523,47 +546,47 @@ class Accounts extends CI_Controller {
     }
 
     public function recover_admin() {
-            if ($this->session->userdata('type') == 0) {
-                $this->load->library('pagination');
-                $perpage = 20;
-                $config['base_url'] = base_url() . "accounts/recover_admin/";
-                $config['per_page'] = $perpage;
-                $config['full_tag_open'] = '<nav><ul class="pagination">';
-                $config['full_tag_close'] = ' </ul></nav>';
-                $config['first_link'] = 'First';
-                $config['first_tag_open'] = '<li>';
-                $config['first_tag_close'] = '</li>';
-                $config['first_url'] = '';
-                $config['last_link'] = 'Last';
-                $config['last_tag_open'] = '<li>';
-                $config['last_tag_close'] = '</li>';
-                $config['next_link'] = '&raquo;';
-                $config['next_tag_open'] = '<li>';
-                $config['next_tag_close'] = '</li>';
-                $config['prev_link'] = '&laquo;';
-                $config['prev_tag_open'] = '<li>';
-                $config['prev_tag_close'] = '</li>';
-                $config['cur_tag_open'] = '<li class="active"><a href="#">';
-                $config['cur_tag_close'] = '</a></li>';
-                $config['num_tag_open'] = '<li>';
-                $config['num_tag_close'] = '</li>';
-                $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
-                $this->pagination->initialize($config);
-                $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
-                $data = array(
-                    'title' => 'Accounts: Reactivate Admin Accounts',
-                    'heading' => 'Accounts',
-                    'users' => $accounts,
-                    'links' => $this->pagination->create_links()
-                );
+        if ($this->session->userdata('type') == 0) {
+            $this->load->library('pagination');
+            $perpage = 20;
+            $config['base_url'] = base_url() . "accounts/recover_admin/";
+            $config['per_page'] = $perpage;
+            $config['full_tag_open'] = '<nav><ul class="pagination">';
+            $config['full_tag_close'] = ' </ul></nav>';
+            $config['first_link'] = 'First';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['first_url'] = '';
+            $config['last_link'] = 'Last';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo;';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo;';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
+            $data = array(
+                'title' => 'Accounts: Reactivate Admin Accounts',
+                'heading' => 'Accounts',
+                'users' => $accounts,
+                'links' => $this->pagination->create_links()
+            );
 
-                $this->load->view("paper/includes/header", $data);
-                $this->load->view("paper/includes/navbar");
-                $this->load->view("paper/accounts/recover_admin");
-                $this->load->view("paper/includes/footer");
-            } else {
-                redirect('home');
-            }
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/accounts/recover_admin");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
     }
 
     public function recover_customer() {
@@ -611,19 +634,19 @@ class Accounts extends CI_Controller {
     }
 
     public function recover_admin_exec() {
-            $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(3)));
-            if ($update) {
-                $for_log = array(
-                    "admin_id" => html_escape($this->session->uid),
-                    "user_type" => ($this->session->userdata('type')),
-                    "username" => html_escape($this->session->userdata('username')),
-                    "date" => html_escape(time()),
-                    "action" => html_escape('Reactivated account #' . $this->uri->segment(3)),
-                    'status' => html_escape('1')
-                );
-                $this->item_model->insertData('user_log', $for_log);
-            }
-            redirect("accounts/recover_admin");
+        $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(3)));
+        if ($update) {
+            $for_log = array(
+                "admin_id" => html_escape($this->session->uid),
+                "user_type" => ($this->session->userdata('type')),
+                "username" => html_escape($this->session->userdata('username')),
+                "date" => html_escape(time()),
+                "action" => html_escape('Reactivated account #' . $this->uri->segment(3)),
+                'status' => html_escape('1')
+            );
+            $this->item_model->insertData('user_log', $for_log);
+        }
+        redirect("accounts/recover_admin");
 
     }
 
