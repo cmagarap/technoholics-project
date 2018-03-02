@@ -183,48 +183,92 @@ class Accounts extends CI_Controller {
             }
             if ($basis == 'Purchase') {
                 $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "order_id", "order_id", "ASC");
-            } else if ($basis == 'Search') {
-                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "order_id", "order_id", "ASC");
-            }
-            if ($order_id) {
-                # store the fetched values into an array:
-                foreach ($order_id as $order_id)
-                    $order_id_array[] = $order_id->order_id;
+                if ($order_id) {
+                    # store the fetched values into an array:
+                    foreach ($order_id as $order_id)
+                        $order_id_array[] = $order_id->order_id;
 
-                # get the orders of customer based on order_id_array[]:
-                for ($i = 0; $i < sizeof($order_id_array); $i++) {
-                    $this->db->select("item_name");
-                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . "  AND at_detail = '" . $basis . "' AND order_id = " . $order_id_array[$i]);
-                }
-                echo '<pre>';
-                print_r($tilted_transactions);
-                echo '</pre>';
-                $customer_transactions = array();
-
-                $i = 0;
-                foreach ($tilted_transactions as $tilted_transaction) {
-                    if (sizeof($tilted_transactions[$i]) > 1) {
-                        for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
-                            $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
-                        }
-                        $i++;
-                        continue;
-                    } else
-                        $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
-                    $i++;
-                }
-
-                # convert into string using implode:
-                for ($i = 0; $i < sizeof($customer_transactions); $i++) {
-                    for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
-                        $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($order_id_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . "  AND at_detail = '" . $basis . "' AND order_id = " . $order_id_array[$i]);
                     }
+                    /*echo '<pre>';
+                    print_r($tilted_transactions);
+                    echo '</pre>';*/
+
+                    $customer_transactions = array();
+
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no transactions recorded for this user.";
                 }
-                $process = $this->apriori->process($customer_transactions_str);
-                $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
-            } else {
-                $message = "There are no transactions recorded for this user.";
+
+            } else if ($basis == 'Search') {
+                $at_date = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "at_date", "at_date", "ASC");
+
+                if ($at_date) {
+                    # store the fetched values into an array:
+                    foreach ($at_date as $at_date)
+                        $at_date_array[] = $at_date->at_date;
+
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($at_date_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND at_detail = '$basis' AND at_date = $at_date_array[$i]");
+                    }
+
+                    /*echo '<pre>';
+                    print_r($tilted_transactions);
+                    echo '</pre>';*/
+                    $customer_transactions = array();
+
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no product search recorded for this user.";
+                }
             }
+            # dito ============================================================================
             $freq = $this->apriori->getFreqItemsets();
             # END OF CODE FOR APRIORI ======>
 
@@ -240,9 +284,9 @@ class Accounts extends CI_Controller {
                 }
             }
 
-            echo '<pre>';
+            /*echo '<pre>';
             print_r($b);
-            echo '</pre>';
+            echo '</pre>';*/
 
             #$preferred = (sizeof($freq) != 0) ? max($freq) : array();
             #$preferred_s = implode(", ", array_slice($preferred, 1));

@@ -26,7 +26,7 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                         <ul class="nav nav-pills nav-stacked category-menu">
 
                             <li  <?php if ($category == "accessories") echo 'class="active"'?> >
-                                <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accesories')); ?></span></a>
+                                <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accessories')); ?></span></a>
                             </li>
                             <li <?php if ($category == "chargers") echo 'class="active"' ?>>
                                 <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>

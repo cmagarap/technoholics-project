@@ -916,6 +916,11 @@ public function post() {
 
         $post = $this->item_model->fetch("feedback", array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id"), 'status' => 1));
 
+        if($this->session->has_userdata('isloggedin')) {
+            $getRating = $this->input->post('product_id');
+            #$this->session->set_userdata('product_rating')
+        }
+
         if ($post) {
             $this->item_model->updatedata("feedback", $data, array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id")));
         } else {

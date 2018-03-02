@@ -156,8 +156,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <!--<input type="hidden" name="customer_id" value="<?= $this->uri->segment(4) ?>">
-                                        <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; margin-top: 25px; width: 100%" name="enter">Enter</button>-->
                                         <label>Based on <span style="color: red">*</span></label>
                                         <select name="basis" class="form-control border-input file">
                                             <option value="Purchase" selected>Purchased Items</option>
@@ -176,7 +174,6 @@
                         </form>
                         <hr>
                         <?php if (!$message) { ?>
-
                             <h3 style = "color: #31bbe0; margin-bottom: 0px">Frequent Itemsets</h3>
                             <p class="category">Most frequent products involved in multiple record of transactions.</p><br>
                             <div class="content table-responsive table-full-width">
@@ -198,7 +195,7 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <th>Products</th>
-                                    <th>Confidence</th>
+                                    <th>Confidence Lvl.</th>
                                     </thead>
                                     <tbody>
                                     <?= $this->apriori->printAssociationRules(); ?>
@@ -210,7 +207,7 @@
                         } else {
                             echo '<div align="center"><br><i>';
                             echo $message;
-                            echo '</i></div>';
+                            echo '</i></div><br>';
                         }
                         ?>
                     </div>

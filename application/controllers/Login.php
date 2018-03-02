@@ -57,6 +57,11 @@ class Login extends CI_Controller {
                             $this->session->set_userdata('isloggedin', true);
                             session_regenerate_id(true);
                             $this->session->set_flashdata('myflashdata', true);
+
+                            # for product rating of customer:
+                            $product_rating = array();
+                            $this->session->set_userdata('product_rating', $product_rating);
+
                             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                             $for_log = array(
                                 "$user_id" => $this->session->uid,
