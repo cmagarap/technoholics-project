@@ -31,6 +31,37 @@ $(document).ready(function () {
         });
     });
 
+    $('#add_wishlist').click(function () {
+        var product_id = $(this).data("productid");
+        var customer_id = $(this).data("customerid");
+        var product_category = $(this).data("productcategory");
+        var product_brand = $(this).data("productbrand");
+        var product_name = $(this).data("productname");
+        var page = $(this).data("page");
+        $.ajax({
+            url: base_url + "home/do_wishlist",
+            method: "POST",
+            data: {product_id: product_id, customer_id: customer_id},
+            success: function (data)
+            {
+                console.log(data);
+                $('#contents').load(base_url + "home/detail/"+product_category+"/"+product_brand+"/"+product_id +"/page/"+page+" #contents");
+
+                $.notify({
+                    icon: 'ti-shopping-cart',
+                    message: product_name +" has been added into your wishlist."
+                },{
+                    type: 'info',
+                    timer: 2000,
+                    placement: {
+                        from: "bottom",
+                        align: "right"
+                    }
+                });
+            }
+        });
+    });
+
     $(document).on('click', '.remove_inventory', function () {
         var row_id = $(this).data("rowid");;
         $.ajax({
@@ -39,7 +70,7 @@ $(document).ready(function () {
             data: {row_id: row_id},
             success: function (data)
             {
-                $('#all').load(base_url + "home/basket #all");
+                $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
 
                 $.notify({
@@ -60,14 +91,16 @@ $(document).ready(function () {
     $(document).on('change','#update',function () {
         var row_id = $(this).data("rowid");
         var product_quantity = $(this).val();
+        var max_quantity = $(this).data("maxqty");
         $.ajax({
             url: base_url + "home/update",
             method: "POST",
-            data: {row_id: row_id, product_quantity: product_quantity},
+            data: {row_id: row_id, product_quantity: product_quantity, max_quantity: max_quantity},
             success: function (data)
             {
-                $('#all').load(base_url + "home/basket #all");
+                $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
+
 
                 $.notify({
                     icon: 'ti-shopping-cart',
@@ -78,6 +111,7 @@ $(document).ready(function () {
                     placement: {
                         from: "bottom",
                         align: "right"
+
                     }
                 });
             }
@@ -118,7 +152,6 @@ $(document).ready(function () {
         var feedback = $('#comment').val();
         var product_name = $(this).data("productname");
         var page = $(this).data("page");
-
 
         $.ajax({
             url: base_url + "home/post",

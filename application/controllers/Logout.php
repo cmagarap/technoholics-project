@@ -15,13 +15,53 @@ class Logout extends CI_Controller {
     public function index() {
         $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
         $for_log = array(
-            "$user_id" => $this->db->escape_str($this->session->uid),
-            "user_type" => $this->db->escape_str($this->session->userdata('type')),
-            "username" => $this->db->escape_str($this->session->userdata('username')),
-            "date" => $this->db->escape_str(time()),
-            "action" => $this->db->escape_str('Logged out.'),
-            'status' => $this->db->escape_str('1')
+            "$user_id" => $this->session->uid,
+            "user_type" => $this->session->userdata('type'),
+            "username" => $this->session->userdata('username'),
+            "date" => time(),
+            "action" => 'Logged out.',
+            'status' => '1'
         );
+        # for customer
+        if($this->session->userdata('product_rating')) {
+            $product_rating = $this->session->userdata('product_rating');
+            foreach($product_rating as $prod) {
+                $this->db->select(array('product_name', 'product_id'));
+                $product[] = $this->item_model->fetch('product', 'product_id = ' . $prod);
+            }
+            for ($i = 0; $i < sizeof($product); $i++) {
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $product[$i][0]->product_name,
+                    "at_detail" => "Product Rating",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid,
+                    "product_id" => $product[$i][0]->product_id,
+                    "order_id" => NULL
+                );
+                $this->item_model->insertData('audit_trail', $for_audit);
+            }
+        }
+
+        if($this->session->userdata('viewed_products')) {
+            $viwed_product = $this->session->userdata('viewed_products');
+            foreach($viwed_product as $prod) {
+                $this->db->select(array('product_name', 'product_id'));
+                $product[] = $this->item_model->fetch('product', 'product_id = ' . $prod);
+            }
+            for ($i = 0; $i < sizeof($product); $i++) {
+                $for_audit = array(
+                    "customer_name" => $this->session->userdata("username"),
+                    "item_name" => $product[$i][0]->product_name,
+                    "at_detail" => "Viewed",
+                    "at_date" => time(),
+                    "customer_id" => $this->session->uid,
+                    "product_id" => $product[$i][0]->product_id,
+                    "order_id" => NULL
+                );
+                $this->item_model->insertData('audit_trail', $for_audit);
+            }
+        }
         $this->item_model->insertData('user_log', $for_log);
         $this->session->sess_destroy();
         redirect('home');

@@ -13,7 +13,7 @@ class confirm extends CI_Controller {
         $data = array(
             'is_verified' => $value,
         );
-        $this->item_model->updatedata("accounts", $data, array('is_verified' => $code));
+        $this->item_model->updatedata("customer", $data, array('verification_code' => $code));
         redirect("login");
     }
 

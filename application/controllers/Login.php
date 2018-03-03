@@ -7,7 +7,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session', 'form_validation','basket'));
+        $this->load->library(array('email', 'session', 'form_validation', 'basket'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -15,7 +15,7 @@ class Login extends CI_Controller {
 
     public function index() {
 
-         $image = $this->item_model->fetch('content')[0];
+        $image = $this->item_model->fetch('content')[0];
 
         $data = array(
             'title' => "TECHNOHOLICS Login",
@@ -41,7 +41,7 @@ class Login extends CI_Controller {
                 $customer = $customer[0];
                 if ($customer->status == 1) { # if the account is active
                     $salt = $this->item_model->getSalt("customer", "verification_code", "customer_id", $customer->customer_id);
-                    if (password_verify($salt.$this->input->post("password"), $customer->password)) { # if passwords match
+                    if (password_verify($salt . $this->input->post("password"), $customer->password)) { # if passwords match
                         $user = ($customer->username == NULL) ? $customer->email : $customer->username;
                         if ($customer->is_verified == 0) { # if not yet verified
                             $this->session->set_flashdata('error', 'Your account is not yet verified through your email.');
@@ -50,13 +50,16 @@ class Login extends CI_Controller {
                             $for_session = array(
                                 'username' => $user,
                                 'type' => 2,
-                                'date' => time()
+                                'date' => time(),
+                                'product_rating' => array(),
+                                'viewed_products' => array()
                             );
                             $this->session->uid = $customer->customer_id;
                             $this->session->set_userdata($for_session, true);
                             $this->session->set_userdata('isloggedin', true);
                             session_regenerate_id(true);
                             $this->session->set_flashdata('myflashdata', true);
+
                             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                             $for_log = array(
                                 "$user_id" => $this->session->uid,
@@ -81,7 +84,7 @@ class Login extends CI_Controller {
                 $admin = $admin[0];
                 if ($admin->status == 1) { # if the account is active
                     $salt = $this->item_model->getSalt("admin", "verification_code", "admin_id", $admin->admin_id);
-                    if (password_verify($salt.$this->input->post("password"), $admin->password)) { # if passwords match
+                    if (password_verify($salt . $this->input->post("password"), $admin->password)) { # if passwords match
                         $user_type = ($admin->access_level == 1) ? 1 : 0;
                         $user = ($admin->username == NULL) ? $admin->email : $admin->username;
                         $for_session = array(
@@ -125,7 +128,8 @@ class Login extends CI_Controller {
         if (!$this->session->has_userdata('isloggedin')) {
             $data = array(
                 'title' => "Request for password reset",
-                'page' => "Home"
+                'page' => "Home",
+                'CTI' => $this->basket->total_items()
             );
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
@@ -137,7 +141,7 @@ class Login extends CI_Controller {
     }
 
     public function password_reset() {
-        $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[accounts.email]");
+        $this->form_validation->set_rules('email', "email", "required|valid_email");
         $this->form_validation->set_message('required', 'Please enter your {field}.');
 
         if ($this->form_validation->run()) {
@@ -145,17 +149,17 @@ class Login extends CI_Controller {
 
             if ($accountDetails) {
                 $accountDetails = $accountDetails[0];
-                $this->email->from('seej.max@gmail.com', 'TECHNOHOLICS');
+                $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
                 $this->email->to($accountDetails->email);
                 $this->email->subject('Password Reset Link');
-                $this->email->message("kjnkkjnknknknknk");
+                $this->email->message($this->load->view('forgot', $accountDetails, true));
 
                 if (!$this->email->send()) {
-                        echo 'sent';
+                    $this->email->print_debugger();
                 } else {
-                    echo 'not sent pakkyu';
                     $this->session->set_flashdata('isreset', true);
-                    #redirect("login/");
+                    $this->session->set_userdata('statusMsg', 'Reset password link has been sent to <b>'. trim($this->input->post('email', TRUE)).'</b>.');
+                    redirect("login");
                 }
             }
         } else {
@@ -163,26 +167,35 @@ class Login extends CI_Controller {
         }
     }
 
-    public function changepassword() {
+    public function change_password() {
         $code = $this->uri->segment(3);
-        $data = array(
-            'title' => 'Change Password',
-            'code' => $code
-        );
-        $this->form_validation->set_rules('password', "Please Enter a Password.", "required|alpha_numeric");
-        $this->form_validation->set_rules('cpassword', "Please Confirm your Password.", "required|alpha_numeric|matches[password]");
-        $this->form_validation->set_message('required', '{field}');
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view("login/includes/header", $data);
-            $this->load->view("login/changepass");
-            $this->load->view("login/includes/footer");
-        }
-        // Success
-        else {
-            $data = array('password' => sha1($this->input->post('password')));
-            $this->item_model->updatedata('accounts', $data, array('verification_code' => $code));
-            $this->session->set_flashdata('changed', true);
-            redirect("login/");
+        $validation = $this->item_model->fetch('customer', "verification_code = '" . $code . "'");
+
+        if ($code && $validation) {
+            $data = array(
+                'title' => 'Change Password',
+                'page' => "Home",
+                'CTI' => $this->basket->total_items(),
+                'code' => $code
+            );
+            $this->form_validation->set_rules('password', "Please Enter a Password.", "required|alpha_numeric");
+            $this->form_validation->set_rules('cpassword', "Please Confirm your Password.", "required|alpha_numeric|matches[password]");
+            $this->form_validation->set_message('required', '{field}');
+            if ($this->form_validation->run() == FALSE) {
+                $this->load->view('ordering/includes/header', $data);
+                $this->load->view('ordering/includes/navbar');
+                $this->load->view("ordering/change_pass");
+                $this->load->view("ordering/includes/footer");
+            }
+            // Success
+            else {
+                $data = array('password' => $this->item_model->setPassword($this->input->post('password', TRUE), $code));
+                $this->item_model->updatedata('customer', $data, array('verification_code' => $code));
+                $this->session->set_flashdata('changed', true);
+                redirect("login/");
+            } 
+        } else {
+            redirect('home');
         }
     }
 

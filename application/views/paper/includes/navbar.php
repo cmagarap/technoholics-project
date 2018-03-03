@@ -1,9 +1,6 @@
 <?php
+$content = $this->item_model->fetch("content",  array("content_id" => 1))[0];
 
-  $content = $this->item_model->fetch("content",  array("content_id" => 1));
-$content = $content[0];
-
-$home1 = $content->color_1;
 if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
     $user = $this->item_model->fetch("admin", array("admin_id" => $this->session->uid));
     $user = $user[0];
@@ -21,20 +18,14 @@ date_default_timezone_set("Asia/Manila");
         <div class="sidebar-wrapper">
             <div class = "logo">
                 <div align = "center">
-                    <img src="<?= $this->config->base_url() ?>images/logo2.png" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="82%">
+                    <img src="<?= $this->config->base_url() ?>assets/ordering/img/<?= $content->company_logo ?>" alt="TECHNOHOLICS" title = "TECHNOHOLICS" width="82%">
                 </div>
             </div>
             <ul class="nav">
                 <li <?php if($heading == "Dashboard") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('dashboard'); ?>">
-                        <i class="ti-pie-chart"></i>
+                        <i class="ti-dashboard"></i>
                         <p>Dashboard</p>
-                    </a>
-                </li>
-                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('inventory/page'); ?>">
-                        <i class="ti-archive"></i> <!-- ti-package -->
-                        <p>Inventory</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Orders Management") { echo 'class="active"'; } ?>>
@@ -47,6 +38,12 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('sales'); ?>">
                         <i class="ti-stats-up"></i>
                         <p>Sales</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('inventory/page'); ?>">
+                        <i class="ti-archive"></i> <!-- ti-package -->
+                        <p>Inventory</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Accounts") { echo 'class="active"'; } ?>>
@@ -62,10 +59,10 @@ date_default_timezone_set("Asia/Manila");
                             }
                             ?>
                 </li>
-                <li <?php if($heading == "Reports") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('Reports'); ?>">
-                        <i class="ti-notepad"></i>
-                        <p>Reports</p>
+                <li <?php if($heading == "Feedback") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('feedback'); ?>">
+                        <i class="ti-comments"></i>
+                        <p>Feedback</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Audit Trail") { echo 'class="active"'; } ?>>
@@ -85,7 +82,7 @@ date_default_timezone_set("Asia/Manila");
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default" style = "background-color: <?= $home1?>">
+        <nav class="navbar navbar-default" style = "background-color: <?= $content->color_1; ?>">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle">

@@ -7,7 +7,6 @@ class Register extends CI_Controller {
         parent::__construct();
         $this->load->model('item_model');
         $this->load->library(array('session', 'form_validation', 'email', 'recaptcha','basket'));
-      
         $this->load->helper('form');
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home/');
@@ -28,7 +27,8 @@ class Register extends CI_Controller {
     public function index() {
         $data = array(
             'title' => "TECHNOHOLICS | All the tech you need.",# should be changed
-
+            'script' => $this->recaptcha->getScriptTag(),
+            'widget' => $this->recaptcha->getWidget(),
             'CTI' => $this->basket->total_items(),
             'page' => "Home"
 
@@ -39,42 +39,96 @@ class Register extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
+    function validate_captcha() {
+        $captcha = $this->input->post('g-recaptcha-response');
+        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LdcMDkUAAAAAMgx-hy_v5pq3iNh5gOeCveRjWpc=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']);
+        if ($response . 'success' == false) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
     public function register_submit() {
         $this->load->helper('string');
-        $hash = random_string('alnum', 15);
+        # $hash = random_string('alnum', 15);
+        $bytes_code = openssl_random_pseudo_bytes(30, $crypto_strong);
+        $hash_code = bin2hex($bytes_code);
 
-        /*$data = array('title' => 'Registration',
-            'script' => $this->recaptcha->getScriptTag(),
-            'widget' => $this->recaptcha->getWidget(),
-                //'mycaptcha' => $cap['image']
-        );*/
-
-        # $this->form_validation->set_rules('g-recaptcha-response', "Invalid Value Entered for Captcha! Please Try Again.", "required");
-        $this->form_validation->set_rules('lastname', "last name", "required");
-        $this->form_validation->set_rules('firstname', "first name", "required");
+        $this->form_validation->set_rules('g-recaptcha-response', 'recaptcha validation', 'required|callback_validate_captcha');
+        $this->form_validation->set_rules('lastname', "last name", "required|alpha");
+        $this->form_validation->set_rules('firstname', "first name", "required|alpha");
         $this->form_validation->set_rules('address', "home address", "required");
+        $this->form_validation->set_rules('contact', "contact", "required|numeric");
+        $this->form_validation->set_rules('zip', "zip", "required|numeric");        
         $this->form_validation->set_rules('email', "email", "required|valid_email|is_unique[customer.email]");
         $this->form_validation->set_rules('password', "password", "required|alpha_numeric");
         $this->form_validation->set_rules('confirm_password', "password confirm", "required|alpha_numeric|matches[password]");
-        $this->form_validation->set_message('required', 'Please enter your {field}.');
+        $this->form_validation->set_rules('gender', "gender", "required|alpha");
+        $this->form_validation->set_rules('day', "day", "required|numeric");
+        $this->form_validation->set_rules('month', "month", "required|numeric");
+        $this->form_validation->set_rules('year', "year", "required|numeric");
+        $this->form_validation->set_rules('province', "province", "required|alpha");
+        $this->form_validation->set_rules('barangay', "barangay", "required|alpha");
+        $this->form_validation->set_rules('city', "city", "required|alpha");
+        $this->form_validation->set_message('required', '{field}');
 
         # Checking if rules are met.
         if ($this->form_validation->run()) {
+
+            $bday = new DateTime($this->input->post('year', TRUE).'-'.$this->input->post('month', TRUE).'-'.$this->input->post('day', TRUE).'');
+            $today = new DateTime(Date('Y-m-d'));
+            $diff = $today->diff($bday);
+            $age = sprintf('%d', $diff->y, $diff->m, $diff->d);
+
+            if($age >= 13 && $age <= 20){
+                $a_range = "13-20";
+            } 
+
+            elseif($age >= 21 && $age <= 30){
+                $a_range = "21-30";
+            }
+
+            elseif($age >= 31 && $age <= 40){
+                $a_range = "31-40";
+            }
+
+            elseif($age >= 41 && $age <= 50){
+                $a_range = "41-50";
+            }
+
+            elseif($age >= 51 && $age <= 60){
+                $a_range = "51-60";
+            }
+
+            else{
+                $a_range = "61-above";
+            }
+
             $data = array(
-                'email' => trim($this->input->post('email')),
-                'password' => sha1($this->input->post('password')), # to be changed
-                'firstname' => trim(ucwords($this->input->post('firstname'))),
-                'lastname' => trim(ucwords($this->input->post('lastname'))),
-                'address' => trim(ucwords($this->input->post('address'))),
+                'email' => trim($this->input->post('email', TRUE)),
+                'password' => $this->item_model->setPassword($this->input->post('password', TRUE), $hash_code),
+                'firstname' => trim(ucwords($this->input->post('firstname', TRUE))),
+                'lastname' => trim(ucwords($this->input->post('lastname', TRUE))),
+                'complete_address' => trim(ucwords($this->input->post('address', TRUE))),
+                'province' => trim(ucwords($this->input->post('province', TRUE))),
+                'city_municipality' => trim(ucwords($this->input->post('city', TRUE))),
+                'barangay' => trim(ucwords($this->input->post('barangay', TRUE))),
+                'zip_code' => trim(ucwords($this->input->post('zip', TRUE))),
+                'contact_no' => trim(ucwords($this->input->post('contact', TRUE))),
+                'image' => "default-user.png",
                 'registered_at' => time(),
-                'access_level' => 2,
-                'verification_code' => $hash,
+                'birthdate' => strtotime($this->input->post('year', TRUE).'-'.$this->input->post('month', TRUE).'-'.$this->input->post('day', TRUE).''),
+                'gender' => trim(ucwords($this->input->post('gender', TRUE))),
+                'age' => $age,
+                'a_range' => $a_range,
+                'verification_code' => $hash_code,
             );
 
             $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
             $this->email->to($this->input->post('email'));
             $this->email->subject('Email Verification');
-            $this->email->message("hello");
+            $this->email->message($this->load->view('welcome_message', $data, true));
 
             if (!$this->email->send()) {
                 $this->email->print_debugger();
@@ -83,14 +137,15 @@ class Register extends CI_Controller {
                 $new_account = $this->item_model->fetch("customer", array("email" => $this->input->post('email')));
                 $new_account = $new_account[0];
                 $for_log = array(
-                    "user_id" => $new_account->used_id,
-                    "user_type" => $new_account->access_level,
+                    "customer_id" => $new_account->customer_id,
+                    "user_type" => 1,
                     "username" => $new_account->firstname . " " . $new_account->lastname ,
                     "date" => time(),
                     "action" => 'Signed up.',
                     'status' => '1'
                 );
                 $this->item_model->insertData('user_log', $for_log);
+                $this->session->set_userdata('statusMsg', 'Thank you for registering with TECHNOHOLICS! An email verification has been sent at <b>'. trim($this->input->post('email', TRUE)).'</b>.');
                 redirect("login/");
             }
         } else {

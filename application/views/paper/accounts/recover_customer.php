@@ -18,8 +18,8 @@
                 <div class="card" style = "padding: 30px">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><b>Deleted <?= ucwords($this->uri->segment(3)) ?> List</b></h3>
-                            <p class="category"><i>You can recover deleted accounts here.</i></p><br>
+                            <h2 class="title"><b>Deleted Customer List</b></h2>
+                            <p class="category">You can recover deleted accounts here.</p><br>
                             <a href = "<?= base_url() ?>accounts/customer" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <table class="table table-striped">
                             <thead>
                             <th><b>#</b></th>
-                            <th><b>Username</b></th>
+                            <th colspan="2"><b>Username</b></th>
                             <th><b>Full Name</b></th>
                             <th><b>Email Address</b></th>
                             <th><b>Contact No.</b></th>
@@ -44,6 +44,12 @@
                             <?php foreach ($users as $users) { ?>
                                 <tr>
                                     <td><?= $users->customer_id ?></td>
+
+                                    <?php $user_image = (string)$users->image;
+                                    $image_array = explode(".", $user_image); ?>
+
+                                    <td align="center"><img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" title="<?= $users->firstname . " " . $users->lastname ?>"></td>
+
                                     <td>
                                         <?php
                                         if ($users->username == NULL)
@@ -97,7 +103,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>accounts/recover_account_exec/customer/" + id;
+                    window.location = "<?= $this->config->base_url() ?>accounts/recover_customer_exec/" + id;
                 } else {
                     swal("The account remained inactive.");
                 }

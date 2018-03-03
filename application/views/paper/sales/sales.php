@@ -40,6 +40,7 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #dc2f54;"></span>&nbsp; <b>List of Sales</b></h3>
                         <p class="category"><?= $date ?></p>
+                        <a href="<?= base_url() ?>reports/sales">See sales report.</a>
                     </div>
                     <?php if(!$sales) {
                         echo "<center><h3><hr><br>There are no sales recorded for the date you have selected.</h3><br></center><br><br>";
@@ -76,9 +77,9 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         } ?>
-                    </div>
                 </div>
             </div>
         </div>
@@ -92,7 +93,7 @@
 
         swal({
             title: "Are you sure you want to delete this?",
-            // text: "You will not be able to undo this action once cancelled.",
+            text: "You won't be able to undo this action once cancelled.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -101,7 +102,7 @@
                 if (willDelete) {
                     window.location = "<?= $this->config->base_url() ?>sales/delete/" + id;
                 } else {
-                    // swal("This order is safe!");
+                    swal("This sales record is safe!");
                 }
             });
     });
@@ -148,4 +149,4 @@
             // This use for DEMO page tab component.
         });
 </script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/dailySales_line.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/dailySales_line.js"></script>

@@ -3,17 +3,15 @@
 
 //Google's "Secured" Protocol
 $config['protocol'] = 'smtp';
-$config['smtp_host'] = "smtp.gmail.com";
-$config['smtp_port'] = 587;
+$config['smtp_host'] = "ssl://smtp.gmail.com";
+$config['smtp_port'] = 465;
 $config['charset']   = "utf-8";
 $config['mailtype']  = "html";
 $config['newline']   = "\r\n";
 
 //Google Account Authetication
 
-$config['smtp_user'] = "";
-$config['smtp_pass'] = "";
-
+$config['smtp_user'] = "veocalimlim@gmail.com";
+$config['smtp_pass'] = "eleventhdayofthetenthmonth";
 
 ?>
-

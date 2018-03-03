@@ -65,15 +65,15 @@ class Inventory extends CI_Controller {
 
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+            $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1');
             if($product) {
                 $order_items = $this->item_model->fetch('order_items', array('product_id' => $this->uri->segment(3)));
                 if ($order_items) {
                     foreach ($order_items as $order_item) {
-                        $this->db->select("customer_id");
+                        $this->db->select(array("customer_id", "transaction_date"));
                         $orders = $this->item_model->fetch("orders", array("order_id" => $order_item->order_id));
                         foreach ($orders as $order) {
-                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id));
+                            $customer[] = $this->item_model->fetch("customer", array("customer_id" => $order->customer_id), NULL, NULL, 5);
                         }
                     }
                 } else {
@@ -121,8 +121,6 @@ class Inventory extends CI_Controller {
     }
 
     public function add_product_exec() {
-        #$this->form_validation->set_rules('supplier', "Please put the supplier company.", "required");
-        #$this->form_validation->set_rules('product_brand', "Please put the product brand.", "required");
         $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
@@ -412,6 +410,7 @@ class Inventory extends CI_Controller {
             $this->db->select("product_name");
             $this->db->select("times_bought");
             $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
+            # SELECT product_id, product_name, times_bought WHERE status = 1 ORDER BY times_bought DESC LIMIT 5
             print json_encode($data);
         } else {
             redirect("home");

@@ -4,42 +4,29 @@
         <div class="row">
             <div class="col-lg-4 col-md-5">
                 <div class="card card-user">
+                    <div class="image">
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $cover->image_2 ?>" alt="..."/>
+                    </div>
                     <div class="content">
-                        <div>
-                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $accounts->image ?>" alt="<?= $accounts->email ?>" title = "<?= $accounts->email ?>" width= "100%"/>
+                        <div class="author">
+                            <img class="avatar border-white" src="<?= $this->config->base_url() ?>uploads_users/<?= $accounts->image ?>" alt="admin-user" title="Admin User">
+                            <h2 class="title"><?= $accounts->firstname . " " . $accounts->lastname ?> <br>
+                            </h2>
+                            <p style="font-size: 11px; color: darkgrey"><?php if ($accounts->username == NULL)
+                                    echo $accounts->email;
+                                else
+                                    echo $accounts->username;
+                                ?>
+                                <br>
+                                <?= "Member since " . date("F j, Y", $accounts->registered_at) ?></p>
                         </div>
-                        <div align = "center">
-                            <br><hr><br>
-                            <h4 class="title"><?= $accounts->lastname.", ".$accounts->firstname ?><br />
-                                <a><small><?php
-                                        if($accounts->username == NULL) echo $accounts->email;
-                                        else echo $accounts->username;
-                                        ?></small></a>
-                            </h4>
+                        <hr>
+                        <br>
+                        <div align="center">
+                            <a href = "<?= $this->config->base_url() ?>accounts/" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                         </div>
+                        <br>
                     </div>
-                    <hr>
-                    <div class="text-center">
-                        <div class="row">
-                            <h6 style = "color: #5f5f5f;">
-                                <u>
-                                    <?php
-                                    if($this->uri->segment(3) == "admin") {
-                                        if($accounts->access_level == 0)
-                                            echo "General Manager";
-                                        elseif($accounts->access_level == 1)
-                                            echo "Admin Assistant";
-                                    }
-                                    ?>
-                                </u>
-                            </h6>
-                        </div>
-                    </div>
-                    <br>
-                    <div align="center">
-                        <a href = "<?= $this->config->base_url() ?>accounts/" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
-                    </div>
-                    <br>
                 </div>
             </div>
             <div class="col-lg-8 col-md-7">
@@ -49,10 +36,7 @@
                     </div>
                     <hr>
                     <div class="content">
-                        <?php $user_type = ($this->uri->segment(3) == "customer") ? "customer" : "admin";
-                        $user_id = ($this->uri->segment(3) == "customer") ? $accounts->customer_id : $accounts->admin_id;
-                        ?>
-                        <form action = "<?= $this->config->base_url() ?>accounts/edit_exec/<?= $user_type; ?>/<?= $user_id ?>" method = "POST" enctype="multipart/form-data">
+                        <form action = "<?= $this->config->base_url() ?>accounts/edit_exec/<?= $accounts->customer_id ?>" method = "POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
