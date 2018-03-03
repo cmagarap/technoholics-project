@@ -32,7 +32,16 @@ $(document).ready(function(){
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
-                }]};
+                },
+                    {
+                        label: 'Times searched',
+                        data: [12, 58, 33, 24, 41],
+                        backgroundColor: color_chart,
+                        borderWidth: 1,
+                        hoverBorderColor: 'rgba(0, 0, 0, 1)',
+                        hoverBorderWidth: 4
+                    }
+                ]};
 
             var ctx = $("#productSearch");
             //Chart.defaults.global.defaultFontFamily = "Helvetica";
@@ -47,6 +56,7 @@ $(document).ready(function(){
                     },
                     scales: {
                         yAxes: [{
+                            stacked: true,
                             gridLines: {
                                 drawOnChartArea: false
                             }

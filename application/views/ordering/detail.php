@@ -2,7 +2,14 @@
 # whenever viewed, update the no_of_views in the products table
 $stat_views = $row->no_of_views + 1;
 $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+if($this->session->has_userdata('isloggedin') AND $this->session->userdata('type') == 2) {
+    $viewed_sess = $this->session->userdata('viewed_products');
+    array_push($viewed_sess, (string)$this->uri->segment(5));
+    $unique = array_unique($viewed_sess);
+    $this->session->set_userdata('viewed_products', $unique);
+}
 ?>
+
 <div id="all">
     <div id="content">
         <div class="container">

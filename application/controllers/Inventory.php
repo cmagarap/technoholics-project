@@ -410,6 +410,7 @@ class Inventory extends CI_Controller {
             $this->db->select("product_name");
             $this->db->select("times_bought");
             $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
+            # SELECT product_id, product_name, times_bought WHERE status = 1 ORDER BY times_bought DESC LIMIT 5
             print json_encode($data);
         } else {
             redirect("home");

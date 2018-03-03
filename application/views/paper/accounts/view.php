@@ -159,8 +159,9 @@
                                         <label>Based on <span style="color: red">*</span></label>
                                         <select name="basis" class="form-control border-input file">
                                             <option value="Purchase" selected>Purchased Items</option>
+                                            <option value="Viewed">Viewed Items</option>
                                             <option value="Search">Searched Items</option>
-                                            <option value="Rated">Rated Items</option>
+                                            <option value="Product Rating">Rated Items</option>
                                         </select>
                                     </div>
                                 </div>

@@ -909,7 +909,7 @@ public function post() {
         $data = array(
             'customer_id' => $this->session->uid,
             'product_id' => $this->input->post("product_id"),
-            'feedback' => $this->input->post("feedback"),
+            'feedback' => $this->input->post("feedback", TRUE),
             'rating' => $this->input->post("rating"),
             'added_at' => time()
         );
@@ -917,8 +917,10 @@ public function post() {
         $post = $this->item_model->fetch("feedback", array('customer_id' => $this->session->uid, 'product_id' => $this->input->post("product_id"), 'status' => 1));
 
         if($this->session->has_userdata('isloggedin')) {
-            $getRating = $this->input->post('product_id');
-            #$this->session->set_userdata('product_rating')
+            $rating_sess = $this->session->userdata('product_rating');
+            array_push($rating_sess, $this->input->post('product_id'));
+            $unique = array_unique($rating_sess);
+            $this->session->set_userdata('product_rating', $unique);
         }
 
         if ($post) {
