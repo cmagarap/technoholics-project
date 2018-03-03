@@ -158,11 +158,12 @@ class Inventory extends CI_Controller {
             $brand_fetch = $this->item_model->fetch("brand", array("brand_id" => $this->input->post('product_brand')))[0];
             $category_fetch = $this->item_model->fetch("category", array("category_id" => $this->input->post('product_category')))[0];
             $data = array(
-                'product_name' => html_escape(trim($this->input->post('product_name'))),
+                'product_name' => trim($this->input->post('product_name', TRUE)),
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
-                'product_price' => html_escape($this->input->post('product_price')),
-                'product_quantity' => html_escape($this->input->post('product_quantity')),
+                'product_price' => $this->input->post('product_price', TRUE),
+                'product_quantity' => $this->input->post('product_quantity', TRUE),
+                'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : "default-product.jpg",
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,
@@ -196,10 +197,10 @@ class Inventory extends CI_Controller {
 
     public function edit_product() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $supplier = $this->item_model->fetch("supplier", NULL, "company_name", "ASC");
-            $category = $this->item_model->fetch("category", NULL, "category", "ASC");
-            $brand = $this->item_model->fetch("brand", NULL, "brand_name", "ASC");
-            $product = $this->item_model->fetch('product', array('product_id' => $this->uri->segment(3)));
+            $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
+            $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
+            $brand = $this->item_model->fetch("brand", "status = 1", "brand_name", "ASC");
+            $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1');
 
             if($product) {
                 $data = array(
@@ -262,11 +263,12 @@ class Inventory extends CI_Controller {
             $this->db->select("product_image1");
             $image1_fetch = $this->item_model->fetch("product", "product_id = " . $this->input->post("product_id"))[0];
             $data = array(
-                'product_name' => html_escape(trim($this->input->post('product_name'))),
+                'product_name' => trim($this->input->post('product_name', TRUE)),
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
-                'product_price' => html_escape($this->input->post('product_price')),
-                'product_quantity' => html_escape($this->input->post('product_quantity')),
+                'product_price' => $this->input->post('product_price', TRUE),
+                'product_quantity' => $this->input->post('product_quantity', TRUE),
+                'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : $image1_fetch->product_image1,
                 'product_image2' => ($dataInfo[1]) ? $dataInfo[1] : NULL,
                 'product_image3' => ($dataInfo[2]) ? $dataInfo[2] : NULL,

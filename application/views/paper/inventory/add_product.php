@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-5"></div>
             <div class="col-lg-8 col-md-7">
-                <div class="card" style = "padding: 30px">
+                <div class="card">
                     <div class="header">
                         <h4 class="title"><b>Add a Product</b></h4>
                     </div>
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Price <span style = "color: red">*</span> </label>
                                         <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value = "<?= $product_price ?>" >
@@ -79,15 +79,24 @@
                                         endif; ?>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Quantity <span style = "color: red">*</span></label>
                                         <input type="number" class="form-control border-input" placeholder="Product quantity" name = "product_quantity" value = "<?= $product_quantity ?>">
                                         <?php if(validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("product_quantity") . "</span>";
                                         endif; ?>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Featured <font color="red">*</font></label>
+                                        <select name="is_featured" class="form-control border-input file">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -115,6 +124,7 @@
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
                                 <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
+                            <br>
                             <div class="clearfix"></div>
                         </form>
                     </div> <!-- content -->

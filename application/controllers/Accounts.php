@@ -451,16 +451,16 @@ class Accounts extends CI_Controller {
 
             $data = array(
                 'email' => html_escape(trim($this->input->post('email'))),
-                'password' => html_escape($this->item_model->setPassword($this->input->post('password'), $hash)),
+                'password' => $this->item_model->setPassword($this->input->post('password'), $hash),
                 'firstname' => html_escape(trim(ucwords($this->input->post('first_name')))),
                 'lastname' => html_escape(trim(ucwords($this->input->post('last_name')))),
                 'username' => html_escape($username),
                 'contact_no' => html_escape($contact_no),
                 'access_level' => html_escape("1"),
-                'image' => html_escape($image),
-                'status' => html_escape("1"),
-                'registered_at' => html_escape(time()),
-                'verification_code' => html_escape($hash)
+                'image' => $image,
+                'status' => 1,
+                'registered_at' => time(),
+                'verification_code' => $hash
             );
             $insert = $this->item_model->insertData('admin', $data);
 

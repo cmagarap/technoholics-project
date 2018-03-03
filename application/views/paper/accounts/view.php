@@ -121,6 +121,17 @@
                     </div> <!-- content -->
                 </div> <!-- card -->
             </div>
+            <?php
+            if(isset($_POST['enter'])) {
+                $sup = $this->input->post('support');
+                $conf = $this->input->post('confidence');
+                $basis = $this->input->post('basis');
+            } else {
+                $sup = 2;
+                $conf = 100;
+                $basis = 'Purchase';
+            }
+            ?>
             <div class="col-lg-7 col-sm-5">
                 <div class="card card-user">
                     <div class="header">
@@ -136,7 +147,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Minimum Support <span style = "color: red">*</span></label>
-                                        <input type="number" class="form-control border-input" placeholder="" name="support" value="2" min="1" max="10"><?php
+                                        <input type="number" class="form-control border-input" placeholder="" name="support" value="<?= $sup ?>" min="1" max="10"><?php
                                         if (validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("support") . "</span>";
                                         endif;
@@ -148,9 +159,9 @@
                                     <div class="form-group">
                                         <label>Minimum Confidence <span style = "color: red">*</span></label>
                                         <select name="confidence" class = "form-control border-input file">
-                                            <option value="100" selected>100%</option>
-                                            <option value="75">75%</option>
-                                            <option value="50">50%</option>
+                                            <option value="100" <?php if($conf == 100) echo 'selected'; ?>>100%</option>
+                                            <option value="75" <?php if($conf == 75) echo 'selected'; ?>>75%</option>
+                                            <option value="50" <?php if($conf == 50) echo 'selected'; ?>>50%</option>
                                         </select>
                                     </div>
                                 </div>
@@ -158,10 +169,10 @@
                                     <div class="form-group">
                                         <label>Based on <span style="color: red">*</span></label>
                                         <select name="basis" class="form-control border-input file">
-                                            <option value="Purchase" selected>Purchased Items</option>
-                                            <option value="Viewed">Viewed Items</option>
-                                            <option value="Search">Searched Items</option>
-                                            <option value="Product Rating">Rated Items</option>
+                                            <option value="Purchase" <?php if($basis == 'Purchase') echo 'selected'; ?>>Purchased Items</option>
+                                            <option value="Viewed" <?php if($basis == 'Viewed') echo 'selected'; ?>>Viewed Items</option>
+                                            <option value="Search" <?php if($basis == 'Search') echo 'selected'; ?>>Searched Items</option>
+                                            <option value="Product Rating" <?php if($basis == 'Product Rating') echo 'selected'; ?>>Rated Items</option>
                                         </select>
                                     </div>
                                 </div>
