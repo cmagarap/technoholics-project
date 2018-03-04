@@ -28,7 +28,7 @@ date_default_timezone_set("Asia/Manila");
                                 </a>
                             </li>
                             <li><a href="<?= base_url() . 'home/customer_orders'; ?>">Track my Order</a></li>
-                            <li><a href="<?= base_url() . 'home/wishlist'; ?>">Wishlist</a></li>
+                            <li><a href="<?= base_url() . 'home/wishlist'; ?>">My Wishlist</a></li>
                             <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                         </ul>
                     </div>

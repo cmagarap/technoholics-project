@@ -244,13 +244,35 @@ if($this->session->has_userdata('isloggedin') AND $this->session->userdata('type
         </div>
         <div class="row products">
             <?php
-            $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
-            $this->session->set_userdata('suggest', $suggest);
+            if(!$this->session->has_userdata('isloggedin')) {
+                $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                $this->session->set_userdata('suggest', $suggest);
+
+            } else {
+                $this->db->select('product_preference');
+                $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
+
+                if ($preference) {
+                    $array_p = explode(", ", $preference->product_preference);
+
+                    foreach ($array_p as $p) {
+                        $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
+                    }
+                } elseif (!$preference) {
+                    $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                    $this->session->set_userdata('suggest', $suggest);
+                    echo '<pre>';
+                    print_r($this->session->userdata('suggest'));
+                    echo '</pre>';
+                }
+            }
             ?>
-            <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
+            <?php
+            if ($this->session->has_userdata('suggest')):
+            foreach ($this->session->userdata('suggest') as $suggest): ?>
                 <div class="col-md-4 col-sm-6">
                     <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
-                        <div class="image_container" align="center" >
+                        <div class="image_container" align="center">
                             <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
                                 <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
                             </a>
@@ -272,7 +294,39 @@ if($this->session->has_userdata('isloggedin') AND $this->session->userdata('type
                     </div>
                     <!-- /.product -->
                 </div>
-            <?php endforeach ?>
+            <?php endforeach;
+            else:
+                $c = 0;
+                foreach ($suggest_p as $suggest):
+                for ($i = 0; $i < sizeof($suggest[$c]); $i++):
+                    ?>
+                <div class="col-md-4 col-sm-6">
+                    <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                        <div class="image_container" align="center" >
+                            <a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id .'/page'?>">
+                                <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest[$i]->product_image1 ?>" alt="<?= $suggest[$i]->product_name ?>">
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h3><a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id.'/page'?>"><?= $suggest[$i]->product_name ?></a></h3>
+                            <p class="price">&#8369;<?= number_format($suggest[$i]->product_price, 2) ?></p>
+                            <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
+                                <button <?php if(!$suggest[$i]->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest[$i]->product_name ?>" data-productimg="<?= $suggest[$i]->product_image1 ?>"  data-productquantity="<?= $suggest[$i]->product_quantity ?>" data-price="<?= $suggest[$i]->product_price ?>" data-productid="<?= $suggest[$i]->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </p>
+                        </div>
+                        <!-- /.text -->
+                        <?php if (!$suggest[$i]->product_quantity): ?>
+                            <div class="ribbon sale" >
+                                <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                    <!-- /.product -->
+                </div>
+                <?php endfor;
+                endforeach;
+            endif; ?>
         </div>
     </div>
 </div>

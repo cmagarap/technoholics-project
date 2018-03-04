@@ -20,10 +20,12 @@ _________________________________________________________ -->
                 <h4>User section</h4>
                 <ul>
                     <?php if ($this->session->has_userdata('isloggedin')) { ?>
+                        <li><a href="<?= site_url('home/customer_orders') ?>">Track my Order(s)</a></li>
+                        <li><a href="<?= site_url('home/account') ?>">Manage my Account</a></li>
                         <li><a href="<?= site_url('logout') ?>">Logout</a></li>
                     <?php } else { ?>
                         <li><a href="<?= site_url('login') ?>">Login</a></li>
-                        <li><a href="register.html">Regiter</a></li>
+                        <li><a href="register.html">Register</a></li>
                     <?php } ?>
                 </ul>
                 <hr class="hidden-md hidden-lg hidden-sm">
@@ -52,7 +54,13 @@ _________________________________________________________ -->
                 </ul>
                 <hr class="hidden-md hidden-lg">
             </div> <!-- /.col-md-3 -->
-            <div class="col-md-3 col-sm-6"></div>
+            <div class="col-md-3 col-sm-6">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="<?= site_url('home/repair') ?>">Apple Repair</a></li>
+                    <li><a href=<?= site_url('home/recovery') ?>>Data Recovery</a></li>
+                </ul>
+            </div>
             <div class="col-md-3 col-sm-6">
                 <h4>Where to find us</h4>
                 <p>

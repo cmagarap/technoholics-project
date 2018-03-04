@@ -69,7 +69,7 @@
                         <hr>
                         <br>
                         <div class="row">
-                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                            <a href = "<?= $this->config->base_url() ?>accounts/customer" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                         </div>
                         <br>
                     </div>

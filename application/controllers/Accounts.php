@@ -342,7 +342,7 @@ class Accounts extends CI_Controller {
             $freq = $this->apriori->getFreqItemsets();
             # END OF CODE FOR APRIORI ======>
 
-            $p = array();
+            # $p = array();
             $b = 0;
             for($i = 0; $i < sizeof($freq); $i++) {
                 for($j = 0; $j < sizeof($freq[$i]); $j++) {

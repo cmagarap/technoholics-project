@@ -300,7 +300,7 @@ foreach ($customer_all as $customer_all){
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <a href="<?= $this->config->base_url() ?>accounts/customer" style = "text-decoration: underline;">See more on Accounts</a>
+                                <a href="<?= $this->config->base_url() ?>reports/active_customers" style = "text-decoration: underline;">See more on User Log</a>
                             </div>
                         </div>
                     </div>
