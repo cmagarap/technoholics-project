@@ -19,14 +19,13 @@ $(document).ready(function(){
                     label: 'Sales',
                     data: income,
                     borderColor: 'rgba(220, 47, 84, 1)',
-                    //backgroundColor: 'rgba(220, 47, 84, 1)',
+                    backgroundColor: 'rgba(220, 47, 84, 0.1)',
                     pointBorderColor: 'rgba(220, 47, 84, 1)',
                     pointBackgroundColor: 'rgba(220, 47, 84, 1)',
                     pointHoverBackgroundColor: 'rgb(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,
                     borderWidth: 3,
-                    fill: false
                 }]};
 
             var ctx = $("#dailySales");
@@ -59,6 +58,11 @@ $(document).ready(function(){
                                 borderDash: [2, 2]
                             }
                         }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
                     }
                 }
             });

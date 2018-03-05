@@ -257,7 +257,7 @@ if($this->session->has_userdata('isloggedin') AND $this->session->userdata('type
                     foreach ($array_p as $p) {
                         $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
                     }
-                } elseif (!$preference) {
+                } else {
                     $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
                     $this->session->set_userdata('suggest', $suggest);
                 }
