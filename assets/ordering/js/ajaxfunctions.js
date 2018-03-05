@@ -14,6 +14,40 @@ $(document).ready(function () {
             success: function (data)
             {
                 $('#CTI').load(base_url + "home/category #CTI");
+                $('#MCTI').load(base_url + "home/category #MCTI");
+                $('#' + product_id).val('');
+
+                $.notify({
+                    icon: 'ti-shopping-cart',
+                    message: product_name +" has been added into cart"
+                },{
+                    type: 'info',
+                    timer: 2000,
+                    placement: {
+                        from: "top",
+                        align: "center"
+                    }
+                });
+            }
+        });
+    });
+
+    $('.add_cart_basket').click(function () {
+        var product_id = $(this).data("productid");
+        var product_name = $(this).data("productname");
+        var product_img = $(this).data("productimg");
+        var product_price = $(this).data("price");
+        var product_quantity = $(this).data("productquantity");
+        var minimum_quantity = 1;
+        $.ajax({
+            url: base_url + "home/add",
+            method: "POST",
+            data: {product_id: product_id, product_name: product_name, product_img: product_img, product_price: product_price, max_quantity: product_quantity, min_quantity: minimum_quantity},
+            success: function (data)
+            {
+                $('#CTI').load(base_url + "home/category #CTI");
+                $('#MCTI').load(base_url + "home/category #MCTI");
+                $('#form').load(base_url + "home/basket #form");
                 $('#' + product_id).val('');
 
                 $.notify({
@@ -63,30 +97,37 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.remove_inventory', function () {
-        var row_id = $(this).data("rowid");;
-        $.ajax({
-            url: base_url + "home/remove",
-            method: "POST",
-            data: {row_id: row_id},
-            success: function (data)
-            {
-                $('#form').load(base_url + "home/basket #form");
-                $('#CTI').load(base_url + "home/category #CTI");
-
-                $.notify({
-                    icon: 'ti-shopping-cart',
-                    message: "Your cart has been updated"
-                },{
-                    type: 'info',
-                    timer: 2000,
-                    placement: {
-                        from: "top",
-                        align: "center"
-                    }
-                });
-            }
-        });
+     var row_id = $(this).data("rowid");
+     swal({
+        title: "Are you sure you want to remove this product in your basket?",
+        text: "You won't be able to undo this action once cancelled.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+     .then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                url: base_url + "home/remove",
+                method: "POST",
+                data: {row_id: row_id},
+                success: function (data)
+                {
+                    $('#form').load(base_url + "home/basket #form");
+                    $('#CTI').load(base_url + "home/category #CTI");
+                    $('#MCTI').load(base_url + "home/category #MCTI");
+                }
+            });
+        } else {
+            swal({
+                title: "The product in the basket is safe!",
+                text: "The product in the basket is not removed, don't worry!",
+                icon: "success",
+                buttons: false,
+            })
+        }
     });
+ });
 
     $(document).on('change','#update',function () {
         var row_id = $(this).data("rowid");
@@ -100,6 +141,7 @@ $(document).ready(function () {
             {
                 $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
+                $('#MCTI').load(base_url + "home/category #MCTI");
 
 
                 $.notify({

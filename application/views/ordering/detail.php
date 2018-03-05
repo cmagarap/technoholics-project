@@ -85,25 +85,26 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                     <div class="col-sm-6">
                         <div class="flexslider">
                             <ul class="slides">
+
                                 <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                    <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" data-imagezoom="true"> </a>
                                 </li>
 
                                 <?php if ($row->product_image2): ?>
                                     <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
-                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true"> </a>
                                     </li>
                                 <?php endif ?>
 
                                 <?php if ($row->product_image3): ?>
                                     <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
-                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true"> </a>
                                     </li>
                                 <?php endif ?>
                                 
                                 <?php if ($row->product_image4): ?>
                                     <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
-                                        <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true" class="img-responsive"> </div>
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true"> </a>
                                     </li>
                                 <?php endif ?>
                             </ul>
@@ -215,11 +216,11 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
                                     <span class="starability-focus-ring"></span>
                                 </fieldset>
                                 <?php if(form_error("rating")): ?>
-                                   <span style = 'color: red'><?= form_error("rating") ?></span>
-                               <?php endif; ?>
-                           </div>
-                       </div>
-                       <div class="row">
+                                 <span style = 'color: red'><?= form_error("rating") ?></span>
+                             <?php endif; ?>
+                         </div>
+                     </div>
+                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="comment">Comment <span class="required">*</span>
@@ -283,5 +284,6 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
 </div>
 </div>
 </div>
+
 <!-- /.container -->
 <!-- end content -->

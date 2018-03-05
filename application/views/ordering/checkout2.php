@@ -16,16 +16,20 @@
                         <form Method="post" action="<?= base_url().'home/checkout2_exec'; ?>">
                             <h1>Checkout - Delivery Method</h1>
                             <ul class="nav nav-pills nav-justified">
-                                <li><a href="<?= base_url().'home/checkout1';?>"><i class="fa fa-map-marker"></i><br>Address</a>
-                                </li>
-                                <li class="active"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
-                                </li>
-                                <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
-                                </li>
-                                <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
-                                </li>
-                            </ul>
-                            <div class="content">
+                                <?php if (!$this->session->has_userdata('isloggedin')) :?>
+                                    <li><a href="<?= base_url().'home/checkout1';?>"><i class="fa fa-map-marker"></i><br>Address</a>
+                                    <?php else: ?>
+                                      <li><a href="<?= base_url().'home/account';?>"><i class="fa fa-map-marker"></i><br>Edit Address</a>
+                                      <?php endif;?>
+                                  </li>
+                                  <li class="active"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
+                                  </li>
+                                  <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
+                                  </li>
+                                  <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
+                                  </li>
+                              </ul>
+                              <div class="content">
                                 <div class="row">
                                     <?php foreach ($shipper as $shipper): ?>
                                         <div class="col-sm-6">
@@ -47,24 +51,17 @@
                             </div>
                             <div class="box-footer">
                                 <div class="pull-left">
-                                    <a href="<?= base_url().'home/checkout1';?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
+                                    <?php if (!$this->session->has_userdata('isloggedin')) :?>
+                                        <a href="<?= base_url().'home/checkout1';?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
+                                    <?php else: ?>
+                                        <a href="<?= base_url().'home/account';?>" class="btn btn-default"><i class="fa fa-chevron-left"></i>Edit Address</a>
+                                    <?php endif;?>
                                 </div>
                                 <div class="pull-right">
                                     <button type="submit" class="btn btn-primary">Continue to Order Review<i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>
-                            <?php if (!$this->session->has_userdata('isloggedin')) :?>
-                                <input type="hidden" name="firstname" value="<?= $this->session->userdata['checkout1_session']['fname'] ?>">
-                                <input type="hidden" name="lastname" value="<?= $this->session->userdata['checkout1_session']['lname'] ?>">
-                                <input type="hidden" name="address" value="<?= $this->session->userdata['checkout1_session']['address'] ?>">
-                                <input type="hidden" name="province" value=<?= $this->session->userdata['checkout1_session']['province'] ?>">
-                                <input type="hidden" name="city" value="<?= $this->session->userdata['checkout1_session']['city'] ?>">
-                                <input type="hidden" name="barangay" value="<?= $this->session->userdata['checkout1_session']['barangay'] ?>">
-                                <input type="hidden" name="zip" value="<?= $this->session->userdata['checkout1_session']['zip'] ?>">
-                                <input type="hidden" name="email" value="<?= $this->session->userdata['checkout1_session']['email'] ?>">
-                                <input type="hidden" name="contact" value="<?= $this->session->userdata['checkout1_session']['contact'] ?>">
-                            <?php endif;?>
                         </form>
                     </div>
                     <!-- /.box -->

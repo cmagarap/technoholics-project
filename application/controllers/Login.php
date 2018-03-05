@@ -149,7 +149,7 @@ class Login extends CI_Controller {
                 $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
                 $this->email->to($accountDetails->email);
                 $this->email->subject('Password Reset Link');
-                $this->email->message($this->load->view('forgot', $accountDetails, true));
+                $this->email->message($this->load->view('email/reset_password', $accountDetails, true));
 
                 if (!$this->email->send()) {
                     $this->email->print_debugger();
@@ -187,7 +187,7 @@ class Login extends CI_Controller {
             else {
                 $data = array('password' => $this->item_model->setPassword($this->input->post('password', TRUE), $code));
                 $this->item_model->updatedata('customer', $data, array('verification_code' => $code));
-                $this->session->set_flashdata('changed', true);
+                $this->session->set_userdata('statusMsg', 'Your password has been changed.');
                 redirect("login/");
             } 
         } else {

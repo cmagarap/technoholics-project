@@ -66,7 +66,7 @@
                                     <!-- /.table-responsive -->
                                     <div class="box-footer">
                                         <div class="pull-left">
-                                            <a href="<?= base_url().'home/category'; ?>" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+                                            <a href="javascript:history.go(-1)" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
                                         </div>
                                         <?php if($CTI > 0){ ?>
                                         <div class="pull-right">
@@ -88,14 +88,14 @@
                                         <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
                                             <div class="image_container" align="center" >
                                                 <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
-                                                    <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
+                                                    <img class="product_image" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
                                                 </a>
                                             </div>
                                             <div class="text">
                                                 <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
                                                 <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
                                                 <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
-                                                    <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                    <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart_basket" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                                 </p>
                                             </div>
                                             <!-- /.text -->
@@ -125,19 +125,19 @@
 
                                         <span class="input-group-btn">
 
-                                         <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
+                                           <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
 
-                                     </span>
-                                 </div>
-                                 <!-- /input-group -->
-                             </form>
-                         </div>
+                                       </span>
+                                   </div>
+                                   <!-- /input-group -->
+                               </form>
+                           </div>
 
-                     </div>
-                     <!-- /.col-md-3 -->
+                       </div>
+                       <!-- /.col-md-3 -->
 
-                 </div>
-                 <!-- /.container -->
-             </div>
-             <!-- /#content -->
-         </div>
+                   </div>
+                   <!-- /.container -->
+               </div>
+               <!-- /#content -->
+           </div>

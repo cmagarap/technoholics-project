@@ -1,5 +1,5 @@
 <?php
-if($order->process_status == 0){
+if($order->process_status == 0 || $order->process_status == 4){
     $percent = 0;
 }
 elseif($order->process_status == 1){
@@ -116,7 +116,7 @@ $userinfo = $this->item_model->fetch('customer',array('customer_id' => $order->c
                                                 <img src = "<?= $this->config->base_url() ?>uploads_products/<?=$order_items->product_image1?>">
                                             </a>
                                         </td>
-                                        <td><a href="#"><?= $order_items->product_name ?></a></td>
+                                        <td><a><?= $order_items->product_name ?></a></td>
                                         <td><?= $order_items->quantity ?></td>
                                         <td>&#8369;<?= number_format($order_items->product_price, 2) ?></td>
                                         <td>&#8369;<?= number_format($order_items->product_subtotal, 2) ?></td>
