@@ -95,15 +95,23 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>">
                                     <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" data-imagezoom="true" class="img-responsive"> </div>
                                 </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
-                                <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
-                                    <div class="thumb-image"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true" class="img-responsive"> </div>
-                                </li>
+                                <?php if ($row->product_image2): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>">
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image2 ?>" data-imagezoom="true"> </a>
+                                    </li>
+                                <?php endif ?>
+
+                                <?php if ($row->product_image3): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>">
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image3 ?>" data-imagezoom="true"> </a>
+                                    </li>
+                                <?php endif ?>
+
+                                <?php if ($row->product_image4): ?>
+                                    <li data-thumb="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>">
+                                        <a class="thumb-image" href="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>"> <img src="<?= base_url() . 'uploads_products/' . $row->product_image4 ?>" data-imagezoom="true"> </a>
+                                    </li>
+                                <?php endif ?>
                             </ul>
                         </div>
                     </div>

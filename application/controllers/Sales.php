@@ -85,14 +85,22 @@ class Sales extends CI_Controller {
     }
 
     public function getSalesData() {
-        header('Content-Type: application/json');
-        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%c') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
-        print json_encode($data->result());
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%c') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
+            print json_encode($data->result());
+        } else {
+            redirect('home');
+        }
     }
 
     public function getDailySales() {
-        header('Content-Type: application/json');
-        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_id DESC LIMIT 5");
-        print json_encode(array_reverse((array)$data->result()));
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_id DESC LIMIT 5");
+            print json_encode(array_reverse((array)$data->result()));
+        } else {
+            redirect('home');
+        }
     }
 }
