@@ -118,7 +118,7 @@ class Register extends CI_Controller {
                 'province' => trim(ucwords($this->input->post('province', TRUE))),
                 'image' => "default-user.png",
                 'registered_at' => time(),
-                'birthdate' => strtotime($this->input->post('year', TRUE).'-'.$this->input->post('month', TRUE).'-'.$this->input->post('day', TRUE).''),
+                'birthdate' => strtotime($this->input->post('year', TRUE) . '-' . $this->input->post('month', TRUE) . '-' . $this->input->post('day', TRUE) . ''),
                 'gender' => trim(ucwords($this->input->post('gender', TRUE))),
                 'age' => $age,
                 'a_range' => $a_range,

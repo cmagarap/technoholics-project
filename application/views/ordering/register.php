@@ -27,6 +27,8 @@
                         $email = $_POST['email'];
                         $password = $_POST['password'];
                         $confirm_password = $_POST['confirm_password'];
+                        $zip = $_POST['zip'];
+                        $contact = $_POST['contact'];
                     } else {
                         $lastname = "";
                         $firstname = "";
@@ -37,6 +39,8 @@
                         $email = "";
                         $password = "";
                         $confirm_password = "";
+                        $zip = "";
+                        $contact = "";
                     }
                     ?>
                     <form action="<?= base_url() . 'register/register_submit'; ?>" method="post">
