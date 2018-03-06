@@ -106,6 +106,7 @@ class Home extends CI_Controller {
             $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
             $this->pagination->initialize($config);
             $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), $sort, 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
+            $current_show = $this->uri->segment(5) + count($product);
             $data = array(
                 'title' => 'Category',
                 'products' => $product,
@@ -115,6 +116,7 @@ class Home extends CI_Controller {
                 'brand' => $brand,
                 'sort' => $sort,
                 'image' => $image,
+                'current_show' => $current_show,
                 'perpage' => $perpage,
                 'CTI' => $this->basket->total_items(),
                 'links' => $this->pagination->create_links()
@@ -129,6 +131,7 @@ class Home extends CI_Controller {
             $count = $this->item_model->getCount('product', array("status" => 1, "product_category" => $cat));
             $this->pagination->initialize($config);
             $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(4), $sort, 'ASC', array("status" => 1, "product_category" => $cat));
+            $current_show = $this->uri->segment(4) + count($product);
             $data = array(
                 'title' => 'Category',
                 'products' => $product,
@@ -138,6 +141,7 @@ class Home extends CI_Controller {
                 'brand' => $brand,
                 'sort' => $sort,
                 'image' => $image,
+                'current_show' => $current_show,
                 'perpage' => $perpage,
                 'CTI' => $this->basket->total_items(),
                 'links' => $this->pagination->create_links()
@@ -186,7 +190,7 @@ class Home extends CI_Controller {
         $count = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
         $this->pagination->initialize($config);
         $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), $sort, 'ASC', 'status = 1 AND product_name', $search);
-
+        $current_show = $this->uri->segment(3) + count($product);
         $for_update = $product[0];
 
         $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
@@ -205,6 +209,7 @@ class Home extends CI_Controller {
             }
         }
 
+
         $data = array(
             'title' => 'Home',
             'products' => $product,
@@ -214,6 +219,7 @@ class Home extends CI_Controller {
             'brand' => "",
             'sort' => $sort,
             'image' => $image,
+            'current_show' => $current_show,
             'perpage' => $perpage,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()

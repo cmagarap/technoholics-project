@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="col-md-3">
-             <div class="panel panel-default sidebar-menu">
+               <div class="panel panel-default sidebar-menu">
                 <div class="panel-heading">
                     <h3 class="panel-title">Categories</h3>
                 </div>
@@ -85,7 +85,7 @@
             <div class="box info-bar">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 products-showing">
-                        Showing <strong>12</strong> of <strong><?=$count?></strong> products
+                        Showing <strong><?=$current_show?></strong> of <strong><?=$count?></strong> products
                     </div>
                     <div class="col-sm-12 col-md-8  products-number-sort">
                         <div class="row">

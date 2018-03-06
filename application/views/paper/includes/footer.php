@@ -53,7 +53,7 @@ $('#add_more').click(function() {
     if(counter < max_fields){ //max input box allowed
         counter++;
         $(this).before($("<div/>", {id: 'filediv'}).fadeIn('slow').append(
-            $("<input/>", {name: 'user_file[]', type: 'file', id: 'file'}),        
+            $("<input/>", {name: 'user_file[]', type: 'file', id: 'file', class: 'file form-control border-input'}),        
             $("<br/>")
             ));
     }
@@ -66,14 +66,14 @@ $('body').on('change', '#file', function(){
                  
                  var z = abc - 1;
                  var x = $(this).parent().find('#previewimg' + z).remove();
-                 $(this).before("<div id='abcd"+ abc +"' class='abcd'><img id='previewimg" + abc + "' src=''/></div>");
+                 $(this).before("<div id='abcd"+ abc +"' class='abcd'><img class='product_image' id='previewimg" + abc + "' src=''/></div>");
                  
                  var reader = new FileReader();
                  reader.onload = imageIsLoaded;
                  reader.readAsDataURL(this.files[0]);
                  
                  $(this).hide();
-                 $("#abcd"+ abc).append($("<button>Remove</button>",{id: 'button', alt: 'delete'}).click(function() {
+                 $("#abcd"+ abc).append($("<br><br><button>Remove</button>",{id: 'button', alt: 'delete', class:'btn btn-info btn-fill btn-wd',}).click(function() {
                     counter--;
                     $(this).parent().parent().remove();
                 }));
