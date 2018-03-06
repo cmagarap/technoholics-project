@@ -40,16 +40,14 @@
                     <h3>Change profile picture</h3>
                     <form method="post" enctype="multipart/form-data" action="<?= base_url() . 'home/save_profile_picture'; ?>">
                         <div class="row">
-                            <div class="col-sm-12" align="left">
+                            <div class="col-sm-12" align="center">
                                 <img src="<?= base_url() ?>uploads_users/<?= $account->image ?>" alt="customer-user" width="30%" style="border-radius: 100%; margin: 1px 5px 10px 5px">
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-4"></div>
                             <div class="col-sm-4">
                                 <input class="form-control" type="file" name="user_file">
-                                <?php if (form_error("user_file")): ?>
-                                    <span style = 'color: red'><?= form_error("user_file") ?></span>
-                                <?php endif;?>
                             </div>
                         </div>
                         <div class="col-sm-12 text-center" style="margin-top: 2%">
