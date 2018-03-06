@@ -18,7 +18,7 @@ $(document).ready(function(){
             for (var i in data) {
                 td.push(data[i].td);
             }
-            console.log(data);
+
             var chartdata = {
                 labels: td,
                 datasets : [{
@@ -64,7 +64,7 @@ $(document).ready(function(){
                     },
                     elements: {
                         line: {
-                            tension: 0, // disables bezier curves
+                            tension: 0,
                         }
                     }
                 }

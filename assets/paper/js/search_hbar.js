@@ -7,7 +7,7 @@ $(document).ready(function(){
             var searches = [];
             var color_chart = [];
 
-            for(var i in data) {
+            for (var i in data) {
                 product.push(data[i].product_name);
                 searches.push(data[i].times_searched);
             }

@@ -10,7 +10,7 @@
                     <hr>
                     <div class="content">
                         <?php
-                        if(isset($_POST['enter'])) {
+                        if (isset($_POST['enter'])) {
                             $product_name = $_POST['product_name'];
                             $product_price = $_POST['product_price'];
                             $product_quantity = $_POST['product_quantity'];
@@ -28,44 +28,48 @@
                                     <div class="form-group">
                                         <label>Supplier Company <span style = "color: red">*</span></label>
                                         <select name="product_supplier" class = "form-control border-input file">
-                                            <?php foreach($supplier as $supplier): ?>
+                                            <?php foreach ($supplier as $supplier): ?>
                                                 <option value="<?= $supplier->supplier_id ?>">
                                                     <?= $supplier->company_name ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Product Brand <span style = "color: red">*</span></label>
-                                            <select name="product_brand" id="" class = "form-control border-input file">
-                                                <?php foreach($brand as $brand): ?>
-                                                    <option value="<?= $brand->brand_id ?>">
-                                                        <?= $brand->brand_name ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Brand <span style = "color: red">*</span></label>
+                                        <select name="product_brand" id="" class = "form-control border-input file">
+                                            <?php foreach ($brand as $brand): ?>
+                                                <option value="<?= $brand->brand_id ?>">
+                                                    <?= $brand->brand_name ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Price <span style = "color: red">*</span> </label>
                                         <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value = "<?= $product_price ?>" >
-                                        <?php if(validation_errors()):
+                                        <?php
+                                        if (validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("product_price") . "</span>";
-                                        endif; ?>
+                                        endif;
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Quantity <span style = "color: red">*</span></label>
                                         <input type="number" class="form-control border-input" placeholder="Product quantity" name = "product_quantity" value = "<?= $product_quantity ?>">
-                                        <?php if(validation_errors()):
+                                        <?php
+                                        if (validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("product_quantity") . "</span>";
-                                        endif; ?>
+                                        endif;
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -78,35 +82,29 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Product Image</label>
-                                                    <div id="filediv">
-                                                        <input name="user_file[]" type="file" id="file" class="file form-control border-input"/>
-                                                    </div><br>
-                                                    <input type="button" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" id="add_more" class="upload" value="Add More Files"/>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Product Image</label>
+                                        <div id="filediv">
+                                            <input name="user_file[]" type="file" id="file" class="file form-control border-input"/>
+                                        </div><br>
+                                        <input type="button" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" id="add_more" class="upload" value="Add More Files"/>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>Product Description <span style = "color: red">*</span></label>
-                                                <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" name = "product_desc"><?= $product_desc ?></textarea>
-                                                <?php if(validation_errors()):
-                                                echo "<span style = 'color: red'>" . form_error("product_desc") . "</span>";
-                                                endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="text-center">
-                                        <button type="reset" class="btn btn-danger btn-fill btn-wd" style = "background-color: #F3BB45; border-color: #F3BB45; color: white;" name = "reset">Reset</button>
-                                        <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
-                                        <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Product Description <span style = "color: red">*</span></label>
+                                        <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" name = "product_desc"><?= $product_desc ?></textarea>
+                                        <?php
+                                        if (validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("product_desc") . "</span>";
+                                        endif;
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -117,11 +115,12 @@
                                 <a href = "<?= base_url() ?>inventory/page" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                             </div>
                             <br>
-                            <div class="clearfix"></div>
-                        </form>
-                    </div> <!-- content -->
-                </div> <!-- div-card -->
-            </div> <!-- col-lg-8 col-md-7 -->
-        </div> <!-- row -->
-    </div> <!-- container fluid -->
-</div><!-- content -->
+                    </div>
+                </div>
+                <hr><br>
+                <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

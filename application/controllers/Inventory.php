@@ -508,7 +508,6 @@ class Inventory extends CI_Controller {
             $this->db->select("product_name");
             $this->db->select("times_bought");
             $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
-            # SELECT product_id, product_name, times_bought WHERE status = 1 ORDER BY times_bought DESC LIMIT 5
             print json_encode($data);
         } else {
             redirect("home");
@@ -532,14 +531,11 @@ class Inventory extends CI_Controller {
         $output = '';
         $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
         $output = '<ul class="box list-unstyled" style="width:295px;">';
-        if($query)
-        {
+        if($query) {
             foreach($query as $query){
                 $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
             }
-        }
-        else
-        {
+        } else {
             $output .= '<li class="text-left" >Item Not Found</li>';
         }
         $output .= '</ul>';

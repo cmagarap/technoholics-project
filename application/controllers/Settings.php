@@ -64,7 +64,6 @@ class Settings extends CI_Controller {
 
     public function edit_images() {
         if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-            //if ($this->form_validation->run()) {
             $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
             $config['encrypt_name'] = TRUE;
             $config['upload_path'] = './assets/ordering/img/';
@@ -101,8 +100,6 @@ class Settings extends CI_Controller {
 
             $this->item_model->updatedata("content", $data);
             redirect("settings");
-
-            //}
         } else {
             redirect('home');
         }
@@ -443,7 +440,6 @@ class Settings extends CI_Controller {
     }
 
     public function add_color_admin() {
-        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'color_1' => $this->input->post("admin_colorpicker")
         );
@@ -452,7 +448,6 @@ class Settings extends CI_Controller {
     }
 
     public function add_color_customer() {
-        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'customer_color1' => $this->input->post("customer_colorpicker")
         );
@@ -461,7 +456,6 @@ class Settings extends CI_Controller {
     }
 
     public function edit_logo() {
-        //if ($this->form_validation->run()) {
         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
         $config['encrypt_name'] = TRUE;
         $config['upload_path'] = './assets/ordering/img/';
@@ -496,12 +490,9 @@ class Settings extends CI_Controller {
 
         $this->item_model->updatedata("content", $data, "content_id = 1");
         redirect("settings");
-
-        //}
     }
 
     public function edit_logo_icon() {
-        //if ($this->form_validation->run()) {
         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
         $config['encrypt_name'] = TRUE;
         $config['upload_path'] = './assets/ordering/img/';
