@@ -1,5 +1,5 @@
 <?php
-$content = $this->item_model->fetch("content", array("content_id" => 1));
+$content = $this->item_model->fetch("content");
 $image = $content[0];
 ?>
 <!DOCTYPE html>
@@ -13,13 +13,11 @@ $image = $content[0];
     <meta name="author" content="Agarap, Calimlim, Leona, Mallari">
     <meta name="keywords" content="">
     <title><?= $title ?></title>
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url() ?>assets/ordering/img/<?= $image->logo_icon ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->config->base_url() ?>images/<?= $image->logo_icon ?>">
     <meta name="keywords" content="">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script type="text/javascript" src"<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js' ?>" ></script>
-    <link rel="stylesheet" type="text/css" href="<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.css' ?>" />
-    <script type="text/javascript" src"<?= base_url() . 'assets/ordering/fancybox/jquery.fancybox-1.3.4.pack.js' ?>" ></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
+    <script  src="<?= base_url() . 'assets/ordering/js/jquery-1.11.0.min.js'; ?>"></script>
+    <script src="<?= base_url() . 'assets/ordering/js/bootstrap.min.js'; ?>"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- styles -->
@@ -33,7 +31,7 @@ $image = $content[0];
 
     <!-- color picker for customer -->
     <link href="<?= $this->config->base_url() ?>assets/paper/css/jquery.simplecolorpicker-fontawesome.css" rel="stylesheet">
-    <link href="<?= $this->config->base_url() ?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">     
+    <link href="<?= $this->config->base_url() ?>assets/paper/css/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet">   
     <link href="<?= $this->config->base_url() ?>assets/paper/css/jquery.simplecolorpicker-regularfont.css" rel="stylesheet">
     <link href="<?= $this->config->base_url() ?>assets/paper/css/jquery.simplecolorpicker.css" rel="stylesheet">
 
@@ -43,12 +41,6 @@ $image = $content[0];
     <link href="<?= base_url() . 'assets/ordering/css/custom.css'; ?>" rel="stylesheet">
     <link href="<?= base_url() . 'assets/ordering/css/style.blue.css'; ?>" rel="stylesheet" id="theme-stylesheet">
     <link href="<?= base_url() ?>assets/paper/css/themify-icons.css" rel="stylesheet">
-
-
-
-    <!-- web sheets -->
-    <script  src="<?= base_url() . 'assets/ordering/js/jquery-1.11.0.min.js'; ?>"></script>
-    <script src="<?= base_url() . 'assets/ordering/js/bootstrap.min.js'; ?>"></script>
 
     <!-- Veo's Ajax -->
     <script type="text/javascript"> var base_url = "<?= base_url() ?>";</script>
@@ -79,7 +71,7 @@ $image = $content[0];
             opacity: 0;
         }
         .navbar-brand {
-            background: url(<?= base_url() . 'assets/ordering/img/mobile_logo.png'; ?>) no-repeat center;
+            background: url(<?= base_url() . 'images/'.$image->logo_icon ?>) no-repeat center;
             width: 70px;
             margin-top: 3px;
         }
@@ -113,167 +105,164 @@ $image = $content[0];
     padding: 0px;
 }
 
-.dropbtn:hover {
-    text-decoration: underline;
-}
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+    .dropbtn:hover {
+        text-decoration: underline;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #555555;
-    min-width: 160px;
-    overflow: visible;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #555555;
+        min-width: 160px;
+        overflow: visible;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
 
-.dropdown-content a {
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+    .dropdown-content a {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
 
-.show {
-    display: block;
-}
+    .show {
+        display: block;
+    }
 
-input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
-    background-color: lightblue;
-}
+    input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
+        background-color: lightblue;
+    }
 
-.text-primary, .text-primary:hover {
+    .text-primary, .text-primary:hover {
     color: #427C89; }
 
     .text-info, .text-info:hover {
-        color: #3091B2; }
+    color: #3091B2; }
 
-        .text-success, .text-success:hover {
-            color: #42A084; }
+    .text-success, .text-success:hover {
+    color: #42A084; }
 
-            .text-warning, .text-warning:hover {
-                color: #BB992F; }
+    .text-warning, .text-warning:hover {
+    color: #BB992F; }
 
-                .text-fail, .text-fail:hover {
-                    color: #B33C12; }
+    .text-fail, .text-fail:hover {
+    color: #B33C12; }
 
-                    .glyphicon {
-                        line-height: 1; }
+    .glyphicon {
+    line-height: 1; }
 
-                        strong {
-                            color: #403D39; }
+    strong {
+    color: #403D39; }
 
-                            .icon-primary {
-                                color: #7A9E9F; }
+    .icon-primary {
+    color: #7A9E9F; }
 
-                                .icon-info {
-                                    color: #68B3C8; }
+    .icon-info {
+    color: #68B3C8; }
 
-                                    .icon-success {
-                                        color: #7AC29A; }
+    .icon-success {
+    color: #7AC29A; }
 
-                                        .icon-warning {
-                                            color: #F3BB45; }
+    .icon-warning {
+    color: #F3BB45; }
 
-                                            .icon-fail {
-                                                color: #EB5E28; }
+    .icon-fail {
+    color: #EB5E28; }
 
-                                                .container .alert {
-                                                    border-radius: 4px; }
+    .container .alert {
+    border-radius: 4px; }
 
-                                                    .navbar .alert {
-                                                        border-radius: 0;
-                                                        left: 0;
-                                                        position: absolute;
-                                                        right: 0;
-                                                        top: 85px;
-                                                        width: 100%;
-                                                        z-index: 3; }
+    .navbar .alert {
+    border-radius: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 85px;
+    width: 100%;
+    z-index: 3; }
 
-                                                        .navbar:not(.navbar-transparent) .alert {
-                                                            top: 70px; }
+    .navbar:not(.navbar-transparent) .alert {
+    top: 70px; }
 
-                                                            .alert span[data-notify="icon"] {
-                                                                font-size: 30px;
-                                                                display: block;
-                                                                left: 15px;
-                                                                position: absolute;
-                                                                top: 50%;
-                                                                margin-top: -20px; }
+    .alert span[data-notify="icon"] {
+    font-size: 30px;
+    display: block;
+    left: 15px;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px; }
 
-                                                                .alert .close ~ span {
-                                                                    display: block;
-                                                                    max-width: 89%; }
+    .alert .close ~ span {
+    display: block;
+    max-width: 89%; }
 
-                                                                    .alert[data-notify="container"] {
-                                                                        padding: 10px 10px 10px 20px;
-                                                                        border-radius: 4px; }
+    .alert[data-notify="container"] {
+    padding: 10px 10px 10px 20px;
+    border-radius: 4px; }
 
-                                                                        .alert.alert-with-icon {
-                                                                            padding-left: 65px; }
+    .alert.alert-with-icon {
+    padding-left: 65px; }
 
-                                                                            .alert-info {
-                                                                                background-color: #7CE4FE;
-                                                                                color: #3091B2; }
+    .alert-info {
+    background-color: #7CE4FE;
+    color: #3091B2; }
 
-                                                                                .alert-success {
-                                                                                    background-color: #8EF3C5;
-                                                                                    color: #42A084; }
+    .alert-success {
+    background-color: #8EF3C5;
+    color: #42A084; }
 
-                                                                                    .alert-warning {
-                                                                                        background-color: #FFE28C;
-                                                                                        color: #BB992F; }
+    .alert-warning {
+    background-color: #FFE28C;
+    color: #BB992F; }
 
-                                                                                        .alert-fail {
-                                                                                            background-color: #FF8F5E;
-                                                                                            color: #B33C12; }
+    .alert-fail {
+    background-color: #FF8F5E;
+    color: #B33C12; }
 
-                                                                                            .star-ratings-css {
-                                                                                                unicode-bidi: bidi-override;
-                                                                                                color: #c5c5c5;
-                                                                                                font-size: 25px;
-                                                                                                height: 25px;
-                                                                                                width: 100px;
-                                                                                                margin: 0 auto;
-                                                                                                position: relative;
-                                                                                                padding: 0;
-                                                                                                text-shadow: 0px 1px 0 #a2a2a2;
-                                                                                            }
-                                                                                            .star-ratings-css-top {
-                                                                                                color: #f5bd23;
-                                                                                                padding: 0;
-                                                                                                position: absolute;
-                                                                                                z-index: 1;
-                                                                                                display: block;
-                                                                                                top: 0;
-                                                                                                left: 0;
-                                                                                                overflow: hidden;
-                                                                                            }
+    .star-ratings-css {
+    unicode-bidi: bidi-override;
+    color: #c5c5c5;
+    font-size: 25px;
+    height: 25px;
+    width: 100px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0;
+    text-shadow: 0px 1px 0 #a2a2a2;
+    }
+    .star-ratings-css-top {
+    color: #f5bd23;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    }
 
-                                                                                            .star-ratings-css-bottom {
-                                                                                                padding: 0;
-                                                                                                display: block;
-                                                                                                z-index: 0;
-                                                                                            }
+    .star-ratings-css-bottom {
+    padding: 0;
+    display: block;
+    z-index: 0;
+    }
 
-                                                                                        </style>
-
-                                                                                        <script>
+</style>
+<script>
     // Can also be used with $(document).ready()
-    $(window).load(function() {
-        $('.flexslider').flexslider({
-            animation: "slide",
-            controlNav: "thumbnails"
-        });
-        
+$(window).load(function() {
+    $('.flexslider').flexslider({
+        animation: "slide",
+        controlNav: "thumbnails"
     });
-    
+});
 </script>
 
 </head>
 <body>
-    <div style="margin-top:130px">
-    </div>
+<div style="margin-top: 130px">
+</div>

@@ -118,7 +118,12 @@
             if (willDelete) {
                 window.location = "<?= $this->config->base_url() ?>home/delete_wishlist/" + id;
             } else {
-                swal("This order is safe!");
+                swal({
+                    title: "Your wish is safe!",
+                    text: "your wish has not been removed, don't worry!",
+                    icon: "success",
+                    buttons: false,
+                })
             }
         });
     });

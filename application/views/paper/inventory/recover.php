@@ -5,7 +5,6 @@
             <?php if($this->session->flashdata('statusMsg')):?>
                 <script>
                     $(document).ready(function(){
-                        demo.initChartist();
                         $.notify({
                             icon: 'ti-direction',
                             message: "<?=$this->session->flashdata('statusMsg')?>"
@@ -16,7 +15,17 @@
                     });
                 </script>
             <?php endif; ?>
-            <input type="text" name="search" class = "search" placeholder="Search product...">
+            <form  action = "<?= base_url() . 'inventory/recover_product_search'; ?>" method = "POST">
+                <div class="input-group">
+                    <input type="text" name="search" class = "search" placeholder="Search product...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type = "submit" style = "border-color: #ccc">
+                            <i class="ti-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="productlist" style="position:relative; top:-15px;"></div>
+            </form>
         </div>
         <br>
         <div class="row">
@@ -34,64 +43,64 @@
                     <?php if(!$products) {
                         echo "<center><h3><hr><br>There are no deleted products recorded in the database.</h3><br></center><br><br>";
                     } else {
-                    ?>
-                    <div class="content table-responsive table-full-width">
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b>#</b></th>
-                            <th><b>Name</b></th>
-                            <th><b>Brand</b></th>
-                            <th><b>Category</b></th>
-                            <th><b>Price</b></th>
-                            <th><b>Stock</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($products as $products): ?>
-                                <tr>
-                                    <td><?= $counter++ ?></td>
-                                    <td><?= $products->product_name ?></td>
-                                    <td><?= $products->product_brand ?></td>
-                                    <td><?= $products->product_category ?></td>
-                                    <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
-                                    <td><?= $products->product_quantity ?></td>
-                                    <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
-                                            <span class="ti-eye"></span>
-                                        </a>
-                                        <a class="btn btn-danger recover" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
-                                            <span class="ti-back-left"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                        ?>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th><b>#</b></th>
+                                    <th><b>Name</b></th>
+                                    <th><b>Brand</b></th>
+                                    <th><b>Category</b></th>
+                                    <th><b>Price</b></th>
+                                    <th><b>Stock</b></th>
+                                    <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($products as $products): ?>
+                                    <tr>
+                                        <td><?= $counter++ ?></td>
+                                        <td><?= $products->product_name ?></td>
+                                        <td><?= $products->product_brand ?></td>
+                                        <td><?= $products->product_category ?></td>
+                                        <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
+                                        <td><?= $products->product_quantity ?></td>
+                                        <td>
+                                            <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
+                                                <span class="ti-eye"></span>
+                                            </a>
+                                            <a class="btn btn-danger recover" href="#" data-id="<?= $products->product_id ?>" title = "Recover Product" alt = "Recover Product" style = "color: #7ace4c; background: white; border-color: #7ace4c">
+                                                <span class="ti-back-left"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                         <?php echo "<div align = 'center'>" . $links . "</div>";
                         echo '</div>';
-                        } ?>
-                    </div>
+                    } ?>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        $(".recover").click(function () {
-            var id = $(this).data('id');
+</div>
+<script>
+    $(".recover").click(function () {
+        var id = $(this).data('id');
 
-            swal({
-                title: "Recover this product?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>inventory/recover_product_exec/" + id;
-                    } else {
-                        swal("The product remained inactive.");
-                    }
-                });
+        swal({
+            title: "Recover this product?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = "<?= $this->config->base_url() ?>inventory/recover_product_exec/" + id;
+            } else {
+                swal("The product remained inactive.");
+            }
         });
-    </script>
+    });
+</script>

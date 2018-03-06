@@ -164,6 +164,13 @@ $image = $content[0]; ?>
             z-index: 0;
         }
 
+        .product_image {
+        width:auto;
+        height: 250px;
+        max-width: 100%;
+        object-fit: contain;
+        }
+
     </style>
 </head>
 <body>

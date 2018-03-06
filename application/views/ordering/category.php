@@ -25,7 +25,7 @@
                     <ul class="nav nav-pills nav-stacked category-menu">
 
                         <li  <?php if ($category == "accessories") echo 'class="active"'?> >
-                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Accessories')); ?></span></a>
+                            <a href="<?= base_url() . 'home/category/accessories'; ?>">Accessories<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'accessories')); ?></span></a>
                         </li>
                         <li <?php if ($category == "chargers") echo 'class="active"' ?>>
                             <a href="<?= base_url() . 'home/category/chargers'; ?>">Chargers<span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => 'Chargers')); ?></span></a>
@@ -73,8 +73,8 @@
                 </div>
             </div>
             <div class="banner">
-                <a href="#">
-                    <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
+                <a>
+                    <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y");?>" class="img-responsive">
                 </a>
             </div>
         </div>
@@ -86,7 +86,7 @@
             <div class="box info-bar">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 products-showing">
-                        Showing <strong>12</strong> of <strong><?=$count?></strong> products
+                        Showing <strong><?=$current_show?></strong> of <strong><?=$count?></strong> products
                     </div>
                     <div class="col-sm-12 col-md-8  products-number-sort">
                         <div class="row">

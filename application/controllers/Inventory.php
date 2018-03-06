@@ -63,6 +63,56 @@ class Inventory extends CI_Controller {
         }
     }
 
+    public function search() {
+        $this->load->library('pagination');
+        $perpage = 20;
+        $config['base_url'] = base_url() . "inventory/search";
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+
+            $this->session->set_userdata('search', $this->input->post('search') ? $this->input->post('search') : $this->session->userdata('search'));
+            $search = $this->session->userdata('search');
+
+            $config['total_rows'] = $this->item_model->getCountsearch('product', 'status = 1 AND product_name', $search);
+            $this->pagination->initialize($config);
+            $products = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', 'status = 1 AND product_name', $search);
+
+            $data = array(
+                'title' => 'Product Inventory',
+                'heading' => 'Inventory',
+                'products' => $products,
+                'links' => $this->pagination->create_links()
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/inventory/inventory");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home/");
+        }
+    }
+
     public function view() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1');
@@ -349,6 +399,52 @@ class Inventory extends CI_Controller {
             $config['total_rows'] = $this->item_model->getCount('product', array("status" => 0));
             $this->pagination->initialize($config);
             $products = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', array("status" => 0));
+            $data = array(
+                'title' => 'Inventory: Recover Items',
+                'heading' => 'Inventory',
+                'products' => $products,
+                'links' => $this->pagination->create_links()
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/inventory/recover");
+            $this->load->view("paper/includes/footer");
+        }
+    }
+
+    public function recover_product_search() {
+        $this->load->library('pagination');
+        $perpage = 20;
+        $config['base_url'] = base_url() . "inventory/recover_product";
+        $config['per_page'] = $perpage;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = ' </ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['first_url'] = '';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $this->session->set_userdata('search', $this->input->post('search') ? $this->input->post('search') : $this->session->userdata('search'));
+            $search = $this->session->userdata('search');
+            $config['total_rows'] = $this->item_model->getCountsearch('product', 'status = 0 AND product_name', $search);
+            $this->pagination->initialize($config);
+            $products = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), 'product_name', 'ASC', 'status = 0 AND product_name', $search);
+
             $data = array(
                 'title' => 'Inventory: Recover Items',
                 'heading' => 'Inventory',

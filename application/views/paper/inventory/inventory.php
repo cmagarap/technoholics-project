@@ -4,18 +4,18 @@
         <div align = "right">
             <?php if($this->session->flashdata('statusMsg')):?>
                 <script>
-                $(document).ready(function(){
-                    $.notify({
-                        icon: 'ti-direction',
-                        message: "<?= $this->session->flashdata('statusMsg') ?>"
-                    },{
-                        type: 'info',
-                        timer: 2000
+                    $(document).ready(function(){
+                        $.notify({
+                            icon: 'ti-direction',
+                            message: "<?= $this->session->flashdata('statusMsg') ?>"
+                        },{
+                            type: 'info',
+                            timer: 2000
+                        });
                     });
-                });
                 </script>
             <?php endif; ?>
-            <form  action = "" method = "POST">
+            <form  action = "<?= base_url() . 'inventory/search'; ?>" method = "POST">
                 <div class="input-group">
                     <input type="text" name="search" class = "search" placeholder="Search product...">
                     <div class="input-group-btn">
@@ -24,7 +24,6 @@
                         </button>
                     </div>
                 </div>
-                <div id="productlist" style="position:relative; top:-15px;"></div>
             </form>
         </div>
         <br>
@@ -50,71 +49,71 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b>#</b></th>
-                                <th colspan="2"><b>Product</b></th>
-                                <th><b>Brand</b></th>
-                                <th><b>Category</b></th>
-                                <th><b>Price</b></th>
-                                <th><b>Stock</b></th>
-                                <!--<th><b class="ti-eye" title = "No. of customer views"></b></th>-->
-                                <th><b>Actions</b></th>
+                                    <th><b>#</b></th>
+                                    <th colspan="2"><b>Product</b></th>
+                                    <th><b>Brand</b></th>
+                                    <th><b>Category</b></th>
+                                    <th><b>Price</b></th>
+                                    <th><b>Stock</b></th>
+                                    <!--<th><b class="ti-eye" title = "No. of customer views"></b></th>-->
+                                    <th><b>Actions</b></th>
                                 </thead>
                                 <tbody>
-                                <?php
-                                foreach ($products as $products): ?>
-                                <tr>
-                                    <td><?= $counter++ ?></td>
+                                    <?php
+                                    foreach ($products as $products): ?>
+                                    <tr>
+                                        <td><?= $counter++ ?></td>
 
-                                    <?php $product_image = (string)$products->product_image1;
-                                    $image_array = explode(".", $product_image); ?>
+                                        <?php $product_image = (string)$products->product_image1;
+                                        $image_array = explode(".", $product_image); ?>
 
-                                    <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
-                                    <td><?= $products->product_name ?></td>
-                                    <td><?= $products->product_brand ?></td>
-                                    <td><?= $products->product_category ?></td>
-                                    <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
-                                    <td><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
-                                    else echo $products->product_quantity;
-                                    ?></td>
-                                    <td>
-                                        <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
-                                            <span class="ti-eye"></span>
-                                        </a>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
+                                        <td><?= $products->product_name ?></td>
+                                        <td><?= $products->product_brand ?></td>
+                                        <td><?= $products->product_category ?></td>
+                                        <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
+                                        <td><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                                        else echo $products->product_quantity;
+                                        ?></td>
+                                        <td>
+                                            <a class="btn btn-success" href="<?= $this->config->base_url() ?>inventory/view/<?= $products->product_id ?>" title = "View Product Info" alt = "View Product Info">
+                                                <span class="ti-eye"></span>
+                                            </a>
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $products->product_id ?>" title = "Edit Product" alt = "Edit Product">
+                                                <span class="ti-pencil"></span>
+                                            </a>
+                                            <a class="btn btn-danger delete" href="#" data-id="<?= $products->product_id ?>" title = "Delete Product" alt = "Delete Product">
+                                                <span class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                            <?php echo "<div align = 'center'>" . $links . "</div>";
-                     } ?>
+                            </tbody>
+                        </table>
+                        <?php echo "<div align = 'center'>" . $links . "</div>";
+                    } ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
-    <script>
-        $(".delete").click(function () {
-            var id = $(this).data('id');
+<script>
+    $(".delete").click(function () {
+        var id = $(this).data('id');
 
-            swal({
-                title: "Are you sure you want to delete this product?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
-                    } else {
-                        swal("The product is safe!");
-                    }
-                });
+        swal({
+            title: "Are you sure you want to delete this product?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = "<?= $this->config->base_url() ?>inventory/delete_product/" + id;
+            } else {
+                swal("The product is safe!");
+            }
         });
-    </script>
+    });
+</script>
