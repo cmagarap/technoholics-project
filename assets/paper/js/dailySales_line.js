@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/sales/getDailySales",
+        url: base_url + "sales/getDailySales",
         method: "POST",
         success: function(data) {
             var dates = [];

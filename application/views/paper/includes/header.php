@@ -54,8 +54,9 @@ $image = $content[0]; ?>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
     <script src="<?= base_url()?>assets/paper/js/paper-dashboard.js"></script>
+    <script type="text/javascript"> var base_url = "<?= base_url() ?>";</script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <script src="<?= base_url()?>assets/paper/js/demo.js"></script>
+    <!--<script src="<?= base_url()?>assets/paper/js/demo.js"></script> -->
   
     <style>
         input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {

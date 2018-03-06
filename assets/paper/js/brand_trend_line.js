@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/dashboard/getTrend",
+        url: base_url + "dashboard/getTrend",
         method: "POST",
         success: function(data) {
             var td = [];
