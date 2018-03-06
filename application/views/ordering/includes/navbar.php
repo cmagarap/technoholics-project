@@ -34,15 +34,11 @@ date_default_timezone_set("Asia/Manila");
                     </div>
                 </li>
             <?php else: ?>
-                <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
-                </li>
-                <li><a href="<?= base_url().'register'; ?>">Register</a>
-                </li>
+                <li><a href="<?= base_url().'login'; ?>">Login</a></li>
+                <li><a href="<?= base_url().'register'; ?>">Register</a></li>
             <?php endif; ?>
-            <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a>
-            </li>
-            <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a>
-            </li>
+            <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a></li>
+            <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a></li>
         </ul>
     </div>
 </div>
