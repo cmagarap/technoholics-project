@@ -7,16 +7,15 @@
             </div>
         </div>
     </div>
-
     <div class="container">
-        <div class="product-slider">
-            <?php if(!$product): ?>
-                <div class="col-md-12">
-                    <div class="box" align = "center">
-                        <h3>Oops! There are no featured products this week.</h3>
-                    </div>
+        <?php if(!$product): ?>
+            <div class="col-md-12">
+                <div class="box" align = "center">
+                    <h3>Oops! There are no featured products.</h3>
                 </div>
-            <?php else: ?>
+            </div>
+        <?php else: ?>
+        <div class="product-slider">
                 <?php foreach ($product as $row): ?>
                     <div class="item">
                         <div class="product">
