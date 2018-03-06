@@ -142,7 +142,7 @@
                     </div>
                     <div class="content">
                         <h3 style="color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
-                        <form action="" method="post">
+                        <form role="form" method="post">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">

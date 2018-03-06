@@ -247,17 +247,18 @@ if($this->session->has_userdata('isloggedin') AND $this->session->userdata('type
             if(!$this->session->has_userdata('isloggedin')) {
                 $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
                 $this->session->set_userdata('suggest', $suggest);
-            } else {
+            } elseif($this->session->has_userdata('isloggedin')) {
                 $this->db->select('product_preference');
                 $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
 
-                if ($preference) {
+                if ($preference->product_preference != NULL) {
                     $array_p = explode(", ", $preference->product_preference);
 
                     foreach ($array_p as $p) {
                         $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
                     }
-                } else {
+
+                } elseif($preference->product_preference == NULL) {
                     $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
                     $this->session->set_userdata('suggest', $suggest);
                 }
