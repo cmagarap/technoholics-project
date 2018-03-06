@@ -251,37 +251,33 @@ $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "p
     </div>
     <div class="row products">
         <?php
-        $suggest = $this->item_model->getItemsWithLimit('product', 3, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
+        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, NULL, NULL, "product_id !=" .$row->product_id." AND status = 1 AND product_brand = '$row->product_brand'");
         $this->session->set_userdata('suggest', $suggest);
         ?>
-        <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
-            <div class="col-md-4 col-sm-6">
-                <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
-                    <div class="image_container" align="center" >
-                        <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
-                            <img class="product_image img-responsive" src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>">
-                        </a>
-                    </div>
-                    <div class="text">
-                        <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page'?>"><?= $suggest->product_name ?></a></h3>
-                        <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
-                        <p class="buttons"><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id.'/page' ?>"  class="btn btn-default">View detail</a>
-                            <button <?php if(!$suggest->product_quantity) { echo 'disabled'; }?> type="button" class="btn btn-primary add_cart" data-productname="<?= $suggest->product_name ?>" data-productimg="<?= $suggest->product_image1 ?>"  data-productquantity="<?= $suggest->product_quantity ?>" data-price="<?= $suggest->product_price ?>" data-productid="<?= $suggest->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </p>
-                    </div>
-                    <!-- /.text -->
-                    <?php if (!$suggest->product_quantity): ?>
-                        <div class="ribbon sale" >
-                            <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
-                            <div class="ribbon-background"></div>
+        <div id="hot">
+            <div class="product-slider">
+                <?php foreach ($this->session->userdata('suggest') as $suggest): ?>
+                    <div class="item" style="margin: 0 10px; visibility: hidden;">
+                        <div class="product">
+                            <div class="image_container" align="center">
+                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
+                                    <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
+                                </a>
+                            </div>
+                            <div class="text">
+                                <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>"><?= $suggest->product_name ?></a></h3>
+                                <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
+                            </div>
+                            <!-- /.text -->
                         </div>
-                    <?php endif ?>
-                </div>
-                <!-- /.product -->
+                        <!-- /.product -->
+                    </div>
+                <?php endforeach ?>
+                <!-- /.text -->
             </div>
-        <?php endforeach ?>
+            <!-- /.product -->
+        </div>
     </div>
-</div>
 </div>
 </div>
 
