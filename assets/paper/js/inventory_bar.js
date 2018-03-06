@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/inventory/getProductData",
+        url: base_url + "inventory/getProductData",
         method: "POST",
         success: function(data) {
             var brand = [];

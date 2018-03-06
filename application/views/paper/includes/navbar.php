@@ -111,7 +111,7 @@ date_default_timezone_set("Asia/Manila");
                                             $user_image = (string)$user->image;
                                             $image_array = explode(".", $user_image);
                                             ?>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="50%" style="border-radius: 100%; margin: 5px">
+                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="30%" style="border-radius: 100%; margin: 5px">
                                             <br>
                                             <?= $user->username ?>
                                         </div>

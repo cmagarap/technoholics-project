@@ -102,18 +102,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Price <font color="red">*</font></label>
-                                            <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value="<?= $products->product_price ?>">
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Price <font color="red">*</font></label>
+                                        <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value="<?= $products->product_price ?>">
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Quantity <font color="red">*</font></label>
-                                            <input type="number" class="form-control border-input" placeholder="Product quantity" name = "product_quantity" value="<?= $products->product_quantity ?>">
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Quantity <font color="red">*</font></label>
+                                        <input type="number" class="form-control border-input" placeholder="Product quantity" name="product_quantity" value="<?= $products->product_quantity ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Featured <font color="red">*</font></label>
+                                        <select name="is_featured" class="form-control border-input file">
+                                            <option value="1" <?php if($products->is_featured == 1) echo 'selected'; ?>>Yes</option>
+                                            <option value="0" <?php if($products->is_featured == 0) echo 'selected'; ?>>No</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row">

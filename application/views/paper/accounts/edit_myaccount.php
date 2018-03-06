@@ -22,7 +22,7 @@
                             elseif ($user->access_level == 1) echo "Admin Assistant";
                             ?>
                         </p>
-                        <a href="">Change Profile Picture</a><br>
+                        <a href="<?= $this->config->base_url() ?>my_account/change_pic">Change Profile Picture</a><br>
                         <a href="<?= $this->config->base_url() ?>my_account/change_password">Change Password</a>
                     </div>
                     <hr>

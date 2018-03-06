@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/accounts/getFemaleAge",
+        url: base_url + "accounts/getFemaleAge",
         method: "POST",
         success: function(data) {
             var gender_count = [];

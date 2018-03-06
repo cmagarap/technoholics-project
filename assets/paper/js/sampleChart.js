@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/random/getProductdata",
+        url: base_url + "random/getProductdata",
         method: "POST",
         success: function(data) {
             console.log(data);

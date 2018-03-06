@@ -7,7 +7,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session', 'form_validation', 'basket'));
+        $this->load->library(array('email', 'session', 'form_validation', 'basket', 'apriori'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -50,13 +50,116 @@ class Login extends CI_Controller {
                             $for_session = array(
                                 'username' => $user,
                                 'type' => 2,
-                                'date' => time()
+                                'date' => time(),
+                                'product_rating' => array(),
+                                'viewed_products' => array()
                             );
                             $this->session->uid = $customer->customer_id;
                             $this->session->set_userdata($for_session, true);
                             $this->session->set_userdata('isloggedin', true);
                             session_regenerate_id(true);
                             $this->session->set_flashdata('myflashdata', true);
+
+                            # APRIORI ============================================================>
+
+                            $this->apriori->setMaxScan(20);
+                            $this->apriori->setMinSup(2);
+                            $this->apriori->setMinConf(100);
+                            $this->apriori->setDelimiter(', ');
+
+                            $view = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->session->uid . " AND status = 1  AND at_detail = 'Viewed'", "at_date", "at_date", "ASC");
+
+                            $search = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->session->uid . " AND status = 1  AND at_detail = 'Search'", "at_date", "at_date", "ASC");
+
+                            if ($view) {
+                                # store the fetched values into an array:
+                                foreach ($view as $v)
+                                    $v_array[] = $v->at_date;
+
+                                # get the orders of customer based on order_id_array[]:
+                                for ($i = 0; $i < sizeof($v_array); $i++) {
+                                    $this->db->select("item_name");
+                                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Viewed' AND at_date = $v_array[$i]");
+                                }
+
+                                $customer_transactions = array();
+                                $i = 0;
+                                foreach ($tilted_transactions as $tilted_transaction) {
+                                    if (sizeof($tilted_transactions[$i]) > 1) {
+                                        for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                            $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                                        }
+                                        $i++;
+                                        continue;
+                                    } else
+                                        $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                                    $i++;
+                                }
+
+                                # convert into string using implode:
+                                for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                                    for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                                        $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                                    }
+                                }
+                                $this->apriori->process($customer_transactions_str);
+                                $test_freq = $this->apriori->getFreqItemsets();
+
+                                if(!$test_freq) {
+                                    if ($search) {
+                                        # store the fetched values into an array:
+                                        foreach ($search as $s)
+                                            $s_array[] = $s->at_date;
+
+                                        # get the orders of customer based on order_id_array[]:
+                                        for ($i = 0; $i < sizeof($s_array); $i++) {
+                                            $this->db->select("item_name");
+                                            $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Search' AND at_date = $s_array[$i]");
+                                        }
+
+                                        $customer_transactions = array();
+                                        $i = 0;
+                                        foreach ($tilted_transactions as $tilted_transaction) {
+                                            if (sizeof($tilted_transactions[$i]) > 1) {
+                                                for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                                    $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                                                }
+                                                $i++;
+                                                continue;
+                                            } else
+                                                $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                                            $i++;
+                                        }
+
+                                        # convert into string using implode:
+                                        for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                                            for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                                                $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                                            }
+                                        }
+                                        $this->apriori->process($customer_transactions_str);
+                                        $s_freq = $this->apriori->getFreqItemsets();
+
+                                    }
+                                }
+                            }
+
+                            $freq = $this->apriori->getFreqItemsets();
+
+                            $b = 0;
+                            for($i = 0; $i < sizeof($freq); $i++) {
+                                for($j = 0; $j < sizeof($freq[$i]); $j++) {
+                                    if($freq[$i][0] > $b) {
+                                        $b = implode(", ", array_slice($freq[$i], 1));
+                                    }
+                                }
+                            }
+
+                            $product_insert = ($b) ? $b : NULL;
+                            $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->session->uid);
+
+                            # ====================================================================>
+
                             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                             $for_log = array(
                                 "$user_id" => $this->session->uid,

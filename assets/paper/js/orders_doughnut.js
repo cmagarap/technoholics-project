@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/orders/getProcessStatus",
+        url: base_url + "orders/getProcessStatus",
         method: "POST",
         success: function(data) {
             var orders = [];

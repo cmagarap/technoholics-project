@@ -96,7 +96,7 @@ class My_account extends CI_Controller {
             $this->load->view("paper/accounts/change_password");
             $this->load->view("paper/includes/footer");
         } else {
-            $this->load->view("paper/accounts/my_account"); # AAYUSIN KO PA ITO - seej
+            redirect('home');
         }
     }
 
@@ -137,4 +137,63 @@ class My_account extends CI_Controller {
             $this->change_password();
         }
     }
+
+    public function change_pic() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $my_account = $this->item_model->fetch("admin", "admin_id = " . $this->session->uid);
+            $data = array(
+                'title' => 'Change profile picture',
+                'heading' => 'My Account',
+                'user' => $my_account
+            );
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/accounts/change_pic");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function change_pic_exec() {
+            $config['encrypt_name'] = TRUE;
+            $config['upload_path'] = './uploads_users/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = 0;
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('new_pic') == TRUE) {
+                $image = $this->upload->data('file_name');
+                $config2['image_library'] = 'gd2';
+                $config2['source_image'] = './uploads_users/' . $image;
+                $config2['create_thumb'] = TRUE;
+                $config2['maintain_ratio'] = TRUE;
+                $config2['width'] = 75;
+                $config2['height'] = 50;
+                $this->load->library('image_lib', $config2);
+                $this->image_lib->resize();
+                $this->image_lib->initialize($config2);
+
+                $data = array('image' => $image);
+                $update = $this->item_model->updatedata('admin', $data, 'admin_id = ' . $this->session->uid);
+                if ($update) {
+                    $for_log = array(
+                        "admin_id" => html_escape($this->session->uid),
+                        "user_type" => html_escape($this->session->userdata('type')),
+                        "username" => html_escape($this->session->userdata('username')),
+                        "date" => time(),
+                        "action" => 'Updated his/her profile picture',
+                        'status' => 1
+                    );
+                    $this->item_model->insertData('user_log', $for_log);
+                }
+                redirect("my_account");
+
+            } else {
+                $this->session->set_flashdata('error', 'Please upload your new picture.');
+                $this->change_pic();
+            }
+
+    }
+
 }

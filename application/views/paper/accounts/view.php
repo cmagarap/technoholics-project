@@ -69,7 +69,7 @@
                         <hr>
                         <br>
                         <div class="row">
-                            <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                            <a href = "<?= $this->config->base_url() ?>accounts/customer" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                         </div>
                         <br>
                     </div>
@@ -121,6 +121,17 @@
                     </div> <!-- content -->
                 </div> <!-- card -->
             </div>
+            <?php
+            if(isset($_POST['enter'])) {
+                $sup = $this->input->post('support');
+                $conf = $this->input->post('confidence');
+                $basis = $this->input->post('basis');
+            } else {
+                $sup = 2;
+                $conf = 100;
+                $basis = 'Purchase';
+            }
+            ?>
             <div class="col-lg-7 col-sm-5">
                 <div class="card card-user">
                     <div class="header">
@@ -130,13 +141,13 @@
                         </p><hr style = 'margin: 5px'>
                     </div>
                     <div class="content">
-                        <h3 style = "color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
-                        <form action="" method="post">
+                        <h3 style="color: #31bbe0; margin-bottom: 0px">Set Rules for Apriori</h3>
+                        <form role="form" method="post">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Minimum Support <span style = "color: red">*</span></label>
-                                        <input type="number" class="form-control border-input" placeholder="" name="support" value="2" min="1" max="10"><?php
+                                        <input type="number" class="form-control border-input" placeholder="" name="support" value="<?= $sup ?>" min="1" max="10"><?php
                                         if (validation_errors()):
                                             echo "<span style = 'color: red'>" . form_error("support") . "</span>";
                                         endif;
@@ -148,23 +159,33 @@
                                     <div class="form-group">
                                         <label>Minimum Confidence <span style = "color: red">*</span></label>
                                         <select name="confidence" class = "form-control border-input file">
-                                            <option value="100" selected>100%</option>
-                                            <option value="75">75%</option>
-                                            <option value="50">50%</option>
+                                            <option value="100" <?php if($conf == 100) echo 'selected'; ?>>100%</option>
+                                            <option value="75" <?php if($conf == 75) echo 'selected'; ?>>75%</option>
+                                            <option value="50" <?php if($conf == 50) echo 'selected'; ?>>50%</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="hidden" name="customer_id" value="<?= $this->uri->segment(4) ?>">
-                                        <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; margin-top: 25px; width: 100%" name="enter">Enter</button>
+                                        <label>Based on <span style="color: red">*</span></label>
+                                        <select name="basis" class="form-control border-input file">
+                                            <option value="Purchase" <?php if($basis == 'Purchase') echo 'selected'; ?>>Purchased Items</option>
+                                            <option value="Viewed" <?php if($basis == 'Viewed') echo 'selected'; ?>>Viewed Items</option>
+                                            <option value="Search" <?php if($basis == 'Search') echo 'selected'; ?>>Searched Items</option>
+                                            <option value="Product Rating" <?php if($basis == 'Product Rating') echo 'selected'; ?>>Rated Items</option>
+                                        </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-5">
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 83%" name="enter">Enter</button>
                                 </div>
                             </div>
                         </form>
                         <hr>
                         <?php if (!$message) { ?>
-
                             <h3 style = "color: #31bbe0; margin-bottom: 0px">Frequent Itemsets</h3>
                             <p class="category">Most frequent products involved in multiple record of transactions.</p><br>
                             <div class="content table-responsive table-full-width">
@@ -186,7 +207,7 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <th>Products</th>
-                                    <th>Confidence</th>
+                                    <th>Confidence Lvl.</th>
                                     </thead>
                                     <tbody>
                                     <?= $this->apriori->printAssociationRules(); ?>
@@ -198,7 +219,7 @@
                         } else {
                             echo '<div align="center"><br><i>';
                             echo $message;
-                            echo '</i></div>';
+                            echo '</i></div><br>';
                         }
                         ?>
                     </div>

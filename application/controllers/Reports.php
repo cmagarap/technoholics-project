@@ -53,7 +53,7 @@ class Reports extends CI_Controller {
 
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
-            $this->load->view("paper/reports/reports");
+            $this->load->view("paper/sales/reports");
             $this->load->view("paper/includes/footer");
         } else {
             redirect("home/");

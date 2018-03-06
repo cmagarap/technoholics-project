@@ -260,63 +260,200 @@ class Accounts extends CI_Controller {
             $this->form_validation->set_message('required', '{field}');
 
             if ($this->form_validation->run()) {
-                $min_support = html_escape($this->input->post('support'));
-                $min_confidence = html_escape($this->input->post('confidence'));
+                $min_support = $this->input->post('support', TRUE);
+                $min_confidence = $this->input->post('confidence', TRUE);
+                $basis = $this->input->post('basis', TRUE);
                 $this->apriori->setMaxScan(20);
                 $this->apriori->setMinSup($min_support);
                 $this->apriori->setMinConf($min_confidence);
                 $this->apriori->setDelimiter(', ');
             } else {
+                $basis = 'Purchase';
                 $this->apriori->setMaxScan(20);
                 $this->apriori->setMinSup(2);
                 $this->apriori->setMinConf(100);
                 $this->apriori->setDelimiter(', ');
             }
+            if ($basis == 'Purchase') {
+                $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "order_id", "order_id", "ASC");
+                if ($order_id) {
+                    # store the fetched values into an array:
+                    foreach ($order_id as $order_id)
+                        $order_id_array[] = $order_id->order_id;
 
-            $order_id = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1", "order_id", "order_id", "ASC");
-
-            if ($order_id) {
-                # store the fetched values into an array:
-                foreach ($order_id as $order_id)
-                    $order_id_array[] = $order_id->order_id;
-
-                # get the orders of customer based on order_id_array[]:
-                for ($i = 0; $i < sizeof($order_id_array); $i++) {
-                    $this->db->select("item_name");
-                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND order_id = " . $order_id_array[$i]);
-                }
-                $customer_transactions = array();
-
-                $i = 0;
-                foreach ($tilted_transactions as $tilted_transaction) {
-                    if (sizeof($tilted_transactions[$i]) > 1) {
-                        for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
-                            $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
-                        }
-                        $i++;
-                        continue;
-                    } else
-                    $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
-                    $i++;
-                }
-
-                # convert into string using implode:
-                for ($i = 0; $i < sizeof($customer_transactions); $i++) {
-                    for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
-                        $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($order_id_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . "  AND at_detail = '" . $basis . "' AND order_id = " . $order_id_array[$i]);
                     }
+
+                    $customer_transactions = array();
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no transactions recorded for this user.";
                 }
-                $process = $this->apriori->process($customer_transactions_str);
-                $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
-            } else {
-                $message = "There are no transactions recorded for this user.";
+
+            } else if ($basis == 'Search') {
+                $at_date = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "at_date", "at_date", "ASC");
+
+                if ($at_date) {
+                    # store the fetched values into an array:
+                    foreach ($at_date as $at_date)
+                        $at_date_array[] = $at_date->at_date;
+
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($at_date_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND at_detail = '$basis' AND at_date = $at_date_array[$i]");
+                    }
+
+                    $customer_transactions = array();
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no product search recorded for this user.";
+                }
+            } else if ($basis == 'Viewed') {
+                $at_date = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "at_date", "at_date", "ASC");
+
+                if ($at_date) {
+                    # store the fetched values into an array:
+                    foreach ($at_date as $at_date)
+                        $at_date_array[] = $at_date->at_date;
+
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($at_date_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND at_detail = '$basis' AND at_date = $at_date_array[$i]");
+                    }
+
+                    $customer_transactions = array();
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There are no products viewed recorded for this user.";
+                }
+            } else if ($basis == 'Product Rating') {
+                $at_date = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND status = 1  AND at_detail = '$basis'", "at_date", "at_date", "ASC");
+
+                if ($at_date) {
+                    # store the fetched values into an array:
+                    foreach ($at_date as $at_date)
+                        $at_date_array[] = $at_date->at_date;
+
+                    # get the orders of customer based on order_id_array[]:
+                    for ($i = 0; $i < sizeof($at_date_array); $i++) {
+                        $this->db->select("item_name");
+                        $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->uri->segment(3) . " AND at_detail = '$basis' AND at_date = $at_date_array[$i]");
+                    }
+
+                    $customer_transactions = array();
+                    $i = 0;
+                    foreach ($tilted_transactions as $tilted_transaction) {
+                        if (sizeof($tilted_transactions[$i]) > 1) {
+                            for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                            }
+                            $i++;
+                            continue;
+                        } else
+                            $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                        $i++;
+                    }
+
+                    # convert into string using implode:
+                    for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                        for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                            $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                        }
+                    }
+                    $process = $this->apriori->process($customer_transactions_str);
+                    $message = ($process) ? NULL : "<h4>There are no frequent itemsets for this user.</h4>";
+                } else {
+                    $message = "There's no product rating recorded for this user.";
+                }
             }
+
             $freq = $this->apriori->getFreqItemsets();
             # END OF CODE FOR APRIORI ======>
 
-            $preferred = (sizeof($freq) != 0) ? max($freq) : array();
-            $preferred_s = implode(", ", array_slice($preferred, 1));
-            $product_insert = ($preferred_s) ? $preferred_s : NULL;
+            # $p = array();
+            $b = 0;
+            for($i = 0; $i < sizeof($freq); $i++) {
+                for($j = 0; $j < sizeof($freq[$i]); $j++) {
+                    if($freq[$i][0] > $b) {
+                        $b = implode(", ", array_slice($freq[$i], 1));
+                    } /*elseif($freq[$i][0] == $b) {
+                        $b = array_merge($freq[$i], $freq[1]);
+                    }*/
+                }
+            }
+
+            /*echo '<pre>';
+            print_r($b);
+            echo '</pre>';*/
+
+            #$preferred = (sizeof($freq) != 0) ? max($freq) : array();
+            #$preferred_s = implode(", ", array_slice($preferred, 1));
+            $product_insert = ($b) ? $b : NULL;
             $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->uri->segment(3));
 
             if ($account OR $user_log) {
@@ -407,16 +544,16 @@ class Accounts extends CI_Controller {
 
             $data = array(
                 'email' => html_escape(trim($this->input->post('email'))),
-                'password' => html_escape($this->item_model->setPassword($this->input->post('password'), $hash)),
+                'password' => $this->item_model->setPassword($this->input->post('password'), $hash),
                 'firstname' => html_escape(trim(ucwords($this->input->post('first_name')))),
                 'lastname' => html_escape(trim(ucwords($this->input->post('last_name')))),
                 'username' => html_escape($username),
                 'contact_no' => html_escape($contact_no),
                 'access_level' => html_escape("1"),
-                'image' => html_escape($image),
-                'status' => html_escape("1"),
-                'registered_at' => html_escape(time()),
-                'verification_code' => html_escape($hash)
+                'image' => $image,
+                'status' => 1,
+                'registered_at' => time(),
+                'verification_code' => $hash
             );
             $insert = $this->item_model->insertData('admin', $data);
 
@@ -536,13 +673,21 @@ public function edit() {
     }
 }
 
-public function edit_exec() {
-    $this->db->select(array('email', 'username'));
-    $customer_data = $this->item_model->fetch('customer', 'customer_id = ' . $this->uri->segment(3))[0];
-    $this->form_validation->set_rules('first_name', "first name", "required");
-    $this->form_validation->set_rules('last_name', "last name", "required");
-    if ($this->input->post('username') != $customer_data->username) {
-        $this->form_validation->set_rules('username', "username", "is_unique[customer.username]");
+    public function delete_admin() {
+        $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(3)));
+        if ($update) {
+            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+            $for_log = array(
+                "$user_id" => html_escape($this->session->uid),
+                "user_type" => html_escape($this->session->userdata('type')),
+                "username" => html_escape($this->session->userdata('username')),
+                "date" => html_escape(time()),
+                "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
+                'status' => html_escape('1')
+            );
+            $this->item_model->insertData('user_log', $for_log);
+        }
+        redirect("accounts/admin");
     }
     if ($this->input->post('email') != $customer_data->email) {
         $this->form_validation->set_rules('email', "email address", 'required|valid_email|is_unique[customer.email]');
@@ -580,37 +725,49 @@ public function edit_exec() {
     }
 }
 
-public function delete_admin() {
-    $update = $this->item_model->updatedata("admin", array("status" => false), array('admin_id' => $this->uri->segment(3)));
-    if ($update) {
-        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-        $for_log = array(
-            "$user_id" => html_escape($this->session->uid),
-            "user_type" => html_escape($this->session->userdata('type')),
-            "username" => html_escape($this->session->userdata('username')),
-            "date" => html_escape(time()),
-            "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
-            'status' => html_escape('1')
-        );
-        $this->item_model->insertData('user_log', $for_log);
-    }
-    redirect("accounts/admin");
-}
+    public function recover_admin() {
+        if ($this->session->userdata('type') == 0) {
+            $this->load->library('pagination');
+            $perpage = 20;
+            $config['base_url'] = base_url() . "accounts/recover_admin/";
+            $config['per_page'] = $perpage;
+            $config['full_tag_open'] = '<nav><ul class="pagination">';
+            $config['full_tag_close'] = ' </ul></nav>';
+            $config['first_link'] = 'First';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['first_url'] = '';
+            $config['last_link'] = 'Last';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo;';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo;';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['total_rows'] = $this->item_model->getCount('admin', "access_level != 0 AND status = 0");
+            $this->pagination->initialize($config);
+            $accounts = $this->item_model->getItemsWithLimit('admin', $perpage, $this->uri->segment(3), 'admin_id', 'ASC', "access_level != 0 AND status = 0");
+            $data = array(
+                'title' => 'Accounts: Reactivate Admin Accounts',
+                'heading' => 'Accounts',
+                'users' => $accounts,
+                'links' => $this->pagination->create_links()
+            );
 
-public function delete_customer() {
-    $update = $this->item_model->updatedata("customer", array("status" => false), array('customer_id' => $this->uri->segment(3)));
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/accounts/recover_admin");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
 
-    if ($update) {
-        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-        $for_log = array(
-            "$user_id" => html_escape($this->session->uid),
-            "user_type" => html_escape($this->session->userdata('type')),
-            "username" => html_escape($this->session->userdata('username')),
-            "date" => html_escape(time()),
-            "action" => html_escape('Deleted account #' . $this->uri->segment(4)),
-            'status' => html_escape('1')
-        );
-        $this->item_model->insertData('user_log', $for_log);
     }
     redirect("accounts/customer");
 }
@@ -707,49 +864,21 @@ public function recover_admin_search() {
     }
 }
 
-public function recover_customer() {
-    if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-        $this->load->library('pagination');
-        $perpage = 20;
-        $config['base_url'] = base_url() . "accounts/recover_customer/";
-        $config['per_page'] = $perpage;
-        $config['full_tag_open'] = '<nav><ul class="pagination">';
-        $config['full_tag_close'] = ' </ul></nav>';
-        $config['first_link'] = 'First';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['first_url'] = '';
-        $config['last_link'] = 'Last';
-        $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
-        $config['next_link'] = '&raquo;';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['prev_link'] = '&laquo;';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $config['total_rows'] = $this->item_model->getCount('customer', "status = 0");
-        $this->pagination->initialize($config);
-        $accounts = $this->item_model->getItemsWithLimit('customer', $perpage, $this->uri->segment(3), 'customer_id', 'ASC', "status = 0");
-        $data = array(
-            'title' => 'Accounts: Reactivate Customer Accounts',
-            'heading' => 'Accounts',
-            'users' => $accounts,
-            'links' => $this->pagination->create_links()
-        );
-
-        $this->load->view("paper/includes/header", $data);
-        $this->load->view("paper/includes/navbar");
-        $this->load->view("paper/accounts/recover_customer");
-        $this->load->view("paper/includes/footer");
-    } else {
-        redirect('home');
+    public function recover_admin_exec() {
+        $update = $this->item_model->updatedata("admin", array("status" => 1), array('admin_id' => $this->uri->segment(3)));
+        if ($update) {
+            $for_log = array(
+                "admin_id" => html_escape($this->session->uid),
+                "user_type" => ($this->session->userdata('type')),
+                "username" => html_escape($this->session->userdata('username')),
+                "date" => html_escape(time()),
+                "action" => html_escape('Reactivated account #' . $this->uri->segment(3)),
+                'status' => html_escape('1')
+            );
+            $this->item_model->insertData('user_log', $for_log);
+        }
+        redirect("accounts/recover_admin");
     }
-}
 
 public function recover_customer_search() {
     if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
