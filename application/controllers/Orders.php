@@ -11,7 +11,7 @@ class Orders extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('session'));
+        $this->load->library(array('session','email'));
         if (!$this->session->has_userdata('isloggedin')) {
             $this->session->set_flashdata("error", "You must login first to continue.");
             redirect('/login');
@@ -128,11 +128,17 @@ class Orders extends CI_Controller {
             "process_status" => $this->input->post("progress"),
             "admin_id" => $this->session->uid
         );
-        $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
-        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
-        $change_delivery = $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
 
-        if ($track) {
+        $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+
+        $condition_cd = $this->item_model->fetch("orders", array('FROM_UNIXTIME(delivery_date,"%Y-%m-%d")' => html_escape($this->input->post("order_date")), "order_id" => $this->uri->segment(3)));
+
+        $condition_tr = $this->item_model->fetch("orders", array("process_status" => $this->input->post("progress"), "order_id" => $this->uri->segment(3)));
+
+        if (!$condition_tr) {
+
+            $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+
             $for_log = array(
                 "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
@@ -143,30 +149,101 @@ class Orders extends CI_Controller {
 
             $this->item_model->insertData("user_log", $for_log);
 
-            if($this->input->post("progress") == 2){
+            $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+            $items = $this->item_model->fetch('order_items', "order_id = " . $this->uri->segment(3));
+            $user = $this->item_model->fetch('customer', "customer_id =". $order->customer_id)[0];
+            $shipper = $this->item_model->fetch('shipper', "shipper_id =". $order->shipper_id)[0];
+
+            if($this->input->post("progress") == 1){
+
                 $for_orderstatus = array (
-                  "description_status" => "Your order has been succesfully verified and is now shipped and will be delivered to you.",
+                  "description_status" => "Your order has been confirmed, and is now waiting to be verified.",
+                  "customer_id" => $customer->customer_id,
+                  "order_id" => $customer->order_id,
+                  "transaction_date" => time()
+              ); 
+
+                $for_email = array (
+                    'order' => $order,
+                    'items' => $items,
+                    'user' => $user
+                );
+
+                $this->email->from('technoholicsethereal@gmail.com', 'TECHNOHOLICS');
+                $this->email->to($user->email);
+                $this->email->subject('Order Status');
+                
+                $this->email->message($this->load->view('email/confirmed', $for_email, true));
+
+                if (!$this->email->send()) {
+                    $this->email->print_debugger();
+                } else {
+                    $this->item_model->insertData("order_status", $for_orderstatus);
+                }
+                
+            }
+
+            else if($this->input->post("progress") == 2){
+                $for_orderstatus = array (
+                  "description_status" => "Your order has been verified and is now being shipped to your address.",
                   "customer_id" => $customer->customer_id,
                   "order_id" => $customer->order_id,
                   "transaction_date" => time()
               ); 
                 
-                $this->item_model->insertData("order_status", $for_orderstatus);
+                $for_email = array (
+                    'order' => $order,
+                    'items' => $items,
+                    'user' => $user,
+                    'shipper' => $shipper
+                );
+
+                $this->email->from('technoholicsethereal@gmail.com', 'TECHNOHOLICS');
+                $this->email->to($user->email);
+                $this->email->subject('Order Status');
+                
+                $this->email->message($this->load->view('email/shipped', $for_email, true));
+
+                if (!$this->email->send()) {
+                    $this->email->print_debugger();
+                } else {
+                    $this->item_model->insertData("order_status", $for_orderstatus);
+                }
             }
+
             else if($this->input->post("progress") == 3){
                 $for_orderstatus = array (
-                  "description_status" => "Thank you for shopping with Technoholics! your order has arrived at your location.",
-                  "customer_id" => $customer->customer_id,
-                  "order_id" => $customer->order_id,
-                  "transaction_date" => time()
-              ); 
+                    "description_status" => "Thank you for shopping with Technoholics! Questions? Email at us hello@technoholics.com.ph.",
+                    "customer_id" => $customer->customer_id,
+                    "order_id" => $customer->order_id,
+                    "transaction_date" => time()
+                ); 
 
-                $this->item_model->insertData("order_status", $for_orderstatus);
+                $for_email = array (
+                    'order' => $order,
+                    'items' => $items,
+                    'user' => $user
+                );
+
+                $this->email->from('technoholicsethereal@gmail.com', 'TECHNOHOLICS');
+                $this->email->to($user->email);
+                $this->email->subject('Order Status');
+                
+                $this->email->message($this->load->view('email/delivered', $for_email, true));
+
+                if (!$this->email->send()) {
+                    $this->email->print_debugger();
+                } else {
+                    $this->item_model->insertData("order_status", $for_orderstatus);
+                }
             }
 
         }
 
-        if ($change_delivery) {
+        if (!$condition_cd) {
+
+            $change_delivery = $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
+
             $for_log = array(
                 "admin_id" => $this->session->uid,
                 "user_type" => $this->session->userdata('type'),
