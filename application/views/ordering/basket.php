@@ -85,7 +85,7 @@
                         <div id="hot">
                             <div class="product-slider">
                                 <?php if($this->session->has_userdata('suggest')){ $suggest = $this->session->userdata('suggest'); } else{ $suggest = $product;} foreach ($suggest as $suggest): ?>
-                                   <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                 <div class="item" style="margin: 0 10px; visibility: hidden;">
                                     <div class="product">
                                         <div class="image_container" align="center">
                                             <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
@@ -118,19 +118,19 @@
 
                                 <span class="input-group-btn">
 
-                                   <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
+                                 <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
 
-                               </span>
-                           </div>
-                           <!-- /input-group -->
-                       </form>
-                   </div>
+                             </span>
+                         </div>
+                         <!-- /input-group -->
+                     </form>
+                 </div>
 
-               </div>
-               <!-- /.col-md-3 -->
+             </div>
+             <!-- /.col-md-3 -->
 
-           </div>
-           <!-- /.container -->
-       </div>
-       <!-- /#content -->
-   </div>
+         </div>
+         <!-- /.container -->
+     </div>
+     <!-- /#content -->
+ </div>

@@ -71,7 +71,7 @@ $image = $content[0];
             opacity: 0;
         }
         .navbar-brand {
-            background: url(<?= base_url() . 'images/'.$image->logo_icon ?>) no-repeat center;
+            background: url(<?= base_url() . 'assets/ordering/img/'.$image->logo_icon ?>) no-repeat center;
             width: 70px;
             margin-top: 3px;
         }
