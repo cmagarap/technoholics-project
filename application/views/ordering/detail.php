@@ -82,7 +82,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                 </div>
                 <div class="banner">
                     <a href="#">
-                        <img src="<?= base_url() . 'assets/ordering/img/banner.jpg'; ?>" alt="sales 2014" class="img-responsive">
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y");?>" class="img-responsive">
                     </a>
                 </div>
             </div>
@@ -119,7 +119,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         <div align ="center" id ="contents">
                             <h1><?= $row->product_name ?></h1>
                             <?php if ($row->product_quantity != 0)
-                                echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                            echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
                             else
                                 echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                             ?>
@@ -252,7 +252,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                         </div>
                                     </div>
                                 </div>
-                            <?php endif ?>
+                            <?php endif ?>                    
                         </div>
                     </div>
                 </div>
