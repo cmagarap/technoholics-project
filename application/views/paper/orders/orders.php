@@ -51,7 +51,6 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #31bbe0"></span>&nbsp; <b>List of Orders</b></h3>
                         <p class="category"><?= $date ?></p>
-
                     </div>
                     <?php
                     if (!$orders) {
@@ -73,9 +72,10 @@
                                 <tr>
                                     <td>
                                         <p style = "font-size: 12px"><?php
-                                            if ($orders->process_status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px; color: #dc2f54'></span>";
-                                            elseif ($orders->process_status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px; color: #F3BB45'></span>";
-                                            elseif ($orders->process_status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px; color: green'></span>";
+                                            if ($orders->process_status == 1): echo "<span class='ti-package' title='Processing' style='font-size: 15px; color: #dc2f54'></span>";
+                                            elseif ($orders->process_status == 2): echo "<span class='ti-truck' title='Shipping' style='font-size: 15px; color: #F3BB45'></span>";
+                                            elseif ($orders->process_status == 3): echo "<span class='ti-check' title='Delivered' style='font-size: 15px; color: green'></span>";
+                                            elseif ($orders->process_status == 4): echo "<span class='ti-plus' title='Pending' style='font-size: 15px; color: #31bbe0'></span>";
                                             endif;
                                             ?></p>
                                     </td>

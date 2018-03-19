@@ -1,15 +1,15 @@
 $(document).ready(function(){
     $.ajax({
-        url: base_url + "inventory/getTimesBought",
+        url: base_url + "inventory/getProductViews",
         method: "POST",
         success: function(data) {
             var product = [];
-            var purchase = [];
+            var views = [];
             var color_chart = [];
 
             for(var i in data) {
                 product.push(data[i].product_name);
-                purchase.push(data[i].times_bought);
+                views.push(data[i].no_of_views);
             }
 
             var dynamicColors = function() {
@@ -26,16 +26,16 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Male',
-                    data: purchase,
+                    label: '21-30',
+                    data: views,
                     backgroundColor: color_chart,
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
                 },
                     {
-                        label: 'Female',
-                        data: [2, 5, 9, 11, 2],
+                        label: '13-20',
+                        data: [10, 15, 33, 24, 5],
                         backgroundColor: [
                             'rgba(235, 94, 40, 1)',
                             'rgba(49, 187, 224, 1)',
@@ -46,9 +46,38 @@ $(document).ready(function(){
                         borderWidth: 1,
                         hoverBorderColor: 'rgba(0, 0, 0, 1)',
                         hoverBorderWidth: 4
-                    }]};
+                    },
+                    {
+                        label: '31-40',
+                        data: [10, 15, 33, 24, 5],
+                        backgroundColor: [
+                            'rgba(235, 94, 40, 1)',
+                            'rgba(49, 187, 224, 1)',
+                            'rgba(220, 47, 84, 1)',
+                            'rgba(122, 44, 201, 1)',
+                            'rgba(122, 194, 154, 1)'
+                        ],
+                        borderWidth: 1,
+                        hoverBorderColor: 'rgba(0, 0, 0, 1)',
+                        hoverBorderWidth: 4
+                    },
+                    {
+                        label: '41-50',
+                        data: [10, 15, 33, 24, 5],
+                        backgroundColor: [
+                            'rgba(235, 94, 40, 1)',
+                            'rgba(49, 187, 224, 1)',
+                            'rgba(220, 47, 84, 1)',
+                            'rgba(122, 44, 201, 1)',
+                            'rgba(122, 194, 154, 1)'
+                        ],
+                        borderWidth: 1,
+                        hoverBorderColor: 'rgba(0, 0, 0, 1)',
+                        hoverBorderWidth: 4
+                    }
+                ]};
 
-            var ctx = $("#mostPurchased");
+            var ctx = $("#productViews_age");
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,
@@ -59,6 +88,7 @@ $(document).ready(function(){
                     },
                     scales: {
                         yAxes: [{
+                            stacked: true,
                             gridLines: {
                                 drawOnChartArea: false
                             }
