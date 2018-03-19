@@ -55,8 +55,26 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-comment" style = "color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
-                        <p class="category"><?= $date ?></p>
+                        <div class="col-md-6">
+                            <h3><span class="ti-comment" style = "color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
+                            <p class="category"><?= $date ?></p>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">
+                            <form role="form" method="post">
+                                <div class="form-group">
+                                    <label>Filter by:</label>
+                                    <?php $conf = 1;?>
+                                    <select name="filter_star" class="form-control border-input file">
+                                        <option value="" <?php if($conf == 100) echo 'selected'; ?>>5-star</option>
+                                        <option value="" <?php if($conf == 75) echo 'selected'; ?>>4-star</option>
+                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>3-star</option>
+                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>2-star</option>
+                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>1-star</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <?php
                     if (!$feedback) {
@@ -66,12 +84,12 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b title = "Feedback ID">#</b></th>
+                                <th><b title="Feedback ID">#</b></th>
                                 <th colspan="2"><b>Customer</b></th>
                                 <th><b>Feedback</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Rating</b></th>
-                                <th><b title = "Product ID" class="ti-package"></b></th>
+                                <th><b title="Product ID" class="ti-package"></b></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($feedback as $feed): ?>
@@ -82,7 +100,7 @@
 
                                         <td><?= $feed->feedback_id ?></td>
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><a href="<?= base_url() ?>accounts/view/customer/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
+                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
                                         <td><?= $feed->feedback ?></td>
                                         <td><?= date("m-j-y", $feed->added_at) ?></td>
                                         <td>

@@ -356,7 +356,8 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Viewed Products</b></h3>
+                        <h3 class="title"><b>Top 5 Most Viewed Products</b></h3>
+                        <p class="category">by gender</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -370,7 +371,8 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Searched Products</b></h3>
+                        <h3 class="title"><b>Top 5 Most Searched Products</b></h3>
+                        <p class="category">by gender</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -384,7 +386,8 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-4">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Top 5 Most Purchased Products</b></h3>
+                        <h3 class="title"><b>Top 5 Most Purchased Products</b></h3>
+                        <p class="category">by gender</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -394,11 +397,54 @@ foreach ($customer_all as $customer_all) {
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h3 class="title"><b>Top 5 Most Viewed Products</b></h3>
+                        <p class="category">by age group</p>
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <div id="chart-container" style = "margin-top: -20px">
+                            <canvas id="productViews_age"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h3 class="title"><b>Top 5 Most Searched Products</b></h3>
+                        <p class="category">by age group</p>
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <div id="chart-container" style = "margin-top: -20px">
+                            <canvas id="productSearch_age"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h3 class="title"><b>Top 5 Most Purchased Products</b></h3>
+                        <p class="category">by age group</p>
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <div id="chart-container" style = "margin-top: -20px">
+                            <canvas id="productPurchase_age"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/inventory_bar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/views_hbar.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/views_hbar_age.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/purchase_hbar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/search_hbar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/sales_line.js"></script>

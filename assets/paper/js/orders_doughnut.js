@@ -7,7 +7,7 @@ $(document).ready(function(){
             var status = [];
 
             for(var i in data) {
-                var process = ["", "Processing", "Shipping", "Delivered"];
+                var process = ["", "Processing", "Shipping", "Delivered", "Pending"];
                 var formattedStatus = process[data[i].process_status];
                 status.push(formattedStatus);
                 orders.push(data[i].no_of_orders);
@@ -19,6 +19,7 @@ $(document).ready(function(){
                     label: 'Age Range',
                     data: orders,
                     backgroundColor: [
+                        '#31bbe0',
                         '#dc2f54',
                         '#F3BB45',
                         'green'

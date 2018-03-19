@@ -48,6 +48,28 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Name <span style = "color: red">*</span></label>
+                                        <input type="text" class="form-control border-input" placeholder="Product" name = "product_name" value = "<?= $product_name ?>">
+                                        <?php if(validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("product_name") . "</span>";
+                                        endif; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Category <span style = "color: red">*</span></label>
+                                        <select name="product_category" id="" class = "form-control border-input file">
+                                            <?php foreach($category as $category): ?>
+                                                <option value="<?= $category->category_id ?>">
+                                                    <?= $category->category ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-md-4">

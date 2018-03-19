@@ -6,7 +6,7 @@ $(document).ready(function(){
             var product = [];
             var searches = [];
             var color_chart = [];
-
+            console.log(searches);
             for (var i in data) {
                 product.push(data[i].product_name);
                 searches.push(data[i].times_searched);
@@ -26,7 +26,7 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Female',
+                    label: 'Male',
                     data: searches,
                     backgroundColor: color_chart,
                     borderWidth: 1,
@@ -34,8 +34,8 @@ $(document).ready(function(){
                     hoverBorderWidth: 4
                 },
                 {
-                    label: 'Male',
-                    data: [52, 58, 33, 24, 41],
+                    label: 'Female',
+                    data: [10, 15, 3, 4, 5],
                     backgroundColor: [
                         'rgba(235, 94, 40, 1)',
                         'rgba(49, 187, 224, 1)',
@@ -61,7 +61,6 @@ $(document).ready(function(){
                     },
                     scales: {
                         yAxes: [{
-                            stacked: true,
                             gridLines: {
                                 drawOnChartArea: false
                             }
