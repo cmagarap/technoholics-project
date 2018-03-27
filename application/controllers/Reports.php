@@ -13,24 +13,14 @@ class Reports extends CI_Controller {
 
     public function sales_reports() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            # These are the values when a user first visits the page. Should be changeable using dropdown or text input
-
 
             $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_d, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_d, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
-            $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') as sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales.sales_date");
-
             $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
-
-
 
             $weeklytotal = 0;
             foreach($weekly->result() as $week)
                 $weeklytotal += $week->income;
-
-            $monthlytotal = 0;
-            foreach($monthly->result() as $month)
-                $monthlytotal += $month->income;
 
             $annualtotal = 0;
             foreach($annual->result() as $ann)
@@ -39,13 +29,9 @@ class Reports extends CI_Controller {
             $data = array(
                 'title' => 'Sales Reports',
                 'heading' => 'Sales Reports',
-                #'daily' => $daily->result(),
                 'weekly' => $weekly->result(),
-                'monthly' => $monthly->result(),
                 'annual' => $annual->result(),
-                #'dailytotal' => $dailytotal,
                 'weeklytotal' => $weeklytotal,
-                'monthlytotal' => $monthlytotal,
                 'annualtotal' => $annualtotal
             );
 
@@ -60,13 +46,19 @@ class Reports extends CI_Controller {
 
     public function daily_sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $daily = ($this->input->post('from_date') AND $this->input->post('to_date')) ? $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "' GROUP BY sales_d ORDER BY sales.sales_date DESC") : $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+            if($this->input->post('from_date') AND $this->input->post('to_date')) {
+                $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "' GROUP BY sales_d ORDER BY sales.sales_date DESC");
+
+                $subtitle = "Here are the daily sales from <b><u>" . date("F j, Y", strtotime($this->input->post('from_date'))) . " to " . date("F j, Y", strtotime($this->input->post('to_date'))) . "</u></b>. <br><a href='" . base_url() . "reports/daily_sales'>See daily sales for this week.</a>";
+            } else {
+                $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+
+                $subtitle = "Here are the daily sales for this week.";
+            }
 
             $dailytotal = 0;
             foreach($daily->result() as $day)
                 $dailytotal += $day->income;
-
-            $subtitle = "Here are the daily sales for this week.";
 
             $data = array(
                 'title' => 'Daily Sales Report',
@@ -79,6 +71,48 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/sales/daily_sales");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function monthly_sales() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            if(isset($_POST['enter'])) {
+                $this->db->distinct();
+                $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
+                $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
+
+                $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') AS sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . $this->input->post('year') . " GROUP BY sales_month ORDER BY sales.sales_date");
+
+                $subtitle = "Here are the monthly sales in <b><u>" . $this->input->post('year') . "</u></b>. <br><a href='" . base_url() . "reports/monthly_sales'>See the latest monthly sales.</a>";
+            } else {
+                $this->db->distinct();
+                $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
+                $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
+
+                $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') AS sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . date('Y') . " GROUP BY sales_month ORDER BY sales.sales_date");
+
+                $subtitle = "Here are the latest sales per month.";
+            }
+
+            $monthlytotal = 0;
+            foreach($monthly->result() as $month)
+                $monthlytotal += $month->income;
+
+            $data = array(
+                'title' => 'Monthly Sales Report',
+                'heading' => 'Sales Reports',
+                'monthly' => $monthly->result(),
+                'monthlytotal' => $monthlytotal,
+                'sub' => $subtitle,
+                'years' => $year_for_dropdown
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/sales/monthly_sales");
             $this->load->view("paper/includes/footer");
         } else {
             redirect("home");

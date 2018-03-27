@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-3">
-                <a href="<?= base_url() ?>inventory" class="btn btn-info">Monthly</a>
+                <a href="<?= base_url() ?>reports/monthly_sales" class="btn btn-info">Monthly</a>
             </div>
             <div class="col-sm-3">
                 <a href="<?= base_url() ?>inventory" class="btn btn-info">Annual</a>

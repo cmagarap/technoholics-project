@@ -6,39 +6,39 @@
                 <div class="card">
                     <div class="header">
                         <div align = "left">
-                            <h3 class="title"><span class="ti-money" style = "color: #dc2f54;"></span> <b>Daily Sales</b></h3>
+                            <h3 class="title"><span class="ti-money" style = "color: #dc2f54;"></span> <b>Monthly Sales</b></h3>
                             <p class="category"><?= $sub ?></p>
                         </div>
                     </div>
                     <?php
                     if(isset($_POST['enter'])) {
-                        $from = $this->input->post('from_date');
-                        $to = $this->input->post('to_date');
+                        $year = $this->input->post('year');
                     } else {
-                        $from = '';
-                        $to = '';
+                        $year = '';
                     }
                     ?>
                     <div class="content">
                         <form role="form" method="POST">
                             <div class="form-group">
-                                <div class="col-md-4">
-                                    <label>Change Report Date Range</label>
-                                    <input type="text" id="text-calendar" class="calendar form-control border-input file" name="from_date" placeholder="From" value="<?= $from ?>" required/>
-                                </div>
-                                <div class="col-md-4">
-                                    <label style="color: white;">`</label>
-                                    <input type="text" id="text-calendar" class="calendar form-control border-input file" name="to_date" placeholder="To" value="<?= $to ?>" required/>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <label>Filter by Year:</label>
+                                    <select name="year" class="form-control border-input file">
+                                        <option value="0">Select Year</option>
+                                        <?php foreach ($years as $y): ?>
+                                            <option value="<?= $y->sales_year ?>"><?= $y->sales_year ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label style="color: white;">`</label><br>
-                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter">Enter</button>
-                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter">Enter</button>
+                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                                 </div>
                             </div>
                         </form>
                         <?php
-                        if (!$daily) {
+                        if (!$monthly) {
                             echo "<center><h3><br><br><br><hr><br>There are no daily sales report recorded for this week.</h3><br></center><br><br></div>";
                         } else {
                         ?>
@@ -55,19 +55,19 @@
                             </thead></p>
                             <tbody>
                             <?php $total_items = 0;
-                            foreach ($daily as $daily): ?>
+                            foreach ($monthly as $monthly): ?>
                                 <tr>
-                                    <td><?= $daily->sales_d ?></td>
-                                    <td align="right"><?= $daily->order_quantity ?></td>
-                                    <?php $total_items += $daily->order_quantity; ?>
-                                    <td align="right">&#8369;<?= number_format($daily->income, 2) ?></td>
+                                    <td><?= $monthly->sales_month ?></td>
+                                    <td align="right"><?= $monthly->order_quantity ?></td>
+                                    <?php $total_items += $monthly->order_quantity; ?>
+                                    <td align="right">&#8369;<?= number_format($monthly->income, 2) ?></td>
                                     <td></td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td><h3>Total</h3></td>
                                 <td align="right"><b><?= $total_items ?></b></td>
-                                <td align="right"><h3>&#8369;<?= number_format($dailytotal, 2) ?></h3></td>
+                                <td align="right"><h3>&#8369;<?= number_format($monthlytotal, 2) ?></h3></td>
                                 <td></td>
                             </tr>
                             </tbody>
@@ -79,10 +79,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(function() {
-        $('input.calendar').pignoseCalendar({
-            format: 'YYYY-MM-DD'
-        });
-    });
-</script>
