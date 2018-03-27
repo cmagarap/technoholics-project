@@ -135,7 +135,7 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Brand Trend</b></h3>
+                        <h3 class="title"><i>to be replaced by sales forecast graph...</i></h3>
                     </div>
                     <div class="content">
                         <div id="chart-container">
@@ -397,7 +397,7 @@ foreach ($customer_all as $customer_all) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <!--<div class="col-md-4">
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Top 5 Most Viewed Products</b></h3>
@@ -438,17 +438,15 @@ foreach ($customer_all as $customer_all) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/inventory_bar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/views_hbar.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/views_hbar_age.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/purchase_hbar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/search_hbar.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/sales_line.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/male_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/female_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/gender_doughnut.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/brand_trend_line.js"></script>

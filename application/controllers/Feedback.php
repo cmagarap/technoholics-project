@@ -18,22 +18,7 @@ class Feedback extends CI_Controller {
     }
 
     public function index() {
-//        if($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-//            $feedback = $this->item_model->fetch('feedback', 'status = 1');
-//            $data = array(
-//                'title' => "Feedback",
-//                'heading' => "Feedback",
-//                'feedback' => $feedback
-//            );
-//
-//            $this->load->view('paper/includes/header', $data);
-//            $this->load->view("paper/includes/navbar");
-//            $this->load->view('paper/feedback/feedback');
-//            $this->load->view('paper/includes/footer');
-//        } else {
-//            redirect('home');
-//        }
-        $this->page();
+        redirect('feedback/page');
     }
 
     public function page() {
@@ -64,23 +49,36 @@ class Feedback extends CI_Controller {
         $date = $this->input->post('date') ? "Here are the customer feedback for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "feedback'>Click  here to view all feedback.</a>" : "Here are the overall feedback of the customers.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('feedback', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('feedback', 'status = 1');
-            $this->pagination->initialize($config);
-            $feedback = ($this->input->post('date')) ? ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date')))) : ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1)));
+            if(isset($_POST['filter'])) {
+                if($this->input->post('filter_star') != 0) {
+                    $config['total_rows'] = $this->item_model->getCount('feedback', "status = 1 AND rating = '" . $this->input->post('filter_star') . "'");
+                    $this->pagination->initialize($config);
+
+                    $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1, 'rating' => $this->input->post('filter_star')));
+
+                    $f_star = $this->input->post('filter_star');
+                } else {
+                    goto filter_all;
+                }
+            } else {
+                filter_all:
+                $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('feedback', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('feedback', 'status = 1');
+                $this->pagination->initialize($config);
+
+                $feedback = ($this->input->post('date')) ? ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date')))) : ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1)));
+
+                $f_star = 'all';
+            }
 
             $count_per_day = $this->db->query("SELECT COUNT(feedback) as feedback_count FROM feedback WHERE status = 1 GROUP BY FROM_UNIXTIME(added_at, '%Y-%M-%d')");
             $total = 0;
             foreach($count_per_day->result() as $count)
                 $total += $count->feedback_count;
-            $avg = $total / sizeof($count_per_day->result());
+            $avg = (sizeof($count_per_day->result()) == 0) ? 0 : $total / sizeof($count_per_day->result());
             $deleted = $this->item_model->getCount('feedback', 'status = 0');
             $total_f = $this->item_model->getCount('feedback', 'status = 1');
 
-            $star1Percent = 0;
-            $star2Percent = 0;
-            $star3Percent = 0;
-            $star4Percent = 0;
-            $star5Percent = 0;
+            $star1Percent = $star2Percent = $star3Percent = $star4Percent = $star5Percent = 0;
 
             $star1 = $this->db->query("SELECT COUNT(rating) as count_rating FROM feedback where status = 1 AND rating = 1.0 GROUP BY rating");
             foreach($star1->result() as $s1)
@@ -102,6 +100,8 @@ class Feedback extends CI_Controller {
             foreach($star5->result() as $s5)
                 $star5Percent = ($s5->count_rating / $total_f) * 100;
 
+            $frequently_rated = $this->db->query("SELECT product.product_name, COUNT(feedback.feedback) as feedback_count FROM feedback JOIN product ON feedback.product_id = product.product_id WHERE product.status = 1 AND FROM_UNIXTIME(feedback.added_at, '%Y-%m') = '" . date('Y-m') . "' AND feedback.status = 1 GROUP BY product.product_name ORDER BY feedback_count DESC LIMIT 10");
+
             $data = array(
                 'title' => 'Feedback',
                 'heading' => 'Feedback',
@@ -115,6 +115,8 @@ class Feedback extends CI_Controller {
                 'star3' => $star3Percent,
                 'star4' => $star4Percent,
                 'star5' => $star5Percent,
+                'f_star' => $f_star,
+                'f_rated' => $frequently_rated->result(),
                 'links' => $this->pagination->create_links()
             );
 

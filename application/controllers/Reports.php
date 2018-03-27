@@ -11,10 +11,10 @@ class Reports extends CI_Controller {
         }
     }
 
-    public function sales() {
+    public function sales_reports() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            # These are the values when a user first visits the page. Should be changeable using dropdown or text inputo
-            $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+            # These are the values when a user first visits the page. Should be changeable using dropdown or text input
+
 
             $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_d, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_d, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
@@ -22,9 +22,7 @@ class Reports extends CI_Controller {
 
             $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
 
-            $dailytotal = 0;
-            foreach($daily->result() as $day)
-                $dailytotal += $day->income;
+
 
             $weeklytotal = 0;
             foreach($weekly->result() as $week)
@@ -39,13 +37,13 @@ class Reports extends CI_Controller {
                 $annualtotal += $ann->income;
 
             $data = array(
-                'title' => 'Sales Report',
-                'heading' => 'Sales Management',
-                'daily' => $daily->result(),
+                'title' => 'Sales Reports',
+                'heading' => 'Sales Reports',
+                #'daily' => $daily->result(),
                 'weekly' => $weekly->result(),
                 'monthly' => $monthly->result(),
                 'annual' => $annual->result(),
-                'dailytotal' => $dailytotal,
+                #'dailytotal' => $dailytotal,
                 'weeklytotal' => $weeklytotal,
                 'monthlytotal' => $monthlytotal,
                 'annualtotal' => $annualtotal
@@ -57,6 +55,33 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/footer");
         } else {
             redirect("home/");
+        }
+    }
+
+    public function daily_sales() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            $daily = ($this->input->post('from_date') AND $this->input->post('to_date')) ? $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "' GROUP BY sales_d ORDER BY sales.sales_date DESC") : $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+
+            $dailytotal = 0;
+            foreach($daily->result() as $day)
+                $dailytotal += $day->income;
+
+            $subtitle = "Here are the daily sales for this week.";
+
+            $data = array(
+                'title' => 'Daily Sales Report',
+                'heading' => 'Sales Reports',
+                'daily' => $daily->result(),
+                'dailytotal' => $dailytotal,
+                'sub' => $subtitle
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/sales/daily_sales");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home");
         }
     }
 

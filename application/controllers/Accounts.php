@@ -780,7 +780,7 @@ class Accounts extends CI_Controller {
         redirect("accounts/recover_customer");
     }
 
-    public function admin_search() { # Accessible by the GM only.
+    public function admin_search() {
         if ($this->session->userdata('type') == 0) {
             $this->load->library('pagination');
             $perpage = 20;

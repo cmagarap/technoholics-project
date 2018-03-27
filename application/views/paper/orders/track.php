@@ -76,7 +76,6 @@
                             <div class = "row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <!-- SHOULD BE CALENDAR -->
                                         <label for="shipper">Change Delivery Date</label>
                                         <input type="text" id="text-calendar" class="calendar form-control border-input file" name="order_date" placeholder="YYYY-MM-DD" value="<?= date('Y-m-d', $delivery->delivery_date) ?>"/>
                                     </div>

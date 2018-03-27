@@ -14,7 +14,7 @@ class Home extends CI_Controller {
             if ($this->session->userdata("type") == 2) { # if customer
                 $image = $this->item_model->fetch('content')[0];
 
-                $product = $this->item_model->fetch('product', array('is_featured' => 1));
+                $product = $this->item_model->fetch('product', 'is_featured = 1 AND status = 1');
 
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
@@ -34,7 +34,7 @@ class Home extends CI_Controller {
             }
         } else { # if not logged in
             $image = $this->item_model->fetch('content')[0];
-            $product = $this->item_model->fetch('product', array('is_featured' => 1));
+            $product = $this->item_model->fetch('product', 'is_featured = 1 AND status = 1');
 
             $data = array(
                 'title' => "TECHNOHOLICS | All the tech you need.",

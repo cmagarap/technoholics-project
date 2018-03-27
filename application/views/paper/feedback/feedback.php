@@ -8,13 +8,43 @@
                         <hr>
                         <div class="calendar"></div>
                         <form action="<?= base_url() . 'feedback'; ?>" method="POST">
-                            </br>
+                            <br>
                             <div align="center">
-                                <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
+                                <button type="submit" id="submit" class="btn btn-info btn-fill" name="date" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
                                 <input type="hidden" id="date" name="date">
                             </div>
                         </form>
-                        </br>
+                        <br>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h3 class="title" style = "margin-bottom: 10px"><span class="ti-star" style="color: #F3BB45"></span>&nbsp; <b>Frequently Rated Products</b></h3>
+                        <p class="category">
+                            <i class="ti-reload" style = "font-size: 12px;"></i> For the month of <?= date("F Y"); ?>
+                        </p><hr style = 'margin: 5px'>
+                    </div>
+
+                    <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
+                        <?php if ($f_rated): ?>
+                            <table class="table table-striped" style = "margin-top: -20px">
+                                <thead>
+                                <th><u style = "color: #31bbe0">Product</u></th>
+                                <th><u style = "color: #31bbe0">Feedback Count</u></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($f_rated as $f_rated): ?>
+                                    <tr>
+                                        <td><b><?= $f_rated->product_name ?></b></td>
+                                        <td><?= $f_rated->feedback_count ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php else: ?>
+                            <br>
+                            <h3 align="center"><i>There are no recent product feedback recorded.</i></h3>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="card" style="padding-right: 25px">
@@ -56,29 +86,36 @@
                 <div class="card">
                     <div class="header">
                         <div class="col-md-6">
-                            <h3><span class="ti-comment" style = "color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
+                            <h3><span class="ti-comment" style="color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
                             <p class="category"><?= $date ?></p>
                         </div>
                         <div class="col-md-2"></div>
-                        <div class="col-md-3">
-                            <form role="form" method="post">
+                        <form role="form" method="post">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Filter by:</label>
-                                    <?php $conf = 1;?>
+                                    <?php $conf = 1; ?>
                                     <select name="filter_star" class="form-control border-input file">
-                                        <option value="" <?php if($conf == 100) echo 'selected'; ?>>5-star</option>
-                                        <option value="" <?php if($conf == 75) echo 'selected'; ?>>4-star</option>
-                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>3-star</option>
-                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>2-star</option>
-                                        <option value="" <?php if($conf == 50) echo 'selected'; ?>>1-star</option>
+                                        <option value="0" <?php if($f_star == 'all') echo 'selected'; ?>>All</option>
+                                        <option value="5.0" <?php if($f_star == 5.0) echo 'selected'; ?>>5-star</option>
+                                        <option value="4.0" <?php if($f_star == 4.0) echo 'selected'; ?>>4-star</option>
+                                        <option value="3.0" <?php if($f_star == 3.0) echo 'selected'; ?>>3-star</option>
+                                        <option value="2.0" <?php if($f_star == 2.0) echo 'selected'; ?>>2-star</option>
+                                        <option value="1.0" <?php if($f_star == 1.0) echo 'selected'; ?>>1-star</option>
                                     </select>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label style="color: white;">`</label>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <?php
                     if (!$feedback) {
-                        echo "<center><h3><hr><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br><br><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                         ?>
                         <div class="content table-responsive table-full-width">
@@ -110,14 +147,12 @@
                                             </div>
                                         </td>
                                         <td><a href="<?= base_url() ?>inventory/view/<?= $feed->product_id ?>" style="text-decoration: underline"><?= $feed->product_id ?></a></td>
-                                        <td><a class="btn btn-danger cancel" href="#" data-id="<?= $feed->feedback_id ?>" title = "Delete this feedback">
+                                        <td><a class="btn btn-danger cancel" href="#" data-id="<?= $feed->feedback_id ?>" title="Delete this feedback">
                                                 <span class="ti-close"></span>
                                             </a></td>
                                     </tr>
                                 <?php endforeach; ?>
-                                <tr>
-
-                                </tr>
+                                <tr></tr>
                                 </tbody>
                             </table>
                         </div>
