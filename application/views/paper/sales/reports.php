@@ -17,7 +17,7 @@
                 <a href="<?= base_url() ?>reports/monthly_sales" class="btn btn-info">Monthly</a>
             </div>
             <div class="col-sm-3">
-                <a href="<?= base_url() ?>inventory" class="btn btn-info">Annual</a>
+                <a href="<?= base_url() ?>reports/annual_sales" class="btn btn-info">Annual</a>
             </div>
         </div>
 

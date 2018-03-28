@@ -5,7 +5,7 @@ class Reports extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('session'));
+        $this->load->library(array('session', 'form_validation'));
         if (!$this->session->has_userdata('isloggedin')) {
             redirect('/login');
         }
@@ -16,23 +16,15 @@ class Reports extends CI_Controller {
 
             $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_d, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_d, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
-            $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
-
             $weeklytotal = 0;
             foreach($weekly->result() as $week)
                 $weeklytotal += $week->income;
-
-            $annualtotal = 0;
-            foreach($annual->result() as $ann)
-                $annualtotal += $ann->income;
 
             $data = array(
                 'title' => 'Sales Reports',
                 'heading' => 'Sales Reports',
                 'weekly' => $weekly->result(),
-                'annual' => $annual->result(),
                 'weeklytotal' => $weeklytotal,
-                'annualtotal' => $annualtotal
             );
 
             $this->load->view("paper/includes/header", $data);
@@ -113,6 +105,42 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/sales/monthly_sales");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function annual_sales() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            if(isset($_POST['enter'])) {
+                $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC LIMIT " . $this->input->post('year'));
+
+                $subtitle = "Here are the here are the annual sales for the last <b><u>" . $this->input->post('year') . " years</u></b>. <br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
+                $no_fetched_msg = (!$annual->result()) ? "<center><h3><br><br><br><hr><br>There are no annual sales recorded for the selected number of years.</h3><br></center><br><br></div>" : "";
+            } else {
+                $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
+
+                $subtitle = "Here are the latest sales per year.";
+                $no_fetched_msg = (!$annual->result()) ? "<center><h3><br><br><br><hr><br>There are no annual sales recorded.</h3><br></center><br><br></div>" : "";
+            }
+
+            $annualtotal = 0;
+            foreach($annual->result() as $year)
+                $annualtotal += $year->income;
+
+            $data = array(
+                'title' => 'Annual Sales Report',
+                'heading' => 'Sales Reports',
+                'annual' => $annual->result(),
+                'annualtotal' => $annualtotal,
+                'sub' => $subtitle,
+                'no_fetched' => $no_fetched_msg
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/sales/yearly_sales");
             $this->load->view("paper/includes/footer");
         } else {
             redirect("home");
