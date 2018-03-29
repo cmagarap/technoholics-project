@@ -39,7 +39,7 @@
                         </form>
                         <?php
                         if (!$monthly) {
-                            echo "<center><h3><br><br><br><hr><br>There are no daily sales report recorded for this week.</h3><br></center><br><br></div>";
+                            echo "<center><h3><br><br><br><hr><br>There are no monthly sales recorded for this year.</h3><br></center><br><br></div>";
                         } else {
                         ?>
                     </div>
