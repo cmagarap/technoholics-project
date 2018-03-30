@@ -46,7 +46,7 @@ class Feedback extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date') ? "Here are the customer feedback for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "feedback'>Click  here to view all feedback.</a>" : "Here are the overall feedback of the customers.";
+        $date = $this->input->post('date') ? "Here are the customer feedback for <span style = 'background-color: #F3BB45; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('date'))) . ".</span><br><a href = '". base_url() . "feedback'>Click  here to view all feedback.</a>" : "Here are the overall feedback of the customers.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             if(isset($_POST['filter'])) {

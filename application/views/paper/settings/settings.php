@@ -172,37 +172,39 @@ if (isset($_POST['enter'])) {
                         </div>
                     </div>
                     <hr>
-                    <?php
-                    if (!$brand) {
-                        echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
-                    } else { ?>
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b>#</b></th>
-                            <th><b>Brand Name</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($brand as $brand): ?>
-                                <tr>
-                                    <td><?= $counter1++ ?></td>
-                                    <td><?= $brand->brand_name ?></td>
-                                    <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                            </tbody>
-                        </table>
+                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <?php
-                        echo "<div align = 'center'>" . "</div>";
-                    }
-                    ?>
+                        if (!$brand) {
+                            echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
+                        } else { ?>
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>#</b></th>
+                                <th><b>Brand Name</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($brand as $brand): ?>
+                                    <tr>
+                                        <td><?= $counter1++ ?></td>
+                                        <td><?= $brand->brand_name ?></td>
+                                        <td>
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand">
+                                                <span class="ti-pencil"></span>
+                                            </a>
+                                            <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand">
+                                                <span class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                                </tbody>
+                            </table>
+                            <?php
+                            echo "<div align = 'center'>" . "</div>";
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
 
@@ -216,37 +218,39 @@ if (isset($_POST['enter'])) {
                         </div>
                     </div>
                     <hr>
-                    <?php
-                    if (!$category) {
-                        echo "<center><h3><hr><br>There are no categories recorded in the database.</h3><br></center><br><br>";
-                    } else { ?>
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b>#</b></th>
-                            <th><b>Category Name</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($category as $category): ?>
-                                <tr>
-                                    <td><?= $counter2++ ?></td>
-                                    <td><?= $category->category ?></td>
-                                    <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_category/<?= $category->category_id ?>" title = "Edit Category">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete_category" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                            </tbody>
-                        </table>
+                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <?php
-                        echo "<div align = 'center'>" . "</div>";
-                    }
-                    ?>
+                        if (!$category) {
+                            echo "<center><h3><hr><br>There are no categories recorded in the database.</h3><br></center><br><br>";
+                        } else { ?>
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>#</b></th>
+                                <th><b>Category Name</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($category as $category): ?>
+                                    <tr>
+                                        <td><?= $counter2++ ?></td>
+                                        <td><?= $category->category ?></td>
+                                        <td>
+                                            <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_category/<?= $category->category_id ?>" title = "Edit Category">
+                                                <span class="ti-pencil"></span>
+                                            </a>
+                                            <a class="btn btn-danger delete_category" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category">
+                                                <span class="ti-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                                </tbody>
+                            </table>
+                            <?php
+                            echo "<div align = 'center'>" . "</div>";
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -263,6 +267,7 @@ if (isset($_POST['enter'])) {
                         </div>
                     </div>
                     <hr>
+                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <?php
                         if (!$shipper) {
                             echo "<center><h3><hr><br>There are no shippers recorded in the database.</h3><br></center><br><br>";
@@ -293,6 +298,7 @@ if (isset($_POST['enter'])) {
                             <?php
                             echo "<div align = 'center'>" . "</div>";
                         } ?>
+                    </div>
                 </div>
             </div>
 
@@ -306,6 +312,7 @@ if (isset($_POST['enter'])) {
                         </div>
                     </div>
                     <hr>
+                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <?php
                         if (!$supplier) {
                             echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
@@ -337,6 +344,7 @@ if (isset($_POST['enter'])) {
                             <?php
                             echo "<div align = 'center'>" . "</div>";
                         } ?>
+                    </div>
                 </div>
             </div>
         </div>

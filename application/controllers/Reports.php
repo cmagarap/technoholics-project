@@ -27,10 +27,17 @@ class Reports extends CI_Controller {
             if($this->input->post('from_date') AND $this->input->post('to_date')) {
                 $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "' GROUP BY sales_d ORDER BY sales.sales_date DESC");
 
-                $subtitle = "Here are the daily sales from <b><u>" . date("F j, Y", strtotime($this->input->post('from_date'))) . " to " . date("F j, Y", strtotime($this->input->post('to_date'))) . "</u></b>. <br><a href='" . base_url() . "reports/daily_sales'>See daily sales for this week.</a>";
+                $subtitle = "Here are the daily sales from <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('from_date'))) . " to " . date("F j, Y", strtotime($this->input->post('to_date'))) . ".</span><br><a href='" . base_url() . "reports/daily_sales'>See daily sales for this week.</a>";
             } else {
-                $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = 2018 AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
+                $daily = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') as sales_d, SUM(sales.income) as income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . date('Y') . " AND FROM_UNIXTIME(sales.sales_date, '%u') = " . date('W') . " GROUP BY sales_d ORDER BY sales.sales_date DESC");
 
+                $this->db->select(array("FROM_UNIXTIME(sales_date, '%b %d, %Y') AS sales_d", "income"));
+                $zero_income = $this->item_model->fetch('sales', 'status = 1 AND income = 0');
+
+                $merge = array_merge((array)$daily->result(), (array)$zero_income);
+                echo '<pre>';
+                print_r($merge);
+                echo '</pre>';
                 $subtitle = "Here are the daily sales for this week.";
             }
 
@@ -41,7 +48,7 @@ class Reports extends CI_Controller {
             $data = array(
                 'title' => 'Daily Sales Report',
                 'heading' => 'Sales Reports',
-                'daily' => $daily->result(),
+                'daily' => $merge,
                 'dailytotal' => $dailytotal,
                 'sub' => $subtitle
             );
@@ -60,7 +67,7 @@ class Reports extends CI_Controller {
             if($this->input->post('month') AND $this->input->post('year')) {
                 $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_week, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_date, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . $this->input->post('year') . " AND FROM_UNIXTIME(sales.sales_date, '%b') = '" .  $this->input->post('month') . "' GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
-                $subtitle = "Here are the weekly sales for the month of <b><u>" . date('F', strtotime($this->input->post('month'))) . ", " . $this->input->post('year') . "</u></b>. <br><a href='" . base_url() . "reports/weekly_sales'>See the latest weekly sales for the month.</a>";
+                $subtitle = "Here are the weekly sales for the month of <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F', strtotime($this->input->post('month'))) . ", " . $this->input->post('year') . ".</span><br><a href='" . base_url() . "reports/weekly_sales'>See the latest weekly sales for the month.</a>";
             } else {
                 $weekly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%U') AS sales_week, FROM_UNIXTIME(sales.sales_date, '%b %d, %Y') AS sales_date, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . date('Y') . " AND FROM_UNIXTIME(sales.sales_date, '%b') = '" . date('M') . "' GROUP BY WEEK(FROM_UNIXTIME(sales.sales_date)) ORDER BY sales.sales_date DESC");
 
@@ -98,7 +105,7 @@ class Reports extends CI_Controller {
             if(isset($_POST['enter'])) {
                 $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') AS sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . $this->input->post('year') . " GROUP BY sales_month ORDER BY sales.sales_date");
 
-                $subtitle = "Here are the monthly sales in <b><u>" . $this->input->post('year') . "</u></b>. <br><a href='" . base_url() . "reports/monthly_sales'>See the latest monthly sales.</a>";
+                $subtitle = "Here are the monthly sales in <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . ".</span><br><a href='" . base_url() . "reports/monthly_sales'>See the latest monthly sales.</a>";
             } else {
                 $monthly = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%M') AS sales_month, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales.sales_date, '%Y') = " . date('Y') . " GROUP BY sales_month ORDER BY sales.sales_date");
 
@@ -136,7 +143,7 @@ class Reports extends CI_Controller {
             if(isset($_POST['enter'])) {
                 $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC LIMIT " . $this->input->post('year'));
 
-                $subtitle = "Here are the here are the annual sales for the last <b><u>" . $this->input->post('year') . " years</u></b>. <br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
+                $subtitle = "Here are the here are the annual sales for the last <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . " years.</span><br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
                 $no_fetched_msg = (!$annual->result()) ? "<center><h3><br><br><br><hr><br>There are no annual sales recorded for the selected number of years.</h3><br></center><br><br></div>" : "";
             } else {
                 $annual = $this->db->query("SELECT SUM(orders.order_quantity) AS order_quantity, FROM_UNIXTIME(sales.sales_date, '%Y') as sales_y, SUM(sales.income) AS income FROM sales JOIN orders ON sales.order_id = orders.order_id WHERE sales.status = 1 GROUP BY sales_y ORDER BY sales.sales_date DESC");
@@ -169,13 +176,33 @@ class Reports extends CI_Controller {
 
     public function inventory() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $this->db->select(array("product_id", "product_name", "product_quantity", "product_price"));
-            $inventory = $this->item_model->fetch("product", "status = 1");
-            #
+            $dropdown_brand = $this->item_model->getDistinct('product', 'status = 1', 'product_brand', 'product_name', 'ASC');
+            $dropdown_date = $this->item_model->getDistinct('product', 'status = 1', "FROM_UNIXTIME(added_at, '%b %d, %Y') AS date_acq", 'added_at', 'DESC');
+
+            if(isset($_POST['filter'])) {
+                $sorted_by = $this->input->post('sort_inventory');
+                if($this->input->post('filter_inventory') == "product_brand") {
+                    $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND product_brand = '" . $this->input->post('select_f') . "' ORDER BY $sorted_by");
+                } elseif ($this->input->post('filter_inventory') == "product_price" OR $this->input->post('filter_inventory') == "product_quantity") {
+                    $value = explode("-", $this->input->post('select_f'));
+                    $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND " . $this->input->post('filter_inventory') . " BETWEEN " . $value[0] . " AND " . $value[1] . " ORDER BY $sorted_by");
+                } elseif ($this->input->post('filter_inventory') == "added_at") {
+                    $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND FROM_UNIXTIME(added_at, '%b %d, %Y') = '" . $this->input->post('select_f') . "' ORDER BY $sorted_by");
+                } elseif ($this->input->post('filter_inventory') == "all") {
+                    $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 ORDER BY $sorted_by");
+                }
+            } else {
+                $sorted_by = "product_name";
+                $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 ORDER BY $sorted_by");
+            }
+
             $data = array(
                 'title' => 'Inventory Report',
                 'heading' => 'Inventory',
-                'inventory' => $inventory,
+                'inventory' => $inventory->result(),
+                'dropdown_brand' => $dropdown_brand,
+                'dropdown_date' => $dropdown_date,
+                'sorted_by' => $sorted_by
             );
 
             $this->load->view("paper/includes/header", $data);

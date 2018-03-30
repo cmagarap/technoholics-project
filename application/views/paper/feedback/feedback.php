@@ -94,7 +94,6 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Filter by:</label>
-                                    <?php $conf = 1; ?>
                                     <select name="filter_star" class="form-control border-input file">
                                         <option value="0" <?php if($f_star == 'all') echo 'selected'; ?>>All</option>
                                         <option value="5.0" <?php if($f_star == 5.0) echo 'selected'; ?>>5-star</option>

@@ -16,6 +16,17 @@ class Home extends CI_Controller {
 
                 $product = $this->item_model->fetch('product', 'is_featured = 1 AND status = 1');
 
+                $this->db->select('income');
+                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+                if(!$income) {
+                    $data = array(
+                        'sales_detail' => "No items were purchased this day.",
+                        'income' => 0,
+                        'sales_date' => time()
+                    );
+                    $this->item_model->insertData('sales', $data);
+                }
+
                 $data = array(
                     'title' => "TECHNOHOLICS | All the tech you need.",
                     'CTI' => $this->basket->total_items(),
@@ -30,9 +41,31 @@ class Home extends CI_Controller {
                 $this->load->view('ordering/ads/featured_products');
                 $this->load->view('ordering/includes/footer');
             } elseif ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+                $this->db->select('income');
+                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+                if(!$income) {
+                    $data = array(
+                        'sales_detail' => "No items were purchased this day.",
+                        'income' => 0,
+                        'sales_date' => time()
+                    );
+                    $this->item_model->insertData('sales', $data);
+                }
+
                 redirect("dashboard");
             }
         } else { # if not logged in
+            $this->db->select('income');
+            $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+            if(!$income) {
+                $data = array(
+                    'sales_detail' => "No items were purchased this day.",
+                    'income' => 0,
+                    'sales_date' => time()
+                );
+                $this->item_model->insertData('sales', $data);
+            }
+
             $image = $this->item_model->fetch('content')[0];
             $product = $this->item_model->fetch('product', 'is_featured = 1 AND status = 1');
 

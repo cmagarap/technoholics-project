@@ -58,8 +58,16 @@
                             foreach ($daily as $daily): ?>
                                 <tr>
                                     <td><?= $daily->sales_d ?></td>
-                                    <td align="right"><?= $daily->order_quantity ?></td>
-                                    <?php $total_items += $daily->order_quantity; ?>
+                                    <?php
+                                    try {
+                                        $quantity = $daily->order_quantity;
+                                    } catch (Exception $e) {
+                                        $quantity = 0;
+                                        //echo $e->errorMessage();
+                                    }
+                                    ?>
+                                    <td align="right"><?= $quantity ?></td>
+                                    <?php $total_items += $quantity; ?>
                                     <td align="right">&#8369;<?= number_format($daily->income, 2) ?></td>
                                     <td></td>
                                 </tr>

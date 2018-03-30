@@ -61,15 +61,19 @@
                             <?php
                             foreach ($sales as $sales): ?>
                                 <tr>
-                                    <td><p style = "font-size: 12px"><span class='ti-money' style = 'font-size: 15px; color: green'></span></p></td>
+                                    <td><p style="font-size: 12px"><span class='ti-money' style='font-size: 15px; color: green'></span></p></td>
                                     <td><?= $sales->sales_id ?></td>
                                     <td><i><?= $sales->sales_detail ?></i></td>
                                     <td>&#8369;<?= number_format($sales->income, 2) ?></td>
                                     <td><?= date("m-j-Y", $sales->sales_date) ?>
                                     </td>
-                                    <td><u><a href = "<?= $this->config->base_url() ?>orders/view/<?= $sales->order_id ?>"><?= $sales->order_id ?></a></u></td>
+                                    <?php if($sales->order_id) { ?>
+                                        <td><u><a href = "<?= $this->config->base_url() ?>orders/view/<?= $sales->order_id ?>"><?= $sales->order_id ?></a></u></td>
+                                    <?php } else { ?>
+                                        <td><i style="color: #CCCCCC">NULL</i></td>
+                                    <?php } ?>
                                     <td>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title = "Delete" alt = "Delete">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title="Delete" alt="Delete">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -78,7 +82,7 @@
                             </tbody>
                         </table>
                     </div>
-                        <?php echo "<div align = 'center'>" . $links . "</div>";
+                        <?php echo "<div align='center'>" . $links . "</div>";
                         } ?>
                 </div>
             </div>

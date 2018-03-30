@@ -199,13 +199,13 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title" style = "margin-bottom: 10px"><b>Latest Customer Activities</b></h3>
+                        <h3 class="title" style="margin-bottom: 10px"><b>Latest Customer Activities</b></h3>
                         <p class="category">
-                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                            <i class="ti-reload" style="font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p><hr style = 'margin: 5px'>
                     </div>
 
-                    <div class="content table-responsive" style = "overflow-y: scroll; height: 200px;">
+                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <?php if ($trail): ?>
                             <table class="table table-striped" style = "margin-top: -20px">
                                 <thead>
