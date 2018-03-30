@@ -17,8 +17,22 @@
                                         <label>Brand Name <font color="red">*</font></label>
                                         <input type="text" class="form-control border-input" placeholder="Brand" value="<?= $brand_name->brand_name ?>" name = "brand_name">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("brand_name") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("brand_name") . "</span>";
                                         endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Brand Category <span style = "color: red">*</span></label>
+                                        <select name="category_id" id="" class = "form-control border-input file">
+                                            <?php foreach($category as $category): ?>
+                                                <option value="<?= $category->category_id ?>" <?php if ($brand_name->category_id == $category->category_id) echo "selected"; ?>>
+                                                    <?= $category->category ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     $user = $user[0];
 }
 
+$alert = $this->item_model->fetch("product", array("status" => 1, "product_quantity <=" => 5));
 date_default_timezone_set("Asia/Manila");
 ?>
 
@@ -52,12 +53,12 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('accounts/customer'); ?>">
                         <i class="ti-user"></i>
                         <?php echo "<p>Accounts</p></a>";
-                        } elseif($this->session->userdata('type') == 1){ ?>
-                        <a href="<?= site_url('accounts/customer'); ?>">
-                            <i class="ti-user"></i>
-                            <?php echo "<p>Customer Accounts</p></a>";
-                            }
-                            ?>
+                    } elseif($this->session->userdata('type') == 1){ ?>
+                    <a href="<?= site_url('accounts/customer'); ?>">
+                        <i class="ti-user"></i>
+                        <?php echo "<p>Customer Accounts</p></a>";
+                    }
+                    ?>
                 </li>
                 <li <?php if($heading == "Feedback") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('feedback'); ?>">
@@ -80,7 +81,6 @@ date_default_timezone_set("Asia/Manila");
             </ul>
         </div>
     </div>
-
     <div class="main-panel">
         <nav class="navbar navbar-default" style = "background-color: <?= $content->color_1; ?>">
             <div class="container-fluid">
@@ -120,16 +120,50 @@ date_default_timezone_set("Asia/Manila");
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="<?= $this->config->base_url() ?>Settings">
-                                <span class="navtxt">
-                                <i class="ti-settings"></i>
-                                <p>Settings</p>
-                                </span>
-                            </a>
-                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="navtxt">
+                                <i class="ti-bell"></i>
+                                <p class="notification"><?=count($alert)?></p>
+                                <p>Notifications</p>
+                                <b class="caret"></b>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu" style="overflow: auto; height:500px;">
+                            <?php foreach($alert as $alert): 
+                            $product_image = (string)$alert->product_image1;
+                            $image_array = explode(".", $product_image);
+                            ?>
+                            <li>
+                                <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b><?=$alert->product_name?></b>
+                                            <?php if($alert->product_quantity == 0) :?>
+                                                <p style="color:red;">Out of stock.</p>
+                                            <?php else:?>
+                                                <p>Only has <?=$alert->product_quantity?> quantity left.</p>
+                                            <?php endif;?>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
+                </li>
+                <li>
+                    <a href="<?= $this->config->base_url() ?>Settings">
+                        <span class="navtxt">
+                            <i class="ti-settings"></i>
+                            <p>Settings</p>
+                        </span>
+                    </a>
+                </li>
+            </ul>
 
-                </div>
-            </div>
-        </nav>
+        </div>
+    </div>
+</nav>
