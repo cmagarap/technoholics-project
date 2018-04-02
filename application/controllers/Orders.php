@@ -105,12 +105,14 @@ class Orders extends CI_Controller {
             $this->db->select("delivery_date");
             $delivery_date = $this->item_model->fetch('orders', 'order_id = ' . $this->uri->segment(3))[0];
             $order_items = $this->item_model->fetch('order_items', 'order_id = ' . $this->uri->segment(3));
+            $shippers = $this->item_model->fetch("shipper", "status = 1", "shipper_name", "ASC");
             if ($order_items) {
                 $data = array(
                     'title' => "Orders: Track Order",
                     'heading' => "Orders Management",
                     'order_items' => $order_items,
-                    'delivery' => $delivery_date
+                    'delivery' => $delivery_date,
+                    'shippers' => $shippers
                 );
                 $this->load->view('paper/includes/header', $data);
                 $this->load->view("paper/includes/navbar");

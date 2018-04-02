@@ -43,11 +43,11 @@
                                 <div class="form-group">
                                     <label>Filter by:</label>
                                     <select name="filter_inventory" id="filter_inventory" class="form-control border-input file" onchange="populate(this.id, 'select_f')">
-                                        <option value="all" >All</option>
-                                        <option value="product_brand" >Brand</option>
-                                        <option value="added_at" >Date Acquired</option>
-                                        <option value="product_price" >Price Range</option>
-                                        <option value="product_quantity" >Stock Range</option>
+                                        <option value="all">All</option>
+                                        <option value="product_brand">Brand</option>
+                                        <option value="added_at">Date Acquired</option>
+                                        <option value="product_price">Price Range</option>
+                                        <option value="product_quantity">Stock Range</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,11 +63,11 @@
                                 <div class="form-group">
                                     <label>Sort by:</label>
                                     <select name="sort_inventory" class="form-control border-input file">
-                                        <option value="product_name" >Product Name</option>
-                                        <option value="product_brand" >Brand</option>
-                                        <option value="added_at" >Date Acquired</option>
-                                        <option value="product_quantity" >Stock</option>
-                                        <option value="product_price" >Price</option>
+                                        <option value="product_name">Product Name</option>
+                                        <option value="product_brand">Brand</option>
+                                        <option value="added_at">Date Acquired</option>
+                                        <option value="product_quantity">Stock</option>
+                                        <option value="product_price">Price</option>
                                     </select>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                     <br><br><br><br>
                     <?php
                     if (!$inventory) {
-                        echo "<center><h3><hr><br>There are no products recorded in the database.</h3><br></center><br><br>";
+                        echo $html_tags[0] . $if_none . $html_tags[0];
                     } else {
                     ?>
                     <div class="content table-responsive table-full-width">

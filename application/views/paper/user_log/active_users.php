@@ -15,12 +15,54 @@ foreach ($customer as $customer1){
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Weekly Active Customers</b></h3>
-                        <p class="category">
-                            <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
-                        </p>
-                        <br>
-                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        <div class="col-sm-3">
+                            <h3 class="title"><span class="ti-user" style="color: #dc2f54;2"></span>&nbsp; <b>Weekly Active Customers</b></h3>
+                            <p class="category">
+                                <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
+                            </p>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <form role="form" method="post">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Filter by:</label>
+                                    <select name="filter_active" id="filter_inventory" class="form-control border-input file" onchange="populate(this.id, 'select_f')">
+                                        <option value="all">All</option>
+                                        <option value="product_brand">Latest Login</option>
+                                        <option value="added_at">Latest Action</option>
+                                        <option value="product_price">Total Actions Range</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Select:</label>
+                                    <select name="select_f" id="select_f" class="form-control border-input file">
+                                        <option value="">—</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Sort by:</label>
+                                    <select name="sort_inventory" class="form-control border-input file">
+                                        <option value="product_name" >Product Name</option>
+                                        <option value="product_brand" >Brand</option>
+                                        <option value="added_at" >Date Acquired</option>
+                                        <option value="product_quantity" >Stock</option>
+                                        <option value="product_price" >Price</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label style="color: white;">`</label>
+                                    <br>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
+                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -37,21 +79,32 @@ foreach ($customer as $customer1){
                                 $date = $this->item_model->max('user_log', 'customer_id = ' . $customer->customer_id, 'date');
                                 $active_identifier = time() - $date->date;
 
-                                $count_action = $this->item_model->getCount("user_log", "customer_id = " . $customer->customer_id);
+                                $count_action = $this->item_model->getCount("user_log", "customer_id = " . $customer->customer_id) + $this->item_model->getCount("audit_trail", "customer_id = " . $customer->customer_id);
 
-                                $this->db->select("action");
-                                $action = $this->item_model->fetch("user_log", "status = 1 AND customer_id = " . $customer->customer_id, "date", "DESC", 1)[0];
+                                $this->db->select(array('at_detail', 'at_date'));
+                                $trail =  $this->item_model->fetch("audit_trail", "status = 1 AND customer_id = " . $customer->customer_id, "at_date", "DESC", 1)[0];
 
-                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $customer->customer_id))[0];
-                                $user_image = (string)$userinformation->image;
+                                $this->db->select(array('action', 'date'));
+                                $log = $this->item_model->fetch("user_log", "status = 1 AND customer_id = " . $customer->customer_id, "date", "DESC", 1)[0];
+
+                                if ($log AND $trail)
+                                    $action = ($trail->at_date > $log->date) ? $log->action : $trail->at_detail;
+                                elseif ($log AND !$trail)
+                                    $action = $log->action;
+                                elseif (!$log AND $trail) # least likely to happen, but still included
+                                    $action = $trail->at_detail;
+                                elseif (!$log AND !$trail)
+                                    $action = "None";
+
+                                $user_image = (string)$customer->image;
                                 $image_array = explode(".", $user_image);
                                 ?>
                                 <tr>
                                     <?php if ($active_identifier < $week) : ?>
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><a href="<?= base_url() ?>accounts/view/customer/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
+                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
                                         <td><?= date("m-j-Y h:i A", $date->date) ?></td>
-                                        <td><?= $action->action ?></td>
+                                        <td><?= $action ?></td>
                                         <td><?= $count_action ?></td>
                                         <td><span class="text-success">ACTIVE</span></td>
                                     <?php else: continue;

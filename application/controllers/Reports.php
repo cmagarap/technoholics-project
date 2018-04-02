@@ -178,22 +178,29 @@ class Reports extends CI_Controller {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $dropdown_brand = $this->item_model->getDistinct('product', 'status = 1', 'product_brand', 'product_name', 'ASC');
             $dropdown_date = $this->item_model->getDistinct('product', 'status = 1', "FROM_UNIXTIME(added_at, '%b %d, %Y') AS date_acq", 'added_at', 'DESC');
+            $html_tags = array("<center><h3><hr><br>", "</h3><br></center><br><br>");
 
             if(isset($_POST['filter'])) {
                 $sorted_by = $this->input->post('sort_inventory');
                 if($this->input->post('filter_inventory') == "product_brand") {
                     $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND product_brand = '" . $this->input->post('select_f') . "' ORDER BY $sorted_by");
+                    $if_none = "There's no inventory report available for " . ucwords($this->input->post('select_f')) . ".";
                 } elseif ($this->input->post('filter_inventory') == "product_price" OR $this->input->post('filter_inventory') == "product_quantity") {
                     $value = explode("-", $this->input->post('select_f'));
+                    $above_or_not = ($value[1] == 500000) ? "above" : $value[1];
                     $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND " . $this->input->post('filter_inventory') . " BETWEEN " . $value[0] . " AND " . $value[1] . " ORDER BY $sorted_by");
+                    $if_none = ($this->input->post('filter_inventory') == "product_price") ? "There's no inventory report available for the product price range of " . $this->input->post('select_f') . "." : "There's no inventory report available for the product stock range of " . $value[0] . " - " . $above_or_not . ".";
                 } elseif ($this->input->post('filter_inventory') == "added_at") {
                     $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 AND FROM_UNIXTIME(added_at, '%b %d, %Y') = '" . $this->input->post('select_f') . "' ORDER BY $sorted_by");
+                    $if_none = "There's no inventory report available for the date " . $this->input->post('select_f') . ".";
                 } elseif ($this->input->post('filter_inventory') == "all") {
                     $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 ORDER BY $sorted_by");
+                    $if_none = "There are no inventory records available.";
                 }
             } else {
                 $sorted_by = "product_name";
                 $inventory = $this->db->query("SELECT product_id, product_name, product_brand, product_quantity, product_price, added_at FROM product WHERE status = 1 ORDER BY $sorted_by");
+                $if_none = "There are no inventory records available.";
             }
 
             $data = array(
@@ -202,7 +209,9 @@ class Reports extends CI_Controller {
                 'inventory' => $inventory->result(),
                 'dropdown_brand' => $dropdown_brand,
                 'dropdown_date' => $dropdown_date,
-                'sorted_by' => $sorted_by
+                'sorted_by' => $sorted_by,
+                'if_none' => $if_none,
+                'html_tags' => $html_tags
             );
 
             $this->load->view("paper/includes/header", $data);
