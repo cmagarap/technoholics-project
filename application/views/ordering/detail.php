@@ -9,7 +9,6 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
     $this->session->set_userdata('viewed_products', $unique);
 }
 ?>
-
 <div id="all">
     <div id="content">
         <div class="container">

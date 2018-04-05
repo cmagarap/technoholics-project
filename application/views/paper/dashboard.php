@@ -357,7 +357,7 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Top 5 Most Viewed Products</b></h3>
-                        <p class="category">by gender</p>
+                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -372,7 +372,7 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Top 5 Most Searched Products</b></h3>
-                        <p class="category">by gender</p>
+                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -387,7 +387,7 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Top 5 Most Purchased Products</b></h3>
-                        <p class="category">by gender</p>
+                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">

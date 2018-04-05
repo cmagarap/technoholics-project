@@ -491,9 +491,7 @@ class Inventory extends CI_Controller {
     public function getProductViews() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select("product_id");
-            $this->db->select("product_name");
-            $this->db->select("no_of_views");
+            $this->db->select(array("product_id", "product_name", "no_of_views"));
             $data = $this->item_model->fetch("product", "status = 1", "no_of_views", "DESC", 5);
             print json_encode($data);
         } else {
@@ -504,9 +502,7 @@ class Inventory extends CI_Controller {
     public function getTimesBought() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select("product_id");
-            $this->db->select("product_name");
-            $this->db->select("times_bought");
+            $this->db->select(array("product_id", "product_name", "times_bought"));
             $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
             print json_encode($data);
         } else {
@@ -517,9 +513,7 @@ class Inventory extends CI_Controller {
     public function getSearches() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select("product_id");
-            $this->db->select("product_name");
-            $this->db->select("times_searched");
+            $this->db->select(array("product_id", "product_name", "times_searched"));
             $data = $this->item_model->fetch("product", "status = 1", "times_searched", "DESC", 5);
             print json_encode($data);
         } else {
