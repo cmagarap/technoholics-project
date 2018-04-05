@@ -9,7 +9,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     $user = $user[0];
 }
 
-$alert = $this->item_model->fetch("product", array("status" => 1, "product_quantity <=" => 5));
+$alert = $this->item_model->fetch("product", "status = 1 AND product_quantity <= 5");
 date_default_timezone_set("Asia/Manila");
 ?>
 
@@ -124,24 +124,25 @@ date_default_timezone_set("Asia/Manila");
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="navtxt">
                                 <i class="ti-bell"></i>
-                                <p class="notification"><?=count($alert)?></p>
+                                <p class="notification"><?= count($alert) ?></p>
                                 <p>Notifications</p>
                                 <b class="caret"></b>
                             </span>
                         </a>
-                        <ul class="dropdown-menu" style="overflow: auto; height:500px;">
+                        <ul class="dropdown-menu" style="overflow: auto; height: 500px;">
                             <?php foreach($alert as $alert): 
                             $product_image = (string)$alert->product_image1;
                             $image_array = explode(".", $product_image);
                             ?>
                             <li>
-                                <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>">
+                                <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>" title="<?= $alert->product_name ?>">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
                                         </div>
                                         <div class="col-md-2">
-                                            <b><?=$alert->product_name?></b>
+                                            <?php $shortened_product_name = (strlen($alert->product_name) > 31) ? substr($alert->product_name, 0, 20) . "..." : $alert->product_name; ?>
+                                            <b><?= $shortened_product_name ?></b>
                                             <?php if($alert->product_quantity == 0) :?>
                                                 <p style="color:red;">Out of stock.</p>
                                             <?php else:?>

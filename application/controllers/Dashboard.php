@@ -33,6 +33,18 @@ class Dashboard extends CI_Controller {
             $no_of_orders = $this->db->count_all_results("orders");
             $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);
 
+            $this->db->select('income');
+            $income_current = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
+
+            if(!$income_current) {
+                $data = array(
+                    'sales_detail' => "No items were purchased this day.",
+                    'income' => 0,
+                    'sales_date' => time()
+                );
+                $this->item_model->insertData('sales', $data);
+            }
+
             $data = array(
                 'title' => "Admin Home",
                 'heading' => "Dashboard",

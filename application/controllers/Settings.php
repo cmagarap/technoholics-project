@@ -23,11 +23,14 @@ class Settings extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-            $category = $this->item_model->fetch("category", array("status" => 1), "category", "ASC");
-            $brand = $this->item_model->fetch("brand", array("status" => 1), "brand_name", "ASC");
-            $supplier = $this->item_model->fetch("supplier", array("status" => 1), "company_name", "ASC");
-            $shipper = $this->item_model->fetch("shipper", array("status" => 1), "shipper_name", "ASC");
-            $content = $this->item_model->fetch("content", array("content_id" => 1))[0];
+            $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
+//            echo "<pre>";
+//            print_r($category);
+//            echo "</pre>";
+            $brand = $this->item_model->fetch("brand", "status = 1", "brand_name", "ASC");
+            $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
+            $shipper = $this->item_model->fetch("shipper", "status = 1", "shipper_name", "ASC");
+            $content = $this->item_model->fetch("content", "content_id = 1")[0];
 
             $data = array(
                 'title' => 'Settings',

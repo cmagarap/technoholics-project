@@ -147,6 +147,8 @@ class Home extends CI_Controller {
                 $this->pagination->initialize($config);
                 $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), $sort, 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
                 $current_show = $this->uri->segment(5) + count($product);
+                $category_content = $this->item_model->fetch('category', "status = 1");
+
                 $data = array(
                     'title' => 'Category',
                     'products' => $product,
@@ -158,6 +160,7 @@ class Home extends CI_Controller {
                     'image' => $image,
                     'current_show' => $current_show,
                     'perpage' => $perpage,
+                    'category_content' => $category_content,
                     'CTI' => $this->basket->total_items(),
                     'links' => $this->pagination->create_links()
                 );
@@ -332,6 +335,7 @@ class Home extends CI_Controller {
            $product = $this->item_model->fetch('product', array('product_id' => $id));
            $condition = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid, 'product_id' => $id));
            $row = $product[0];
+           $category_content = $this->item_model->fetch('category', "status = 1");
 
            $data = array(
             'title' => $row->product_name,
@@ -343,6 +347,7 @@ class Home extends CI_Controller {
             'row' => $row,
             'condition' => $condition,
             'image' => $image,
+            'category_content' => $category_content,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
