@@ -47,7 +47,7 @@ class Sales extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date') ? "Here are the list of sales for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
+        $date = $this->input->post('date') ? "Here are the list of sales for <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('date'))) . ".</span><br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('sales', array('status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('sales', 'status = 1');
@@ -97,7 +97,7 @@ class Sales extends CI_Controller {
     public function getDailySales() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_id DESC LIMIT 5");
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_date DESC LIMIT 5");
             print json_encode(array_reverse((array)$data->result()));
         } else {
             redirect('home');

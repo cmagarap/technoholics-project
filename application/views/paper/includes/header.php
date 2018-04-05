@@ -58,53 +58,43 @@ $image = $content[0]; ?>
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
     <script src="<?= base_url()?>assets/paper/js/paper-dashboard.js"></script>
     <script type="text/javascript"> var base_url = "<?= base_url() ?>";</script>
-    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <!--<script src="<?= base_url()?>assets/paper/js/demo.js"></script> -->
-
+  
     <style>
-    input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
-        background-color: lightblue;
-    }
-    .file:hover {
-        background-color: lightblue;
-    }
-    input[type=text].search {
-        width: 245px;
-        height: 40px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 20px 0px 0px 20px;
-        font-size: 14px;
-        background-color: white;
-        background-position: 10px 10px;
-        background-repeat: no-repeat;
-        padding: 7px 7px 7px 20px;
-        -webkit-transition: width 0.4s ease-in-out;
-        transition: width 0.4s ease-in-out;
-    }
-    input[type=text]:focus.search {
-        /*width: 50%;*/
-        background-color: lightblue;
-    }
-    .searchbtn:hover {
-        background-color: #31bbe0;
-        color: white;
-    }
-        /*button {
-            width: 50px;
+        input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
+            background-color: lightblue;
+        }
+        .file:hover {
+            background-color: lightblue;
+        }
+        input[type=text].search {
+            width: 245px;
+            height: 40px;
             box-sizing: border-box;
-            border: 2px solid #31bbe0;
-            border-radius: 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px 0px 0px 20px;
             font-size: 14px;
             background-color: white;
-            padding: 7px;
-            }*/
-            .navtxt:hover {
-                color: #31bbe0;
-            }
-            .navtxt {
-                color: #38D5FF;
-            }
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 7px 7px 7px 20px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+        input[type=text]:focus.search {
+            /*width: 50%;*/
+            background-color: lightblue;
+        }
+        .searchbtn:hover {
+            background-color: #31bbe0;
+            color: white;
+        }
+
+        .navtxt:hover {
+            color: #31bbe0;
+        }
+        .navtxt {
+            color: #38D5FF;
+        }
 
             /* AYAW GUMANA*/
             .recover:hover {

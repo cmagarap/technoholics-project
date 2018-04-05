@@ -10,7 +10,6 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
 }
 $category_content = $this->item_model->fetch('category', array("status" => 1));
 ?>
-
 <div id="all">
     <div id="content">
         <div class="container">
@@ -211,31 +210,67 @@ $category_content = $this->item_model->fetch('category', array("status" => 1));
                             <button type="submit" id="post" class="btn btn-primary" data-productid= "<?= $row->product_id ?>" data-productname= "<?= $row->product_name ?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?= $this->uri->segment(7) ?>" >  <i class="fa fa-comment-o"></i> Post comment</button>
                         </div>
                     </div>
-                <?php else: ?>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <h5><a href="<?= base_url() . 'login'; ?>">Login</a> or <a href="<?= base_url() . 'register'; ?>">Register</a>  to leave a comment.</h5>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif ?>                    
-            </div>
-        </div>
-    </div>
-    <div class="box">
-        <h3>You may also like these products.</h3>
-    </div>
-    <div class="row products">
-        <div id="hot">
-            <div class="product-slider">
-                <?php
-                if (!$this->session->has_userdata('isloggedin')) {
-                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-                    $this->session->set_userdata('suggest', $suggest);
-                } elseif ($this->session->has_userdata('isloggedin')) {
-                    $this->db->select('product_preference');
-                    $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
+                </div>
+                <div class="box" id="content">
+                    <div id="comments" >
+                        <?php if (!$feedback): ?>
+                            <h4>0 comment(s)</h4>
+                        <?php else: ?>
+                            <h4><?= $this->item_model->getCount('feedback', 'product_id = ' . $row->product_id . ' AND status = 1'); ?> comment(s)</h4>
+                            <?php
+                            foreach ($feedback as $feedback):
+                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $feedback->customer_id))[0];
+                                $user_image = (string) $userinformation->image;
+                                $image_array = explode(".", $user_image);
+                                ?>
+                                <hr>
+                                <div class="row comment">
+                                    <div class="col-sm-1 col-md-1 text-center-xs">
+                                        <p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt=""></p>
+                                    </div>
+                                    <div class="col-sm-9 col-md-10">
+                                        <h5><?= $userinformation->username ?></h5>
+                                        <p class="posted">
+                                            <i class="ti-star" style="color: #f5bd23;"></i> <font color="#f5bd23"><?= number_format($feedback->rating, 0) ?>/5</font>
+                                        </p>
+                                        <p><?= $feedback->feedback ?></p>
+                                        <i class="fa fa-clock-o" style="font-size: 10px; display: inline; color: #ccc"></i> <p style="font-size: 10px; display: inline; color: #ccc"><?= date(" F j, Y  h:i A", $feedback->added_at) ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                            <?php echo "<div align = 'center'>" . $links . "</div>"; ?>
+                        <?php endif ?>
+                        <hr>
+                        <div id="comment-form">
+                            <h4>Leave comment</h4>
+                            <?php
+                            if ($this->session->has_userdata('isloggedin')):
+                                $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+                                $user_image = (string) $userinformation->image;
+                                $image_array = explode(".", $user_image);
+                                ?>
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-2 text-center-xs">
+                                        <p>
+                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-9 col-md-10">
+                                        <h5 >Tell people what you think</h5>
+                                        <fieldset class="starability-checkmark">
+                                            <input type="radio" id="rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+
+                                            <input type="radio" id="rate1" name="rating" value="1" />
+                                            <label for="rate1">1 star.</label>
+
+                                            <input type="radio" id="rate2" name="rating" value="2" />
+                                            <label for="rate2">2 stars.</label>
+
+                                            <input type="radio" id="rate3" name="rating" value="3" />
+                                            <label for="rate3">3 stars.</label>
+
+                                            <input type="radio" id="rate4" name="rating" value="4" />
+                                            <label for="rate4">4 stars.</label>
 
                     if ($preference->product_preference != NULL) {
                         $array_p = explode(", ", $preference->product_preference);
@@ -285,7 +320,42 @@ $category_content = $this->item_model->fetch('category', array("status" => 1));
                                         <p class="price">&#8369;<?= number_format($suggest[$i]->product_price, 2) ?></p>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endif ?>                    
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h3>You may also like these products.</h3>
+                </div>
+                <div class="row products">
+                    <div id="hot">
+                        <div class="product-slider">
+                            <?php
+                            if (!$this->session->has_userdata('isloggedin')) {
+                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
+
+                                if(!$suggest) {
+                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+
+                                }
+
+                                $this->session->set_userdata('suggest', $suggest);
+                            } elseif ($this->session->has_userdata('isloggedin')) {
+                                $this->db->select('product_preference');
+                                $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
+
+                                if ($preference->product_preference != NULL) {
+                                    $array_p = explode(", ", $preference->product_preference);
+
+                                    foreach ($array_p as $p) {
+                                        $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
+                                    }
+                                } elseif ($preference->product_preference == NULL) {
+                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                                    $this->session->set_userdata('suggest', $suggest);
+                                }
+                            }
+                            ?>
                             <?php
                         endfor;
                     endforeach;

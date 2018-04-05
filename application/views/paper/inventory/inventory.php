@@ -34,7 +34,7 @@
                         <div align = "left">
                             <h2 class="title"><b>Products List</b></h2>
                             <p class="category">
-                                Here are the list of products as of <?= date("F j, Y"); ?>.<br>
+                                Here are the list of products as of <span style = 'background-color: #dc2f54; color: white; padding: 3px;'><?= date("F j, Y"); ?>.</span><br>
                                 <a href="<?= base_url() ?>reports/inventory"> <u>See inventory report.</u></a>
                             </p><br>
                             <a href = "<?= $this->config->base_url() ?>inventory/add_product" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">Add Product</a>
@@ -55,7 +55,6 @@
                                     <th><b>Category</b></th>
                                     <th><b>Price</b></th>
                                     <th><b>Stock</b></th>
-                                    <!--<th><b class="ti-eye" title = "No. of customer views"></b></th>-->
                                     <th><b>Actions</b></th>
                                 </thead>
                                 <tbody>
@@ -69,7 +68,7 @@
 
                                         <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
                                         <td><?= $products->product_name ?></td>
-                                        <td><?= $products->product_brand ?></td>
+                                        <td><?= ucwords($products->product_brand) ?></td>
                                         <td><?= $products->product_category ?></td>
                                         <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
                                         <td><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";

@@ -35,7 +35,7 @@ date_default_timezone_set("Asia/Manila");
                         <p>Orders</p>
                     </a>
                 </li>
-                <li <?php if($heading == "Sales Management") { echo 'class="active"'; } ?>>
+                <li <?php if($heading == "Sales Management" OR $heading == "Sales Reports") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('sales'); ?>">
                         <i class="ti-stats-up"></i>
                         <p>Sales</p>

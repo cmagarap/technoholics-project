@@ -46,7 +46,7 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                    <th><b>#</b></th>
+                                    <th><b>Admin ID</b></th>
                                     <th colspan="2"><b>Username</b></th>
                                     <th><b>Full Name</b></th>
                                     <th><b>Email Address</b></th>

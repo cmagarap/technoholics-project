@@ -55,7 +55,7 @@ class Dashboard extends CI_Controller {
         }
     }
 
-    public function getTrend() {
+    /*public function getTrend() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
             $overall = $this->db->query("SELECT SUM(orders.total_price) AS price, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE orders.status = 1 GROUP BY td ORDER BY orders.order_id DESC LIMIT 12");
@@ -64,5 +64,5 @@ class Dashboard extends CI_Controller {
         } else {
             redirect("home");
         }
-    }
+    }*/
 }

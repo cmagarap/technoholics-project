@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="header">
                         <h3><span class="ti-stats-up" style = "color: #dc2f54;"></span>&nbsp;<b> Daily Sales Chart</b></h3>
+                        <p class="category">Daily sales for the last five days.</p>
                         <hr>
                     </div>
                     <div class="content">
@@ -22,6 +23,7 @@
                 <div class="card">
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #dc2f54;"></span>&nbsp; <b>Calendar</b></h3>
+                        <p class="category">Select a date to filter sales records.</p>
                         <hr>
                         <div class="calendar"></div>
                             <form action="<?= base_url() . 'sales/page'; ?>" method="POST">
@@ -40,7 +42,7 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #dc2f54;"></span>&nbsp; <b>List of Sales</b></h3>
                         <p class="category"><?= $date ?></p>
-                        <a href="<?= base_url() ?>reports/sales">See sales report.</a>
+                        <a href="<?= base_url() ?>reports/sales_reports">See sales report.</a>
                     </div>
                     <?php if(!$sales) {
                         echo "<center><h3><hr><br>There are no sales recorded for the date you have selected.</h3><br></center><br><br>";
@@ -49,27 +51,29 @@
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
-                            <th></th>
-                            <th><b>#</b></th>
+                            <th><b title="Sales ID">ID</b></th>
                             <th><b>Details</b></th>
                             <th><b>Income</b></th>
                             <th><b>Date</b></th>
-                            <th><b>Order</b></th>
-                            <th></th>
+                            <th><b>Order ID</b></th>
+                            <th><b>Action</b></th>
                             </thead>
                             <tbody>
                             <?php
                             foreach ($sales as $sales): ?>
                                 <tr>
-                                    <td><p style = "font-size: 12px"><span class='ti-money' style = 'font-size: 15px; color: green'></span></p></td>
                                     <td><?= $sales->sales_id ?></td>
                                     <td><i><?= $sales->sales_detail ?></i></td>
                                     <td>&#8369;<?= number_format($sales->income, 2) ?></td>
-                                    <td><?= date("m-j-Y", $sales->sales_date) ?>
+                                    <td><?= date("M-d-Y", $sales->sales_date) ?>
                                     </td>
-                                    <td><u><a href = "<?= $this->config->base_url() ?>orders/view/<?= $sales->order_id ?>"><?= $sales->order_id ?></a></u></td>
+                                    <?php if($sales->order_id) { ?>
+                                        <td><u><a href = "<?= $this->config->base_url() ?>orders/view/<?= $sales->order_id ?>"><?= $sales->order_id ?></a></u></td>
+                                    <?php } else { ?>
+                                        <td><i style="color: #CCCCCC">NULL</i></td>
+                                    <?php } ?>
                                     <td>
-                                        <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title = "Delete" alt = "Delete">
+                                        <a class="btn btn-danger delete" href="#" data-id="<?= $sales->sales_id ?>" title="Delete" alt="Delete">
                                             <span class="ti-trash"></span>
                                         </a>
                                     </td>
@@ -78,7 +82,7 @@
                             </tbody>
                         </table>
                     </div>
-                        <?php echo "<div align = 'center'>" . $links . "</div>";
+                        <?php echo "<div align='center'>" . $links . "</div>";
                         } ?>
                 </div>
             </div>
