@@ -261,7 +261,7 @@ class Orders extends CI_Controller {
             $this->item_model->insertData("order_status", $for_orderstatus);
         }
 
-        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
+        $order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3) . " AND status = 1")[0];
 
         if ($order->process_status == 3) {
             $order_items = $this->item_model->fetch("order_items", "order_id = " . $this->uri->segment(3));
@@ -273,28 +273,26 @@ class Orders extends CI_Controller {
             }
 
             $this->db->select('sales_id');
-            $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "' AND income = 0")[0];
-
+            $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "' AND income = 0")[0];
+            $plural_or_not = ($order->order_quantity == 1) ? "item was" : "items were";
             if ($income) {
-                $plural_or_not = ($order->order_quantity == 1) ? "item was" : "items were";
-                $data = array(
+                $update_sales = array(
                     'sales_detail' => "In this transaction, $order->order_quantity $plural_or_not bought and " . number_format($order->total_price, 2) . " is earned.",
                     'income' => $order->total_price,
                     'sales_date' => time(),
                     'admin_id' => $this->session->uid,
                     'order_id' => $order->order_id
                 );
-                $this->item_model->updatedata('sales', $data, "sales_id = " . $income->sales_id);
+                $this->item_model->updatedata('sales', $update_sales, "sales_id = " . $income->sales_id);
             } elseif (!$income) {
-                $plural_or_not = ($order->order_quantity == 1) ? "item was" : "items were";
-                $for_sales = array(
+                $input_sales = array(
                     'sales_detail' => "In this transaction, $order->order_quantity $plural_or_not bought and " . number_format($order->total_price, 2) . " is earned.",
                     'income' => $order->total_price,
                     'sales_date' => time(),
                     'admin_id' => $this->session->uid,
                     'order_id' => $order->order_id
                 );
-                $this->item_model->insertData('sales', $for_sales);
+                $this->item_model->insertData('sales', $input_sales);
             }
 
             $for_log = array(

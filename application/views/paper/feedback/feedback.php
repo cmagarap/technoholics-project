@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="header">
                         <h3><span class="ti-calendar" style="color: #F3BB45"></span>&nbsp; <b>Calendar</b></h3>
+                        <p class="category">Select a date to filter feedback records.</p>
                         <hr>
                         <div class="calendar"></div>
                         <form action="<?= base_url() . 'feedback'; ?>" method="POST">
@@ -120,12 +121,13 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b title="Feedback ID">#</b></th>
+                                <th><b title="Feedback ID">ID</b></th>
                                 <th colspan="2"><b>Customer</b></th>
                                 <th><b>Feedback</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Rating</b></th>
-                                <th><b title="Product ID" class="ti-package"></b></th>
+                                <th><b>Product ID</b></th>
+                                <th><b>Action</b></th>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($feedback as $feed): ?>
@@ -138,7 +140,7 @@
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
                                         <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
                                         <td><?= $feed->feedback ?></td>
-                                        <td><?= date("m-j-y", $feed->added_at) ?></td>
+                                        <td><?= date("M-d-y", $feed->added_at) ?></td>
                                         <td>
                                             <div class="star-ratings-css">
                                                 <div class="star-ratings-css-top" style="width: <?= ($feed->rating / 5) * 100 ?>%" title="<?= $feed->rating ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>

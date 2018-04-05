@@ -175,9 +175,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 <hr>
                                 <div class="row comment">
                                     <div class="col-sm-1 col-md-1 text-center-xs">
-                                        <p>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                                        </p>
+                                        <p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt=""></p>
                                     </div>
                                     <div class="col-sm-9 col-md-10">
                                         <h5><?= $userinformation->username ?></h5>
@@ -264,7 +262,13 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         <div class="product-slider">
                             <?php
                             if (!$this->session->has_userdata('isloggedin')) {
-                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
+
+                                if(!$suggest) {
+                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+
+                                }
+
                                 $this->session->set_userdata('suggest', $suggest);
                             } elseif ($this->session->has_userdata('isloggedin')) {
                                 $this->db->select('product_preference');

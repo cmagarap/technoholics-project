@@ -97,7 +97,7 @@ class Sales extends CI_Controller {
     public function getDailySales() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_id DESC LIMIT 5");
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_date DESC LIMIT 5");
             print json_encode(array_reverse((array)$data->result()));
         } else {
             redirect('home');

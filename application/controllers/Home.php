@@ -17,7 +17,8 @@ class Home extends CI_Controller {
                 $product = $this->item_model->fetch('product', 'is_featured = 1 AND status = 1');
 
                 $this->db->select('income');
-                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
+
                 if(!$income) {
                     $data = array(
                         'sales_detail' => "No items were purchased this day.",
@@ -42,7 +43,7 @@ class Home extends CI_Controller {
                 $this->load->view('ordering/includes/footer');
             } elseif ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
                 $this->db->select('income');
-                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+                $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
                 if(!$income) {
                     $data = array(
                         'sales_detail' => "No items were purchased this day.",
@@ -56,7 +57,7 @@ class Home extends CI_Controller {
             }
         } else { # if not logged in
             $this->db->select('income');
-            $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M j, Y') . "'");
+            $income = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
             if(!$income) {
                 $data = array(
                     'sales_detail' => "No items were purchased this day.",

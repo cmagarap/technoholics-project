@@ -46,11 +46,10 @@ foreach ($customer as $customer1){
                                 <div class="form-group">
                                     <label>Sort by:</label>
                                     <select name="sort_inventory" class="form-control border-input file">
-                                        <option value="product_name" >Product Name</option>
-                                        <option value="product_brand" >Brand</option>
-                                        <option value="added_at" >Date Acquired</option>
-                                        <option value="product_quantity" >Stock</option>
-                                        <option value="product_price" >Price</option>
+                                        <option value="product_name" >Username</option>
+                                        <option value="product_brand" >Latest Login</option>
+                                        <option value="added_at" >Latest Action</option>
+                                        <option value="product_quantity" >Total Actions</option>
                                     </select>
                                 </div>
                             </div>
@@ -102,8 +101,8 @@ foreach ($customer as $customer1){
                                 <tr>
                                     <?php if ($active_identifier < $week) : ?>
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
-                                        <td><?= date("m-j-Y h:i A", $date->date) ?></td>
+                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?php if($customer->username != NULL) echo $customer->username; else echo $customer->email; ?></a></td>
+                                        <td><?= date("M-d-Y h:i A", $date->date) ?></td>
                                         <td><?= $action ?></td>
                                         <td><?= $count_action ?></td>
                                         <td><span class="text-success">ACTIVE</span></td>

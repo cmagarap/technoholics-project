@@ -5,28 +5,22 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="header">
-                        <div align = "left">
+                        <div class="col-md-5">
                             <h3 class="title"><span class="ti-money" style = "color: #dc2f54;"></span> <b>Weekly Sales</b></h3>
                             <p class="category"><?= $sub ?></p>
                         </div>
-                    </div>
-                    <?php
-                    if(isset($_POST['enter'])) {
-                        $month = $this->input->post('month');
-                        $year = $this->input->post('year');
-                    } else {
-                        $month = '';
-                        $year = '';
-                    }
-                    ?>
-                    <div class="content">
+
+                        <?php
+                            $month = (isset($_POST['enter'])) ? $this->input->post('month') : '';
+                            $year = (isset($_POST['enter'])) ? $this->input->post('year') : '';
+                        ?>
                         <form role="form" method="POST">
-                            <div class="form-group">
-                                <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label>Change Report Month and Year</label>
                                     <select name="month" class="form-control border-input file">
                                         <option value="0">Select Month</option>
-                                        <option value="Jan" <?php if($this->input->post('month') == "Jan") echo 'selected'; ?>>January</option>
+                                        <option value="Jan">January</option>
                                         <option value="Feb">February</option>
                                         <option value="Mar">March</option>
                                         <option value="Apr">April</option>
@@ -40,7 +34,9 @@
                                         <option value="Dec">December</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
                                     <label style="color: white;">`</label>
                                     <select name="year" class="form-control border-input file">
                                         <option value="0">Select Year</option>
@@ -49,20 +45,22 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
                                     <label style="color: white;">`</label><br>
-                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter">Enter</button>
-                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter"><i class="ti-filter"></i></button>
+                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
                                 </div>
                             </div>
                         </form>
-                        <?php
-                        if (!$weekly) {
-                            echo "<center><h3><br><br><br><hr><br>There are no daily sales recorded for this week.</h3><br></center><br><br></div>";
-                        } else {
-                        ?>
                     </div>
-                    <br><br><br>
+                    <?php
+                    if (!$weekly) {
+                        echo "<center><h3><br><br><br><hr><br>There are no daily sales recorded for this week.</h3><br></center><br><br></div>";
+                    } else {
+                    ?>
+                    <br><br><br><br>
                     <hr style="margin-bottom: -20px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -77,8 +75,8 @@
                             foreach ($weekly as $weekly): ?>
                                 <tr>
                                     <td><?= $weekly->sales_date ?></td>
-                                    <td align="right"><?= $weekly->order_quantity ?></td>
-                                    <?php $total_items += $weekly->order_quantity; ?>
+                                    <td align="right"><?= $weekly->items_sold ?></td>
+                                    <?php $total_items += $weekly->items_sold; ?>
                                     <td align="right">&#8369;<?= number_format($weekly->income, 2) ?></td>
                                     <td></td>
                                 </tr>

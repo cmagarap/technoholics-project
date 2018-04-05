@@ -12,7 +12,7 @@
         } else if(s1.value == "product_price") {
             var optionArray = ["-|—", "0-99|0 - 99", "100-499|100 - 499", "500-999|500 - 999", "1000-4999|1,000 - 4,999", "5000-9999|5,000 - 9,999", "10000-19999|10,000 - 19,999", "20000-49999|20,000 - 49,999", "50000-500000|50,000 and above"];
         } else if(s1.value == "product_quantity") {
-            var optionArray = ["-|—", "0-9|0 - 9", "10-19|10 - 19", "20-49|20 - 49", "50-99|50 - 99", "100-199|100 - 199", "200-499|200 - 499", "500-999|500 - 999", "1000-100000|1,000 and above"];
+            var optionArray = ["-|—", "0-9|0 - 9", "10-19|10 - 19", "20-49|20 - 49", "50-99|50 - 99", "100-199|100 - 199", "200-499|200 - 499", "500-999|500 - 999", "1000-500000|1,000 and above"];
         }
 
         for(var option in optionArray){
@@ -76,7 +76,7 @@
                                     <label style="color: white;">`</label>
                                     <br>
                                     <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
-                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go Back</a>
                                 </div>
                             </div>
                         </form>
@@ -91,7 +91,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th><b title = "Product ID">#</b></th>
+                                <th><b>Product ID</b></th>
                                 <th><b>Asset <?php if($sorted_by == 'product_name') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
                                 <th><b>Brand <?php if($sorted_by == 'product_brand') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
                                 <th><b>Date Acquired <?php if($sorted_by == 'added_at') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>

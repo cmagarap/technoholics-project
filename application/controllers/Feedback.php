@@ -62,7 +62,7 @@ class Feedback extends CI_Controller {
                 }
             } else {
                 filter_all:
-                $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('feedback', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('feedback', 'status = 1');
+                $config['total_rows'] = ($this->input->post('date')) ? $this->item_model->getCount('feedback', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('feedback', 'status = 1');
                 $this->pagination->initialize($config);
 
                 $feedback = ($this->input->post('date')) ? ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1, 'FROM_UNIXTIME(added_at,"%Y-%m-%d")' => $this->input->post('date')))) : ($this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(3), 'added_at', 'DESC', array('status' => 1)));

@@ -26,23 +26,9 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Male',
+                    label: 'Times Searched',
                     data: searches,
                     backgroundColor: color_chart,
-                    borderWidth: 1,
-                    hoverBorderColor: 'rgba(0, 0, 0, 1)',
-                    hoverBorderWidth: 4
-                },
-                {
-                    label: 'Female',
-                    data: [10, 15, 3, 4, 5],
-                    backgroundColor: [
-                        'rgba(235, 94, 40, 1)',
-                        'rgba(49, 187, 224, 1)',
-                        'rgba(220, 47, 84, 1)',
-                        'rgba(122, 44, 201, 1)',
-                        'rgba(122, 194, 154, 1)'
-                    ],
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4

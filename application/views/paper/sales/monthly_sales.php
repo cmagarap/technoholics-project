@@ -5,23 +5,15 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="header">
-                        <div align = "left">
+                        <div class="col-sm-4">
                             <h3 class="title"><span class="ti-money" style = "color: #dc2f54;"></span> <b>Monthly Sales</b></h3>
                             <p class="category"><?= $sub ?></p>
                         </div>
-                    </div>
-                    <?php
-                    if(isset($_POST['enter'])) {
-                        $year = $this->input->post('year');
-                    } else {
-                        $year = '';
-                    }
-                    ?>
-                    <div class="content">
+                        <?php $year = (isset($_POST['enter'])) ? $this->input->post('year') : ''; ?>
+                        <div class="col-sm-4"></div>
                         <form role="form" method="POST">
-                            <div class="form-group">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-2">
+                            <div class="col-sm-2">
+                                <div class="form-group">
                                     <label>Filter by Year:</label>
                                     <select name="year" class="form-control border-input file">
                                         <option value="0">Select Year</option>
@@ -30,20 +22,22 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
                                     <label style="color: white;">`</label><br>
-                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter">Enter</button>
-                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter" title="Filter"><i class="ti-filter"></i></button>
+                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
                                 </div>
                             </div>
                         </form>
-                        <?php
-                        if (!$monthly) {
-                            echo "<center><h3><br><br><br><hr><br>There are no monthly sales recorded for this year.</h3><br></center><br><br></div>";
-                        } else {
-                        ?>
                     </div>
-                    <br><br><br>
+                    <?php
+                        if (!$monthly) {
+                            echo "<center><h3><br><br><hr><br>There are no monthly sales recorded for this year.</h3><br></center><br><br></div>";
+                        } else {
+                    ?>
+                    <br><br><br><br>
                     <hr style="margin-bottom: -20px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -58,8 +52,8 @@
                             foreach ($monthly as $monthly): ?>
                                 <tr>
                                     <td><?= $monthly->sales_month ?></td>
-                                    <td align="right"><?= $monthly->order_quantity ?></td>
-                                    <?php $total_items += $monthly->order_quantity; ?>
+                                    <td align="right"><?= $monthly->items_sold ?></td>
+                                    <?php $total_items += $monthly->items_sold; ?>
                                     <td align="right">&#8369;<?= number_format($monthly->income, 2) ?></td>
                                     <td></td>
                                 </tr>

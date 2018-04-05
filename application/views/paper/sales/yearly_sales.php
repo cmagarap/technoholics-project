@@ -5,23 +5,15 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="header">
-                        <div align = "left">
+                        <div class="col-md-4">
                             <h3 class="title"><span class="ti-money" style = "color: #dc2f54;"></span> <b>Annual Sales</b></h3>
                             <p class="category"><?= $sub ?></p>
                         </div>
-                    </div>
-                    <?php
-                    if(isset($_POST['enter'])) {
-                        $year = $this->input->post('year');
-                    } else {
-                        $year = '';
-                    }
-                    ?>
-                    <div class="content">
+                        <?php $year = (isset($_POST['enter'])) ? $this->input->post('year') : ''; ?>
+                        <div class="col-md-3"></div>
                         <form role="form" method="POST">
-                            <div class="form-group">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label>Filter by Years:</label>
                                     <select name="year" class="form-control border-input file">
                                         <option value="0">Select Years</option>
@@ -29,21 +21,22 @@
                                         <option value="10" <?php if($this->input->post('year') == 10) echo "selected"; ?>>For the last ten years.</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
                                     <label style="color: white;">`</label><br>
-                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter">Enter</button>
-                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter"><i class="ti-filter"></i></button>
+                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
                                 </div>
                             </div>
                         </form>
+                    </div>
                         <?php
                         if (!$annual) {
-                            #echo "<center><h3><br><br><br><hr><br>There are no annual sales report recorded.</h3><br></center><br><br></div>";
                             echo $no_fetched;
                         } else {
                         ?>
-                    </div>
-                    <br><br><br>
+                    <br><br><br><br>
                     <hr style="margin-bottom: -20px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -58,8 +51,8 @@
                             foreach ($annual as $annual): ?>
                                 <tr>
                                     <td><?= $annual->sales_y ?></td>
-                                    <td align="right"><?= $annual->order_quantity ?></td>
-                                    <?php $total_items += $annual->order_quantity; ?>
+                                    <td align="right"><?= $annual->items_sold ?></td>
+                                    <?php $total_items += $annual->items_sold; ?>
                                     <td align="right">&#8369;<?= number_format($annual->income, 2) ?></td>
                                     <td></td>
                                 </tr>

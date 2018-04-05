@@ -4,7 +4,8 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders for today</b></h3>
+                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders Chart</b></h3>
+                        <p class="category">Customer Orders for this day.</p>
                         <hr>
                     </div>
                     <div class="content">
@@ -33,6 +34,7 @@
                 <div class="card">
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
+                        <p class="category">Select a date to filter order records.</p>
                         <hr>
                         <div class="calendar"></div>
                         <form action="<?= base_url() . 'orders/page'; ?>" method="POST">
@@ -60,8 +62,8 @@
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
-                            <th></th>
-                            <th><b>#</b></th>
+                            <th><b>Status</b></th>
+                            <th><b>ID</b></th>
                             <th><b>Customer</b></th>
                             <th><b>Total Price</b></th>
                             <th><b>Delivery Date</b></th>
@@ -80,12 +82,16 @@
                                             ?></p>
                                     </td>
                                     <td><?= $orders->order_id ?></td>
-                                    <?php $customers = $this->item_model->fetch("customer", "customer_id = " . $orders->customer_id);
+                                    <?php
+                                    $this->db->select(array("username", "email"));
+                                    $customers = $this->item_model->fetch("customer", "customer_id = " . $orders->customer_id);
                                     $customers = $customers[0];
                                     ?>
-                                    <td><?= $customers->username ?></td>
+
+                                    <td><?php if ($customers->username == NULL) { echo $customers->email; }
+                                    else { echo $customers->username; } ?></td>
                                     <td>&#8369;<?= number_format($orders->total_price, 2) ?></td>
-                                    <td><?= date("m-j-Y", $orders->delivery_date) ?>
+                                    <td><?= date("M-d-Y", $orders->delivery_date) ?>
                                     </td>
                                     <td><?php if ($orders->process_status == 3) { ?>
                                             <a class="btn btn-info" href = "<?= base_url() ?>orders/view/<?= $orders->order_id ?>" title = "View Order" alt = "View Order">
