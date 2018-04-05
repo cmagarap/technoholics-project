@@ -69,7 +69,7 @@
                         <hr>
                         <br>
                         <div class="row">
-                            <a href = "<?= $this->config->base_url() ?>accounts/view_transactions/<?= $account->customer_id ?>/page" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new product">View transactions</a>
+                            <a href = "<?= $this->config->base_url() ?>accounts/view_transactions/<?= $account->customer_id ?>/page" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">View transactions</a>
                             <a href = "<?= $this->config->base_url() ?>accounts/customer" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
                         </div>
                         <br>
