@@ -10,37 +10,40 @@
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped" style = "width: 100%">
                             <thead>
-                            <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
-                            <th><u style = "color: #31bbe0">Price</u></th>
-                            <th><u style = "color: #31bbe0">Quantity</u></th>
+                                <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
+                                <th><u style = "color: #31bbe0">Unit Price</u></th>
+                                <th><u style = "color: #31bbe0">Subtotal</u></th>
+                                <th><u style = "color: #31bbe0">Quantity</u></th>
                             </thead>
                             <tbody>
-                            <?php foreach ($order_items as $order_items): ?>
+                                <?php foreach ($order_items as $order_items): ?>
+                                    <tr>
+                                        <td>
+                                            <?php
+                                            $product_image = (string) $order_items->product_image1;
+                                            $image_array = explode(".", $product_image);
+                                            ?>
+                                            <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" style="margin: -5px">
+                                        </td>
+                                        <td>
+                                            <?= $order_items->product_name ?>
+                                        </td>
+                                        <td>&#8369;<?= number_format($order_items->product_price, 2) ?></td>
+                                        <td>&#8369;<?= number_format($order_items->product_subtotal, 2) ?></td>
+                                        <td><?= $order_items->quantity ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php
+                                $for_order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
+                                $for_order = $for_order[0];
+                                ?>
                                 <tr>
-                                    <td align="center">
-                                        <?php
-                                        $product_image = (string) $order_items->product_image1;
-                                        $image_array = explode(".", $product_image);
-                                        ?>
-                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" style="margin: -5px">
-                                    </td>
-                                    <td>
-                                        <?= $order_items->product_name ?>
-                                    </td>
-                                    <td align = "right">&#8369;<?= number_format($order_items->product_price, 2) ?></td>
-                                    <td align = "right"><?= $order_items->quantity ?></td>
+                                    <td></td>
+                                    <td><b>TOTAL</b></td>
+                                    <td></td>
+                                    <td><b>&#8369;<?= number_format($for_order->total_price, 2) ?></b></td>
+                                    <td><b><?= $for_order->order_quantity ?></b></td>
                                 </tr>
-                            <?php endforeach; ?>
-                            <?php
-                            $for_order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
-                            $for_order = $for_order[0];
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td><b>TOTAL</b></td>
-                                <td align = "right"><b>&#8369;<?= number_format($for_order->total_price, 2) ?></b></td>
-                                <td align = "right"><b><?= $for_order->order_quantity ?></b></td>
-                            </tr>
                             </tbody>
                         </table>
                     </div> <!-- content -->
@@ -64,9 +67,10 @@
                                                     <?php if ($for_order->shipper_id == $shippers->shipper_id) {
                                                         echo "selected";
                                                     } ?>
-                                                ><?= $shippers->shipper_name ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                                    ><?= $shippers->shipper_name ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,39 +81,38 @@
                                         <input type="text" id="text-calendar" class="calendar form-control border-input file" name="order_date" placeholder="YYYY-MM-DD" value="<?= date('Y-m-d', $delivery->delivery_date) ?>"/>
                                     </div>
                                 </div>
-                            </div>
-                            <div class = "row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="progress">Order Progress</label>
-                                        <select name="progress" class = "form-control border-input file">
-                                            <option value="1" <?php if($for_order->process_status == 1) echo "selected"; ?>>Processing</option>
-                                            <option value="2" <?php if($for_order->process_status == 2) echo "selected"; ?>>Shipping</option>
-                                            <option value="3" <?php if($for_order->process_status == 3) echo "selected"; ?>>Delivered</option>
-                                        </select>
+                                <div class = "row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="progress">Order Progress</label>
+                                            <select name="progress" class = "form-control border-input file">
+                                                <option value="1" <?php if($for_order->process_status == 1) echo "selected"; ?>>Processing</option>
+                                                <option value="2" <?php if($for_order->process_status == 2) echo "selected"; ?>>Shipping</option>
+                                                <option value="3" <?php if($for_order->process_status == 3) echo "selected"; ?>>Delivered</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
-                                    <a href = "<?= base_url() ?>orders" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;" name = "enter">Enter</button>
+                                        <a href = "<?= base_url() ?>orders" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="clearfix"></div>
-                        </form>
+                                <br>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-$(function() {
-    $('input.calendar').pignoseCalendar({
+    <script>
+        $(function() {
+            $('input.calendar').pignoseCalendar({
         format: 'YYYY-MM-DD' // date format string. (2017-02-02)
     });
-});
-</script>
+        });
+    </script>

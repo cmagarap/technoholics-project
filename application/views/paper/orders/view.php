@@ -27,37 +27,40 @@
                     <div class="content table-responsive">
                         <table class="table table-striped" style = "width: 100%">
                             <thead>
-                            <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
-                            <th><u style = "color: #31bbe0">Price</u></th>
-                            <th><u style = "color: #31bbe0">Quantity</u></th>
+                                <th colspan="2"><u style = "color: #31bbe0">Product</u></th>
+                                <th><u style = "color: #31bbe0">Unit Price</u></th>
+                                <th><u style = "color: #31bbe0">Subtotal</u></th>
+                                <th><u style = "color: #31bbe0">Quantity</u></th>
                             </thead>
                             <tbody>
-                            <?php foreach ($order_items as $order_items): ?>
+                                <?php foreach ($order_items as $order_items): ?>
+                                    <tr>
+                                        <td>
+                                            <?php
+                                            $product_image = (string) $order_items->product_image1;
+                                            $image_array = explode(".", $product_image);
+                                            ?>
+                                            <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>">
+                                        </td>
+                                        <td>
+                                            <?= $order_items->product_name ?>
+                                        </td>
+                                        <td >&#8369;<?= number_format($order_items->product_price, 2) ?></td>
+                                        <td>&#8369;<?= number_format($order_items->product_subtotal, 2) ?></td>
+                                        <td><?= $order_items->quantity ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php
+                                $for_order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
+                                $for_order = $for_order[0];
+                                ?>
                                 <tr>
-                                    <td align="center">
-                                        <?php
-                                        $product_image = (string) $order_items->product_image1;
-                                        $image_array = explode(".", $product_image);
-                                        ?>
-                                        <img src = "<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>">
-                                    </td>
-                                    <td>
-                                        <?= $order_items->product_name ?>
-                                    </td>
-                                    <td align = "right">&#8369;<?= number_format($order_items->product_price, 2) ?></td>
-                                    <td align = "right"><?= $order_items->quantity ?></td>
+                                    <td></td>
+                                    <td><b>TOTAL</b></td>
+                                    <td></td>
+                                    <td><b>&#8369;<?= number_format($for_order->total_price, 2) ?></b></td>
+                                    <td><b><?= $for_order->order_quantity ?></b></td>
                                 </tr>
-                            <?php endforeach; ?>
-                            <?php
-                            $for_order = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3));
-                            $for_order = $for_order[0];
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td><b>TOTAL</b></td>
-                                <td align = "right"><b>&#8369;<?= number_format($for_order->total_price, 2) ?></b></td>
-                                <td align = "right"><b><?= $for_order->order_quantity ?></b></td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>

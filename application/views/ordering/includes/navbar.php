@@ -2,6 +2,7 @@
 $content = $this->item_model->fetch("content");
 $image = $content[0];
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+$category_content = $this->item_model->fetch('category', array("status" => 1));
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
@@ -75,36 +76,18 @@ date_default_timezone_set("Asia/Manila");
                     <li>
                         <div class="yamm-content">
                             <div class="row">
+                                <?php foreach ($category_content as $category_content): 
+                                $brand_content = $this->item_model->fetch("brand",array("category_id" => $category_content->category_id));
+                                ?>
                                 <div class="col-sm-3">
-                                    <h5>Smartphones</h5>
+                                    <h5><?=$category_content->category?></h5>
                                     <ul>
-                                        <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
-                                        </li>
-                                        <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                        ?>">Samsung</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-3">
-                                <h5>Tablets</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/tablet/Apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/tablet/Samsung'; ?>">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-3">
-                                <h5>Laptops</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/laptop/Apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/Samsung'; ?>">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                        <?php foreach ($brand_content as $brand_content): ?>
+                                            <li><a href="<?= base_url().'home/category/'.$category_content->category.'/'.$brand_content->brand_name.''; ?>"><?=$brand_content->brand_name?></a></li>
+                                        <?php endforeach ?>
+                                    </ul>
+                                </div>
+                            <?php endforeach ?>
                             <div class="col-sm-3">
                                 <div class="banner">
                                     <a href="#">

@@ -150,15 +150,13 @@ class Inventory extends CI_Controller {
 
     public function add_product() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $supplier = $this->item_model->fetch("supplier", NULL, "company_name", "ASC");
-            $category = $this->item_model->fetch("category", NULL, "category", "ASC");
-            $brand = $this->item_model->fetch("brand", NULL, "brand_name", "ASC");
+            $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
+            $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
             $data = array(
                 'title' => 'Inventory: Add Product',
                 'heading' => 'Inventory',
                 'supplier' => $supplier,
                 'category' => $category,
-                'brand' => $brand
             );
 
             $this->load->view('paper/includes/header', $data);
@@ -175,6 +173,9 @@ class Inventory extends CI_Controller {
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
         $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
+        $this->form_validation->set_rules('product_category', "Please select a product category.", "required");
+        $this->form_validation->set_rules('product_brand', "Please select a product brand.", "required");
+        $this->form_validation->set_rules('product_supplier', "Please select a supplier company.", "required");
         $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
@@ -249,7 +250,6 @@ class Inventory extends CI_Controller {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
             $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
-            $brand = $this->item_model->fetch("brand", "status = 1", "brand_name", "ASC");
             $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1');
 
             if($product) {
@@ -259,7 +259,6 @@ class Inventory extends CI_Controller {
                     'products' => $product,
                     'supplier' => $supplier,
                     'category' => $category,
-                    'brand' => $brand
                 );
                 $this->load->view('paper/includes/header', $data);
                 $this->load->view("paper/includes/navbar");
@@ -523,16 +522,24 @@ class Inventory extends CI_Controller {
 
     public function auto() {
         $output = '';
-        $query = $this->item_model->search('product','status = 1 AND product_name', $_POST["query"]);
-        $output = '<ul class="box list-unstyled" style="width:295px;">';
+        $query = $this->item_model->search('brand','status = 1 AND category_id', $_POST["query"]);
+        $output .= '<option value="">Select a brand</option>';
         if($query) {
             foreach($query as $query){
-                $output .= '<li id="link" class="text-left" style="cursor:pointer;">'.$query->product_name.'</li>';
+                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
             }
-        } else {
-            $output .= '<li class="text-left" >Item Not Found</li>';
         }
-        $output .= '</ul>';
+        echo $output;
+    }
+
+    public function edit_auto() {
+        $output = '';
+        $query = $this->item_model->search('brand','status = 1 AND category_id', $_POST["query"]);
+        if($query) {
+            foreach($query as $query){
+                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
+            }
+        }
         echo $output;
     }
 

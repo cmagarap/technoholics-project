@@ -13,12 +13,12 @@
                             <h2 class="title"><?= $accounts->firstname . " " . $accounts->lastname ?> <br>
                             </h2>
                             <p style="font-size: 11px; color: darkgrey"><?php if ($accounts->username == NULL)
-                                    echo $accounts->email;
-                                else
-                                    echo $accounts->username;
-                                ?>
-                                <br>
-                                <?= "Member since " . date("F j, Y", $accounts->registered_at) ?></p>
+                            echo $accounts->email;
+                            else
+                                echo $accounts->username;
+                            ?>
+                            <br>
+                            <?= "Member since " . date("F j, Y", $accounts->registered_at) ?></p>
                         </div>
                         <hr>
                         <br>
@@ -43,7 +43,7 @@
                                         <label> First Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="First Name" name = "first_name" value = "<?= $accounts->firstname ?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("first_name") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("first_name") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                         <label> Last Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="Last Name" name = "last_name" value = "<?= $accounts->lastname ?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("last_name") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("last_name") . "</span>";
                                         endif; ?>
 
                                     </div>
@@ -65,7 +65,7 @@
                                         <label> Username</label>
                                         <input type="text" class="form-control border-input" placeholder="Username" name = "username" value = "<?= $accounts->username?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("username") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("username") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                         <label> Email Address <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="Email Address" name = "email" value = "<?= $accounts->email ?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("email") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("email") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
