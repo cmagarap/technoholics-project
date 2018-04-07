@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/inventory/getProductViews",
+        url: base_url + "inventory/getProductViews",
         method: "POST",
         success: function(data) {
             var product = [];
@@ -8,8 +8,8 @@ $(document).ready(function(){
             var color_chart = [];
 
             for(var i in data) {
-                product.push(data[i].product_name);
-                views.push(data[i].no_of_views);
+                product.push(data[i].item_name);
+                views.push(data[i].at_count);
             }
 
             var dynamicColors = function() {
@@ -26,17 +26,16 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Times viewed',
+                    label: 'Times Viewed',
                     data: views,
                     backgroundColor: color_chart,
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
-                }]};
+                }
+                ]};
 
             var ctx = $("#productViews");
-            //Chart.defaults.global.defaultFontFamily = "Helvetica";
-            //Chart.defaults.global.defaultFontSize = 12;
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,

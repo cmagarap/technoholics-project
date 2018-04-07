@@ -4,7 +4,8 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="header">
-                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders for today</b></h3>
+                        <h3><span class="ti-pie-chart" style = "color: #31bbe0;"></span>&nbsp;<b> Orders Chart</b></h3>
+                        <p class="category">Customer Orders for this day.</p>
                         <hr>
                     </div>
                     <div class="content">
@@ -33,13 +34,14 @@
                 <div class="card">
                     <div class="header">
                         <h3><span class="ti-calendar" style = "color: #31bbe0;"></span>&nbsp; <b>Calendar</b></h3>
+                        <p class="category">Select a date to filter order records.</p>
                         <hr>
                         <div class="calendar"></div>
                         <form action="<?= base_url() . 'orders/page'; ?>" method="POST">
-                        </br>
+                            </br>
                             <div align="center">
-                            <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
-                            <input type="hidden" id="date" name="date">
+                                <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
+                                <input type="hidden" id="date" name="date">
                             </div>
                         </form>
                         </br>
@@ -51,63 +53,67 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #31bbe0"></span>&nbsp; <b>List of Orders</b></h3>
                         <p class="category"><?= $date ?></p>
-
                     </div>
                     <?php
                     if (!$orders) {
                         echo "<center><h3><hr><br>There are no orders recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
-                    ?>
-                    <div class="content table-responsive table-full-width">
-                        <table class="table table-striped">
-                            <thead>
-                            <th></th>
-                            <th><b>#</b></th>
-                            <th><b>Customer</b></th>
-                            <th><b>Total Price</b></th>
-                            <th><b>Delivery Date</b></th>
-                            <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($orders as $orders): ?>
-                                <tr>
-                                    <td>
-                                        <p style = "font-size: 12px"><?php
-                                            if ($orders->process_status == 1): echo "<span class='ti-package' title = 'Processing' style = 'font-size: 15px; color: #dc2f54'></span>";
-                                            elseif ($orders->process_status == 2): echo "<span class='ti-truck' title = 'Shipping' style = 'font-size: 15px; color: #F3BB45'></span>";
-                                            elseif ($orders->process_status == 3): echo "<span class='ti-check' title = 'Delivered' style = 'font-size: 15px; color: green'></span>";
-                                            endif;
-                                            ?></p>
-                                    </td>
-                                    <td><?= $orders->order_id ?></td>
-                                    <?php $customers = $this->item_model->fetch("customer", "customer_id = " . $orders->customer_id);
-                                    $customers = $customers[0];
-                                    ?>
-                                    <td><?= $customers->username ?></td>
-                                    <td>&#8369;<?= number_format($orders->total_price, 2) ?></td>
-                                    <td><?= date("m-j-Y", $orders->delivery_date) ?>
-                                    </td>
-                                    <td><?php if ($orders->process_status == 3) { ?>
-                                            <a class="btn btn-info" href = "<?= base_url() ?>orders/view/<?= $orders->order_id ?>" title = "View Order" alt = "View Order">
-                                                <span class="ti-eye"></span>
-                                            </a>
-                                        <?php } else { ?>
-                                            <a class="btn btn-warning" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
-                                                <span class="ti-shopping-cart"></span>
-                                            </a>
-                                        <?php } ?>
-                                        <a class="btn btn-danger cancel <?php if ($orders->process_status == 3) echo 'disabled'; ?>" href="#" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order">
-                                            <span class="ti-close"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                        <?php echo "<div align = 'center'>" . $links . "</div>";
-                        }
                         ?>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                <th><b>Status</b></th>
+                                <th><b>ID</b></th>
+                                <th><b>Customer</b></th>
+                                <th><b>Total Price</b></th>
+                                <th><b>Delivery Date</b></th>
+                                <th><b>Actions</b></th>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($orders as $orders): ?>
+                                    <tr>
+                                        <td>
+                                            <p style = "font-size: 12px"><?php
+                                                if ($orders->process_status == 1): echo "<span class='ti-package' title='Processing' style='font-size: 15px; color: #dc2f54'></span>";
+                                                elseif ($orders->process_status == 2): echo "<span class='ti-truck' title='Shipping' style='font-size: 15px; color: #F3BB45'></span>";
+                                                elseif ($orders->process_status == 3): echo "<span class='ti-check' title='Delivered' style='font-size: 15px; color: green'></span>";
+                                                elseif ($orders->process_status == 4): echo "<span class='ti-plus' title='Pending' style='font-size: 15px; color: #31bbe0'></span>";
+                                                endif;
+                                                ?></p>
+                                        </td>
+                                        <td><?= $orders->order_id ?></td>
+                                        <?php
+                                        $this->db->select(array("username", "email"));
+                                        $customers = $this->item_model->fetch("customer", "customer_id = " . $orders->customer_id);
+                                        $customers = $customers[0];
+                                        ?>
+
+                                        <td><?php if ($customers->username == NULL) { echo $customers->email; }
+                                            else { echo $customers->username; } ?></td>
+                                        <td>&#8369;<?= number_format($orders->total_price, 2) ?></td>
+                                        <td><?= date("M-d-Y", $orders->delivery_date) ?>
+                                        </td>
+                                        <td><?php if ($orders->process_status == 3) { ?>
+                                                <a class="btn btn-info" href = "<?= base_url() ?>orders/view/<?= $orders->order_id ?>" title = "View Order" alt = "View Order">
+                                                    <span class="ti-eye"></span>
+                                                </a>
+                                            <?php } else { ?>
+                                                <a class="btn btn-warning" href = "<?= base_url() ?>orders/track/<?= $orders->order_id ?>" title = "Track Order" alt = "Track Order">
+                                                    <span class="ti-shopping-cart"></span>
+                                                </a>
+                                            <?php } ?>
+                                            <a class="btn btn-danger cancel <?php if ($orders->process_status == 3) echo 'disabled'; ?>" href="#" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order">
+                                                <span class="ti-close"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php echo "<div align = 'center'>" . $links . "</div>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>

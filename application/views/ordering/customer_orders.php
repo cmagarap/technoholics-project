@@ -61,8 +61,8 @@
                                             <td><?= $orders->order_quantity ?></td>
                                             <td>&#8369;<?= number_format($orders->total_price, 2) ?></td>
                                             <td>
-                                                <a href="<?= base_url() . 'home/customer_order_view/' . $orders->order_id ?>" class="btn btn-primary" alt = "View Order" title = "View order" >VIEW</a> 
-                                                <a class="btn btn-danger  cancel <?php if ($orders->process_status == 0 || $orders->process_status == 3) echo 'disabled'; ?>" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order">CANCEL</a>
+                                                <a href="<?= base_url() . 'home/customer_order_view/' . $orders->order_id ?>" class="btn btn-primary" alt = "View Order" title = "View order" ><i class="fa fa-eye"></i></a> 
+                                                <a class="btn btn-danger  cancel <?php if ($orders->process_status == 0 || $orders->process_status == 3) echo 'disabled'; ?>" data-id="<?= $orders->order_id ?>" title = "Cancel order" alt = "Cancel order"><i class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>
@@ -90,7 +90,12 @@
                 if (willDelete) {
                     window.location = "<?= $this->config->base_url() ?>home/cancel_order/" + id;
                 } else {
-                    swal("This order is safe!");
+                    swal({
+                        title: "Your order is safe!",
+                        text: "your order has not been cancelled, don't worry!",
+                        icon: "success",
+                        buttons: false,
+                    })
                 }
             });
         });

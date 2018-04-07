@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/inventory/getTimesBought",
+        url: base_url + "inventory/getTimesBought",
         method: "POST",
         success: function(data) {
             var product = [];
@@ -8,9 +8,10 @@ $(document).ready(function(){
             var color_chart = [];
 
             for(var i in data) {
-                product.push(data[i].product_name);
-                purchase.push(data[i].times_bought);
+                product.push(data[i].item_name);
+                purchase.push(data[i].at_count);
             }
+            console.log(data);
 
             var dynamicColors = function() {
                 var r = Math.floor(Math.random() * 255);
@@ -26,17 +27,16 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Times bought',
+                    label: 'Times Purchased',
                     data: purchase,
                     backgroundColor: color_chart,
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
-                }]};
+                }
+                ]};
 
             var ctx = $("#mostPurchased");
-            //Chart.defaults.global.defaultFontFamily = "Helvetica";
-            //Chart.defaults.global.defaultFontSize = 12;
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,

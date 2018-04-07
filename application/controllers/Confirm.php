@@ -14,6 +14,7 @@ class confirm extends CI_Controller {
             'is_verified' => $value,
         );
         $this->item_model->updatedata("customer", $data, array('verification_code' => $code));
+        $this->session->set_userdata('statusMsg', "You have successfully verified your email!");
         redirect("login");
     }
 

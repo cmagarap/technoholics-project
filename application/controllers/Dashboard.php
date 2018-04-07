@@ -33,6 +33,18 @@ class Dashboard extends CI_Controller {
             $no_of_orders = $this->db->count_all_results("orders");
             $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);
 
+            $this->db->select('income');
+            $income_current = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
+
+            if(!$income_current) {
+                $data = array(
+                    'sales_detail' => "No items were purchased this day.",
+                    'income' => 0,
+                    'sales_date' => time()
+                );
+                $this->item_model->insertData('sales', $data);
+            }
+
             $data = array(
                 'title' => "Admin Home",
                 'heading' => "Dashboard",
@@ -55,28 +67,14 @@ class Dashboard extends CI_Controller {
         }
     }
 
-    public function getTrend() {
+    /*public function getTrend() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $acer = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'Acer' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
+            $overall = $this->db->query("SELECT SUM(orders.total_price) AS price, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE orders.status = 1 GROUP BY td ORDER BY orders.order_id DESC LIMIT 12");
 
-            $apple = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'Apple' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
-
-            $asus = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'ASUS' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
-
-            $hp = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'HP' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
-
-            $lenovo = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'Lenovo' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
-
-            $samsung = $this->db->query("SELECT product.product_brand AS brand, SUM(order_items.quantity) AS bought, FROM_UNIXTIME(orders.transaction_date, '%Y %M') AS td FROM order_items JOIN product ON order_items.product_id = product.product_id JOIN orders ON order_items.order_id = orders.order_id WHERE product.product_brand = 'Samsung' AND orders.status = 1 GROUP BY td ORDER BY orders.transaction_date ASC");
-
-            $data_array = array_merge((array)$acer->result(), (array)$hp->result(), (array)$apple->result(), (array)$asus->result(), (array)$lenovo->result(), (array)$samsung->result());
-//            $apple = array(
-//                'bought' => $data->result()->bought
-//            );
-            print json_encode($data_array);
+            print json_encode(array_reverse((array)$overall->result()));
         } else {
             redirect("home");
         }
-    }
+    }*/
 }

@@ -23,11 +23,14 @@ class Settings extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-            $category = $this->item_model->fetch("category", array("status" => 1), "category", "ASC");
-            $brand = $this->item_model->fetch("brand", array("status" => 1), "brand_name", "ASC");
-            $supplier = $this->item_model->fetch("supplier", array("status" => 1), "company_name", "ASC");
-            $shipper = $this->item_model->fetch("shipper", array("status" => 1), "shipper_name", "ASC");
-            $content = $this->item_model->fetch("content", array("content_id" => 1))[0];
+            $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
+//            echo "<pre>";
+//            print_r($category);
+//            echo "</pre>";
+            $brand = $this->item_model->fetch("brand", "status = 1", "brand_name", "ASC");
+            $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
+            $shipper = $this->item_model->fetch("shipper", "status = 1", "shipper_name", "ASC");
+            $content = $this->item_model->fetch("content", "content_id = 1")[0];
 
             $data = array(
                 'title' => 'Settings',
@@ -64,7 +67,6 @@ class Settings extends CI_Controller {
 
     public function edit_images() {
         if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-            //if ($this->form_validation->run()) {
             $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
             $config['encrypt_name'] = TRUE;
             $config['upload_path'] = './assets/ordering/img/';
@@ -101,8 +103,6 @@ class Settings extends CI_Controller {
 
             $this->item_model->updatedata("content", $data);
             redirect("settings");
-
-            //}
         } else {
             redirect('home');
         }
@@ -130,7 +130,7 @@ class Settings extends CI_Controller {
 
         if ($this->form_validation->run()) {
             $data = array(
-                'category' => trim($this->input->post('category_name', TRUE))
+                'category' => strtolower(trim($this->input->post('category_name', TRUE)))
             );
             $insert = $this->item_model->insertData('category', $data);
             redirect("settings");
@@ -141,7 +141,7 @@ class Settings extends CI_Controller {
 
     public function edit_category() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $category = $this->item_model->fetch("category", array('category_id' => $this->uri->segment(3)), "category", "ASC");
+            $category = $this->item_model->fetch("category", array('category_id' => $this->uri->segment(3), 'status' => 1), "category", "ASC");
             $data = array(
                 'title' => 'Settings: Edit Category',
                 'heading' => 'Category',
@@ -169,7 +169,7 @@ class Settings extends CI_Controller {
 
         if ($this->form_validation->run()) {
             $data = array(
-                'category' => html_escape(trim($this->input->post('category_name')))
+                'category' => strtolower(html_escape(trim($this->input->post('category_name'))))
             );
             $this->item_model->updatedata("category", $data, array('category_id' => $this->uri->segment(3)));
             redirect("settings");
@@ -189,9 +189,12 @@ class Settings extends CI_Controller {
 
     public function add_brand() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+            $category = $this->item_model->fetch("category", array('status' => 1), "category", "ASC");
+
             $data = array(
                 'title' => 'Settings: Add Brand',
-                'heading' => 'Brand'
+                'heading' => 'Brand',
+                'category' => $category,
             );
 
             $this->load->view('paper/includes/header', $data);
@@ -204,15 +207,23 @@ class Settings extends CI_Controller {
     }
 
     public function add_brand_exec() {
-        $this->form_validation->set_rules('brand_name', "brand name", "required|is_unique[brand.brand_name]");
-        $this->form_validation->set_message('required', 'Please put the {field}.');
-
+        $this->form_validation->set_rules('brand_name', "Please put a brand name.", "required");
+        $this->form_validation->set_message('required', '{field}');
+        $condition = $this->item_model->fetch("brand", array('brand_name' => $this->input->post('brand_name'), "category_id" => $this->input->post('category_id')));
         if ($this->form_validation->run()) {
-            $data = array(
-                'brand_name' => html_escape(trim($this->input->post('brand_name')))
-            );
-            $insert = $this->item_model->insertData('brand', $data);
-            redirect("settings");
+
+            if(!$condition){
+                $data = array(
+                    'brand_name' => strtolower(html_escape(trim($this->input->post('brand_name')))),
+                    'category_id' => html_escape(trim($this->input->post('category_id')))
+                );
+                $insert = $this->item_model->insertData('brand', $data);
+                redirect("settings");
+            }
+            else{
+                $this->session->set_flashdata('error', 'Brand already exists.');
+                $this->add_brand();
+            }
         } else {
             $this->add_brand();
         }
@@ -221,9 +232,11 @@ class Settings extends CI_Controller {
     public function edit_brand() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
             $brand = $this->item_model->fetch("brand", array('brand_id' => $this->uri->segment(3)), "brand_name", "ASC");
+            $category = $this->item_model->fetch("category", NULL, "category", "ASC");
             $data = array(
                 'title' => 'Settings: Edit Brand',
                 'heading' => 'Brand',
+                'category' => $category,
                 'brand_name' => $brand
             );
 
@@ -240,15 +253,18 @@ class Settings extends CI_Controller {
         $this->db->select('brand_name');
         $brand = $this->item_model->fetch('brand', 'brand_id = ' . $this->uri->segment(3))[0];
         if($brand->brand_name != $this->input->post('brand_name', TRUE)) {
-            $this->form_validation->set_rules('brand_name', "brand", "required|is_unique[brand.brand_name]");
+            $this->form_validation->set_rules('brand_name', "Please put a brand name.", "required|is_unique[brand.brand_name]");
+            $this->form_validation->set_rules('category_id', "Please put a category.", "required");
         } else {
-            $this->form_validation->set_rules('brand_name', "brand", "required");
+            $this->form_validation->set_rules('brand_name', "Please put a brand name.", "required");
+            $this->form_validation->set_rules('category_id', "Please put a category.", "required");
         }
-        $this->form_validation->set_message('required', 'Please put the {field}.');
+        $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
             $data = array(
-                'brand_name' => trim($this->input->post('brand_name', TRUE))
+                'brand_name' => strtolower(trim($this->input->post('brand_name', TRUE))),
+                'category_id' => html_escape(trim($this->input->post('category_id', TRUE)))
             );
             $this->item_model->updatedata("brand", $data, array('brand_id' => $this->uri->segment(3)));
             redirect("settings");
@@ -443,7 +459,6 @@ class Settings extends CI_Controller {
     }
 
     public function add_color_admin() {
-        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'color_1' => $this->input->post("admin_colorpicker")
         );
@@ -452,7 +467,6 @@ class Settings extends CI_Controller {
     }
 
     public function add_color_customer() {
-        # $content = $this->item_model->fetch("content", "content_id = 1");
         $data = array(
             'customer_color1' => $this->input->post("customer_colorpicker")
         );
@@ -461,7 +475,6 @@ class Settings extends CI_Controller {
     }
 
     public function edit_logo() {
-        //if ($this->form_validation->run()) {
         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
         $config['encrypt_name'] = TRUE;
         $config['upload_path'] = './assets/ordering/img/';
@@ -496,12 +509,9 @@ class Settings extends CI_Controller {
 
         $this->item_model->updatedata("content", $data, "content_id = 1");
         redirect("settings");
-
-        //}
     }
 
     public function edit_logo_icon() {
-        //if ($this->form_validation->run()) {
         $this->form_validation->set_rules('filediv', "Please put an image here.", "required");
         $config['encrypt_name'] = TRUE;
         $config['upload_path'] = './assets/ordering/img/';

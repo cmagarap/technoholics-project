@@ -15,10 +15,10 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b>#</b></th>
+                                <th><b>Log ID</b></th>
                                 <th><b>User</b></th>
                                 <th><b>Action</b></th>
-                                <th><b>ID #</b></th>
+                                <th><b>Customer ID</b></th>
                                 <th><b>Date</b></th>
                                 <th><b>Time</b></th>
                                 </thead>

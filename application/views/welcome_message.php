@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 	<div id="container">
-		<div id="body"><center>
+		<div id="body">
 			<h1>Hi! <?=$firstname." ".$lastname?></h1>
 			<p style="color: #016FFF"><b>Before we <span style="color: #FF00A1">get started...</span></b></p>
 			<br>
@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<a href="<?= base_url()?>confirm/update/<?=$verification_code?>"  class="btn btn-danger btn-lg" size="50px" ><b>Confirm your email</b></a>
 			<br><br><br>
 			<div id="container2">
-				<p><img src="<?= base_url()?>images/logo2.png" alt="" style="width: auto; height: 80px;"/></p>
+				<p><img src="https://image.ibb.co/hoZ6DH/logo.png" alt="" style="width: auto; height: 80px;"/></p>
 				<b>Grass Residences, Unit 1717-B Tower 1 SMDC The, Nueva Viscaya, <br>
 					Bago Bantay, Quezon City, Metro Manila
 					<br>

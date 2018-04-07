@@ -15,7 +15,7 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b>#</b></th>
+                                <th><b>Audit Trail ID</b></th>
                                 <th><b>Customer</b></th>
                                 <th><b>Item</b></th>
                                 <th><b>Details</b></th>

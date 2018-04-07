@@ -1,16 +1,16 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost/project/inventory/getSearches",
+        url: base_url + "inventory/getSearches",
         method: "POST",
         success: function(data) {
             var product = [];
             var searches = [];
             var color_chart = [];
-
-            for(var i in data) {
-                product.push(data[i].product_name);
-                searches.push(data[i].times_searched);
+            for (var i in data) {
+                product.push(data[i].item_name);
+                searches.push(data[i].at_count);
             }
+            console.log(searches);
 
             var dynamicColors = function() {
                 var r = Math.floor(Math.random() * 255);
@@ -26,26 +26,17 @@ $(document).ready(function(){
             var chartdata = {
                 labels: product,
                 datasets : [{
-                    label: 'Times searched',
+                    label: 'Times Searched',
                     data: searches,
                     backgroundColor: color_chart,
                     borderWidth: 1,
                     hoverBorderColor: 'rgba(0, 0, 0, 1)',
                     hoverBorderWidth: 4
-                },
-                    {
-                        label: 'Times searched',
-                        data: [12, 58, 33, 24, 41],
-                        backgroundColor: color_chart,
-                        borderWidth: 1,
-                        hoverBorderColor: 'rgba(0, 0, 0, 1)',
-                        hoverBorderWidth: 4
-                    }
+                }
                 ]};
 
             var ctx = $("#productSearch");
-            //Chart.defaults.global.defaultFontFamily = "Helvetica";
-            //Chart.defaults.global.defaultFontSize = 12;
+
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,
@@ -56,7 +47,6 @@ $(document).ready(function(){
                     },
                     scales: {
                         yAxes: [{
-                            stacked: true,
                             gridLines: {
                                 drawOnChartArea: false
                             }

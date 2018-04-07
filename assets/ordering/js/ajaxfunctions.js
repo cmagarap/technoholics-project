@@ -14,6 +14,7 @@ $(document).ready(function () {
             success: function (data)
             {
                 $('#CTI').load(base_url + "home/category #CTI");
+                $('#MCTI').load(base_url + "home/category #MCTI");
                 $('#' + product_id).val('');
 
                 $.notify({
@@ -23,8 +24,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
             }
@@ -54,8 +55,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
             }
@@ -63,30 +64,37 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.remove_inventory', function () {
-        var row_id = $(this).data("rowid");;
-        $.ajax({
-            url: base_url + "home/remove",
-            method: "POST",
-            data: {row_id: row_id},
-            success: function (data)
-            {
-                $('#form').load(base_url + "home/basket #form");
-                $('#CTI').load(base_url + "home/category #CTI");
-
-                $.notify({
-                    icon: 'ti-shopping-cart',
-                    message: "Your cart has been updated"
-                },{
-                    type: 'info',
-                    timer: 2000,
-                    placement: {
-                        from: "bottom",
-                        align: "right"
-                    }
-                });
-            }
-        });
+       var row_id = $(this).data("rowid");
+       swal({
+        title: "Are you sure you want to remove this product in your basket?",
+        text: "You won't be able to undo this action once cancelled.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+       .then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                url: base_url + "home/remove",
+                method: "POST",
+                data: {row_id: row_id},
+                success: function (data)
+                {
+                    $('#form').load(base_url + "home/basket #form");
+                    $('#CTI').load(base_url + "home/category #CTI");
+                    $('#MCTI').load(base_url + "home/category #MCTI");
+                }
+            });
+        } else {
+            swal({
+                title: "The product in the basket is safe!",
+                text: "The product in the basket is not removed, don't worry!",
+                icon: "success",
+                buttons: false,
+            })
+        }
     });
+   });
 
     $(document).on('change','#update',function () {
         var row_id = $(this).data("rowid");
@@ -100,6 +108,7 @@ $(document).ready(function () {
             {
                 $('#form').load(base_url + "home/basket #form");
                 $('#CTI').load(base_url + "home/category #CTI");
+                $('#MCTI').load(base_url + "home/category #MCTI");
 
 
                 $.notify({
@@ -109,8 +118,8 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
 
                     }
                 });
@@ -169,11 +178,28 @@ $(document).ready(function () {
                     type: 'info',
                     timer: 2000,
                     placement: {
-                        from: "bottom",
-                        align: "right"
+                        from: "top",
+                        align: "center"
                     }
                 });
+            },
+
+            error: function(jqXHR, textStatus, error){
+
+                $.notify({
+                    icon: 'ti-comment',
+                    message: "Please do not leave the rating and comment input blank."
+                },{
+                    type: 'fail',
+                    timer: 2000,
+                    placement: {
+                        from: "top",
+                        align: "center"
+                    }
+                });
+
             }
+
         });
     });
 

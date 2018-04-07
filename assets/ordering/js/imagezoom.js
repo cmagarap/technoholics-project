@@ -38,7 +38,7 @@
         }
 
         var posX = e.pageX,posY = e.pageY,zoomViewPositionX;
-        $('body').prepend('<div class="imagezoom-cursor">&nbsp;</div><div class="imagezoom-view"><img src="'+imageSrc+'"></div>');
+        $('body').prepend('<div class="imagezoom-cursor" id="magnifier" >&nbsp;</div><div class="imagezoom-view"><img src="'+imageSrc+'"></div>');
 
         if(settings.zoomviewposition == 'right'){
           zoomViewPositionX = (offset.left+imageWidth+settings.zoomviewmargin);
@@ -57,7 +57,6 @@
           'overflow':'hidden',
           'border': settings.zoomviewborder,
           'overflow': 'hidden',
-          'background': 'white',
           'object-fit': 'contain'
         });
 
@@ -77,11 +76,10 @@
           'background-color':'rgb('+settings.cursorcolor+')',
           'z-index':settings.zindex,
           'opacity':settings.opacity,
-          'cursor':settings.cursor,
-          'overflow': 'hidden',
-          'background': 'white',
-          'object-fit': 'contain'
+          'cursor':settings.cursor
         });
+        
+
         $(imagezoomCursor.selector).css({'top':posY-(cursorSize[1]/2),'left':posX});
         $(document).on('mousemove',document.body,methods.cursorPos);
       });
@@ -128,4 +126,5 @@
   $(document).ready(function(){
     $('[data-imagezoom]').imageZoom();
   });
+
 })(jQuery);

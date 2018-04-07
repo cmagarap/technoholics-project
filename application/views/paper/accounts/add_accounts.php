@@ -116,7 +116,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>User Image</label>
-                                        <input type="file" name = "user_image" class="form-control border-input file">
+                                        <input type="file" name="user_image" class="form-control border-input file">
                                     </div>
                                 </div>
                             </div>

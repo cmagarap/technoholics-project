@@ -7,7 +7,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('item_model');
-        $this->load->library(array('email', 'session', 'form_validation', 'basket'));
+        $this->load->library(array('email', 'session', 'form_validation', 'basket', 'apriori'));
         if ($this->session->has_userdata('isloggedin')) {
             redirect('home');
         }
@@ -59,6 +59,106 @@ class Login extends CI_Controller {
                             $this->session->set_userdata('isloggedin', true);
                             session_regenerate_id(true);
                             $this->session->set_flashdata('myflashdata', true);
+
+                            # APRIORI ============================================================>
+
+                            $this->apriori->setMaxScan(20);
+                            $this->apriori->setMinSup(2);
+                            $this->apriori->setMinConf(100);
+                            $this->apriori->setDelimiter(', ');
+
+                            $view = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->session->uid . " AND status = 1  AND at_detail = 'Viewed'", "at_date", "at_date", "ASC");
+
+                            $search = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->session->uid . " AND status = 1  AND at_detail = 'Search'", "at_date", "at_date", "ASC");
+
+                            if ($view) {
+                                # store the fetched values into an array:
+                                foreach ($view as $v)
+                                    $v_array[] = $v->at_date;
+
+                                # get the orders of customer based on order_id_array[]:
+                                for ($i = 0; $i < sizeof($v_array); $i++) {
+                                    $this->db->select("item_name");
+                                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Viewed' AND at_date = $v_array[$i]");
+                                }
+
+                                $customer_transactions = array();
+                                $i = 0;
+                                foreach ($tilted_transactions as $tilted_transaction) {
+                                    if (sizeof($tilted_transactions[$i]) > 1) {
+                                        for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                            $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                                        }
+                                        $i++;
+                                        continue;
+                                    } else
+                                        $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                                    $i++;
+                                }
+
+                                # convert into string using implode:
+                                for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                                    for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                                        $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                                    }
+                                }
+                                $this->apriori->process($customer_transactions_str);
+                                $test_freq = $this->apriori->getFreqItemsets();
+
+                                if(!$test_freq) {
+                                    if ($search) {
+                                        # store the fetched values into an array:
+                                        foreach ($search as $s)
+                                            $s_array[] = $s->at_date;
+
+                                        # get the orders of customer based on order_id_array[]:
+                                        for ($i = 0; $i < sizeof($s_array); $i++) {
+                                            $this->db->select("item_name");
+                                            $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Search' AND at_date = $s_array[$i]");
+                                        }
+
+                                        $customer_transactions = array();
+                                        $i = 0;
+                                        foreach ($tilted_transactions as $tilted_transaction) {
+                                            if (sizeof($tilted_transactions[$i]) > 1) {
+                                                for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                                    $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                                                }
+                                                $i++;
+                                                continue;
+                                            } else
+                                                $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                                            $i++;
+                                        }
+
+                                        # convert into string using implode:
+                                        for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                                            for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                                                $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                                            }
+                                        }
+                                        $this->apriori->process($customer_transactions_str);
+                                        $s_freq = $this->apriori->getFreqItemsets();
+
+                                    }
+                                }
+                            }
+
+                            $freq = $this->apriori->getFreqItemsets();
+
+                            $b = 0;
+                            for($i = 0; $i < sizeof($freq); $i++) {
+                                for($j = 0; $j < sizeof($freq[$i]); $j++) {
+                                    if($freq[$i][0] > $b) {
+                                        $b = implode(", ", array_slice($freq[$i], 1));
+                                    }
+                                }
+                            }
+
+                            $product_insert = ($b) ? $b : NULL;
+                            $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->session->uid);
+
+                            # ====================================================================>
 
                             $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
                             $for_log = array(
@@ -141,8 +241,8 @@ class Login extends CI_Controller {
     }
 
     public function password_reset() {
-        $this->form_validation->set_rules('email', "email", "required|valid_email");
-        $this->form_validation->set_message('required', 'Please enter your {field}.');
+        $this->form_validation->set_rules('email', "Please enter your email.", "required|valid_email");
+        $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
             $accountDetails = $this->item_model->fetch("customer", array('email' => $this->input->post('email')));
@@ -152,12 +252,11 @@ class Login extends CI_Controller {
                 $this->email->from('veocalimlim@gmail.com', 'TECHNOHOLICS');
                 $this->email->to($accountDetails->email);
                 $this->email->subject('Password Reset Link');
-                $this->email->message($this->load->view('forgot', $accountDetails, true));
+                $this->email->message($this->load->view('email/reset_password', $accountDetails, true));
 
                 if (!$this->email->send()) {
                     $this->email->print_debugger();
                 } else {
-                    $this->session->set_flashdata('isreset', true);
                     $this->session->set_userdata('statusMsg', 'Reset password link has been sent to <b>'. trim($this->input->post('email', TRUE)).'</b>.');
                     redirect("login");
                 }
@@ -191,7 +290,7 @@ class Login extends CI_Controller {
             else {
                 $data = array('password' => $this->item_model->setPassword($this->input->post('password', TRUE), $code));
                 $this->item_model->updatedata('customer', $data, array('verification_code' => $code));
-                $this->session->set_flashdata('changed', true);
+                $this->session->set_userdata('statusMsg', 'Your password has been changed.');
                 redirect("login/");
             } 
         } else {

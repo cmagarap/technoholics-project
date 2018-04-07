@@ -1,7 +1,9 @@
 <?php
-$content = $this->item_model->fetch("content",  array("content_id" => 1));
+$content = $this->item_model->fetch("content");
 $image = $content[0];
+$this->db->select(array("image", "username", "firstname"));
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
+$category_content = $this->item_model->fetch('category', "status = 1");
 date_default_timezone_set("Asia/Manila");
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
@@ -28,21 +30,17 @@ date_default_timezone_set("Asia/Manila");
                                 </a>
                             </li>
                             <li><a href="<?= base_url() . 'home/customer_orders'; ?>">Track my Order</a></li>
-                            <li><a href="<?= base_url() . 'home/wishlist'; ?>">Wishlist</a></li>
+                            <li><a href="<?= base_url() . 'home/wishlist'; ?>">My Wishlist</a></li>
                             <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                         </ul>
                     </div>
                 </li>
             <?php else: ?>
-                <li><a href="<?= base_url().'login'; ?>" /*data-toggle="modal" data-target="#login-modal"*/ >Login</a>
-                </li>
-                <li><a href="<?= base_url().'register'; ?>">Register</a>
-                </li>
+                <li><a href="<?= base_url().'login'; ?>">Login</a></li>
+                <li><a href="<?= base_url().'register'; ?>">Register</a></li>
             <?php endif; ?>
-            <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a>
-            </li>
-            <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a>
-            </li>
+            <li><a href="<?= base_url().'home/contact'; ?>">Contact Us</a></li>
+            <li><a href="<?= base_url().'home/faq'; ?>">FAQ</a></li>
         </ul>
     </div>
 </div>
@@ -52,21 +50,21 @@ date_default_timezone_set("Asia/Manila");
         <a class="navbar-brand home" href="<?= base_url().'home'; ?>" data-animate-hover="bounce">
             <img src="<?= base_url() ?>assets/ordering/img/<?= $image->company_logo ?>" alt="TECHNOHOLICS logo" class="navbar-brand">
         </a>
-        <div class="navbar-buttons" >
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
-                <span class="sr-only">Toggle navigation</span>
-                <i class="fa fa-align-justify"></i>
-            </button>
+        <div class="navbar-buttons" id="MCTI" >
+            <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
+                <i class="fa fa-shopping-cart"></i>
+                <?php if($CTI) : ?>
+                    <span class="label label-danger" style="position:absolute; top:-8px; left:30px;"><?=$CTI?></span>
+                <?php endif; ?>
+            </a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search" >
                 <span class="sr-only">Toggle search</span>
                 <i class="fa fa-search" ></i>
             </button>
-            <a class="btn btn-default navbar-toggle" href="<?= base_url().'home/basket'; ?>">
-                <i class="fa fa-shopping-cart"></i>
-                <?php if($CTI) : ?>
-                    <span class="label label-danger" style="position:absolute; top:-8px; left:-7px;"><?=$CTI?></span>
-                <?php endif; ?>
-            </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-align-justify"></i>
+            </button>
         </div>
     </div> <!--/.navbar-header -->
     <div class="navbar-collapse collapse" id="navigation">
@@ -79,46 +77,24 @@ date_default_timezone_set("Asia/Manila");
                     <li>
                         <div class="yamm-content">
                             <div class="row">
+                                <?php foreach ($category_content as $category_content): 
+                                $brand_content = $this->item_model->fetch("brand", "category_id = " . $category_content->category_id, "brand_name", "ASC");
+                                ?>
                                 <div class="col-sm-3">
-                                    <h5>Smartphones</h5>
+                                    <h5><?=$category_content->category?></h5>
                                     <ul>
-                                        <li><a href="<?= base_url().'home/category/smartphone/Apple'; ?>">Apple</a>
-                                        </li>
-                                        <li><a href="<?= base_url().'home/category/smartphone/Samsung';
-                                        ?>">Samsung</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/smartphone/ASUS'; ?>">Asus</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                        <?php foreach ($brand_content as $brand_content): ?>
+                                            <li><a href="<?= base_url() . 'home/category/' . $category_content->category . '/' . $brand_content->brand_name . ''; ?>"><?= $brand_content->brand_name ?></a></li>
+                                        <?php endforeach ?>
+                                    </ul>
+                                </div>
+                            <?php endforeach ?>
                             <div class="col-sm-3">
-                                <h5>Tablets</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/tablet/Apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/tablet/Samsung'; ?>">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-3">
-                                <h5>Laptops</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/laptop/Apple'; ?>">Apple</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category/laptop/Samsung'; ?>">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-3">
-                                <h5>Featured</h5>
-                                <ul>
-                                    <li><a href="<?= base_url().'home/category/'; ?>">Trainers</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Sandals</a>
-                                    </li>
-                                    <li><a href="<?= base_url().'home/category'; ?>">Hiking shoes</a>
-                                    </li>
-                                </ul>
+                                <div class="banner">
+                                    <a href="#">
+                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_2 ?>" class="img img-responsive" alt="">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +128,7 @@ date_default_timezone_set("Asia/Manila");
                             <div class="col-sm-4">
                                 <div class="banner">
                                     <a href="#">
-                                        <img src="<?= base_url().'assets/ordering/img/banner.jpg'; ?>" class="img img-responsive" alt="">
+                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" class="img img-responsive" alt="">
                                     </a>
                                 </div>
                             </div>

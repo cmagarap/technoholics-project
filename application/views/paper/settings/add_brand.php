@@ -25,8 +25,24 @@
                                         <label>Brand Name <span style = "color: red">*</span></label>
                                         <input type="text" class="form-control border-input" placeholder="Brand" name = "brand_name" value = "<?= $brand_name ?>">
                                         <?php if(validation_errors()):
-                                            echo "<span style = 'color: red'>" . form_error("brand_name") . "</span>";
+                                        echo "<span style = 'color: red'>" . form_error("brand_name") . "</span>";
+                                        elseif ($this->session->flashdata('error')): 
+                                        echo "<span style = 'color: red'>" . $this->session->flashdata('error') . "</span>";
                                         endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Brand Category <span style = "color: red">*</span></label>
+                                        <select name="category_id" id="" class = "form-control border-input file">
+                                            <?php foreach($category as $category): ?>
+                                                <option value="<?= $category->category_id ?>">
+                                                    <?= $category->category ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

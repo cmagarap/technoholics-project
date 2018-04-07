@@ -47,7 +47,7 @@ class Sales extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date') ? "Here are the list of sales for <b><u>" . date("F j, Y", strtotime($this->input->post('date'))) . "</b></u>.<br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
+        $date = $this->input->post('date') ? "Here are the list of sales for <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('date'))) . ".</span><br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('sales', array('status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('sales', 'status = 1');
@@ -85,22 +85,22 @@ class Sales extends CI_Controller {
     }
 
     public function getSalesData() {
-        header('Content-Type: application/json');
-        $this->db->select("sales_id");
-        $this->db->select("sales_date");
-        $this->db->select("income");
-
-        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%c') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
-        print json_encode($data->result());
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%c') as sales_month, SUM(income) as income FROM `sales` WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = 2017 GROUP BY sales_month ORDER BY sales_date ASC");
+            print json_encode($data->result());
+        } else {
+            redirect('home');
+        }
     }
 
     public function getDailySales() {
-        header('Content-Type: application/json');
-        $this->db->select("sales_id");
-        $this->db->select("sales_date");
-        $this->db->select("income");
-
-        $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM `sales` WHERE status = 1 GROUP BY sales_d ORDER BY sales_date ASC LIMIT 12 OFFSET 12");
-        print json_encode($data->result());
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+            $data = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b-%d-%y') as sales_d, SUM(income) as income FROM sales WHERE status = 1 GROUP BY sales_d ORDER BY sales_date DESC LIMIT 5");
+            print json_encode(array_reverse((array)$data->result()));
+        } else {
+            redirect('home');
+        }
     }
 }

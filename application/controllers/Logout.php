@@ -44,8 +44,8 @@ class Logout extends CI_Controller {
         }
 
         if($this->session->userdata('viewed_products')) {
-            $viwed_product = $this->session->userdata('viewed_products');
-            foreach($viwed_product as $prod) {
+            $viewed_product = $this->session->userdata('viewed_products');
+            foreach($viewed_product as $prod) {
                 $this->db->select(array('product_name', 'product_id'));
                 $product[] = $this->item_model->fetch('product', 'product_id = ' . $prod);
             }
