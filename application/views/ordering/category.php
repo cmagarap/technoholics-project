@@ -1,3 +1,4 @@
+<?php $category_content = $this->item_model->fetch('category', "status = 1"); ?>
 <div id="all">
     <div id="content">
         <div class="container">

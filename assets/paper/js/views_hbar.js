@@ -8,8 +8,8 @@ $(document).ready(function(){
             var color_chart = [];
 
             for(var i in data) {
-                product.push(data[i].product_name);
-                views.push(data[i].no_of_views);
+                product.push(data[i].item_name);
+                views.push(data[i].at_count);
             }
 
             var dynamicColors = function() {

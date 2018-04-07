@@ -6,11 +6,11 @@ $(document).ready(function(){
             var product = [];
             var searches = [];
             var color_chart = [];
-            console.log(searches);
             for (var i in data) {
-                product.push(data[i].product_name);
-                searches.push(data[i].times_searched);
+                product.push(data[i].item_name);
+                searches.push(data[i].at_count);
             }
+            console.log(searches);
 
             var dynamicColors = function() {
                 var r = Math.floor(Math.random() * 255);

@@ -147,7 +147,6 @@ class Home extends CI_Controller {
                 $this->pagination->initialize($config);
                 $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), $sort, 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
                 $current_show = $this->uri->segment(5) + count($product);
-                $category_content = $this->item_model->fetch('category', "status = 1");
 
                 $data = array(
                     'title' => 'Category',
@@ -160,7 +159,6 @@ class Home extends CI_Controller {
                     'image' => $image,
                     'current_show' => $current_show,
                     'perpage' => $perpage,
-                    'category_content' => $category_content,
                     'CTI' => $this->basket->total_items(),
                     'links' => $this->pagination->create_links()
                 );
@@ -238,9 +236,9 @@ class Home extends CI_Controller {
             $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), $sort, 'ASC', 'status = 1 AND product_name', $search);
             $image = $this->item_model->fetch('content')[0];
             $current_show = $this->uri->segment(3) + count($product);
-            $for_update = $product[0];
+            # $for_update = $product[0];
 
-            $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
+            # $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
 
             if ($this->session->has_userdata('isloggedin')) {
                 foreach ($product as $product_r) {
@@ -250,6 +248,17 @@ class Home extends CI_Controller {
                         "at_detail" => "Search",
                         "at_date" => time(),
                         "customer_id" => $this->session->uid,
+                        "product_id" => $product_r->product_id
+                    );
+                    $this->item_model->insertData('audit_trail', $for_audit);
+                }
+            } else {
+                foreach ($product as $product_r) {
+                    $for_audit = array(
+                        "customer_name" => "Guest",
+                        "item_name" => $product_r->product_name,
+                        "at_detail" => "Search",
+                        "at_date" => time(),
                         "product_id" => $product_r->product_id
                     );
                     $this->item_model->insertData('audit_trail', $for_audit);

@@ -8,9 +8,10 @@ $(document).ready(function(){
             var color_chart = [];
 
             for(var i in data) {
-                product.push(data[i].product_name);
-                purchase.push(data[i].times_bought);
+                product.push(data[i].item_name);
+                purchase.push(data[i].at_count);
             }
+            console.log(data);
 
             var dynamicColors = function() {
                 var r = Math.floor(Math.random() * 255);

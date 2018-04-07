@@ -258,10 +258,12 @@ class Reports extends CI_Controller {
     }
 
     public function populate_sales() {
+        $now = strtotime("Jan 31, 2017");
+        echo date("F j, Y", $now);
         $data = array(
             'sales_detail' => "No items were purchased this day.",
             'income' => 0.00,
-            'sales_date' => strtotime("April 1, 2018"),
+            'sales_date' => $now,
             'admin_id' => NULL,
             'order_id' => NULL
         );

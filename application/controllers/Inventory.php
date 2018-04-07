@@ -490,9 +490,39 @@ class Inventory extends CI_Controller {
     public function getProductViews() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select(array("product_id", "product_name", "no_of_views"));
-            $data = $this->item_model->fetch("product", "status = 1", "no_of_views", "DESC", 5);
-            print json_encode($data);
+            $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND FROM_UNIXTIME(at_date, '%m') = '". date('m') ."' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+            if(!$data->result()) { # for the past month
+                $past_month = (date("m") == 1) ? 12 : date("n") - 1;
+                $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND MONTH(FROM_UNIXTIME(at_date)) = $past_month GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                if (!$data->result()) { # for the past three months
+                    if (date("m") == 1) { # January
+                        $past_month = 10;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 2) { # February
+                        $past_month = 11;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 3) { # March
+                        $past_month = 12;
+                        $year = date("Y") - 1;
+                    }
+                    else {
+                        $past_month = date("m") - 3;
+                        $year = date("Y");
+                    }
+
+                    $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND MONTH(FROM_UNIXTIME(at_date)) = '" . $past_month . "' AND FROM_UNIXTIME(at_date, '%Y') = '" . $year . "' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                    if (!$data->result()) { # for the past year
+                        $past_year = date("Y") - 1;
+                        $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+                    }
+                }
+            }
+            print json_encode($data->result());
         } else {
             redirect("home");
         }
@@ -501,9 +531,42 @@ class Inventory extends CI_Controller {
     public function getTimesBought() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select(array("product_id", "product_name", "times_bought"));
-            $data = $this->item_model->fetch("product", "status = 1", "times_bought", "DESC", 5);
-            print json_encode($data);
+
+            # $this->session->set_userdata(array('times_bought' => 'current month'), true);
+
+            $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND FROM_UNIXTIME(at_date, '%m') = '". date('m') ."' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+            if(!$data->result()) { # for the past month
+                $past_month = (date("m") == 1) ? 12 : date("n") - 1;
+                $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND MONTH(FROM_UNIXTIME(at_date)) = $past_month GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                if (!$data->result()) { # for the past three months
+                    if (date("m") == 1) { # January
+                        $past_month = 10;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 2) { # February
+                        $past_month = 11;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 3) { # March
+                        $past_month = 12;
+                        $year = date("Y") - 1;
+                    }
+                    else {
+                        $past_month = date("m") - 3;
+                        $year = date("Y");
+                    }
+
+                    $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND MONTH(FROM_UNIXTIME(at_date)) = '" . $past_month . "' AND FROM_UNIXTIME(at_date, '%Y') = '" . $year . "' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                    if (!$data->result()) { # for the past year
+                        $past_year = date("Y") - 1;
+                        $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+                    }
+                }
+            }
+            print json_encode($data->result());
         } else {
             redirect("home");
         }
@@ -512,9 +575,40 @@ class Inventory extends CI_Controller {
     public function getSearches() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select(array("product_id", "product_name", "times_searched"));
-            $data = $this->item_model->fetch("product", "status = 1", "times_searched", "DESC", 5);
-            print json_encode($data);
+
+            $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Search' AND FROM_UNIXTIME(at_date, '%m') = '". date('m') ."' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+            if(!$data->result()) { # for the past month
+                $past_month = (date("m") == 1) ? 12 : date("n") - 1;
+                $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Search' AND MONTH(FROM_UNIXTIME(at_date)) = $past_month GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                if (!$data->result()) { # for the past three months
+                    if (date("m") == 1) { # January
+                        $past_month = 10;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 2) { # February
+                        $past_month = 11;
+                        $year = date("Y") - 1;
+                    }
+                    elseif (date("m") == 3) { # March
+                        $past_month = 12;
+                        $year = date("Y") - 1;
+                    }
+                    else {
+                        $past_month = date("m") - 3;
+                        $year = date("Y");
+                    }
+
+                    $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Search' AND MONTH(FROM_UNIXTIME(at_date)) = '" . $past_month . "' AND FROM_UNIXTIME(at_date, '%Y') = '" . $year . "' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+
+                    if (!$data->result()) { # for the past year
+                        $past_year = date("Y") - 1;
+                        $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Search' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
+                    }
+                }
+            }
+            print json_encode($data->result());
         } else {
             redirect("home");
         }

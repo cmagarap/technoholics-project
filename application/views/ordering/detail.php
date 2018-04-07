@@ -2,11 +2,23 @@
 # whenever viewed, update the no_of_views in the products table
 # $stat_views = $row->no_of_views + 1;
 # $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+
 if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('type') == 2) {
     $viewed_sess = $this->session->userdata('viewed_products');
     array_push($viewed_sess, (string) $this->uri->segment(5));
     $unique = array_unique($viewed_sess);
     $this->session->set_userdata('viewed_products', $unique);
+} elseif (!$this->session->has_userdata('isloggedin')) {
+    $this->db->select('product_name');
+    $item_name = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(5))[0];
+    $viewed_at = array(
+        'customer_name' => 'Guest',
+        'item_name' => $item_name->product_name,
+        'at_detail' => 'Viewed',
+        'at_date' => time(),
+        'product_id' => $this->uri->segment(5)
+    );
+    $this->item_model->insertData('audit_trail', $viewed_at);
 }
 ?>
 <div id="all">
