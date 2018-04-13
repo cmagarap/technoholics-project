@@ -26,7 +26,7 @@
                                         <input type="text" class="form-control border-input" placeholder="Brand" name = "brand_name" value = "<?= $brand_name ?>">
                                         <?php if(validation_errors()):
                                         echo "<span style = 'color: red'>" . form_error("brand_name") . "</span>";
-                                        elseif ($this->session->flashdata('error')): 
+                                    elseif ($this->session->flashdata('error')): 
                                         echo "<span style = 'color: red'>" . $this->session->flashdata('error') . "</span>";
                                         endif; ?>
                                     </div>
@@ -39,7 +39,7 @@
                                         <select name="category_id" id="" class = "form-control border-input file">
                                             <?php foreach($category as $category): ?>
                                                 <option value="<?= $category->category_id ?>">
-                                                    <?= $category->category ?>
+                                                    <?= ucfirst($category->category) ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>

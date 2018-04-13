@@ -56,7 +56,7 @@
                                             <select name="product_category" id="category" class = "form-control border-input file">
                                                 <option value="">Select a category</option>
                                                 <?php foreach($category as $category): ?>
-                                                    <option value="<?= $category->category_id ?>"><?= $category->category ?></option>
+                                                    <option value="<?= $category->category_id ?>"><?= ucfirst($category->category) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <?php if(validation_errors()):
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Price <span style = "color: red">*</span> </label>
                                             <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value = "<?= $product_price ?>" >
@@ -88,7 +88,7 @@
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Quantity <span style = "color: red">*</span></label>
                                             <input type="number" class="form-control border-input" placeholder="Product quantity" name = "product_quantity" value = "<?= $product_quantity ?>">
@@ -99,7 +99,17 @@
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Discount</label>
+                                            <select name="product_discount" class="form-control border-input file">
+                                                <?php for ($i=0; $i <= 100 ; $i++) { ?>
+                                                <option value="<?=$i?>"><?=$i?>%</option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Featured <font color="red">*</font></label>
                                             <select name="is_featured" class="form-control border-input file">
@@ -109,7 +119,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">

@@ -169,7 +169,7 @@ class Inventory extends CI_Controller {
     }
 
     public function add_product_exec() {
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        $this->form_validation->set_rules('product_name', "Please put the product name.", "required|is_unique[product.product_name]");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
         $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
@@ -213,6 +213,7 @@ class Inventory extends CI_Controller {
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => $this->input->post('product_price', TRUE),
+                'product_discount' => $this->input->post('product_discount', TRUE),
                 'product_quantity' => $this->input->post('product_quantity', TRUE),
                 'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : "default-product.jpg",
@@ -273,7 +274,13 @@ class Inventory extends CI_Controller {
     }
 
     public function edit_product_exec() {
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1')[0];
+        if($product->product_name != $this->input->post('product_name', TRUE)) {
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required|is_unique[product.product_name]");
+        } else {
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        }
+
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
         $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
@@ -316,6 +323,7 @@ class Inventory extends CI_Controller {
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => $this->input->post('product_price', TRUE),
+                'product_discount' => $this->input->post('product_discount', TRUE),
                 'product_quantity' => $this->input->post('product_quantity', TRUE),
                 'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : $image1_fetch->product_image1,
@@ -648,7 +656,7 @@ class Inventory extends CI_Controller {
         $output .= '<option value="">Select a brand</option>';
         if($query) {
             foreach($query as $query){
-                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
+                $output .= '<option value='.$query->brand_id.'>'.ucfirst($query->brand_name).'</option>';
             }
         }
         echo $output;
@@ -659,7 +667,7 @@ class Inventory extends CI_Controller {
         $query = $this->item_model->search('brand','status = 1 AND category_id', $_POST["query"]);
         if($query) {
             foreach($query as $query){
-                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
+                $output .= '<option value='.$query->brand_id.'>'.ucfirst($query->brand_name).'</option>';
             }
         }
         echo $output;
