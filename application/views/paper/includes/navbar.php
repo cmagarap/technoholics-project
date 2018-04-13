@@ -41,6 +41,12 @@ date_default_timezone_set("Asia/Manila");
                         <p>Sales</p>
                     </a>
                 </li>
+                <li <?php if($heading == "Forecasting") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('forecasting'); ?>">
+                        <i class="ti-stats-up"></i>
+                        <p>Sales Forecasting</p>
+                    </a>
+                </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('inventory/page'); ?>">
                         <i class="ti-archive"></i> <!-- ti-package -->
@@ -129,7 +135,7 @@ date_default_timezone_set("Asia/Manila");
                                 <b class="caret"></b>
                             </span>
                         </a>
-                        <ul class="dropdown-menu" style="overflow: auto; height:500px;">
+                        <ul class="dropdown-menu" style="overflow: auto; height:500px; width:450px;">
                             <?php foreach($alert as $alert): 
                             $product_image = (string)$alert->product_image1;
                             $image_array = explode(".", $product_image);
@@ -140,8 +146,8 @@ date_default_timezone_set("Asia/Manila");
                                         <div class="col-md-2">
                                             <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
                                         </div>
-                                        <div class="col-md-2">
-                                            <b><?=$alert->product_name?></b>
+                                        <div class="ellipsis">
+                                            <b ><?=$alert->product_name?></b>
                                             <?php if($alert->product_quantity == 0) :?>
                                                 <p style="color:red;">Out of stock.</p>
                                             <?php else:?>

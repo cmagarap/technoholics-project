@@ -4,6 +4,9 @@ $image = $content[0];
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
 $category_content = $this->item_model->fetch('category', array("status" => 1));
 date_default_timezone_set("Asia/Manila");
+if($CTI == 0){
+    $this->session->unset_userdata('total_discount');
+}
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top" style="background-color: <?= $image->customer_color1 ?>">
@@ -162,11 +165,11 @@ date_default_timezone_set("Asia/Manila");
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
             <span class="input-group-btn">
-             <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
-         </span>
-     </div>
-     <div id="productlist" style="position:absolute;"></div>
- </form>
+               <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
+           </span>
+       </div>
+       <div id="productlist" style="position:absolute;"></div>
+   </form>
 </div> <!--/.nav-collapse -->
 </div> <!-- /.container -->
 </div> <!-- /#navbar -->

@@ -111,26 +111,26 @@
                             <h4>Coupon code</h4>
                         </div>
                         <p class="text-muted">If you have a coupon code, please enter it in the box below.</p>
-                        <form>
+                        <form method="post" action="<?= base_url().'home/promo_exec';?>" >
                             <div class="input-group">
 
-                                <input type="text" class="form-control">
-
+                                <input type="text" name="promo_code" class="form-control">
                                 <span class="input-group-btn">
-
-                                 <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
-
-                             </span>
-                         </div>
-                         <!-- /input-group -->
-                     </form>
-                 </div>
-
-             </div>
-             <!-- /.col-md-3 -->
-
-         </div>
-         <!-- /.container -->
-     </div>
-     <!-- /#content -->
- </div>
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-gift"></i></button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                            <?php if(validation_errors()):
+                            echo "<span style = 'color: red'>" . form_error("promo_code") . "</span>";
+                        elseif ($this->session->flashdata('error')): 
+                            echo "<span style = 'color: red'>" . $this->session->flashdata('error') . "</span>";
+                            endif; ?>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+    </div>

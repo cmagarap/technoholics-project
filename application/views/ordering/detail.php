@@ -272,100 +272,100 @@ $category_content = $this->item_model->fetch('category', array("status" => 1));
                                             <input type="radio" id="rate4" name="rating" value="4" />
                                             <label for="rate4">4 stars.</label>
 
-                    if ($preference->product_preference != NULL) {
-                        $array_p = explode(", ", $preference->product_preference);
+                                            if ($preference->product_preference != NULL) {
+                                            $array_p = explode(", ", $preference->product_preference);
 
-                        foreach ($array_p as $p) {
-                            $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
-                        }
-                    } elseif ($preference->product_preference == NULL) {
-                        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-                        $this->session->set_userdata('suggest', $suggest);
-                    }
-                }
-                ?>
-                <?php
-                if ($this->session->has_userdata('suggest')):
-                    foreach ($this->session->userdata('suggest') as $suggest):
-                        ?>
-                        <div class="item" style="margin: 0 10px; visibility: hidden;">
-                            <div class="product">
-                                <div class="image_container" align="center">
-                                    <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
-                                        <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
-                                    </a>
-                                </div>
-                                <div class="text">
-                                    <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
-                                    <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                    endforeach;
-                else:
-                    $c = 0;
-                    foreach ($suggest_p as $suggest):
-                        for ($i = 0; $i < sizeof($suggest[$c]); $i++):
-                            ?>
-                            <div class="item" style="margin: 0 10px; visibility: hidden;">
-                                <div class="product">
-                                    <div class="image_container" align="center">
-                                        <a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>">
-                                            <img src="<?= base_url() . 'uploads_products/' . $suggest[$i]->product_image1 ?>" alt="<?= $suggest[$i]->product_name ?>" class="product_image">
-                                        </a>
-                                    </div>
-                                    <div class="text">
-                                        <h3><a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>"><?= $suggest[$i]->product_name ?></a></h3>
-                                        <p class="price">&#8369;<?= number_format($suggest[$i]->product_price, 2) ?></p>
-                                    </div>
-                                </div>
-                            <?php endif ?>                    
-                        </div>
-                    </div>
-                </div>
-                <div class="box">
-                    <h3>You may also like these products.</h3>
-                </div>
-                <div class="row products">
-                    <div id="hot">
-                        <div class="product-slider">
-                            <?php
-                            if (!$this->session->has_userdata('isloggedin')) {
-                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
-
-                                if(!$suggest) {
-                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-
-                                }
-
-                                $this->session->set_userdata('suggest', $suggest);
-                            } elseif ($this->session->has_userdata('isloggedin')) {
-                                $this->db->select('product_preference');
-                                $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
-
-                                if ($preference->product_preference != NULL) {
-                                    $array_p = explode(", ", $preference->product_preference);
-
-                                    foreach ($array_p as $p) {
-                                        $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
-                                    }
-                                } elseif ($preference->product_preference == NULL) {
+                                            foreach ($array_p as $p) {
+                                            $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
+                                        }
+                                    } elseif ($preference->product_preference == NULL) {
                                     $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
                                     $this->session->set_userdata('suggest', $suggest);
                                 }
                             }
                             ?>
                             <?php
-                        endfor;
-                    endforeach;
-                endif;
-                ?>
+                            if ($this->session->has_userdata('suggest')):
+                                foreach ($this->session->userdata('suggest') as $suggest):
+                                    ?>
+                                    <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                        <div class="product">
+                                            <div class="image_container" align="center">
+                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
+                                                    <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
+                                                </a>
+                                            </div>
+                                            <div class="text">
+                                                <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
+                                                <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                endforeach;
+                            else:
+                                $c = 0;
+                                foreach ($suggest_p as $suggest):
+                                    for ($i = 0; $i < sizeof($suggest[$c]); $i++):
+                                        ?>
+                                        <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                            <div class="product">
+                                                <div class="image_container" align="center">
+                                                    <a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>">
+                                                        <img src="<?= base_url() . 'uploads_products/' . $suggest[$i]->product_image1 ?>" alt="<?= $suggest[$i]->product_name ?>" class="product_image">
+                                                    </a>
+                                                </div>
+                                                <div class="text">
+                                                    <h3><a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>"><?= $suggest[$i]->product_name ?></a></h3>
+                                                    <p class="price">&#8369;<?= number_format($suggest[$i]->product_price, 2) ?></p>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <h3>You may also like these products.</h3>
+                            </div>
+                            <div class="row products">
+                                <div id="hot">
+                                    <div class="product-slider">
+                                        <?php
+                                        if (!$this->session->has_userdata('isloggedin')) {
+                                            $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
+
+                                            if(!$suggest) {
+                                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+
+                                            }
+
+                                            $this->session->set_userdata('suggest', $suggest);
+                                        } elseif ($this->session->has_userdata('isloggedin')) {
+                                            $this->db->select('product_preference');
+                                            $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
+
+                                            if ($preference->product_preference != NULL) {
+                                                $array_p = explode(", ", $preference->product_preference);
+
+                                                foreach ($array_p as $p) {
+                                                    $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
+                                                }
+                                            } elseif ($preference->product_preference == NULL) {
+                                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                                                $this->session->set_userdata('suggest', $suggest);
+                                            }
+                                        }
+                                        ?>
+                                        <?php
+                                    endfor;
+                                endforeach;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
-<!-- /.container -->
+    <!-- /.container -->
     <!-- end content -->

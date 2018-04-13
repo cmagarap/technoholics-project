@@ -283,7 +283,7 @@ class Home extends CI_Controller {
             'title' => "My Shopping Cart",
             'cartItems' => $this->basket->contents(),
             'product' => $product,
-            'CT' => $this->basket->total(),
+            'CT' => $this->basket->total() - $this->session->userdata('total_discount'),
             'CTI' => $this->basket->total_items(),
             'page' => "Home"
         );
@@ -294,46 +294,85 @@ class Home extends CI_Controller {
         $this->load->view('ordering/includes/footer');
     }
 
+    public function promo_exec() {
+
+        $this->form_validation->set_rules('promo_code', "Please put a promo code.", "required");
+        $this->form_validation->set_message('required', '{field}');
+        $price = $this->basket->total();
+        $promo_code = $this->input->post("promo_code");
+        $date = strtotime("now");
+
+        if ($this->form_validation->run()) {
+
+            $promo = $this->item_model->fetch('promo',"promo_code = '$promo_code' AND promo_end > '$date' AND promo_condition < $price")[0];
+
+            if($promo){
+
+                if($this->session->has_userdata('promo_counter')){
+                    $this->session->set_flashdata('error', 'Promo already entered!');
+                    $this->basket();
+                }
+
+                else{
+
+                    $this->session->set_userdata('total_discount', $promo->promo_discount);
+                    $this->checkout1();
+                }
+            }
+
+            else{
+                $this->session->set_flashdata('error', 'Promo code does not exists or does not meet the requirements.');
+                $this->basket();
+            }
+        }
+
+        else{
+            $this->basket();
+        }
+
+    }
+
+
     public function detail() {
         if ($this->session->userdata("type") == 2 OR !$this->session->has_userdata('isloggedin')) {
-           $page = "category";
-           $cat = $this->uri->segment(3);
-           $brand = $this->uri->segment(4);
-           $id = $this->uri->segment(5);
-           $image = $this->item_model->fetch('content')[0];
+         $page = "category";
+         $cat = $this->uri->segment(3);
+         $brand = $this->uri->segment(4);
+         $id = $this->uri->segment(5);
+         $image = $this->item_model->fetch('content')[0];
 
-           $this->load->library('pagination');
-           $perpage = 5;
-           $config['per_page'] = $perpage;
-           $config['full_tag_open'] = '<nav><ul class="pagination">';
-           $config['full_tag_close'] = ' </ul></nav>';
-           $config['first_link'] = 'First';
-           $config['first_tag_open'] = '<li>';
-           $config['first_tag_close'] = '</li>';
-           $config['first_url'] = '';
-           $config['last_link'] = 'Last';
-           $config['last_tag_open'] = '<li>';
-           $config['last_tag_close'] = '</li>';
-           $config['next_link'] = '&raquo;';
-           $config['next_tag_open'] = '<li>';
-           $config['next_tag_close'] = '</li>';
-           $config['prev_link'] = '&laquo;';
-           $config['prev_tag_open'] = '<li>';
-           $config['prev_tag_close'] = '</li>';
-           $config['cur_tag_open'] = '<li class="active"><a href="#">';
-           $config['cur_tag_close'] = '</a></li>';
-           $config['num_tag_open'] = '<li>';
-           $config['num_tag_close'] = '</li>';
+         $this->load->library('pagination');
+         $perpage = 5;
+         $config['per_page'] = $perpage;
+         $config['full_tag_open'] = '<nav><ul class="pagination">';
+         $config['full_tag_close'] = ' </ul></nav>';
+         $config['first_link'] = 'First';
+         $config['first_tag_open'] = '<li>';
+         $config['first_tag_close'] = '</li>';
+         $config['first_url'] = '';
+         $config['last_link'] = 'Last';
+         $config['last_tag_open'] = '<li>';
+         $config['last_tag_close'] = '</li>';
+         $config['next_link'] = '&raquo;';
+         $config['next_tag_open'] = '<li>';
+         $config['next_tag_close'] = '</li>';
+         $config['prev_link'] = '&laquo;';
+         $config['prev_tag_open'] = '<li>';
+         $config['prev_tag_close'] = '</li>';
+         $config['cur_tag_open'] = '<li class="active"><a href="#">';
+         $config['cur_tag_close'] = '</a></li>';
+         $config['num_tag_open'] = '<li>';
+         $config['num_tag_close'] = '</li>';
 
-           $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
-           $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
-           $this->pagination->initialize($config);
-           $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', 'product_id = ' . $id . ' AND status = 1');
-           $product = $this->item_model->fetch('product', array('product_id' => $id));
-           $condition = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid, 'product_id' => $id));
-           $row = $product[0];
+         $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
+         $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
+         $this->pagination->initialize($config);
+         $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', 'product_id = ' . $id . ' AND status = 1');
+         $product = $this->item_model->fetch('product', array('product_id' => $id));
+         $condition = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid, 'product_id' => $id));
+         $row = $product[0];
 
-           $data = array(
+         $data = array(
             'title' => $row->product_name,
             'product' => $product,
             'feedback' => $feedback,
@@ -347,11 +386,11 @@ class Home extends CI_Controller {
             'links' => $this->pagination->create_links()
         );
 
-           $this->load->view('ordering/includes/header', $data);
-           $this->load->view('ordering/includes/navbar');
-           $this->load->view('ordering/detail');
-           $this->load->view('ordering/includes/footer');
-       } elseif ($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+         $this->load->view('ordering/includes/header', $data);
+         $this->load->view('ordering/includes/navbar');
+         $this->load->view('ordering/detail');
+         $this->load->view('ordering/includes/footer');
+     } elseif ($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
         redirect('home/');
     }
 }
@@ -506,7 +545,7 @@ public function checkout2_exec() {
                 'page' => "Home",
                 'cartItems' => $this->basket->contents(),
                 'shipper_price' => $shipper->shipper_price,
-                'CT' => $this->basket->total(),
+                'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
                 'CTI' => $this->basket->total_items()
             );
 
@@ -523,7 +562,7 @@ public function checkout2_exec() {
                 'page' => "Home",
                 'shipper_price' => $shipper->shipper_price,
                 'cartItems' => $this->basket->contents(),
-                'CT' => $this->basket->total(),
+                'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
                 'CTI' => $this->basket->total_items()
             );
 
@@ -552,7 +591,7 @@ public function checkout3() {
         'shipper_name' => $this->session->userdata['checkout2_session']['shipper_name'],
         'shipper_price' => $this->session->userdata['checkout2_session']['shipper_price'],
         'cartItems' => $this->basket->contents(),
-        'CT' => $this->basket->total(),
+        'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
         'CTI' => $this->basket->total_items(),
     );
 
@@ -578,7 +617,7 @@ public function checkout3_exec() {
                 'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
                 'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
                 'cartItems' => $this->basket->contents(),
-                'CT' => $this->basket->total(),
+                'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
                 'CTI' => $this->basket->total_items(),
                 'payment' => html_escape($this->input->post('payment'))
             );
@@ -590,7 +629,7 @@ public function checkout3_exec() {
                 'cartItems' => $this->basket->contents(),
                 'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
                 'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
-                'CT' => $this->basket->total(),
+                'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
                 'CTI' => $this->basket->total_items(),
                 'payment' => html_escape($this->input->post('payment')),
                 'fname' => html_escape(trim(ucwords($this->input->post('firstname')))),
@@ -626,7 +665,7 @@ public function checkout4() {
         'shipper_name' => html_escape(trim(ucwords($this->input->post('shipper_name')))),
         'shipper_price' => html_escape(trim($this->input->post('shipper_price'))),
         'cartItems' => $this->basket->contents(),
-        'CT' => $this->basket->total(),
+        'CT' => $this->basket->total() - $this->session->userdata("total_discount"),
         'CTI' => $this->basket->total_items(),
     );
 
