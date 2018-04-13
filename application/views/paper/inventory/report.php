@@ -84,7 +84,6 @@ if(isset($_POST["generate_pdf"]))
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                             </p>
                         </div>
-                        <div class="col-sm-1"></div>
                         <form role="form" method="post">
                             <div class="col-sm-2">
                                 <div class="form-group">
@@ -118,11 +117,15 @@ if(isset($_POST["generate_pdf"]))
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label style="color: white;">`</label>
                                     <br>
                                     <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
+                                    <form target="_blank" method="post">
+                                       <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
+                                       <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
+                                   </form> 
                                 </div>
                             </div>
                         </form>

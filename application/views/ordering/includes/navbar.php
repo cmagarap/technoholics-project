@@ -1,8 +1,9 @@
 <?php
 $content = $this->item_model->fetch("content");
 $image = $content[0];
+$this->db->select(array("image", "username", "firstname"));
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
-$category_content = $this->item_model->fetch('category', array("status" => 1));
+$category_content = $this->item_model->fetch('category', "status = 1");
 date_default_timezone_set("Asia/Manila");
 if($CTI == 0){
     $this->session->unset_userdata('total_discount');
@@ -80,13 +81,13 @@ if($CTI == 0){
                         <div class="yamm-content">
                             <div class="row">
                                 <?php foreach ($category_content as $category_content): 
-                                $brand_content = $this->item_model->fetch("brand",array("category_id" => $category_content->category_id));
+                                $brand_content = $this->item_model->fetch("brand", "category_id = " . $category_content->category_id, "brand_name", "ASC");
                                 ?>
                                 <div class="col-sm-3">
                                     <h5><?=$category_content->category?></h5>
                                     <ul>
                                         <?php foreach ($brand_content as $brand_content): ?>
-                                            <li><a href="<?= base_url().'home/category/'.$category_content->category.'/'.$brand_content->brand_name.''; ?>"><?=$brand_content->brand_name?></a></li>
+                                            <li><a href="<?= base_url() . 'home/category/' . $category_content->category . '/' . $brand_content->brand_name . ''; ?>"><?= $brand_content->brand_name ?></a></li>
                                         <?php endforeach ?>
                                     </ul>
                                 </div>

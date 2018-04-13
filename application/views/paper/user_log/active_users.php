@@ -63,17 +63,20 @@ foreach ($customer as $customer1){
                             </div>
                         </form>
                     </div>
+                    <br><br><br><br>
+                    <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
-                            <th colspan="2"><b>Customer</b></th>
-                            <th><b>Latest Login</b></th>
-                            <th><b>Latest Action</b></th>
-                            <th><b>Total Actions</b></th>
-                            <th><b>Status</b></th>
+                            <td colspan="2"><b><p>Customer</p></b></td>
+                            <td><b><p>Latest Login</p></b></td>
+                            <td><b><p>Latest Action</p></b></td>
+                            <td align="right"><b><p>Total Actions</p></b></td>
+                            <td align="right"><b><p>Status</p></b></td>
                             </thead>
                             <tbody>
                             <?php
+                            $total_action = 0;
                             foreach ($customer as $customer):
                                 $date = $this->item_model->max('user_log', 'customer_id = ' . $customer->customer_id, 'date');
                                 $active_identifier = time() - $date->date;
@@ -104,8 +107,9 @@ foreach ($customer as $customer1){
                                         <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?php if($customer->username != NULL) echo $customer->username; else echo $customer->email; ?></a></td>
                                         <td><?= date("M-d-Y h:i A", $date->date) ?></td>
                                         <td><?= $action ?></td>
-                                        <td><?= $count_action ?></td>
-                                        <td><span class="text-success">ACTIVE</span></td>
+                                        <td align="right"><?= $count_action ?></td>
+                                        <?php $total_action += $count_action; ?>
+                                        <td align="right"><span class="text-success">ACTIVE</span></td>
                                     <?php else: continue;
                                     endif; ?>
                                 </tr>
@@ -113,10 +117,10 @@ foreach ($customer as $customer1){
                             <tr>
                                 <td></td>
                                 <td><h3>Total Weekly Active Customers</h3></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><h3><?= $acc ?></h3></td>
+                                <td><b>-</b></td>
+                                <td><b>-</b></td>
+                                <td align="right"><h3><?= $total_action ?></h3></td>
+                                <td align="right"><h3><?= $acc ?></h3></td>
                             </tr>
                             </tbody>
                         </table>

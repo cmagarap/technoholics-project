@@ -5,7 +5,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Customer Product Preferences</b></h3>
+                        <h3 class="title"><b>Customer Transaction Behavioral Analysis Report</b></h3>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p>
@@ -22,7 +22,10 @@
                         <table class="table table-striped">
                             <thead>
                             <th colspan="2"><b>Customer</b></th>
-                            <th><b>Product/s</b></th>
+                            <th><b>Recent Action</b></th>
+                            <th><b>Most Performed Action</b></th>
+                            <th><b>Preferred Product/s</b></th>
+                            <th><b>Preference Basis</b></th>
                             </thead>
                             <tbody>
                             <?php foreach ($customer as $cust):
@@ -33,7 +36,22 @@
                                         $image_array = explode(".", $user_image); ?>
                                         <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $cust->username ?>" title="<?= $cust->firstname . " " . $cust->lastname ?>"></p></td>
                                         <td><?= $cust->firstname . " " . $cust->lastname ?></td>
+                                        <?php
+                                        $this->db->select('at_detail');
+                                        $recent_action = $this->item_model->fetch('audit_trail', 'status = 1 AND customer_id = ' . $cust->customer_id, 'at_date', 'DESC', 1);
+                                        $most_performed = $this->db->query("SELECT COUNT(at_detail) as count_detail, at_detail FROM audit_trail WHERE customer_id = '" . $cust->customer_id . "' AND status = 1 GROUP BY at_detail ORDER BY count_detail DESC LIMIT 1");
+                                        ?>
+                                        <td><?php if($recent_action) echo $recent_action[0]->at_detail;
+                                        else echo "<i style='color: #CCCCCC'>NULL</i>"; ?></td>
+                                        <td><?php if($most_performed->result()) {
+                                                foreach ($most_performed->result() as $result) {
+                                                    echo $result->at_detail;
+                                                }
+                                            }
+                                        else echo "<i style='color: #CCCCCC'>NULL</i>"; ?></td>
+
                                         <td><?= $cust->product_preference ?></td>
+                                        <td><?= $cust->preference_basis ?></td>
                                     </tr>
                                 <?php }
                             endforeach; ?>

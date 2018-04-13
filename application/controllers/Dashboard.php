@@ -26,12 +26,24 @@ class Dashboard extends CI_Controller {
             $product = $this->item_model->fetch("product", "status = 1");
             $this->db->select('sales_date');
             $sales_date = $this->item_model->fetch("sales", "status = 1", "sales_date", "DESC", 1);
-            $audit_trail = $this->item_model->fetch("audit_trail", "status = 1", "at_date", "DESC", 5);
+            $audit_trail = $this->item_model->fetch("audit_trail", "status = 1 AND customer_name != 'Guest'", "at_date", "DESC", 5);
             $customer_all = $this->item_model->fetch("customer", "status = 1");
             $customer_limit = $this->item_model->fetch("customer", "status = 1", "customer_id", "ASC", 5);
             $this->db->where("status = 1 AND process_status != 3");
             $no_of_orders = $this->db->count_all_results("orders");
             $orders_latest_date = $this->item_model->fetch("orders", "status = 1", "transaction_date", "DESC", 1);
+
+            $this->db->select('income');
+            $income_current = $this->item_model->fetch('sales', "status = 1 AND FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . date('M d, Y') . "'");
+
+            if(!$income_current) {
+                $data = array(
+                    'sales_detail' => "No items were purchased this day.",
+                    'income' => 0,
+                    'sales_date' => time()
+                );
+                $this->item_model->insertData('sales', $data);
+            }
 
             $data = array(
                 'title' => "Admin Home",

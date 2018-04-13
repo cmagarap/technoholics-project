@@ -1,4 +1,14 @@
 <?php $account = $account[0]; ?>
+
+<?php
+//$items = $this->apriori->getAssociationRules();
+//foreach($items as $item) {
+//    //foreach ($item as $i) {
+//        #echo var_dump(array_keys($item)) . "<br>";
+//    //}
+//    $new[] = array_keys($item);
+//}
+?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -78,7 +88,7 @@
 
                 <div class="card">
                     <div class="header">
-                        <h4 class="title"><b>Previous Transactions</b></h4>
+                        <h4 class="title"><b>Previous Actions</b></h4>
                         <?php
                         if ($at_date) {
                             $overflow = 'style = "overflow-y: scroll; height: 200px;"';

@@ -1,7 +1,4 @@
-<?php $counter = 1;
-$counter1 = 1;
-$counter2 = 1;
-$counter3 = 1;
+<?php $counter = $counter1 = $counter2 = $counter3 = 1;
 if (isset($_POST['enter'])) {
     $colorpicker = $_POST['colorpicker'];
 }
@@ -172,10 +169,12 @@ if (isset($_POST['enter'])) {
                         </div>
                     </div>
                     <hr>
+
                     <?php
                     if (!$brand) {
                         echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
                     } else { ?>
+           
                     <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
                         <table class="table table-striped">
                             <thead>
@@ -256,18 +255,16 @@ if (isset($_POST['enter'])) {
         }
         ?>
     </div>
-</div>
-</div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="header">
-                    <h2 class="title"><b>Shippers</b></h2>
-                    <br>
-                    <div align = "left">
-                        <a href = "<?= $this->config->base_url() ?>settings/add_shipper" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title="Insert new shipper">Add Shipper</a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="title"><b>Shippers</b></h2>
+                        <br>
+                        <div align = "left">
+                            <a href = "<?= $this->config->base_url() ?>settings/add_shipper" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title="Insert new shipper">Add Shipper</a>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -412,13 +409,13 @@ if (isset($_POST['enter'])) {
             buttons: true,
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                window.location = "<?= $this->config->base_url() ?>settings/delete_category/" + id;
-            } else {
-                swal("The brand is safe!");
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "<?= $this->config->base_url() ?>settings/delete_category/" + id;
+                } else {
+                    swal("The brand is safe!");
+                }
+            });
     });
 </script>
 
@@ -432,13 +429,13 @@ if (isset($_POST['enter'])) {
             buttons: true,
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                window.location = "<?= $this->config->base_url() ?>settings/delete_brand/" + id;
-            } else {
-                swal("The category is safe!");
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "<?= $this->config->base_url() ?>settings/delete_brand/" + id;
+                } else {
+                    swal("The category is safe!");
+                }
+            });
     });
 </script>
 
@@ -452,13 +449,13 @@ if (isset($_POST['enter'])) {
             buttons: true,
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                window.location = "<?= $this->config->base_url() ?>settings/delete_supplier/" + id;
-            } else {
-                swal("The shipper is safe!");
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "<?= $this->config->base_url() ?>settings/delete_supplier/" + id;
+                } else {
+                    swal("The shipper is safe!");
+                }
+            });
     });
 </script>
 
@@ -472,13 +469,13 @@ if (isset($_POST['enter'])) {
             buttons: true,
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                window.location = "<?= $this->config->base_url() ?>settings/delete_shipper/" + id;
-            } else {
-                swal("The supplier is safe!");
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "<?= $this->config->base_url() ?>settings/delete_shipper/" + id;
+                } else {
+                    swal("The supplier is safe!");
+                }
+            });
     });
 </script>
 
@@ -502,10 +499,7 @@ if (isset($_POST['enter'])) {
     });
 </script>
 
-
-
 <script src="<?= $this->config->base_url() ?>assets/paper/js/jquery.simplecolorpicker.js" ></script>
-
 <script>
     $('select[name="admin_colorpicker"]').simplecolorpicker({
         picker: true,

@@ -9,7 +9,7 @@ if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") ==
     $user = $user[0];
 }
 
-$alert = $this->item_model->fetch("product", array("status" => 1, "product_quantity <=" => 5));
+$alert = $this->item_model->fetch("product", "status = 1 AND product_quantity <= 5");
 date_default_timezone_set("Asia/Manila");
 ?>
 
@@ -39,12 +39,6 @@ date_default_timezone_set("Asia/Manila");
                     <a href="<?= site_url('sales'); ?>">
                         <i class="ti-stats-up"></i>
                         <p>Sales</p>
-                    </a>
-                </li>
-                <li <?php if($heading == "Forecasting") { echo 'class="active"'; } ?>>
-                    <a href="<?= site_url('forecasting'); ?>">
-                        <i class="ti-stats-up"></i>
-                        <p>Sales Forecasting</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
@@ -104,6 +98,43 @@ date_default_timezone_set("Asia/Manila");
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="navtxt">
+                                    <i class="ti-bell"></i>
+                                    <p>Notifications</p>
+                                    <p class="notification" style="font-family: Arial"><sup><span style="background-color: red; color: white; padding: 2px; border-radius: 3px;"><b><?= count($alert) ?></b></span></sup></p>
+                                    <b class="caret"></b>
+                                </span>
+                            </a>
+
+                            <ul class="dropdown-menu" style="overflow: auto; height: 500px;">
+                                <?php foreach($alert as $alert):
+                                $product_image = (string)$alert->product_image1;
+                                $image_array = explode(".", $product_image);
+                                ?>
+                                <li>
+                                    <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>" title="<?= $alert->product_name ?>">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <?php $shortened_product_name = (strlen($alert->product_name) > 31) ? substr($alert->product_name, 0, 20) . "..." : $alert->product_name; ?>
+                                                <b><?= $shortened_product_name ?></b>
+                                                <?php if($alert->product_quantity == 0) :?>
+                                                    <p style="color:red;">Out of stock.</p>
+                                                <?php else:?>
+                                                    <p>Only has <?=$alert->product_quantity?> quantity left.</p>
+                                                <?php endif;?>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="navtxt">
                                     <i class="ti-user"></i>
                                     <p><?= $user->firstname ?></p>
                                     <b class="caret"></b>
@@ -126,50 +157,16 @@ date_default_timezone_set("Asia/Manila");
                                 <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="navtxt">
-                                <i class="ti-bell"></i>
-                                <p class="notification"><?=count($alert)?></p>
-                                <p>Notifications</p>
-                                <b class="caret"></b>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu" style="overflow: auto; height:500px; width:450px;">
-                            <?php foreach($alert as $alert): 
-                            $product_image = (string)$alert->product_image1;
-                            $image_array = explode(".", $product_image);
-                            ?>
-                            <li>
-                                <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
-                                        </div>
-                                        <div class="ellipsis">
-                                            <b ><?=$alert->product_name?></b>
-                                            <?php if($alert->product_quantity == 0) :?>
-                                                <p style="color:red;">Out of stock.</p>
-                                            <?php else:?>
-                                                <p>Only has <?=$alert->product_quantity?> quantity left.</p>
-                                            <?php endif;?>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-                <li>
-                    <a href="<?= $this->config->base_url() ?>Settings">
-                        <span class="navtxt">
-                            <i class="ti-settings"></i>
-                            <p>Settings</p>
-                        </span>
-                    </a>
-                </li>
-            </ul>
 
-        </div>
-    </div>
-</nav>
+                        <li>
+                            <a href="<?= $this->config->base_url() ?>Settings">
+                                <span class="navtxt">
+                                    <i class="ti-settings"></i>
+                                    <p>Settings</p>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>

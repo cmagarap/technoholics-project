@@ -147,6 +147,7 @@ class Home extends CI_Controller {
                 $this->pagination->initialize($config);
                 $product = $this->item_model->getItemsWithLimit('product', $perpage, $this->uri->segment(5), $sort, 'ASC', array("status" => 1, "product_category" => $cat, "product_brand" => $brand));
                 $current_show = $this->uri->segment(5) + count($product);
+
                 $data = array(
                     'title' => 'Category',
                     'products' => $product,
@@ -235,9 +236,9 @@ class Home extends CI_Controller {
             $product = $this->item_model->getItemsWithLimitSearch('product', $perpage, $this->uri->segment(3), $sort, 'ASC', 'status = 1 AND product_name', $search);
             $image = $this->item_model->fetch('content')[0];
             $current_show = $this->uri->segment(3) + count($product);
-            $for_update = $product[0];
+            # $for_update = $product[0];
 
-            $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
+            # $this->item_model->updatedata('product', array('times_searched' => $for_update->times_searched + 1), "product_name = '$search'");
 
             if ($this->session->has_userdata('isloggedin')) {
                 foreach ($product as $product_r) {
@@ -247,6 +248,17 @@ class Home extends CI_Controller {
                         "at_detail" => "Search",
                         "at_date" => time(),
                         "customer_id" => $this->session->uid,
+                        "product_id" => $product_r->product_id
+                    );
+                    $this->item_model->insertData('audit_trail', $for_audit);
+                }
+            } else {
+                foreach ($product as $product_r) {
+                    $for_audit = array(
+                        "customer_name" => "Guest",
+                        "item_name" => $product_r->product_name,
+                        "at_detail" => "Search",
+                        "at_date" => time(),
                         "product_id" => $product_r->product_id
                     );
                     $this->item_model->insertData('audit_trail', $for_audit);
@@ -335,44 +347,45 @@ class Home extends CI_Controller {
 
     public function detail() {
         if ($this->session->userdata("type") == 2 OR !$this->session->has_userdata('isloggedin')) {
-         $page = "category";
-         $cat = $this->uri->segment(3);
-         $brand = $this->uri->segment(4);
-         $id = $this->uri->segment(5);
-         $image = $this->item_model->fetch('content')[0];
+           $page = "category";
+           $cat = $this->uri->segment(3);
+           $brand = $this->uri->segment(4);
+           $id = $this->uri->segment(5);
+           $image = $this->item_model->fetch('content')[0];
 
-         $this->load->library('pagination');
-         $perpage = 5;
-         $config['per_page'] = $perpage;
-         $config['full_tag_open'] = '<nav><ul class="pagination">';
-         $config['full_tag_close'] = ' </ul></nav>';
-         $config['first_link'] = 'First';
-         $config['first_tag_open'] = '<li>';
-         $config['first_tag_close'] = '</li>';
-         $config['first_url'] = '';
-         $config['last_link'] = 'Last';
-         $config['last_tag_open'] = '<li>';
-         $config['last_tag_close'] = '</li>';
-         $config['next_link'] = '&raquo;';
-         $config['next_tag_open'] = '<li>';
-         $config['next_tag_close'] = '</li>';
-         $config['prev_link'] = '&laquo;';
-         $config['prev_tag_open'] = '<li>';
-         $config['prev_tag_close'] = '</li>';
-         $config['cur_tag_open'] = '<li class="active"><a href="#">';
-         $config['cur_tag_close'] = '</a></li>';
-         $config['num_tag_open'] = '<li>';
-         $config['num_tag_close'] = '</li>';
+           $this->load->library('pagination');
+           $perpage = 5;
+           $config['per_page'] = $perpage;
+           $config['full_tag_open'] = '<nav><ul class="pagination">';
+           $config['full_tag_close'] = ' </ul></nav>';
+           $config['first_link'] = 'First';
+           $config['first_tag_open'] = '<li>';
+           $config['first_tag_close'] = '</li>';
+           $config['first_url'] = '';
+           $config['last_link'] = 'Last';
+           $config['last_tag_open'] = '<li>';
+           $config['last_tag_close'] = '</li>';
+           $config['next_link'] = '&raquo;';
+           $config['next_tag_open'] = '<li>';
+           $config['next_tag_close'] = '</li>';
+           $config['prev_link'] = '&laquo;';
+           $config['prev_tag_open'] = '<li>';
+           $config['prev_tag_close'] = '</li>';
+           $config['cur_tag_open'] = '<li class="active"><a href="#">';
+           $config['cur_tag_close'] = '</a></li>';
+           $config['num_tag_open'] = '<li>';
+           $config['num_tag_close'] = '</li>';
 
-         $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
-         $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
-         $this->pagination->initialize($config);
-         $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', 'product_id = ' . $id . ' AND status = 1');
-         $product = $this->item_model->fetch('product', array('product_id' => $id));
-         $condition = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid, 'product_id' => $id));
-         $row = $product[0];
+           $config['base_url'] = base_url() . "home/detail/" . $cat . "/" . $brand . "/" . $id . "/page";
+           $config['total_rows'] = $this->item_model->getCount('feedback', array('product_id' => $id));
+           $this->pagination->initialize($config);
+           $feedback = $this->item_model->getItemsWithLimit('feedback', $perpage, $this->uri->segment(7), 'feedback_id', 'ASC', 'product_id = ' . $id . ' AND status = 1');
+           $product = $this->item_model->fetch('product', array('product_id' => $id));
+           $condition = $this->item_model->fetch('wishlist', array('customer_id' => $this->session->uid, 'product_id' => $id));
+           $row = $product[0];
+           $category_content = $this->item_model->fetch('category', "status = 1");
 
-         $data = array(
+           $data = array(
             'title' => $row->product_name,
             'product' => $product,
             'feedback' => $feedback,
@@ -382,6 +395,7 @@ class Home extends CI_Controller {
             'row' => $row,
             'condition' => $condition,
             'image' => $image,
+            'category_content' => $category_content,
             'CTI' => $this->basket->total_items(),
             'links' => $this->pagination->create_links()
         );
