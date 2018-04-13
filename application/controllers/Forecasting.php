@@ -127,7 +127,7 @@ class Forecasting extends CI_Controller {
     public function getForecasts() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
-            $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%b-%d-%y") as df', 'forecasted_income'));
+            $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
             $forecast = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%Y') = 2018",'date_forecasted','ASC');
             print json_encode($forecast);
         } else {

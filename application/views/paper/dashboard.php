@@ -136,7 +136,7 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Forecasted Sales</b></h3>
-                        <p class="category"><i class="ti-stats-up"></i> Forecasted values for <?= date('Y'); ?>.</p>
+                        <p class="category"><i class="ti-stats-up"></i> Forecasted values for <span style = 'background-color: #31bbe0; color: white; padding: 3px;'><?= date('Y'); ?></span></p>
                     </div>
                     <hr>
                     <div class="content">

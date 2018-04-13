@@ -169,6 +169,11 @@ $image = $content[0]; ?>
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+        .btn-gray {
+            color: #555555;
+            border-color: #555555;
+
+        }
 
 </style>
 </head>

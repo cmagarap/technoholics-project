@@ -221,16 +221,16 @@ class Login extends CI_Controller {
 
                             # ====================================================================>
 
-//                            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-//                            $for_log = array(
-//                                "$user_id" => $this->session->uid,
-//                                "user_type" => $this->session->userdata('type'),
-//                                "username" => $this->session->userdata('username'),
-//                                "date" => time(),
-//                                "action" => 'Logged in.',
-//                                'status' => '1'
-//                            );
-//                            $this->item_model->insertData('user_log', $for_log);
+                            $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+                            $for_log = array(
+                                "$user_id" => $this->session->uid,
+                                "user_type" => $this->session->userdata('type'),
+                                "username" => $this->session->userdata('username'),
+                                "date" => time(),
+                                "action" => 'Logged in.',
+                                'status' => '1'
+                            );
+                            $this->item_model->insertData('user_log', $for_log);
                             redirect('home');
                         }
                     } else { # wrong password entered
@@ -257,16 +257,16 @@ class Login extends CI_Controller {
                         $this->session->set_userdata($for_session, true);
                         $this->session->set_userdata('isloggedin', true);
                         $this->session->set_flashdata('myflashdata', true);
-//                        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
-//                        $for_log = array(
-//                            "$user_id" => $this->session->uid,
-//                            "user_type" => $this->session->userdata('type'),
-//                            "username" => $this->session->userdata('username'),
-//                            "date" => time(),
-//                            "action" => 'Logged in.',
-//                            'status' => '1'
-//                        );
-//                        $this->item_model->insertData('user_log', $for_log);
+                        $user_id = ($this->session->userdata("type") == 2) ? "customer_id" : "admin_id";
+                        $for_log = array(
+                            "$user_id" => $this->session->uid,
+                            "user_type" => $this->session->userdata('type'),
+                            "username" => $this->session->userdata('username'),
+                            "date" => time(),
+                            "action" => 'Logged in.',
+                            'status' => '1'
+                        );
+                        $this->item_model->insertData('user_log', $for_log);
                         redirect('dashboard');
                     } else { # wrong password entered
                         $this->session->set_flashdata('error', 'You entered an invalid username or password.');
