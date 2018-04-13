@@ -110,7 +110,6 @@ date_default_timezone_set("Asia/Manila");
                                     <b class="caret"></b>
                                 </span>
                             </a>
-
                             <ul class="dropdown-menu" style="overflow: auto; height: 500px; width: 400px;">
                                 <?php foreach($alert as $alert):
                                 $product_image = (string)$alert->product_image1;
@@ -119,7 +118,7 @@ date_default_timezone_set("Asia/Manila");
                                 <li>
                                     <a href="<?= $this->config->base_url() ?>inventory/edit_product/<?= $alert->product_id ?>" title="<?= $alert->product_name ?>">
                                         <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
                                             </div>
                                             <div class="ellipsis">
@@ -133,45 +132,45 @@ date_default_timezone_set("Asia/Manila");
                                         </div>
                                     </a>
                                 </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="navtxt">
-                                    <i class="ti-user"></i>
-                                    <p><?= $user->firstname ?></p>
-                                    <b class="caret"></b>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
-                                        <div align = "center">
-                                            <?php
-                                            $user_image = (string)$user->image;
-                                            $image_array = explode(".", $user_image);
-                                            ?>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="30%" style="border-radius: 100%; margin: 5px">
-                                            <br>
-                                            <?= $user->username ?>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
-                            </ul>
-                        </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="navtxt">
+                                <i class="ti-user"></i>
+                                <p><?= $user->firstname ?></p>
+                                <b class="caret"></b>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="<?= $this->config->base_url() ?>my_account/" title = "Manage my account">
+                                    <div align = "center">
+                                        <?php
+                                        $user_image = (string)$user->image;
+                                        $image_array = explode(".", $user_image);
+                                        ?>
+                                        <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="admin-user" width="30%" style="border-radius: 100%; margin: 5px">
+                                        <br>
+                                        <?= $user->username ?>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><a href="<?= $this->config->base_url() ?>logout">Logout</a></li>
+                        </ul>
+                    </li>
 
-                        <li>
-                            <a href="<?= $this->config->base_url() ?>Settings">
-                                <span class="navtxt">
-                                    <i class="ti-settings"></i>
-                                    <p>Settings</p>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                    <li>
+                        <a href="<?= $this->config->base_url() ?>Settings">
+                            <span class="navtxt">
+                                <i class="ti-settings"></i>
+                                <p>Settings</p>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
