@@ -135,16 +135,18 @@ foreach ($customer_all as $customer_all) {
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><i>to be replaced by sales forecast graph...</i></h3>
+                        <h3 class="title"><b>Forecasted Sales</b></h3>
+                        <p class="category"><i class="ti-stats-up"></i> Forecasted values for <?= date('Y'); ?>.</p>
                     </div>
+                    <hr>
                     <div class="content">
                         <div id="chart-container">
-                            <canvas id="trendLine" style="height: 300px"></canvas>
+                            <canvas id="forecast" style="height: 300px"></canvas>
                         </div>
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-reload"></i> Updated <?= date('F j, Y h:i A') ?>
+                                <a href="<?= $this->config->base_url() ?>forecasting" style = "text-decoration: underline">See more on Sales Forecast</a>
                             </div>
                         </div>
                     </div>
@@ -178,7 +180,7 @@ foreach ($customer_all as $customer_all) {
                 <div class="card ">
                     <div class="header">
                         <h3 class="title" style = "margin-bottom: 10px"><b>2017 Sales</b></h3>
-                        <p class="category"><i class="ti-stats-up" style = "font-size: 12px;"></i> Sales per month in 2017.</p>
+                        <p class="category"><i class="ti-money" style = "font-size: 12px;"></i> Sales per month in 2017.</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -405,3 +407,4 @@ foreach ($customer_all as $customer_all) {
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/male_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/female_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/gender_doughnut.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast.js"></script>

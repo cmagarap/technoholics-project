@@ -37,8 +37,14 @@ date_default_timezone_set("Asia/Manila");
                 </li>
                 <li <?php if($heading == "Sales Management" OR $heading == "Sales Reports") { echo 'class="active"'; } ?>>
                     <a href="<?= site_url('sales'); ?>">
-                        <i class="ti-stats-up"></i>
+                        <i class="ti-money"></i>
                         <p>Sales</p>
+                    </a>
+                </li>
+                <li <?php if($heading == "Forecasting") { echo 'class="active"'; } ?>>
+                    <a href="<?= site_url('forecasting'); ?>">
+                        <i class="ti-stats-up"></i>
+                        <p>Sales Forecast</p>
                     </a>
                 </li>
                 <li <?php if($heading == "Inventory") { echo 'class="active"'; } ?>>
@@ -104,8 +110,7 @@ date_default_timezone_set("Asia/Manila");
                                     <b class="caret"></b>
                                 </span>
                             </a>
-
-                            <ul class="dropdown-menu" style="overflow: auto; height: 500px; width: 450px;">
+                            <ul class="dropdown-menu" style="overflow: auto; height: 500px; width: 400px;">
                                 <?php foreach($alert as $alert):
                                 $product_image = (string)$alert->product_image1;
                                 $image_array = explode(".", $product_image);
@@ -117,7 +122,7 @@ date_default_timezone_set("Asia/Manila");
                                                 <img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $alert->product_name ?>" class="img-responsive">
                                             </div>
                                             <div class="ellipsis">
-                                                <b ><?=$alert->product_name?></b>
+                                                <b><?= $alert->product_name ?></b>
                                                 <?php if($alert->product_quantity == 0) :?>
                                                     <p style="color:red;">Out of stock.</p>
                                                 <?php else:?>

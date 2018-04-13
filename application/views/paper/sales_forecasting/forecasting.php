@@ -74,7 +74,11 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <h1>Put forecasting graph here.</h1>
+                    <div class="content">
+                        <div id="chart-container">
+                            <canvas id="forecast"></canvas>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <h3 class="title">Forecasted Reports for the year <b>2018</b></h3>
@@ -97,3 +101,5 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast.js"></script>
