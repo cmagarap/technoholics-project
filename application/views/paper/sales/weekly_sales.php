@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label style="color: white;">`</label><br>
                                     <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" name="enter"><i class="ti-filter"></i></button>
-                                    <a href = "<?= base_url() ?>reports/sales_reports" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
+                                    <a href = "<?= base_url() ?>reports/sales" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left" title="Go Back"></i></a>
                                 </div>
                             </div>
                         </form>

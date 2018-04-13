@@ -11,7 +11,7 @@ class Reports extends CI_Controller {
         }
     }
 
-    public function sales_reports() {
+    public function sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $this->load->view("paper/includes/header", array('title' => 'Sales Reports', 'heading' => 'Sales Reports'));
             $this->load->view("paper/includes/navbar");
@@ -136,7 +136,7 @@ class Reports extends CI_Controller {
             if(isset($_POST['enter'])) {
                 $annual = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%Y') as sales_y, SUM(income) AS income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 GROUP BY sales_y ORDER BY sales_date DESC LIMIT " . $this->input->post('year'));
 
-                $subtitle = "Here are the here are the annual sales for the last <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . " years.</span><br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
+                $subtitle = "Here are the here are the annual sales for the last <span style='background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . " years.</span><br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
 
                 $no_fetched_msg = "<center><h3><br><br><br><hr><br>There are no annual sales recorded for the selected number of years.</h3><br></center><br><br></div>";
             } else {
@@ -239,7 +239,7 @@ class Reports extends CI_Controller {
 
     public function product_preference() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference"));
+            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference", "preference_basis"));
             $customer = $this->item_model->fetch("customer", "status = 1");
 
             $data = array(
@@ -251,6 +251,34 @@ class Reports extends CI_Controller {
             $this->load->view("paper/includes/header", $data);
             $this->load->view("paper/includes/navbar");
             $this->load->view("paper/accounts/product_preference");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function feedback() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            if (isset($_POST['filter'])) {
+                if ($this->input->post('filter_feedback') == 'all') {
+                    goto filter_all;
+                } elseif ($this->input->post('filter_feedback') == 'min_rating') {
+                    $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 AND feedback.rating = " . $this->input->post('select_f') . " GROUP BY customer.username ORDER BY min_rating ASC");
+                }
+            } else {
+                filter_all:
+                $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 GROUP BY customer.username ORDER BY customer.username ASC");
+            }
+
+            $data = array(
+                'title' => 'Feedback Report',
+                'heading' => 'Feedback',
+                'feedback' => $feedback->result()
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/feedback/report");
             $this->load->view("paper/includes/footer");
         } else {
             redirect('home');

@@ -25,6 +25,7 @@
                             <th><b>Recent Action</b></th>
                             <th><b>Most Performed Action</b></th>
                             <th><b>Preferred Product/s</b></th>
+                            <th><b>Preference Basis</b></th>
                             </thead>
                             <tbody>
                             <?php foreach ($customer as $cust):
@@ -50,6 +51,7 @@
                                         else echo "<i style='color: #CCCCCC'>NULL</i>"; ?></td>
 
                                         <td><?= $cust->product_preference ?></td>
+                                        <td><?= $cust->preference_basis ?></td>
                                     </tr>
                                 <?php }
                             endforeach; ?>

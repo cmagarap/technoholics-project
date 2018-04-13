@@ -6,10 +6,16 @@ $(document).ready(function(){
             var product = [];
             var views = [];
             var color_chart = [];
+            var msg = '';
 
-            for(var i in data) {
-                product.push(data[i].item_name);
-                views.push(data[i].at_count);
+            for (var i in data) {
+                if( i == 0) {
+                    var msg = data[0].msg;
+                    continue;
+                } else {
+                    product.push(data[i].item_name);
+                    views.push(data[i].at_count);
+                }
             }
 
             var dynamicColors = function() {
@@ -36,10 +42,20 @@ $(document).ready(function(){
                 ]};
 
             var ctx = $("#productViews");
+            Chart.defaults.global.defaultFontFamily = "Arial";
+
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,
                 options: {
+                    title: {
+                        display: true,
+                        text: msg,
+                        fontFamily: 'Helvetica',
+                        fontStyle: 'italic',
+                        fontSize: 15
+
+                    },
                     legend: {
                         display: false,
                         position: "right"

@@ -357,7 +357,6 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Most Viewed Products</b></h3>
-                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -372,7 +371,6 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Most Searched Products</b></h3>
-                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -387,7 +385,6 @@ foreach ($customer_all as $customer_all) {
                 <div class="card">
                     <div class="header">
                         <h3 class="title"><b>Most Purchased Products</b></h3>
-                        <p class="category">for the past month</p>
                     </div>
                     <hr>
                     <div class="content">
@@ -397,48 +394,6 @@ foreach ($customer_all as $customer_all) {
                     </div>
                 </div>
             </div>
-            <!--<div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title"><b>Top 5 Most Viewed Products</b></h3>
-                        <p class="category">by age group</p>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="productViews_age"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title"><b>Top 5 Most Searched Products</b></h3>
-                        <p class="category">by age group</p>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="productSearch_age"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h3 class="title"><b>Top 5 Most Purchased Products</b></h3>
-                        <p class="category">by age group</p>
-                    </div>
-                    <hr>
-                    <div class="content">
-                        <div id="chart-container" style = "margin-top: -20px">
-                            <canvas id="productPurchase_age"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>
