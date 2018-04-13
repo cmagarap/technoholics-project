@@ -23,14 +23,12 @@ class Settings extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
-            $category = $this->item_model->fetch("category", "status = 1", "category", "ASC");
-//            echo "<pre>";
-//            print_r($category);
-//            echo "</pre>";
-            $brand = $this->item_model->fetch("brand", "status = 1", "brand_name", "ASC");
-            $supplier = $this->item_model->fetch("supplier", "status = 1", "company_name", "ASC");
-            $shipper = $this->item_model->fetch("shipper", "status = 1", "shipper_name", "ASC");
-            $content = $this->item_model->fetch("content", "content_id = 1")[0];
+            $category = $this->item_model->fetch("category", array("status" => 1), "category", "ASC");
+            $brand = $this->item_model->fetch("brand", array("status" => 1), "brand_name", "ASC");
+            $supplier = $this->item_model->fetch("supplier", array("status" => 1), "company_name", "ASC");
+            $shipper = $this->item_model->fetch("shipper", array("status" => 1), "shipper_name", "ASC");
+            $content = $this->item_model->fetch("content", array("content_id" => 1))[0];
+            $promo = $this->item_model->fetch("promo", array("status" => 1), "promo_end", "ASC");
 
             $data = array(
                 'title' => 'Settings',
@@ -39,7 +37,8 @@ class Settings extends CI_Controller {
                 'brand' => $brand,
                 'supplier' => $supplier,
                 'shipper' => $shipper,
-                'content' => $content
+                'content' => $content,
+                'promo' => $promo
             );
 
             $this->load->view('paper/includes/header', $data);
@@ -207,7 +206,7 @@ class Settings extends CI_Controller {
     }
 
     public function add_brand_exec() {
-        $this->form_validation->set_rules('brand_name', "Please put a brand name.", "required");
+        $this->form_validation->set_rules('brand_name', "Please select a year.", "required");
         $this->form_validation->set_message('required', '{field}');
         $condition = $this->item_model->fetch("brand", array('brand_name' => $this->input->post('brand_name'), "category_id" => $this->input->post('category_id')));
         if ($this->form_validation->run()) {
@@ -405,21 +404,19 @@ class Settings extends CI_Controller {
         }
     }
 
-    public function edit_shipper() {
+    public function add_promo() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
-            $shipper = $this->item_model->fetch("shipper", 'shipper_id = ' . $this->uri->segment(3), "shipper_name", "ASC");
             $data = array(
-                'title' => 'Settings: Edit Category',
-                'heading' => 'Shipper',
-                'shipper_name' => $shipper
+                'title' => 'Settings: Add Promo',
+                'heading' => 'Promo'
             );
 
             $this->load->view('paper/includes/header', $data);
             $this->load->view("paper/includes/navbar");
-            $this->load->view('paper/settings/edit_shipper');
+            $this->load->view('paper/settings/add_promo');
             $this->load->view('paper/includes/footer');
         } else {
-            redirect("home");
+            redirect('home');
         }
     }
 
@@ -452,6 +449,83 @@ class Settings extends CI_Controller {
     public function delete_shipper() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
             $this->item_model->updatedata("shipper", array("status" => 0), 'shipper_id = ' . $this->uri->segment(3));
+            redirect("settings");
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function add_promo_exec() {
+        $this->form_validation->set_rules('promo_code', "Please put a promo code.", "required|is_unique[promo.promo_code]");
+        $this->form_validation->set_rules('promo_discount', "Please put a discount.", "required|numeric");
+        $this->form_validation->set_rules('promo_condition', "Please put a price condition.", "required|numeric");
+        $this->form_validation->set_rules('promo_end', "Please put a promo end.", "required");
+        $this->form_validation->set_message('required', '{field}');
+
+        if ($this->form_validation->run()) {
+            $data = array(
+                'promo_code' => trim(ucwords($this->input->post('promo_code', TRUE))),
+                'promo_discount' => $this->input->post('promo_discount', TRUE),
+                'promo_condition' => $this->input->post('promo_condition', TRUE),
+                'promo_end' => strtotime($this->input->post('promo_end', TRUE)),
+                'status' => 1
+            );
+            $insert = $this->item_model->insertData('promo', $data);
+            redirect("settings");
+        } else {
+            $this->add_promo();
+        }
+    }
+
+    public function edit_promo() {
+        if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+            $promo = $this->item_model->fetch("promo", 'promo_id = ' . $this->uri->segment(3), "promo_code", "ASC")[0];
+            $data = array(
+                'title' => 'Settings: Edit Promo',
+                'heading' => 'Promo',
+                'promo' => $promo
+            );
+
+            $this->load->view('paper/includes/header', $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view('paper/settings/edit_promo');
+            $this->load->view('paper/includes/footer');
+        } else {
+            redirect("home");
+        }
+    }
+
+    public function edit_promo_exec() {
+        $this->db->select('promo_code');
+        $promo = $this->item_model->fetch('promo', 'promo_id = ' . $this->uri->segment(3))[0];
+        if($promo->promo_code != $this->input->post('promo_code', TRUE)) {
+            $this->form_validation->set_rules('promo_code', "Please put a promo code.", "required|is_unique[promo.promo_code]");
+        } else {
+            $this->form_validation->set_rules('promo_code', "Please put a promo code.", "required");
+        }
+
+        $this->form_validation->set_rules('promo_discount', "Please put a discount.", "required|numeric");
+        $this->form_validation->set_rules('promo_condition', "Please put a price condition.", "required|numeric");
+        $this->form_validation->set_rules('promo_end', "Please put a promo end.", "required");
+        $this->form_validation->set_message('required', '{field}');
+
+        if ($this->form_validation->run()) {
+            $data = array(
+                'promo_code' => trim(ucwords($this->input->post('promo_code', TRUE))),
+                'promo_discount' => $this->input->post('promo_discount', TRUE),
+                'promo_condition' => $this->input->post('promo_condition', TRUE),
+                'promo_end' => strtotime($this->input->post('promo_end', TRUE)),
+            );
+            $update = $this->item_model->updatedata('promo', $data);
+            redirect("settings");
+        } else {
+            $this->edit_promo();
+        }
+    }
+
+    public function delete_promo() {
+        if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
+            $this->item_model->updatedata("promo", array("status" => 0), 'promo_id = ' . $this->uri->segment(3));
             redirect("settings");
         } else {
             redirect('home');

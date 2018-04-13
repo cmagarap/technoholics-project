@@ -89,6 +89,7 @@
                         <div class="col-md-6">
                             <h3><span class="ti-comment" style="color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
                             <p class="category"><?= $date ?></p>
+                            <a href="<?= base_url() ?>reports/feedback">See feedback report.</a>
                         </div>
                         <div class="col-md-2"></div>
                         <form role="form" method="post">

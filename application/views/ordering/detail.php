@@ -244,6 +244,9 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 if(!$suggest) {
                                     $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
 
+                                    if(!$suggest) {
+                                        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category'");
+                                    }
                                 }
 
                                 $this->session->set_userdata('suggest', $suggest);
@@ -253,16 +256,29 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
 
                                 if ($preference->product_preference != NULL) {
                                     $array_p = explode(", ", $preference->product_preference);
+                                    $array_p_unique = array_unique($array_p);
 
-                                    foreach ($array_p as $p) {
+                                    foreach ($array_p_unique as $p) {
+                                        $this->db->select(array('product_name', 'product_id', 'product_category', 'product_brand', 'product_image1', 'product_price'));
                                         $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
                                     }
+
                                 } elseif ($preference->product_preference == NULL) {
-                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
+
+                                    if(!$suggest) {
+                                        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+
+                                        if(!$suggest) {
+                                            $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category'");
+                                        }
+                                    }
+
                                     $this->session->set_userdata('suggest', $suggest);
                                 }
                             }
                             ?>
+
                             <?php
                             if ($this->session->has_userdata('suggest')):
                                 foreach ($this->session->userdata('suggest') as $suggest):
@@ -306,6 +322,9 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                             endif;
                             ?>
                         </div>
+                        <?php echo "<pre>";
+                        print_r($array_p_unique);
+                        echo "<pre>";?>
                     </div>
                 </div>
             </div>

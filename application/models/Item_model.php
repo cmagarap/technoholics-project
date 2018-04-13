@@ -149,17 +149,17 @@ class Item_model extends CI_Model {
         return ($query->row()->$column); # to be sha1() or not?
     }
 
-    function setPassword($string, $salt /*$table, $column, $table_id, $id*/) {
+function setPassword($string, $salt /*$table, $column, $table_id, $id*/) {
         #  $salt = $this->getSalt($table, $column, $table_id, $id);
-        $string = password_hash($salt.$string, PASSWORD_DEFAULT);
-        return $string;
-    }
+    $string = password_hash($salt.$string, PASSWORD_DEFAULT);
+    return $string;
+}
 
-    public function checkWishlist($cond){
-        $this->db->select('*');
-        $this->db->where($cond);
-        $q = $this->db->get('wishlist');
-        return $q->result();
-    }
+public function checkWishlist($cond){
+    $this->db->select('*');
+    $this->db->where($cond);
+    $q = $this->db->get('wishlist');
+    return $q->result();
+}
 
 }

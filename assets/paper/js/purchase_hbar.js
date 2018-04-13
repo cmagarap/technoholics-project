@@ -6,12 +6,17 @@ $(document).ready(function(){
             var product = [];
             var purchase = [];
             var color_chart = [];
+            var msg = '';
 
-            for(var i in data) {
-                product.push(data[i].item_name);
-                purchase.push(data[i].at_count);
+            for (var i in data) {
+                if(i == 0) {
+                    var msg = data[0].msg;
+                    continue;
+                } else {
+                    product.push(data[i].item_name);
+                    purchase.push(data[i].at_count);
+                }
             }
-            console.log(data);
 
             var dynamicColors = function() {
                 var r = Math.floor(Math.random() * 255);
@@ -37,10 +42,20 @@ $(document).ready(function(){
                 ]};
 
             var ctx = $("#mostPurchased");
+            Chart.defaults.global.defaultFontFamily = "Arial";
+
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,
                 options: {
+                    title: {
+                        display: true,
+                        text: msg,
+                        fontFamily: 'Helvetica',
+                        fontStyle: 'italic',
+                        fontSize: 15
+
+                    },
                     legend: {
                         display: false,
                         position: "right"
