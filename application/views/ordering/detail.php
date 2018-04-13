@@ -243,7 +243,6 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 $suggest = array();
                                 $orders = $this->item_model->fetch('order_items',"product_id = '$row->product_id'");
                                 foreach ( $orders as $orders ){
-                                    $this->db->select('product_id');
                                     $product = $this->item_model->fetch('order_items',"order_id = '$orders->order_id'");
                                     foreach( $product as $product){
                                         array_push($temp1,$product->product_id);     
@@ -258,7 +257,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                     $temp2 = $this->item_model->fetch('product',"product_id = '$temp1' AND status = 1")[0];
                                     array_push($suggest,$temp2);
                                 }
-
+                                
                                 $this->session->set_userdata('suggest', $suggest);
                             } elseif ($this->session->has_userdata('isloggedin')) {
                                 $this->db->select('product_preference');
