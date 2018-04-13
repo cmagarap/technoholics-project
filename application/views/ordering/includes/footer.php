@@ -40,10 +40,6 @@
                         </li>
                         <li><a href="">Oppo</a>
                         </li>
-                        <li><a href="">Samsung</a>
-                        </li>
-                        <li><a href="">Sony</a>
-                        </li>
                     </ul>
                     <h5>Laptops</h5>
                     <ul>
@@ -54,8 +50,6 @@
                         <li><a href="">Dell</a>
                         </li>
                         <li><a href="">Hp</a>
-                        </li>
-                        <li><a href="">Lenovo</a>
                         </li>
                     </ul>
                     <hr class="hidden-md hidden-lg">
