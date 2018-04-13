@@ -78,11 +78,16 @@ if(isset($_POST["generate_pdf"]))
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <h3 class="title"><span class="ti-package" style="color: #dc2f54;2"></span>&nbsp; <b>Inventory Report</b></h3>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
-                            </p>
+                            </p><br>
+                            <form target="_blank" role="form" method="post">
+                                <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
+                                <input type="hidden" name="pdf" value="<?php echo htmlspecialchars(serialize($inventory)) ?>">
+                            </form>
+                            <br>
                         </div>
                         <form role="form" method="post">
                             <div class="col-sm-2">
@@ -117,40 +122,34 @@ if(isset($_POST["generate_pdf"]))
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <div class="form-group">
                                     <label style="color: white;">`</label>
                                     <br>
                                     <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
-                                    <form target="_blank" method="post">
-                                       <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
-                                       <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
-                                   </form> 
+                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <form target="_blank" role="form" method="post">
-                     <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" value="Generate PDF" /> 
-                     <input type="hidden" name="pdf" value="<?php echo htmlspecialchars(serialize($inventory)) ?>"> 
-                 </form> 
-                 <br><br><br><br>
-                 <?php
-                 if (!$inventory) {
-                    echo $html_tags[0] . $if_none . $html_tags[0];
-                } else {
+
+                    <br><br><br><br><br>
+                    <?php
+                    if (!$inventory) {
+                        echo $html_tags[0] . $if_none . $html_tags[0];
+                    } else {
                     ?>
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th><b>Product ID</b></th>
-                                    <th><b>Asset <?php if($sorted_by == 'product_name') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
-                                    <th><b>Brand <?php if($sorted_by == 'product_brand') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
-                                    <th><b>Date Acquired <?php if($sorted_by == 'added_at') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
-                                    <th><b>Stock <?php if($sorted_by == 'product_quantity') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
-                                    <th><b>Value <?php if($sorted_by == 'product_price') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></th>
-                                    <th><b>Exact Value</b></th>
+                                    <td><p><b>Product ID</b></p></td>
+                                    <td><p><b>Asset <?php if($sorted_by == 'product_name') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                    <td><p><b>Brand <?php if($sorted_by == 'product_brand') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                    <td><p><b>Date Acquired <?php if($sorted_by == 'added_at') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                    <td align="right"><p><b>Stock <?php if($sorted_by == 'product_quantity') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                    <td align="right"><p><b>Value <?php if($sorted_by == 'product_price') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                    <td align="right"><p><b>Exact Value</b></p></td>
                                 </tr>
                             </thead>
                             <tbody>
