@@ -81,7 +81,7 @@ if($CTI == 0){
                         <div class="yamm-content">
                             <div class="row">
                                 <?php foreach ($category_content as $category_content): 
-                                $brand_content = $this->item_model->fetch("brand", "category_id = " . $category_content->category_id, "brand_name", "ASC");
+                                $brand_content = $this->item_model->fetch("brand", "status = 1 AND category_id = " . $category_content->category_id, "brand_name", "ASC");
                                 ?>
                                 <div class="col-sm-3">
                                     <h5><?=$category_content->category?></h5>
@@ -166,11 +166,11 @@ if($CTI == 0){
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
             <span class="input-group-btn">
-               <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
-           </span>
-       </div>
-       <div id="productlist" style="position:absolute;"></div>
-   </form>
+             <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
+         </span>
+     </div>
+     <div id="productlist" style="position:absolute;"></div>
+ </form>
 </div> <!--/.nav-collapse -->
 </div> <!-- /.container -->
 </div> <!-- /#navbar -->

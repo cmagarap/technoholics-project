@@ -96,7 +96,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         <div align ="center" id ="contents">
                             <h1><?= $row->product_name ?></h1>
                             <?php if ($row->product_quantity != 0)
-                                echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                            echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
                             else
                                 echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                             ?>
@@ -239,14 +239,24 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         <div class="product-slider">
                             <?php
                             if (!$this->session->has_userdata('isloggedin')) {
-                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand' AND product_category = '$row->product_category'");
-
-                                if(!$suggest) {
-                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-
-                                    if(!$suggest) {
-                                        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category'");
+                                $temp1 = array();
+                                $suggest = array();
+                                $orders = $this->item_model->fetch('order_items',"product_id = '$row->product_id'");
+                                foreach ( $orders as $orders ){
+                                    $this->db->select('product_id');
+                                    $product = $this->item_model->fetch('order_items',"order_id = '$orders->order_id'");
+                                    foreach( $product as $product){
+                                        array_push($temp1,$product->product_id);     
+                                    }                           
+                                }
+                                $temp1 = array_unique($temp1);
+                                shuffle($temp1);
+                                foreach( $temp1 as $temp1){
+                                    if($temp1 == $row->product_id){
+                                        continue;
                                     }
+                                    $temp2 = $this->item_model->fetch('product',"product_id = '$temp1' AND status = 1")[0];
+                                    array_push($suggest,$temp2);
                                 }
 
                                 $this->session->set_userdata('suggest', $suggest);
@@ -325,9 +335,9 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         <?php echo "<pre>";
                         print_r($array_p_unique);
                         echo "<pre>";?>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div><!-- /.container -->
-    </div><!-- end content -->
+            </div><!-- /.container -->
+        </div><!-- end content -->
 </div><!-- #all -->
