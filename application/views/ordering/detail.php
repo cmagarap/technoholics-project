@@ -242,11 +242,13 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 $temp1 = array();
                                 $suggest = array();
                                 $orders = $this->item_model->fetch('order_items',"product_id = '$row->product_id'");
-                                foreach ( $orders as $orders ){
-                                    $product = $this->item_model->fetch('order_items',"order_id = '$orders->order_id'");
-                                    foreach( $product as $product){
-                                        array_push($temp1,$product->product_id);     
-                                    }                           
+                                if($orders){
+                                    foreach ( $orders as $orders ){
+                                        $product = $this->item_model->fetch('order_items',"order_id = '$orders->order_id'");
+                                        foreach( $product as $product){
+                                            array_push($temp1,$product->product_id);     
+                                        }                           
+                                    }
                                 }
                                 $temp1 = array_unique($temp1);
                                 shuffle($temp1);
@@ -256,6 +258,14 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                     }
                                     $temp2 = $this->item_model->fetch('product',"product_id = '$temp1' AND status = 1")[0];
                                     array_push($suggest,$temp2);
+                                }
+
+                                if(!$suggest) {
+                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
+
+                                    if(!$suggest) {
+                                        $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category'");
+                                    }
                                 }
                                 
                                 $this->session->set_userdata('suggest', $suggest);
@@ -360,28 +370,28 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                             else:
                                 $c = 0;
                                 foreach ($suggest as $suggest):
-                                        ?>
-                                        <div class="item" style="margin: 0 10px; visibility: hidden;">
-                                            <div class="product">
-                                                <div class="image_container" align="center">
-                                                    <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
-                                                        <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
-                                                    </a>
-                                                </div>
-                                                <div class="text">
-                                                    <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
-                                                    <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
-                                                </div>
+                                    ?>
+                                    <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                        <div class="product">
+                                            <div class="image_container" align="center">
+                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
+                                                    <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
+                                                </a>
+                                            </div>
+                                            <div class="text">
+                                                <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
+                                                <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
                                             </div>
                                         </div>
-                                        <?php
+                                    </div>
+                                    <?php
                                 endforeach;
                             endif;
                             ?>
                         </div>
-                        </div>
                     </div>
                 </div>
-            </div><!-- /.container -->
-        </div><!-- end content -->
+            </div>
+        </div><!-- /.container -->
+    </div><!-- end content -->
 </div><!-- #all -->

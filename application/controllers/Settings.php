@@ -107,6 +107,41 @@ class Settings extends CI_Controller {
         }
     }
 
+    public function edit_announcement(){
+
+        $this->form_validation->set_rules('announcementh1', "Please add a announcement header.", "required");
+        $this->form_validation->set_rules('announcementh2', "Please add a announcement header.", "required");
+        $this->form_validation->set_rules('announcementh3', "Please add a announcement header.", "required");
+        $this->form_validation->set_rules('announcement1', "Please add a announcement.", "required");
+        $this->form_validation->set_rules('announcement2', "Please add a announcement.", "required");
+        $this->form_validation->set_rules('announcement3', "Please add a announcement.", "required");
+        $this->form_validation->set_message('required', '{field}');
+
+        if ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
+            if ($this->form_validation->run()) {
+                $data = array(
+                    'announcementh1' => $this->input->post('announcementh1', TRUE),
+                    'announcementh2' => $this->input->post('announcementh2', TRUE),
+                    'announcementh3' => $this->input->post('announcementh3', TRUE),
+                    'announcement1' => $this->input->post('announcement1', TRUE),
+                    'announcement2' => $this->input->post('announcement2', TRUE),
+                    'announcement3' => $this->input->post('announcement3', TRUE)
+
+                );
+
+                $this->item_model->updatedata('content', $data);
+                redirect("settings");
+            }
+            else{
+                $this->index();
+            }
+        }
+
+        else{
+            redirect('home');
+        }
+    }
+
     public function add_category() {
         if (($this->session->userdata('type') == 0) OR ( $this->session->userdata('type') == 1)) {
             $data = array(
@@ -496,7 +531,6 @@ class Settings extends CI_Controller {
     }
 
     public function edit_promo_exec() {
-        $this->db->select('promo_code');
         $promo = $this->item_model->fetch('promo', 'promo_id = ' . $this->uri->segment(3))[0];
         if($promo->promo_code != $this->input->post('promo_code', TRUE)) {
             $this->form_validation->set_rules('promo_code', "Please put a promo code.", "required|is_unique[promo.promo_code]");
