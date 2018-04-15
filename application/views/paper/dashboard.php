@@ -120,10 +120,8 @@ foreach ($customer_all as $customer_all) {
                         <div class="footer">
                             <hr />
                             <div class="stats">
-                                <i class="ti-calendar"></i> Updated last
-                                <?php
-                                $orders_date = $orders_date[0];
-                                echo date("F j, Y", $orders_date->transaction_date);
+                                <i class="ti-calendar"></i> As of
+                                <?= date("F j, Y");
                                 ?>
                             </div>
                         </div>

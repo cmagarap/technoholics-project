@@ -271,18 +271,22 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                     foreach ($array_p as $p) {
                                         $this->db->select('product_id');
                                         $product_id = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'")[0];
-                                        array_push($pushable, $product_id->product_id);
+                                        if(isset($product_id->product_id))
+                                            array_push($pushable, $product_id->product_id);
+                                        else continue;
                                     }
 
                                     # based on order_items table
                                     $temp1 = array(); # temp1 is product_id array from Order_items
                                     $suggest = array();
                                     $orders = $this->item_model->fetch('order_items',"product_id = '$row->product_id'");
-                                    foreach ($orders as $orders) {
-                                        $this->db->select('product_id');
-                                        $product = $this->item_model->fetch('order_items', "order_id = '$orders->order_id'");
-                                        foreach ($product as $product) {
-                                            array_push($temp1, $product->product_id);
+                                    if ($orders) {
+                                        foreach ($orders as $orders) {
+                                            $this->db->select('product_id');
+                                            $product = $this->item_model->fetch('order_items', "order_id = '$orders->order_id'");
+                                            foreach ($product as $product) {
+                                                array_push($temp1, $product->product_id);
+                                            }
                                         }
                                     }
                                     $temp1 = array_unique($temp1);
@@ -333,6 +337,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                                 }
                             }
                             ?>
+
                             <?php
                             if ($this->session->has_userdata('suggest')):
                                 foreach ($this->session->userdata('suggest') as $suggest):
@@ -376,7 +381,6 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                         </div>
                         </div>
                     </div>
-
                 </div>
             </div><!-- /.container -->
         </div><!-- end content -->

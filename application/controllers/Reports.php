@@ -31,6 +31,7 @@ class Reports extends CI_Controller {
             } else {
                 $daily = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b %d, %Y') as sales_d, SUM(income) as income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = '" . date('Y') . "' AND FROM_UNIXTIME(sales_date, '%u') = '" . date('W') . "' GROUP BY sales_d ORDER BY sales_date DESC");
 
+
                 $subtitle = "Here are the daily sales for this week.";
             }
 

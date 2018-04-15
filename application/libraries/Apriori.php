@@ -202,7 +202,8 @@ class Apriori {
     }
 
     private function confidence($sup_a, $sup_ab) {
-        return round(($sup_ab / $sup_a) * 100, 2);
+        $value = ($sup_a == 0) ? 1 : $sup_a;
+        return round(($sup_ab / $value) * 100, 2);
     }
 
     private function subsets($items) {
