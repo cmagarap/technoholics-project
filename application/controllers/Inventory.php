@@ -226,6 +226,7 @@ class Inventory extends CI_Controller {
                 'admin_id' => $this->session->uid,
                 'category_id' => $this->input->post('product_category'),
                 'brand_id' => $this->input->post('product_brand'),
+                'batch_number' => date("Mdy")
             );
 
             $for_log = array(
@@ -535,11 +536,11 @@ class Inventory extends CI_Controller {
                             $display[] = array('msg' => "There are no records to display.");
 
                     } else
-                        $display[] = array('msg' => "Past Three Months");
+                    $display[] = array('msg' => "Past Three Months");
                 } else
-                    $display[] = array('msg' => "Last Month");
+                $display[] = array('msg' => "Last Month");
             } else
-                $display[] = array('msg' => "Current Month");
+            $display[] = array('msg' => "Current Month");
 
             print json_encode(array_merge($display, (array)$data->result()));
         } else {
@@ -587,11 +588,11 @@ class Inventory extends CI_Controller {
                             $display[] = array('msg' => "There are no records to display.");
 
                     } else
-                        $display[] = array('msg' => "Past Three Months");
+                    $display[] = array('msg' => "Past Three Months");
                 } else
-                    $display[] = array('msg' => "Last Month");
+                $display[] = array('msg' => "Last Month");
             } else
-                $display[] = array('msg' => "Current Month");
+            $display[] = array('msg' => "Current Month");
 
             print json_encode(array_merge($display, (array)$data->result()));
         } else {
@@ -638,11 +639,11 @@ class Inventory extends CI_Controller {
                         else
                             $display[] = array('msg' => "There are no records to display.");
                     } else
-                        $display[] = array('msg' => "Past Three Months");
+                    $display[] = array('msg' => "Past Three Months");
                 } else
-                    $display[] = array('msg' => "Last Month");
+                $display[] = array('msg' => "Last Month");
             } else
-                $display[] = array('msg' => "Current Month");
+            $display[] = array('msg' => "Current Month");
 
             print json_encode(array_merge($display, (array)$data->result()));
         } else {

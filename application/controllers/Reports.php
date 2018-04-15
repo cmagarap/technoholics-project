@@ -25,11 +25,17 @@ class Reports extends CI_Controller {
     public function daily_sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             if($this->input->post('from_date') AND $this->input->post('to_date')) {
+                # SELECT sales.income, order_items.product_name, order_items.quantity FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') = "2018-04-03"
+
                 $daily = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b %d, %Y') as sales_d, SUM(income) as income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "' GROUP BY sales_d ORDER BY sales_date DESC");
+
+                $daily_specific = $this->db->query("SELECT sales.income, order_items.product_name, order_items.quantity FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') BETWEEN '" . $this->input->post('from_date') . "' AND '" . $this->input->post('to_date') . "'");
 
                 $subtitle = "Here are the daily sales from <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('from_date'))) . " to " . date("F j, Y", strtotime($this->input->post('to_date'))) . ".</span><br><a href='" . base_url() . "reports/daily_sales'>See daily sales for this week.</a>";
             } else {
                 $daily = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b %d, %Y') as sales_d, SUM(income) as income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = '" . date('Y') . "' AND FROM_UNIXTIME(sales_date, '%u') = '" . date('W') . "' GROUP BY sales_d ORDER BY sales_date DESC");
+
+                $daily_specific = $this->db->query("SELECT sales.income, order_items.product_name, order_items.quantity FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = '" . date('Y') . "' AND FROM_UNIXTIME(sales_date, '%u') = '" . date('W') . "'");
 
                 $subtitle = "Here are the daily sales for this week.";
             }

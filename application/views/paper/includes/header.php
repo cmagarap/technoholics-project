@@ -50,9 +50,6 @@ $image = $content[0]; ?>
     <script src="<?= base_url()?>assets/paper/js/chartist.min.js"></script>
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="<?= base_url()?>assets/paper/js/bootstrap-checkbox-radio.js"></script>
-    <script src="<?= base_url()?>assets/paper/js/jspdf.plugin.autotable.js"></script>
-    <script src="<?= base_url()?>assets/paper/js/jspdf.min.js"></script>
-    
     <!--  Google Maps Plugin    -->
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
@@ -169,11 +166,11 @@ $image = $content[0]; ?>
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-        .btn-gray {
-            color: #555555;
-            border-color: #555555;
+    .btn-gray {
+        color: #555555;
+        border-color: #555555;
 
-        }
+    }
 
 </style>
 </head>

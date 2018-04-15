@@ -53,7 +53,6 @@ if (isset($_POST['enter'])) {
                             <div align = "center">
                                 <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Picture Slider</button>
                             </div>
-                            <br>
                         </form>
                         <hr>
                         <div class="row">
@@ -154,95 +153,118 @@ if (isset($_POST['enter'])) {
                                 </div>
                             <?php endif; ?>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class = "row">
-        <div class = "col-md-12">
-            <div class = "col-md-6">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="title"><b>Brands</b></h2>
-                        <br>
-                        <div align = "left">
-                            <a href = "<?= $this->config->base_url() ?>settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action = "<?= $this->config->base_url() ?>settings/edit_announcement"  method = "POST">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="title"><b>Announcement 1 header</b></p>
+                                                <input type="text" class="form-control border-input" placeholder="Announcement header" value="<?= $content->announcementh1 ?>"  name ="announcementh1">
+                                            </div>
+                                            <?php if(validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("announcementh1") . "</span>";
+                                            endif; ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="title"><b>Announcement 2 header</b></p>
+                                                <input type="text" class="form-control border-input" placeholder="Announcement header" value="<?= $content->announcementh2 ?>"  name ="announcementh2">
+                                            </div>
+                                            <?php if(validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("announcementh2") . "</span>";
+                                            endif; ?>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="title"><b>Announcement 3 header</b></p>
+                                                <input type="text" class="form-control border-input" placeholder="Announcement header" value="<?= $content->announcementh3 ?>"  name ="announcementh3">
+                                            </div>
+                                            <?php if(validation_errors()):
+                                            echo "<span style = 'color: red'>" . form_error("announcementh3") . "</span>";
+                                            endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <p class="title"><b>Announcement 1 </b></p>
+                                            <textarea rows="5" class="form-control border-input" placeholder="What to announce?" name = "announcement1"><?=$content->announcement1?></textarea>
+                                        </div>
+                                        <?php if(validation_errors()):
+                                        echo "<span style = 'color: red'>" . form_error("announcement1") . "</span>";
+                                        endif; ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <p class="title"><b>Announcement 2 </b></p>
+                                            <textarea rows="5" class="form-control border-input" placeholder="What to announce?" name = "announcement2"><?=$content->announcement2?></textarea>
+                                        </div>
+                                        <?php if(validation_errors()):
+                                        echo "<span style = 'color: red'>" . form_error("announcement2") . "</span>";
+                                        endif; ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <p class="title"><b>Announcement 3 </b></p>
+                                            <textarea rows="5" class="form-control border-input" placeholder="What to announce?" name = "announcement3"><?=$content->announcement3?></textarea>
+                                        </div>
+                                        <?php if(validation_errors()):
+                                        echo "<span style = 'color: red'>" . form_error("announcement3") . "</span>";
+                                        endif; ?>
+                                    </div>
+                                </div>
+                                <div align = "center">
+                                    <button type="submit" class="btn btn-info btn-fill btn-wd" style = "background-color: #31bbe0; border-color: #31bbe0; color: white;">Edit Announcements</button>
+                                </div>
+                            </form>
+                            <br>
                         </div>
                     </div>
-                    <hr>
-                    <?php
-                    if (!$brand) {
-                        echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
-                    } else { ?>
-                    <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
-                        <table class="table table-striped">
-                            <thead>
-                                <th><b>#</b></th>
-                                <th><b>Brand Name</b></th>
-                                <th><b>Category</b></th>
-                                <th><b>Actions</b></th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($brand as $brand): 
-                                $brand_category = $this->item_model->fetch("category", array("category_id" => $brand->category_id,"status" => 1))[0];
-                                ?>
-                                <tr>
-                                    <td><?= $counter1++ ?></td>
-                                    <td><?= ucfirst($brand->brand_name) ?></td>
-                                    <td><?= ucfirst($brand_category->category)?></td>
-                                    <td>
-                                        <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand">
-                                            <span class="ti-pencil"></span>
-                                        </a>
-                                        <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand">
-                                            <span class="ti-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php
-                echo "<div align = 'center'>" . "</div>";
-            }
-            ?>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="card">
-            <div class="header">
-                <h2 class="title"><b>Categories</b></h2>
-                <br>
-                <div align = "left">
-                    <a href = "<?= $this->config->base_url() ?>settings/add_category" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Category</a>
                 </div>
             </div>
-            <hr>
-            <?php
-            if (!$category) {
-                echo "<center><h3><hr><br>There are no categories recorded in the database.</h3><br></center><br><br>";
-            } else { ?>
-            <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
-                <table class="table table-striped">
-                    <thead>
-                        <th><b>#</b></th>
-                        <th><b>Category Name</b></th>
-                        <th><b>Actions</b></th>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($category as $category): ?>
+        </div>
+    </div>
+</div>
+
+<div class = "row">
+    <div class = "col-md-12">
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="header">
+                    <h2 class="title"><b>Brands</b></h2>
+                    <br>
+                    <div align = "left">
+                        <a href = "<?= $this->config->base_url() ?>settings/add_brand" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Brand</a>
+                    </div>
+                </div>
+                <hr>
+                <?php
+                if (!$brand) {
+                    echo "<center><h3><hr><br>There are no brands recorded in the database.</h3><br></center><br><br>";
+                } else { ?>
+                <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
+                    <table class="table table-striped">
+                        <thead>
+                            <th><b>#</b></th>
+                            <th><b>Brand Name</b></th>
+                            <th><b>Category</b></th>
+                            <th><b>Actions</b></th>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($brand as $brand): 
+                            $brand_category = $this->item_model->fetch("category", array("category_id" => $brand->category_id,"status" => 1))[0];
+                            ?>
                             <tr>
-                                <td><?= $counter2++ ?></td>
-                                <td><?= ucfirst($category->category) ?></td>
+                                <td><?= $counter1++ ?></td>
+                                <td><?= ucfirst($brand->brand_name) ?></td>
+                                <td><?= ucfirst($brand_category->category)?></td>
                                 <td>
-                                    <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_category/<?= $category->category_id ?>" title = "Edit Category">
+                                    <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_brand/<?= $brand->brand_id ?>" title = "Edit Brand">
                                         <span class="ti-pencil"></span>
                                     </a>
-                                    <a class="btn btn-danger delete_category" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category">
+                                    <a class="btn btn-danger delete_brand" href="#" data-id="<?= $brand->brand_id ?>" title = "Delete Brand">
                                         <span class="ti-trash"></span>
                                     </a>
                                 </td>
@@ -256,6 +278,52 @@ if (isset($_POST['enter'])) {
         }
         ?>
     </div>
+</div>
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="header">
+            <h2 class="title"><b>Categories</b></h2>
+            <br>
+            <div align = "left">
+                <a href = "<?= $this->config->base_url() ?>settings/add_category" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;" title = "Insert new category">Add Category</a>
+            </div>
+        </div>
+        <hr>
+        <?php
+        if (!$category) {
+            echo "<center><h3><hr><br>There are no categories recorded in the database.</h3><br></center><br><br>";
+        } else { ?>
+        <div class="content table-responsive" style="overflow-y: scroll; height: 200px;">
+            <table class="table table-striped">
+                <thead>
+                    <th><b>#</b></th>
+                    <th><b>Category Name</b></th>
+                    <th><b>Actions</b></th>
+                </thead>
+                <tbody>
+                    <?php foreach ($category as $category): ?>
+                        <tr>
+                            <td><?= $counter2++ ?></td>
+                            <td><?= ucfirst($category->category) ?></td>
+                            <td>
+                                <a class="btn btn-warning" href="<?= $this->config->base_url() ?>settings/edit_category/<?= $category->category_id ?>" title = "Edit Category">
+                                    <span class="ti-pencil"></span>
+                                </a>
+                                <a class="btn btn-danger delete_category" href="#" data-id="<?= $category->category_id ?>" title = "Delete Category">
+                                    <span class="ti-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+        echo "<div align = 'center'>" . "</div>";
+    }
+    ?>
+</div>
 </div>
 </div>
 </div>

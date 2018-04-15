@@ -27,7 +27,7 @@
                             $promo_end = "";
                         }
                         ?>
-                        <form action = "<?= $this->config->base_url() ?>Settings/add_promo_exec" method = "POST" enctype="multipart/form-data" >
+                        <form action = "<?= $this->config->base_url() ?>Settings/add_promo_exec/" method = "POST" enctype="multipart/form-data" >
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">

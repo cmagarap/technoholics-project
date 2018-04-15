@@ -39,6 +39,7 @@ class Home extends CI_Controller {
                 $this->load->view('ordering/includes/header', $data);
                 $this->load->view('ordering/includes/navbar');
                 $this->load->view('ordering/ads/front_slider');
+                $this->load->view('ordering/ads/advantages');
                 $this->load->view('ordering/ads/featured_products');
                 $this->load->view('ordering/includes/footer');
             } elseif ($this->session->userdata("type") == 0 OR $this->session->userdata("type") == 1) {
@@ -81,6 +82,7 @@ class Home extends CI_Controller {
             $this->load->view('ordering/includes/header', $data);
             $this->load->view('ordering/includes/navbar');
             $this->load->view('ordering/ads/front_slider');
+            $this->load->view('ordering/ads/advantages');
             $this->load->view('ordering/ads/featured_products');
             $this->load->view('ordering/includes/footer');
         }
@@ -400,11 +402,11 @@ class Home extends CI_Controller {
             'links' => $this->pagination->create_links()
         );
 
-         $this->load->view('ordering/includes/header', $data);
-         $this->load->view('ordering/includes/navbar');
-         $this->load->view('ordering/detail');
-         $this->load->view('ordering/includes/footer');
-     } elseif ($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+           $this->load->view('ordering/includes/header', $data);
+           $this->load->view('ordering/includes/navbar');
+           $this->load->view('ordering/detail');
+           $this->load->view('ordering/includes/footer');
+       } elseif ($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
         redirect('home/');
     }
 }
