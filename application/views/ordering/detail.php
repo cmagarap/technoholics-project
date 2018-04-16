@@ -20,6 +20,7 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
     );
     $this->item_model->insertData('audit_trail', $viewed_at);
 }
+$product_price = $row->product_price - ($row->product_price * ($row->product_discount/100));
 ?>
 <div id="all">
     <div id="content">
@@ -100,24 +101,26 @@ if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('typ
                             else
                                 echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                             ?>
-                            <h2 style="color:#dc2f54;">&#8369; <?= number_format($row->product_price, 2) ?></h2>
+                            <h2 style="color:#dc2f54;"><?php if($row->product_discount != 0):?><del> &#8369;<?=$row->product_price?></del><?php endif;?> &#8369;<?= number_format($product_price, 2) ?></h2>
                             <div class="star-ratings-css">
                                 <div class="star-ratings-css-top" style="width: <?= ($row->product_rating / 5) * 100 ?>%" title="<?= number_format($row->product_rating, 1) ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
                                 <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
                                 <p style="color: #f5bd23; font-size: 15px"><?= number_format($row->product_rating, 1) ?> / 5</p>
                             </div>
                             <br><br>
-                            <button <?php if (!$row->product_quantity) {
-                                echo 'disabled';
-                            } ?> class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-
-                            <?php if ($this->session->has_userdata('isloggedin')): ?>
-                                <button <?php if ($condition) {
+                            <p class="buttons">
+                                <button <?php if (!$row->product_quantity) {
                                     echo 'disabled';
-                                } ?> class="btn btn-default" id="add_wishlist" data-productid="<?= $row->product_id ?>" data-customerid="<?= $this->session->uid ?>" data-productname="<?= $row->product_name ?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?= $this->uri->segment(7) ?>"><i class="fa fa-heart"></i> Add to wishlist </button>
-                            <?php else: ?>
-                                <a href="<?= base_url() . 'login' ?>" class="btn btn-default" > <i class="fa fa-heart"></i> Add to wishlist </a>
-                            <?php endif ?>
+                                } ?> class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $product_price ?>" data-productid="<?= $row->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+
+                                <?php if ($this->session->has_userdata('isloggedin')): ?>
+                                    <button <?php if ($condition) {
+                                        echo 'disabled';
+                                    } ?> class="btn btn-default" id="add_wishlist" data-productid="<?= $row->product_id ?>" data-customerid="<?= $this->session->uid ?>" data-productname="<?= $row->product_name ?>" data-productcategory="<?= $row->product_category ?>" data-productbrand="<?= $row->product_brand ?>" data-page="<?= $this->uri->segment(7) ?>"><i class="fa fa-heart"></i> Add to wishlist </button>
+                                <?php else: ?>
+                                    <a href="<?= base_url() . 'login' ?>" class="btn btn-default" > <i class="fa fa-heart"></i> Add to wishlist </a>
+                                <?php endif ?>
+                            </p>
                         </div>
                     </div>
                 </div>

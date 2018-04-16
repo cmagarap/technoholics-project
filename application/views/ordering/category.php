@@ -108,46 +108,47 @@
                             </div>
                         </div>
                     <?php else: ?>
-                        <?php foreach ($products as $row): ?>
-                            <div class="col-md-4 col-sm-6">
-                                <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
-                                    <div class="image_container" align="center" >
-                                        <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>">
-                                            <img class="product_image" src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="<?= $row->product_name ?>">
-                                        </a>
+                        <?php foreach ($products as $row): 
+                        $product_price = $row->product_price - ($row->product_price * ($row->product_discount/100));?>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="product" style="box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);">
+                                <div class="image_container" align="center" >
+                                    <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>">
+                                        <img class="product_image" src="<?= base_url() . 'uploads_products/' . $row->product_image1 ?>" alt="<?= $row->product_name ?>">
+                                    </a>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>"><?= $row->product_name ?></a></h3>
+                                    <p class="price"><?php if($row->product_discount != 0):?><del> &#8369;<?=$row->product_price?></del><?php endif;?> &#8369;<?= number_format($product_price, 2) ?></p>
+                                    <p class="buttons">
+                                        <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>"  class="btn btn-default">View detail</a>
+                                        <button <?php if (!$row->product_quantity) {
+                                            echo 'disabled';
+                                        } ?> type="button" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $product_price?>" data-productid="<?= $row->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                    </p>
+                                </div>
+                                <!-- /.text -->
+                                <?php if (!$row->product_quantity): ?>
+                                    <div class="ribbon sale" >
+                                        <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
+                                        <div class="ribbon-background"></div>
                                     </div>
-                                    <div class="text">
-                                        <h3><a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>"><?= $row->product_name ?></a></h3>
-                                        <p class="price">&#8369;<?= number_format($row->product_price, 2) ?></p>
-                                        <p class="buttons">
-                                            <a href="<?= base_url() . 'home/detail/' . $row->product_category . '/' . $row->product_brand . '/' . $row->product_id . '/page' ?>"  class="btn btn-default">View detail</a>
-                                            <button <?php if (!$row->product_quantity) {
-                                                echo 'disabled';
-                                            } ?> type="button" class="btn btn-primary add_cart" data-productname="<?= $row->product_name ?>" data-productimg="<?= $row->product_image1 ?>"  data-productquantity="<?= $row->product_quantity ?>" data-price="<?= $row->product_price ?>" data-productid="<?= $row->product_id ?>"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </p>
-                                    </div>
-                                    <!-- /.text -->
-                                    <?php if (!$row->product_quantity): ?>
-                                        <div class="ribbon sale" >
-                                            <div class="theribbon" style="background-color:#dc2f54">OUT OF STOCK</div>
-                                            <div class="ribbon-background"></div>
-                                        </div>
-                                    <?php endif ?>
-                                </div><!-- /.product -->
-                            </div><!-- /.col-md-4 -->
-                        <?php endforeach ?>
-                    </div>
-                <?php endif ?><!-- /.products -->
-
-                <div class="pages">
-                    <?php
-                    echo "<div align = 'center'>" . $links . "</div>";
-                    echo '</div>';
-                    ?>
+                                <?php endif ?>
+                            </div><!-- /.product -->
+                        </div><!-- /.col-md-4 -->
+                    <?php endforeach ?>
                 </div>
-            </div><!-- /.col-md-9 -->
-        </div><!-- /.container -->
-    </div><!-- /#content -->
+            <?php endif ?><!-- /.products -->
+
+            <div class="pages">
+                <?php
+                echo "<div align = 'center'>" . $links . "</div>";
+                echo '</div>';
+                ?>
+            </div>
+        </div><!-- /.col-md-9 -->
+    </div><!-- /.container -->
+</div><!-- /#content -->
 </div>
 <!--</div>
 </div>-->

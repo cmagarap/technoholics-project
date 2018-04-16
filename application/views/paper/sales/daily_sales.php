@@ -33,27 +33,39 @@ if (isset($_POST["generate_pdf"])) {
     </tr>
     ';
     foreach ($temp as $daily) {
-        $content .='
-        <tr>
-        <td>' . $daily->sales_d . '</td>
-        <td align="right">' . $daily->items_sold . '</td>
-        <td align="right">&#8369;' . number_format($daily->income, 2) . '</td>
-        </tr>
-        ';
-        $total_items += $daily->items_sold;
+      $content .='
+      <tr>
+      <td>' . $daily->sales_d . '</td>
+      <td align="right">' . $daily->items_sold . '</td>
+      <td align="right">&#8369;' . number_format($daily->income, 2) . '</td>
+      </tr>
+      ';
+      $spec_products = $this->db->query("SELECT FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') AS date_, order_items.product_price, order_items.product_name, SUM(order_items.quantity) as sum_q FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . $daily->sales_d . "' GROUP BY order_items.product_name ORDER BY order_items.product_name ASC");
+      if($spec_products->result()){
+        foreach ($spec_products->result() as $prod) {
+            $content.= '
+            <tr>
+            <td style="text-indent: 50px" >'.$prod->product_name.'</td>
+            <td align="right">'.$prod->sum_q.'</td>
+            <td align="right">'.number_format($prod->product_price, 2).'</td>
+            </tr>';
+        }
     }
 
-    $content .='                                
-    <tr>
-    <td><h3>Total</h3></td>
-    <td align="right"><b>' . $total_items . '</b></td>
-    <td align="right"><h3>&#8369;' . $_POST["dailytotal"] . '</h3></td>
-    </tr>';
+    $total_items += $daily->items_sold;
+}
 
-    $content .= '</table>';
-    $pdf->writeHTML($content);
-    $pdf->Output('Daily_Sales_Report.pdf', 'I');
-    exit;
+$content .='                                
+<tr>
+<td><h3>Total</h3></td>
+<td align="right"><b>' . $total_items . '</b></td>
+<td align="right"><h3>&#8369;' . $_POST["dailytotal"] . '</h3></td>
+</tr>';
+
+$content .= '</table>';
+$pdf->writeHTML($content);
+$pdf->Output('Daily_Sales_Report.pdf', 'I');
+exit;
 }
 ?>
 <div class="content">
@@ -106,63 +118,63 @@ if (isset($_POST["generate_pdf"])) {
                     if (!$daily) {
                         echo "<center><h3><br><br><br><br><br><hr><br>There are no daily sales recorded for this week.</h3><br></center><br><br></div>";
                     } else {
-                    ?>
-                    <br><br><br><br><br><br><br>
-                    <hr style="margin-bottom: -20px">
-                    <div class="content table-responsive table-full-width">
-                        <table class="table table-striped">
-                            <thead>
-                            <th><b><p>Date</b></th>
-                            <td align="center"><b><p>Items sold</p></b></td>
-                            <td align="right"><b><p>Income</p></b></td>
-                            <th></th>
-                            </thead>
-                            <tbody>
-                            <?php $total_items = 0;
-                            foreach ($daily as $daily):
-                                ?>
-                                <tr>
-                                <td bgcolor="#FFF0FD"><p><u><?= $daily->sales_d ?></u></p></td>
-                                <td bgcolor="#FFF0FD" align="right"><p><u><?= $daily->items_sold ?></u></p></td>
-                                <?php $total_items += $daily->items_sold; ?>
-                                <td bgcolor="#FFF0FD" align="right"><p><u>&#8369;<?= number_format($daily->income, 2) ?></u></p></td>
-                                <td bgcolor="#FFF0FD"></td>
-                                <?php
-                                $spec_products = $this->db->query("SELECT FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') AS date_, order_items.product_price, order_items.product_name, SUM(order_items.quantity) as sum_q FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . $daily->sales_d . "' GROUP BY order_items.product_name ORDER BY order_items.product_name ASC");
+                        ?>
+                        <br><br><br><br><br><br><br>
+                        <hr style="margin-bottom: -20px">
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th><b><p>Date</b></th>
+                                        <td align="center"><b><p>Items sold</p></b></td>
+                                        <td align="right"><b><p>Income</p></b></td>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        <?php $total_items = 0;
+                                        foreach ($daily as $daily):
+                                            ?>
+                                            <tr>
+                                                <td bgcolor="#FFF0FD"><p><u><?= $daily->sales_d ?></u></p></td>
+                                                <td bgcolor="#FFF0FD" align="right"><p><u><?= $daily->items_sold ?></u></p></td>
+                                                <?php $total_items += $daily->items_sold; ?>
+                                                <td bgcolor="#FFF0FD" align="right"><p><u>&#8369;<?= number_format($daily->income, 2) ?></u></p></td>
+                                                <td bgcolor="#FFF0FD"></td>
+                                                <?php
+                                                $spec_products = $this->db->query("SELECT FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') AS date_, order_items.product_price, order_items.product_name, SUM(order_items.quantity) as sum_q FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . $daily->sales_d . "' GROUP BY order_items.product_name ORDER BY order_items.product_name ASC");
 
-                                if ($spec_products->result()):
-                                    foreach ($spec_products->result() as $prod):
-                                        ?>
+                                                if ($spec_products->result()):
+                                                    foreach ($spec_products->result() as $prod):
+                                                        ?>
+                                                        <tr>
+                                                            <td style="text-indent: 50px"><i class="ti-package"></i> &nbsp;<?= $prod->product_name ?></td>
+                                                            <td><?= $prod->sum_q ?></td>
+                                                            <td align="right"><?= number_format($prod->product_price, 2) ?></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    <?php endforeach;
+                                                endif;
+                                                ?>
+                                            </tr>
+                                        <?php endforeach; ?>
                                         <tr>
-                                            <td style="text-indent: 50px"><i class="ti-package"></i> &nbsp;<?= $prod->product_name ?></td>
-                                            <td><?= $prod->sum_q ?></td>
-                                            <td align="right"><?= number_format($prod->product_price, 2) ?></td>
+                                            <td><h3>Total</h3></td>
+                                            <td align="right"><p><b><u><?= $total_items ?></u></b></p></td>
+                                            <td align="right"><h3><u>&#8369;<?= number_format($dailytotal, 2) ?></u></h3></td>
                                             <td></td>
                                         </tr>
-                                    <?php endforeach;
-                                endif;
-                                ?>
-                                </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td><h3>Total</h3></td>
-                                <td align="right"><p><b><u><?= $total_items ?></u></b></p></td>
-                                <td align="right"><h3><u>&#8369;<?= number_format($dailytotal, 2) ?></u></h3></td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <?php } ?>
+                                    </tbody>
+                                </table>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<script>
-    $(function() {
-        $('input.calendar').pignoseCalendar({
-            format: 'YYYY-MM-DD'
-        });
-    });
-</script>
+        <script>
+            $(function() {
+                $('input.calendar').pignoseCalendar({
+                    format: 'YYYY-MM-DD'
+                });
+            });
+        </script>
