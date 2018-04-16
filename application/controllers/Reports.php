@@ -31,7 +31,6 @@ class Reports extends CI_Controller {
             } else {
                 $daily = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%b %d, %Y') as sales_d, SUM(income) as income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 AND FROM_UNIXTIME(sales_date, '%Y') = '" . date('Y') . "' AND FROM_UNIXTIME(sales_date, '%u') = '" . date('W') . "' GROUP BY sales_d ORDER BY sales_date DESC");
 
-
                 $subtitle = "Here are the daily sales for this week.";
             }
 
@@ -218,6 +217,78 @@ class Reports extends CI_Controller {
         }
     }
 
+    public function sold_unsold() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            function array_to_str($str) {
+                return $str;
+            }
+
+            $this->db->select('DISTINCT FROM_UNIXTIME(sales_date, "%Y") AS formatted');
+            $sales_years = $this->item_model->fetch('sales', 'status = 1', 'formatted', 'DESC');
+
+            if ($this->input->post('select_type') == 'unsold') {
+                unsold_products:
+                $title_of_report = "Unsold Products";
+                $month = (!$this->input->post('select_month') OR $this->input->post('select_month') == '—') ? date('M') : $this->input->post('select_month');
+                $year = (!$this->input->post('select_year') OR $this->input->post('select_year') == '—') ? date('Y') : $this->input->post('select_year');
+                $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
+                $temp = date('F, Y', strtotime($month .  "-" . $year));
+
+                $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales_date, '%Y') = '" . $year . "'");
+
+                $product_id_array = array();
+                foreach ($product_id->result() as $product) {
+                    array_push($product_id_array, $product->product_id);
+                }
+
+                $new = implode(", ", array_map("array_to_str", $product_id_array));
+                if ($new != '') {
+                    $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id NOT IN ($new) AND status = 1 ORDER BY product_name");
+                }
+            } elseif ($this->input->post('select_type') == 'sold') {
+                goto sold_products;
+            } else {
+                sold_products:
+                $title_of_report = "Sold Products";
+                $month = (!$this->input->post('select_month') OR $this->input->post('select_month') == '—') ? date('M') : $this->input->post('select_month');
+                $year = (!$this->input->post('select_year') OR $this->input->post('select_year') == '—') ? date('Y') : $this->input->post('select_year');
+                $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
+                $temp = date('F, Y', strtotime($month .  "-" . $year));
+
+                $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales_date, '%Y') = '" . $year . "'");
+
+                $product_id_array = array();
+                foreach ($product_id->result() as $product) {
+                    array_push($product_id_array, $product->product_id);
+                }
+
+                $new = implode(", ", array_map("array_to_str", $product_id_array));
+                $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id IN ($new) AND status = 1 ORDER BY product_name");
+                if (!$fetched) {
+                    goto unsold_products;
+                }
+            }
+
+            $data = array(
+                'title' => 'Sold and Unsold Products',
+                'heading' => 'Inventory',
+                'title_of_report' => $title_of_report,
+                'subtitle' => $subtitle,
+                'products' => $fetched->result(),
+                'sales_years' => $sales_years,
+                'temp_date' => $temp
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/inventory/sold_unsold");
+            $this->load->view("paper/includes/footer");
+
+        } else {
+            redirect('home');
+        }
+    }
+
     public function active_customers() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $this->db->select(array("customer_id", "username", "email", "lastname", "firstname", "image"));
@@ -260,16 +331,16 @@ class Reports extends CI_Controller {
 
     public function feedback() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            if (isset($_POST['filter'])) {
+            /* if (isset($_POST['filter'])) {
                 if ($this->input->post('filter_feedback') == 'all') {
                     goto filter_all;
                 } elseif ($this->input->post('filter_feedback') == 'min_rating') {
                     $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 AND feedback.rating = " . $this->input->post('select_f') . " GROUP BY customer.username ORDER BY min_rating ASC");
-                }
+                 }
             } else {
-                filter_all:
+                filter_all:*/
                 $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 GROUP BY customer.username ORDER BY customer.username ASC");
-            }
+            # }
 
             $data = array(
                 'title' => 'Feedback Report',

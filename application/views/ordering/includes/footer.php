@@ -34,23 +34,16 @@
                     <h4>Top categories</h4>
                     <h5>Smartphone</h5>
                     <ul>
-                        <li><a href="">Apple</a>
-                        </li>
-                        <li><a href="">Asus</a>
-                        </li>
-                        <li><a href="">Oppo</a>
-                        </li>
+                        <li><a href="">Apple</a></li>
+                        <li><a href="">Asus</a></li>
+                        <li><a href="">Oppo</a></li>
                     </ul>
                     <h5>Laptops</h5>
                     <ul>
-                        <li><a href="">Acer</a>
-                        </li>
-                        <li><a href="">Asus</a>
-                        </li>
-                        <li><a href="">Dell</a>
-                        </li>
-                        <li><a href="">Hp</a>
-                        </li>
+                        <li><a href="">Acer</a></li>
+                        <li><a href="">Asus</a></li>
+                        <li><a href="">Dell</a></li>
+                        <li><a href="">Hp</a></li>
                     </ul>
                     <hr class="hidden-md hidden-lg">
                 </div> <!-- /.col-md-3 -->

@@ -96,7 +96,6 @@ if(isset($_POST["generate_pdf"]))
                                     <select name="filter_inventory" id="filter_inventory" class="form-control border-input file" onchange="populate(this.id, 'select_f')">
                                         <option value="all">All</option>
                                         <option value="product_brand">Brand</option>
-                                        <option value="added_at">Date Acquired</option>
                                         <option value="product_price">Price Range</option>
                                         <option value="product_quantity">Stock Range</option>
                                     </select>
@@ -116,7 +115,6 @@ if(isset($_POST["generate_pdf"]))
                                     <select name="sort_inventory" class="form-control border-input file">
                                         <option value="product_name">Product Name</option>
                                         <option value="product_brand">Brand</option>
-                                        <option value="added_at">Date Acquired</option>
                                         <option value="product_quantity">Stock</option>
                                         <option value="product_price">Price</option>
                                     </select>
@@ -127,18 +125,18 @@ if(isset($_POST["generate_pdf"]))
                                     <label style="color: white;">`</label>
                                     <br>
                                     <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
-                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
+                                    <a href = "<?= base_url() ?>inventory" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
                                 </div>
                             </div>
                         </form>
                     </div>
-
-                    <br><br><br><br><br>
+                    <br><br><br><br><br><br>
                     <?php
                     if (!$inventory) {
-                        echo $html_tags[0] . $if_none . $html_tags[0];
+                        echo $html_tags[0] . $if_none . $html_tags[1];
                     } else {
                     ?>
+                    <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
@@ -180,6 +178,15 @@ if(isset($_POST["generate_pdf"]))
                             </tr>
                         </tbody>
                     </table>
+                        <div class="content">
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-package"></i>
+                                <a href="<?= $this->config->base_url() ?>reports/sold_unsold" style="text-decoration: underline">Click here to see sold and unsold products.</a>
+                            </div>
+                        </div>
+                        </div>
                     <?php } ?>
                 </div>
             </div>

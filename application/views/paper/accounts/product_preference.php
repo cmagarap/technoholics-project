@@ -1,31 +1,32 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Customer Transaction Behavioral Analysis Report</b></h3>
+                        <h3 class="title"><span class="ti-shopping-cart-full" style="color: #dc2f54;2"></span> &nbsp;<b>Customer Transaction Behavioral Analysis Report</b></h3>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
-                        </p>
-                        <br>
-                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill btn-wd" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
+                        </p><br>
+                        <form target="_blank" method="post">
+                            <a href="<?= base_url() ?>accounts" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
+                            <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
+                        </form>
                     </div>
                     <?php
                     if (!$customer) {
                         echo "<center><h3><hr><br>There are no product preferences recorded.</h3><br></center><br><br>";
                     } else {
                     ?>
-
+                    <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>
-                            <th colspan="2"><b>Customer</b></th>
-                            <th><b>Recent Action</b></th>
-                            <th><b>Most Performed Action</b></th>
-                            <th><b>Preferred Product/s</b></th>
-                            <th><b>Preference Basis</b></th>
+                            <td colspan="2"><p><b>Customer</b></p></td>
+                            <td><p><b>Recent Action</b></p></td>
+                            <td><p><b>Most Performed Action</b></p></td>
+                            <td><p><b>Preferred Product/s</b></p></td>
+                            <td><p><b>Preference Basis</b></p></td>
                             </thead>
                             <tbody>
                             <?php foreach ($customer as $cust):
@@ -55,9 +56,6 @@
                                     </tr>
                                 <?php }
                             endforeach; ?>
-                            <tr>
-
-                            </tr>
                             </tbody>
                         </table>
                         <?php } ?>

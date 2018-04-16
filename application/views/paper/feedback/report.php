@@ -47,66 +47,22 @@ $latest_feedback_unique = array_unique($formatted);
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div class="col-sm-3">
                             <h3 class="title"><span class="ti-comment" style="color: #dc2f54;2"></span>&nbsp; <b>Feedback Report</b></h3>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
-                            </p>
-                        </div>
-                        <form role="form" method="post">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Filter by:</label>
-                                    <select name="filter_feedback" id="filter_feedback" class="form-control border-input file" onchange="populate(this.id, 'select_f')">
-                                        <option value="all">All</option>
-                                        <option value="min_rating">Minimum Rating Given</option>
-                                        <option value="max_rating">Maximum Rating Given</option>
-                                        <option value="max_date">Latest Feedback Date</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Select:</label>
-                                    <select name="select_f" id="select_f" class="form-control border-input file">
-                                        <option value="">—</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Sort by:</label>
-                                    <select name="sort_inventory" class="form-control border-input file">
-                                        <option value="customer">Customer</option>
-                                        <option value="">Minimum Rating Given</option>
-                                        <option value="added_at">Maximum Rating Given</option>
-                                        <option value="product_quantity">Average Rating Given</option>
-                                        <option value="product_price">Latest Feedback Date</option>
-                                        <option value="">Total Feedback</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label style="color: white;">`</label>
-                                    <br>
-                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
-                                    <form target="_blank" method="post">
-                                        <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;"><i class="ti-arrow-left"></i></a>
-                                        <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
-                                    </form>
-                                </div>
-                            </div>
-                        </form>
+                            </p><br>
+                            <form target="_blank" method="post">
+                                <a href="<?= base_url() ?>feedback" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
+                                <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
+                            </form>
                     </div>
-                    <br><br><br><br>
-                    <hr style="margin-bottom: -10px">
+
                     <?php
                     if (!$feedback) {
-                        # echo $html_tags[0] . $if_none . $html_tags[0];
-                        echo "NO FEEDBACK";
+                        echo "<center><h3><hr><br>There are no feedbacks recorded.</h3><br></center><br><br>";
                     } else {
                     ?>
+                    <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
                             <thead>

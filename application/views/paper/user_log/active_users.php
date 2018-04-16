@@ -15,55 +15,20 @@ foreach ($customer as $customer1){
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div class="col-sm-3">
                             <h3 class="title"><span class="ti-user" style="color: #dc2f54;2"></span>&nbsp; <b>Weekly Active Customers</b></h3>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
-                            </p>
-                        </div>
-                        <div class="col-sm-1"></div>
-                        <form role="form" method="post">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Filter by:</label>
-                                    <select name="filter_active" id="filter_inventory" class="form-control border-input file" onchange="populate(this.id, 'select_f')">
-                                        <option value="all">All</option>
-                                        <option value="product_brand">Latest Login</option>
-                                        <option value="added_at">Latest Action</option>
-                                        <option value="product_price">Total Actions Range</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Select:</label>
-                                    <select name="select_f" id="select_f" class="form-control border-input file">
-                                        <option value="">—</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Sort by:</label>
-                                    <select name="sort_inventory" class="form-control border-input file">
-                                        <option value="product_name" >Username</option>
-                                        <option value="product_brand" >Latest Login</option>
-                                        <option value="added_at" >Latest Action</option>
-                                        <option value="product_quantity" >Total Actions</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label style="color: white;">`</label>
-                                    <br>
-                                    <button type="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white; width: 55px" name="filter" title="Filter"><i class="ti-filter"></i></button>
-                                    <a href = "javascript:history.go(-1)" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;">Go back</a>
-                                </div>
-                            </div>
-                        </form>
+                            </p><br>
+                            <form target="_blank" method="post">
+                                <a href="<?= base_url() ?>user_log" class="btn btn-info btn-fill" style = "background-color: #dc2f54; border-color: #dc2f54; color: white;" title="Go Back"><i class="ti-arrow-left"></i></a>
+                                <input type="submit" name="generate_pdf" class="btn btn-info btn-fill" style="background-color: #F3BB45; border-color: #F3BB45; color: white;" value="Generate PDF" />
+                            </form>
                     </div>
-                    <br><br><br><br>
+                    <?php
+                    if (!$customer) {
+                        echo "<center><h3><hr><br>There are currently none weekly active users.</h3><br></center><br><br>";
+                    } else {
+                    ?>
                     <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -124,6 +89,7 @@ foreach ($customer as $customer1){
                             </tr>
                             </tbody>
                         </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
