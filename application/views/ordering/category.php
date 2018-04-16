@@ -1,4 +1,6 @@
-<?php $category_content = $this->item_model->fetch('category', "status = 1"); ?>
+<?php
+$category_content = $this->item_model->fetch('category', array("status" => 1));
+?>
 <div id="all">
     <div id="content">
         <div class="container">
@@ -24,15 +26,14 @@
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
-                            <?php
-                            foreach ($category_content as $category_content):
-                                $brand_content = $this->item_model->fetch("brand", array("status" => 1,"category_id" => $category_content->category_id), "brand_name", "ASC");
+                            <?php foreach ($category_content as $category_content):
+                                $brand_content = $this->item_model->fetch("brand",array("category_id" => $category_content->category_id));
                                 ?>
-                                <li <?php if ($category == $category_content->category) echo 'class="active"'; ?>>
-                                    <a href="<?= base_url() . 'home/category/' . $category_content->category . ''; ?>"><?= $category_content->category ?><span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1, 'product_category' => $category_content->category)); ?></span></a>
+                                <li <?php if ($category == $category_content->category) echo 'class="active"' ?>>
+                                    <a href="<?= base_url() . 'home/category/'.$category_content->category.''; ?>"><?=$category_content->category?><span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => $category_content->category )); ?></span></a>
                                     <ul>
                                         <?php foreach ($brand_content as $brand_content): ?>
-                                            <li><a href="<?= base_url() . 'home/category/' . $category_content->category . '/' . $brand_content->brand_name . ''; ?>"><?= ucwords($brand_content->brand_name) ?></a></li>
+                                            <li><a href="<?= base_url().'home/category/'.$category_content->category.'/'.$brand_content->brand_name.''; ?>"><?=$brand_content->brand_name?></a></li>
                                         <?php endforeach ?>
                                     </ul>
                                 </li>
@@ -42,7 +43,7 @@
                 </div>
                 <div class="banner">
                     <a>
-                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y"); ?>" class="img-responsive">
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y");?>" class="img-responsive">
                     </a>
                 </div>
             </div>
@@ -54,44 +55,28 @@
                 <div class="box info-bar">
                     <div class="row">
                         <div class="col-sm-12 col-md-4 products-showing">
-                            Showing <strong><?= $current_show ?></strong> of <strong><?= $count ?></strong> products
+                            Showing <strong><?=$current_show?></strong> of <strong><?=$count?></strong> products
                         </div>
                         <div class="col-sm-12 col-md-8  products-number-sort">
                             <div class="row">
                                 <form class="form-inline" role="form" method="POST">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="products-number">
-                                            <strong>Show</strong> <button name="limit" class="btn btn-default btn-sm <?php if ($perpage == 12) {
-                                                echo "btn-primary";
-                                            } ?>" type=submit value="12">12</button>
-                                            <button name="limit" class="btn btn-default btn-sm <?php if ($perpage == 24) {
-                                                echo "btn-primary";
-                                            } ?>" value="24" type=submit>24</button> products
+                                            <strong>Show</strong> <button name="limit" class="btn btn-default btn-sm <?php if($perpage == 12){ echo "btn-primary";}?>" type=submit value="12">12</button>
+                                            <button name="limit" class="btn btn-default btn-sm <?php if($perpage == 24){ echo "btn-primary";}?>" value="24" type=submit>24</button> products
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="products-sort-by">
                                             <strong>Sort by</strong>
                                             <select name="sort" class="form-control" onchange="this.form.submit()">
-                                                <option <?php if ($sort == "product_name") {
-                                                    echo "selected";
-                                                } ?> value="product_name" >Name</option>
-                                                <option <?php if ($sort == "product_price") {
-                                                    echo "selected";
-                                                } ?> value="product_price" >Price</option>
-                                                <option <?php if ($sort == "times_bought") {
-                                                    echo "selected";
-                                                } ?> value="times_bought" >Sales first</option>
-                                                <option <?php if ($sort == "times_searched") {
-                                                    echo "selected";
-                                                } ?>
-                                                value="times_searched" >Most viewed</option>
-                                                <option <?php if ($sort == "no_of_views") {
-                                                    echo "selected";
-                                                } ?>  value="no_of_views" >Most searched</option>
-                                                <option <?php if ($sort == "product_rating") {
-                                                    echo "selected";
-                                                } ?> value="product_rating">Top rated</option>
+                                                <option <?php if($sort == "product_name"){ echo "selected";}?> value="product_name" >Name</option>
+                                                <option <?php if($sort == "product_price"){ echo "selected";}?> value="product_price" >Price</option>
+                                                <option <?php if($sort == "times_bought"){ echo "selected";}?> value="times_bought" >Sales first</option>
+                                                <option <?php if($sort == "times_searched"){ echo "selected";}?>
+                                                        value="times_searched" >Most viewed</option>
+                                                <option <?php if($sort == "no_of_views"){ echo "selected";}?>  value="no_of_views" >Most searched</option>
+                                                <option <?php if($sort == "product_rating"){ echo "selected";}?> value="product_rating">Top rated</option>
                                             </select>
                                         </div>
                                     </div>
@@ -139,7 +124,6 @@
                     <?php endforeach ?>
                 </div>
             <?php endif ?><!-- /.products -->
-
             <div class="pages">
                 <?php
                 echo "<div align = 'center'>" . $links . "</div>";
@@ -150,5 +134,4 @@
     </div><!-- /.container -->
 </div><!-- /#content -->
 </div>
-<!--</div>
-</div>-->
+</div>

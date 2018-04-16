@@ -89,7 +89,6 @@ if (isset($_POST["generate_pdf"])) {
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div class="col-sm-3">
                             <h3 class="title"><span class="ti-comment" style="color: #dc2f54;2"></span>&nbsp; <b>Feedback Report</b></h3>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
@@ -145,12 +144,10 @@ if (isset($_POST["generate_pdf"])) {
                             </div>
                         </form>
                     </div>
-                    <br><br><br><br>
-                    <hr style="margin-bottom: -10px">
+
                     <?php
                     if (!$feedback) {
-                        # echo $html_tags[0] . $if_none . $html_tags[0];
-                        echo "NO FEEDBACK";
+                        echo "<center><h3><hr><br>There are no feedbacks recorded.</h3><br></center><br><br>";
                     } else {
                         ?>
                         <div class="content table-responsive table-full-width">

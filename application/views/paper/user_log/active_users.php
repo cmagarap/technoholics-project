@@ -101,7 +101,6 @@ exit;
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <div class="col-sm-3">
                             <h3 class="title"><span class="ti-user" style="color: #dc2f54;2"></span>&nbsp; <b>Weekly Active Customers</b></h3>
                             <p class="category">
                                 <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
@@ -154,7 +153,11 @@ exit;
                             </div>
                         </form>
                     </div>
-                    <br><br><br><br>
+                    <?php
+                    if (!$customer) {
+                        echo "<center><h3><hr><br>There are currently none weekly active users.</h3><br></center><br><br>";
+                    } else {
+                    ?>
                     <hr style="margin-bottom: -10px">
                     <div class="content table-responsive table-full-width">
                         <table class="table table-striped">
@@ -215,6 +218,7 @@ exit;
                                 </tr>
                             </tbody>
                         </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -67,11 +67,10 @@ if (isset($_POST["generate_pdf"])) {
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h3 class="title"><b>Customer Transaction Behavioral Analysis Report</b></h3>
+                        <h3 class="title"><span class="ti-shopping-cart-full" style="color: #dc2f54;2"></span> &nbsp;<b>Customer Transaction Behavioral Analysis Report</b></h3>
                         <p class="category">
                             <i class="ti-reload" style = "font-size: 12px;"></i> As of <?= date("F j, Y h:i A"); ?>
                         </p>
@@ -87,7 +86,6 @@ if (isset($_POST["generate_pdf"])) {
                         echo "<center><h3><hr><br>There are no product preferences recorded.</h3><br></center><br><br>";
                     } else {
                         ?>
-
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
@@ -123,15 +121,11 @@ if (isset($_POST["generate_pdf"])) {
                                         <td><?= $cust->product_preference ?></td>
                                         <td><?= $cust->preference_basis ?></td>
                                     </tr>
-                                    <?php }
-                                    endforeach; ?>
-                                    <tr>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <?php } ?>
-                        </div>
+                                <?php }
+                            endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
