@@ -1,14 +1,25 @@
 <?php
 # whenever viewed, update the no_of_views in the products table
-$stat_views = $row->no_of_views + 1;
-$this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+# $stat_views = $row->no_of_views + 1;
+# $this->item_model->updatedata("product", array("no_of_views" => $stat_views), "product_id = " . $this->uri->segment(5));
+
 if ($this->session->has_userdata('isloggedin') AND $this->session->userdata('type') == 2) {
     $viewed_sess = $this->session->userdata('viewed_products');
     array_push($viewed_sess, (string) $this->uri->segment(5));
     $unique = array_unique($viewed_sess);
     $this->session->set_userdata('viewed_products', $unique);
+} elseif (!$this->session->has_userdata('isloggedin')) {
+    $this->db->select('product_name');
+    $item_name = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(5))[0];
+    $viewed_at = array(
+        'customer_name' => 'Guest',
+        'item_name' => $item_name->product_name,
+        'at_detail' => 'Viewed',
+        'at_date' => time(),
+        'product_id' => $this->uri->segment(5)
+    );
+    $this->item_model->insertData('audit_trail', $viewed_at);
 }
-$category_content = $this->item_model->fetch('category', array("status" => 1));
 $product_price = $row->product_price - ($row->product_price * ($row->product_discount/100));
 ?>
 <div id="all">
@@ -16,15 +27,13 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
         <div class="container">
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li><a href="<?= base_url() . 'home'; ?>">Home</a>
-                    </li>
-                    <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= $category; ?></a>
-                    </li>
-                    <li><a href="<?= base_url() . 'home/category/' . $category . '/' . $brand; ?>"><?= $brand ?></a>
-                    </li>
+                    <li><a href="<?= base_url() . 'home'; ?>">Home</a></li>
+                    <li><a href="<?= base_url() . 'home/category/' . $category; ?>"><?= ucwords($category); ?></a></li>
+                    <li><a href="<?= base_url() . 'home/category/' . $category . '/' . $brand; ?>"><?= ucwords($brand) ?></a></li>
                     <li><?= $row->product_name ?></li>
                 </ul>
             </div>
+
             <div class="col-md-3">
                 <div class="panel panel-default sidebar-menu">
                     <div class="panel-heading">
@@ -32,14 +41,15 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked category-menu">
-                            <?php foreach ($category_content as $category_content):
-                                $brand_content = $this->item_model->fetch("brand",array("category_id" => $category_content->category_id));
+                            <?php
+                            foreach ($category_content as $category_content):
+                                $brand_content = $this->item_model->fetch("brand", array("category_id" => $category_content->category_id), "brand_name", "ASC");
                                 ?>
-                                <li <?php if ($category == $category_content->category) echo 'class="active"' ?>>
-                                    <a href="<?= base_url() . 'home/category/'.$category_content->category.''; ?>"><?=$category_content->category?><span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1,'product_category' => $category_content->category )); ?></span></a>
+                                <li <?php if ($category == $category_content->category) echo 'class="active"'; ?>>
+                                    <a href="<?= base_url() . 'home/category/' . $category_content->category . ''; ?>"><?= $category_content->category ?><span class="badge pull-right"><?= $this->item_model->getCount('product', array('status' => 1, 'product_category' => $category_content->category)); ?></span></a>
                                     <ul>
                                         <?php foreach ($brand_content as $brand_content): ?>
-                                            <li><a href="<?= base_url().'home/category/'.$category_content->category.'/'.$brand_content->brand_name.''; ?>"><?=$brand_content->brand_name?></a></li>
+                                            <li><a href="<?= base_url() . 'home/category/' . $category_content->category . '/' . $brand_content->brand_name . ''; ?>"><?= ucwords($brand_content->brand_name) ?></a></li>
                                         <?php endforeach ?>
                                     </ul>
                                 </li>
@@ -49,10 +59,11 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
                 </div>
                 <div class="banner">
                     <a>
-                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y");?>" class="img-responsive">
+                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_1 ?>" alt="sales <?php echo date("Y"); ?>" class="img-responsive">
                     </a>
                 </div>
             </div>
+
             <div class="col-md-9">
                 <div class="box row" id="productMain">
                     <!-- start content -->
@@ -86,7 +97,7 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
                         <div align ="center" id ="contents">
                             <h1><?= $row->product_name ?></h1>
                             <?php if ($row->product_quantity != 0)
-                                echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
+                            echo "<h6><span style = 'background-color: green; color: white; padding: 3px;'>In-stock</span></h6>";
                             else
                                 echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                             ?>
@@ -144,9 +155,7 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
                                 <hr>
                                 <div class="row comment">
                                     <div class="col-sm-1 col-md-1 text-center-xs">
-                                        <p>
-                                            <img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="">
-                                        </p>
+                                        <p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt=""></p>
                                     </div>
                                     <div class="col-sm-9 col-md-10">
                                         <h5><?= $userinformation->username ?></h5>
@@ -232,72 +241,72 @@ $product_price = $row->product_price - ($row->product_price * ($row->product_dis
                     <div id="hot">
                         <div class="product-slider">
                             <?php
-                            if (!$this->session->has_userdata('isloggedin')) {
-                                $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-                                $this->session->set_userdata('suggest', $suggest);
-                            } elseif ($this->session->has_userdata('isloggedin')) {
-                                $this->db->select('product_preference');
-                                $preference = $this->item_model->fetch('customer', 'customer_id = ' . $this->session->uid)[0];
-
-                                if ($preference->product_preference != NULL) {
-                                    $array_p = explode(", ", $preference->product_preference);
-
-                                    foreach ($array_p as $p) {
-                                        $suggest_p[] = $this->item_model->fetch('product', "product_id !=" . $row->product_id . " AND status = 1 AND product_name = '$p'");
-                                    }
-                                } elseif ($preference->product_preference == NULL) {
-                                    $suggest = $this->item_model->getItemsWithLimit('product', 12, NULL, 'RAND()', NULL, "product_id !=" . $row->product_id . " AND status = 1 AND product_brand = '$row->product_brand'");
-                                    $this->session->set_userdata('suggest', $suggest);
+                            $temp1 = array();
+                            $temp_suggest = array();
+                            $orders = $this->item_model->fetch('order_items',"product_id = '$row->product_id'");
+                            if($orders){
+                                foreach ( $orders as $orders ){
+                                    $product = $this->item_model->fetch('order_items',"order_id = '$orders->order_id'");
+                                    foreach( $product as $product){
+                                        array_push($temp1,$product->product_id);     
+                                    }                           
                                 }
                             }
-                            ?>
-                            <?php
-                            if ($this->session->has_userdata('suggest')):
-                                foreach ($this->session->userdata('suggest') as $suggest):
-                                    ?>
-                                    <div class="item" style="margin: 0 10px; visibility: hidden;">
-                                        <div class="product">
-                                            <div class="image_container" align="center">
-                                                <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
-                                                    <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
-                                                </a>
-                                            </div>
-                                            <div class="text">
-                                                <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
-                                                <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
-                                            </div>
+                            $temp1 = array_unique($temp1);
+                            shuffle($temp1);
+                            foreach( $temp1 as $temp1){
+                                if($temp1 == $row->product_id){
+                                    continue;
+                                }
+                                array_push($temp_suggest,$temp1);
+                            }
+                            //if less than 15 add products with same brand and category
+                            if(count($temp_suggest) < 15 || !$temp_suggest) {
+                                $temp_cb1 = array();
+                                $count = count($temp_suggest);
+                                $limit = 15 - $count;
+                                $for_brand_category = $this->item_model->getItemsWithLimit('product', $limit, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category' AND product_brand = '$row->product_brand'");
+                                foreach($for_brand_category as $for_brand_category){
+                                    array_push($temp_suggest,$for_brand_category->product_id);
+                                }
+                                $temp_suggest = array_unique($temp_suggest);
+                                shuffle($temp_suggest);
+                                //if less than 15 add products with same category
+                                if(count($temp_suggest) < 15 || !$temp_suggest) {
+                                    $temp_cat1 = array();
+                                    $count = count($temp_suggest);
+                                    $limit = 15 - $count;
+
+                                    $for_category = $this->item_model->getItemsWithLimit('product', $limit, NULL, 'RAND()', NULL, "product_id != " . $row->product_id . " AND status = 1 AND product_category = '$row->product_category' AND product_brand != '$row->product_brand'");
+                                    foreach($for_category as $for_category){
+                                        array_push($temp_suggest,$for_category->product_id);
+                                    }
+                                    $temp_suggest = array_unique($temp_suggest);
+                                    shuffle($temp_suggest);
+                                }
+                            }
+                            $this->session->set_userdata('suggest', $temp_suggest);
+                            foreach ($temp_suggest as $temp_suggest):
+                                $suggest = $this->item_model->fetch('product',"product_id = '$temp_suggest' AND status = 1")[0];
+                                ?>
+                                <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                    <div class="product">
+                                        <div class="image_container" align="center">
+                                            <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>">
+                                                <img src="<?= base_url() . 'uploads_products/' . $suggest->product_image1 ?>" alt="<?= $suggest->product_name ?>" class="product_image">
+                                            </a>
+                                        </div>
+                                        <div class="text">
+                                            <h3><a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id . '/page' ?>"><?= $suggest->product_name ?></a></h3>
+                                            <p class="price">&#8369;<?= number_format($suggest->product_price, 2) ?></p>
                                         </div>
                                     </div>
-                                    <?php
-                                endforeach;
-                            else:
-                                $c = 0;
-                                foreach ($suggest_p as $suggest):
-                                    for ($i = 0; $i < sizeof($suggest[$c]); $i++):
-                                        ?>
-                                        <div class="item" style="margin: 0 10px; visibility: hidden;">
-                                            <div class="product">
-                                                <div class="image_container" align="center">
-                                                    <a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>">
-                                                        <img src="<?= base_url() . 'uploads_products/' . $suggest[$i]->product_image1 ?>" alt="<?= $suggest[$i]->product_name ?>" class="product_image">
-                                                    </a>
-                                                </div>
-                                                <div class="text">
-                                                    <h3><a href="<?= base_url() . 'home/detail/' . $suggest[$i]->product_category . '/' . $suggest[$i]->product_brand . '/' . $suggest[$i]->product_id . '/page' ?>"><?= $suggest[$i]->product_name ?></a></h3>
-                                                    <p class="price">&#8369;<?= number_format($suggest[$i]->product_price, 2) ?></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php
-                                    endfor;
-                                endforeach;
-                            endif;
-                            ?>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- /.container -->
-    <!-- end content -->
+        </div><!-- /.container -->
+    </div><!-- end content -->
+</div><!-- #all -->
