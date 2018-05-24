@@ -84,8 +84,9 @@
                         </div>
                         <div id="hot">
                             <div class="product-slider">
-                                <?php if($this->session->has_userdata('suggest')){ $suggest = $this->session->userdata('suggest'); } else{ $suggest = $product;} foreach ($suggest as $suggest): ?>
-                                 <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                <?php if($this->session->has_userdata('suggest')){ $temp_suggest = $this->session->userdata('suggest'); shuffle($temp_suggest);} else{ $temp_suggest = $product;} foreach ($temp_suggest as $temp_suggest): 
+                                $suggest = $this->item_model->fetch('product',"product_id = '$temp_suggest' AND status = 1")[0];?>
+                                <div class="item" style="margin: 0 10px; visibility: hidden;">
                                     <div class="product">
                                         <div class="image_container" align="center">
                                             <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">

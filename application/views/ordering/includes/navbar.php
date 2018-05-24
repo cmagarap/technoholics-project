@@ -92,21 +92,12 @@ if($CTI == 0){
                                     </ul>
                                 </div>
                             <?php endforeach ?>
-                            <div class="col-sm-3">
-                                <div class="banner">
-                                    <a href="#">
-                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_2 ?>" class="img img-responsive" alt="">
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!-- /.yamm-content -->
                 </li>
             </ul>
         </li>
-
-
         <li class="<?php if($page == "services"){ echo "active"; }?> dropdown yamm-fw">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">SERVICES <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -166,11 +157,11 @@ if($CTI == 0){
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
             <span class="input-group-btn">
-             <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
-         </span>
-     </div>
-     <div id="productlist" style="position:absolute;"></div>
- </form>
+               <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
+           </span>
+       </div>
+       <div id="productlist" style="position:absolute;"></div>
+   </form>
 </div> <!--/.nav-collapse -->
 </div> <!-- /.container -->
 </div> <!-- /#navbar -->
