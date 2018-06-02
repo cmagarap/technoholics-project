@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: base_url + "forecasting/getForecasts",
+        url: base_url + "forecasting/getForecasts_spec",
         method: "POST",
         success: function(data) {
             var date_forecasted = [];
@@ -25,7 +25,7 @@ $(document).ready(function(){
                     borderWidth: 6
                 }
                 ]};
-            var ctx = document.getElementById("forecast");
+            var ctx = document.getElementById("forecast_spec");
             ctx.height = 150;
             var lineGraph = new Chart(ctx, {
                 type: 'line',

@@ -6,16 +6,31 @@ class Forecasting extends CI_Controller {
         $this->load->library('session');
         if (!$this->session->has_userdata('isloggedin')) {
             $this->session->set_flashdata("error", "You must login first to continue.");
-            redirect('/login');
+            redirect('login');
         }
     }
 
     public function index() {
+        if (!$this->session->userdata('month_session')) {
+            echo "no month";
+            $this->db->distinct();
+            $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
+            $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
+            $this->db->select(array("date_forecasted", "forecasted_income"));
+            $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018", 'date_forecasted', 'ASC');
+        } else {
+            $month = $this->session->userdata('month_session');
+            echo $month;
+            $this->db->distinct();
+            $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
+            $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
+            $this->db->select(array("date_forecasted", "forecasted_income"));
+            $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018 AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
 
-        $this->db->distinct();
-        $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
-        $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
-        $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted,'%Y') = 2018", 'date_forecasted', 'ASC');
+//            echo '<pre>';
+//            print_r($forecast);
+//            echo '</pre>';
+        }
 
         $data = array(
             'title' => 'Sales Forecasting',
@@ -39,6 +54,7 @@ class Forecasting extends CI_Controller {
         if ($this->form_validation->run()) {
             // month and user that the admin wants to predict
 
+            $this->session->set_userdata('month_session', $this->input->post('month'));
             $month_to_predict = strtotime($this->input->post('year') . "-" . $this->input->post('month'));
             $format = date('m-Y', $month_to_predict);
 
@@ -79,18 +95,18 @@ class Forecasting extends CI_Controller {
                     "user_type" => $this->session->userdata('type'),
                     "username" => $this->session->userdata('username'),
                     "date" => time(),
-                    "action" => 'Forecasted sales income for '.date("M y",$month_to_predict),
+                    "action" => 'Forecasted sales income for '.date("M y", $month_to_predict),
                     'status' => '1'
                 );
 
                 $condition = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
-                if($condition){
+                if ($condition) {
                     $data = array(
                         "forecasted_income" => $forecasted_income,
-                        "date_forecasted" =>  $month_to_predict,
+                        "date_forecasted" => $month_to_predict,
                         "updated_at" => time(),
                     );
-                    $action = $this->item_model->updatedata('forecast', $data,"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
+                    $action = $this->item_model->updatedata('forecast', $data, "FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
                 }
 
                 else{
@@ -120,11 +136,30 @@ class Forecasting extends CI_Controller {
         echo $newdate;
     }
 
-    public function getForecasts() {
+    public function getForecasts_dashboard() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
             $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
             $forecast = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%Y') = 2018",'date_forecasted','ASC');
+            print json_encode($forecast);
+        } else {
+            redirect('home');
+        }
+    }
+
+    public function getForecasts_spec() {
+        if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
+            header('Content-Type: application/json');
+
+            if (!$this->session->userdata('month_session')) {
+                $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
+                $forecast = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%Y') = 2018",'date_forecasted','ASC');
+            } else {
+                $month = $this->session->userdata('month_session');
+                $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
+                $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018 AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
+            }
+
             print json_encode($forecast);
         } else {
             redirect('home');

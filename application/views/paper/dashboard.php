@@ -139,7 +139,7 @@ foreach ($customer_all as $customer_all) {
                     <hr>
                     <div class="content">
                         <div id="chart-container">
-                            <canvas id="forecast" style="height: 300px"></canvas>
+                            <canvas id="forecast_dashboard" style="height: 300px"></canvas>
                         </div>
                         <div class="footer">
                             <hr>
@@ -405,4 +405,4 @@ foreach ($customer_all as $customer_all) {
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/male_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/female_doughnut.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/paper/js/gender_doughnut.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast_dashboard.js"></script>
