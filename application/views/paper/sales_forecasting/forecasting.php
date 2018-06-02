@@ -18,7 +18,7 @@
                     <div class="header">
                         <div align = "left">
                             <h2 class="title"><b>Sales Forecasting</b></h2>
-                            <form role="form" method="post" action="<?=base_url()?>/forecasting/forecast_exec">
+                            <form role="form" method="post" action="<?= base_url() ?>forecasting/forecast_exec">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label>Year:</label>
@@ -54,7 +54,7 @@
                                             <option value='12'>December</option>
                                         </select>
                                         <?php if(validation_errors()):
-                                        echo "<span style = 'color: red'>" . form_error("month") . "</span>";
+                                            echo "<span style = 'color: red'>" . form_error("month") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
@@ -68,8 +68,7 @@
                             </form>
                         </div>
                     </div>
-                    <br>
-                    <br>
+                    <br><br>
                 </div>
             </div>
             <div class="row">
@@ -90,7 +89,7 @@
                         <tbody>
                             <?php foreach ($forecast as $forecast): ?>
                                 <tr>
-                                    <td><?=date("F",$forecast->date_forecasted)?></td>
+                                    <td><?=date("F", $forecast->date_forecasted)?></td>
                                     <td>&#8369;<?= number_format($forecast->forecasted_income, 2) ?></td>
                                 </tr>
                             <?php endforeach;?>

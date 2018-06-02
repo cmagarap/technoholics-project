@@ -15,7 +15,7 @@ class Forecasting extends CI_Controller {
         $this->db->distinct();
         $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
         $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
-        $forecast = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%Y') = 2018",'date_forecasted','ASC');
+        $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted,'%Y') = 2018", 'date_forecasted', 'ASC');
 
         $data = array(
             'title' => 'Sales Forecasting',
@@ -31,48 +31,48 @@ class Forecasting extends CI_Controller {
     }
 
     public function forecast_exec() {
-        error_reporting(0); //for trying to get a non-propert etc, remove if you want to check for errors!
+        error_reporting(0); // for trying to get a non-propert etc, remove if you want to check for errors!
         $this->form_validation->set_rules('year', "Please select a year.", "required");
         $this->form_validation->set_rules('month', "Please select a month.", "required");
         $this->form_validation->set_message('required', '{field}');
 
         if ($this->form_validation->run()) {
+            // month and user that the admin wants to predict
 
-            //month and user that the admin wants to predict
-            $month_to_predict = strtotime($this->input->post('year')."-".$this->input->post('month'));
-            $format = date('m-Y',$month_to_predict);
+            $month_to_predict = strtotime($this->input->post('year') . "-" . $this->input->post('month'));
+            $format = date('m-Y', $month_to_predict);
 
-            $first_month_date = date('m-Y', strtotime('-1 months', strtotime($this->input->post('year')."-".$this->input->post('month')))); 
-            $second_month_date = date('m-Y', strtotime('-2 months', strtotime($this->input->post('year')."-".$this->input->post('month'))));
-            $third_month_date = date('m-Y', strtotime('-3 months', strtotime($this->input->post('year')."-".$this->input->post('month'))));  
+            $first_month_date = date('m-Y', strtotime('-1 months', strtotime($this->input->post('year') . "-" . $this->input->post('month'))));
+            $second_month_date = date('m-Y', strtotime('-2 months', strtotime($this->input->post('year') . "-" . $this->input->post('month'))));
+            $third_month_date = date('m-Y', strtotime('-3 months', strtotime($this->input->post('year') . "-" . $this->input->post('month'))));
 
-        //for the first past month
+        // for the first past month
             $this->db->select("SUM(income) as income");
             $sales_first_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$first_month_date'")[0];
             $this->db->select("forecasted_income");
-            $forecasted_first_month = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$first_month_date'")[0];
-            $first_month = $sales_first_month->income? $sales_first_month->income : $forecasted_first_month->forecasted_income;
+            $forecasted_first_month = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%m-%Y') = '$first_month_date'")[0];
+            $first_month = $sales_first_month->income ? $sales_first_month->income : $forecasted_first_month->forecasted_income;
 
-        //for the second past month
+        // for the second past month
             $this->db->select("SUM(income) as income");
             $sales_second_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$second_month_date'")[0];
             $this->db->select("forecasted_income");
-            $forecasted_second_month = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$second_month_date'")[0];
+            $forecasted_second_month = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$second_month_date'")[0];
             $second_month = $sales_second_month->income? $sales_second_month->income : $forecasted_second_month->forecasted_income;
 
-        //for the third past month
+        // for the third past month
             $this->db->select("SUM(income) as income");
             $sales_third_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$third_month_date'")[0];
             $this->db->select("forecasted_income");
             $forecasted_third_month = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$third_month_date'")[0];
             $third_month = $sales_third_month->income? $sales_third_month->income : $forecasted_third_month->forecasted_income;
 
-            if($first_month && $second_month && $third_month){
-            // Moving average formula
+            if($first_month && $second_month && $third_month) {
+                // Moving average formula
 
                 $summation = $first_month + $second_month + $third_month;
 
-                $forecasted_income = ($summation)/3;
+                $forecasted_income = ($summation) / 3;
 
                 $for_log = array(
                     "admin_id" => $this->session->uid,
@@ -106,20 +106,16 @@ class Forecasting extends CI_Controller {
                 $statusMsg = $action ? 'The date has been successfully forcasted.' : 'Some problem occured, please try again.';
                 $this->session->set_flashdata('statusMsg', $statusMsg);
                 redirect("forecasting");
-            }
-
-            else{
+            } else {
                 $this->session->set_flashdata('error', 'Insufficient historical data.');
                 $this->index();
             }
-
         } else {
             $this->index();
         }
     }
 
-    public function sales(){
-
+    public function sales() {
         $newdate = date('m-Y', strtotime('-1 months', strtotime("2018-05"))); 
         echo $newdate;
     }

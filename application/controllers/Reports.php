@@ -255,15 +255,23 @@ class Reports extends CI_Controller {
                 $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
                 $temp = date('F, Y', strtotime($month .  "-" . $year));
 
-                $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales_date, '%Y') = '" . $year . "'");
+                # $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = 'Mar' AND FROM_UNIXTIME(sales_date, '%Y') = '2018'");
 
-                $product_id_array = array();
-                foreach ($product_id->result() as $product) {
-                    array_push($product_id_array, $product->product_id);
-                }
+//                $product_id_array = array();
+//                foreach ($product_id->result() as $product) {
+//                    array_push($product_id_array, $product->product_id);
+//                }
+//
+//                $new = implode(", ", array_map("array_to_str", $product_id_array));
+//                echo '<pre>';
+//                print_r($new);
+//                echo '</pre>';
 
-                $new = implode(", ", array_map("array_to_str", $product_id_array));
-                $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id IN ($new) AND status = 1 ORDER BY product_name");
+                # $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id IN ($new) AND status = 1 ORDER BY product_name");
+                # $fetched = $this->db->query("SELECT product.product_id, product.product_name, product.product_brand, product.product_price, SUM(sales.items_sold) AS total_items_sold FROM product JOIN order_items ON product.product_id = order_items.product_id JOIN sales ON order_items.order_id = sales.order_id WHERE product.product_id IN ($new) AND FROM_UNIXTIME(sales.sales_date, '%b') = 'Apr' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '2018' AND sales.status = 1 AND product.status = 1 GROUP BY product.product_id ORDER BY product.product_name");
+
+                $fetched = $this->db->query("SELECT order_items.product_id, order_items.product_name, order_items.product_price, SUM(sales.items_sold) AS total_items_sold FROM order_items JOIN sales ON order_items.order_id = sales.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '" . $year . "' AND sales.status = 1 GROUP BY order_items.product_id");
+
                 if (!$fetched) {
                     goto unsold_products;
                 }
@@ -358,16 +366,18 @@ class Reports extends CI_Controller {
     }
 
     public function populate_sales() {
-        $now = strtotime("Jan 31, 2017");
-        echo date("F j, Y", $now);
-        $data = array(
-            'sales_detail' => "No items were purchased this day.",
-            'income' => 0.00,
-            'sales_date' => $now,
-            'admin_id' => NULL,
-            'order_id' => NULL
-        );
-        $this->item_model->insertData('sales', $data);
+        #for ($i = 17; $i <= 30; $i++) {
+            $now = strtotime("April 7, 2018");
+            echo date("F j, Y", $now);
+            $data = array(
+                'sales_detail' => "No items were purchased this day.",
+                'income' => 0.00,
+                'sales_date' => $now,
+                'admin_id' => NULL,
+                'order_id' => NULL
+            );
+            $this->item_model->insertData('sales', $data);
+        #}
     }
 
 }

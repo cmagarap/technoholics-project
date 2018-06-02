@@ -140,7 +140,7 @@ exit;
                                                 <td bgcolor="#FFF0FD" align="right"><p><u>&#8369;<?= number_format($daily->income, 2) ?></u></p></td>
                                                 <td bgcolor="#FFF0FD"></td>
                                                 <?php
-                                                $spec_products = $this->db->query("SELECT FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') AS date_, order_items.product_price, order_items.product_name, SUM(order_items.quantity) as sum_q FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . $daily->sales_d . "' GROUP BY order_items.product_name ORDER BY order_items.product_name ASC");
+                                                $spec_products = $this->db->query("SELECT FROM_UNIXTIME(sales.sales_date, '%Y-%m-%d') AS date_, order_items.product_price, order_items.product_name, SUM(sales.items_sold) as sum_q FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON sales.order_id = orders.order_id WHERE FROM_UNIXTIME(sales_date, '%b %d, %Y') = '" . $daily->sales_d . "' AND sales.status = 1 GROUP BY order_items.product_name ORDER BY order_items.product_name ASC");
 
                                                 if ($spec_products->result()):
                                                     foreach ($spec_products->result() as $prod):

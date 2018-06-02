@@ -122,7 +122,7 @@ if (isset($_POST["generate_pdf"])) {
                     </div>
                     <?php
                     if (!$products) {
-                        echo "<center><h3><hr><br>There are no products recorded.</h3><br></center><br><br>";
+                        echo "<br><br><br><br><br><center><h3><hr><br>There are no products recorded.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <br><br><br><br><br>
@@ -132,8 +132,8 @@ if (isset($_POST["generate_pdf"])) {
                             <thead>
                             <td><p><b>Product ID</b></p></td>
                             <td><p><b>Product</b></p></td>
-                            <td><p><b>Brand</b></p></td>
-                            <td align="right"><p><b>Stock</b></p></td>
+                            <!--<td><p><b>Brand</b></p></td>-->
+                            <td align="right"><p><b>Quantity</b></p></td>
                             <td align="right"><p><b>Price</b></p></td>
                             </thead>
                             <tbody>
@@ -141,8 +141,7 @@ if (isset($_POST["generate_pdf"])) {
                                     <tr>
                                         <td><?= $products->product_id ?></td>
                                         <td><?= $products->product_name ?></td>
-                                        <td><?= ucfirst($products->product_brand) ?></td>
-                                        <td align="right"><?= $products->product_quantity ?></td>
+                                        <td align="right"><?= $products->total_items_sold ?></td>
                                         <td align="right">&#8369; <?= number_format($products->product_price, 2) ?></td>
                                     </tr>
                                 <?php
