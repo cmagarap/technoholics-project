@@ -14,7 +14,7 @@ class Login extends CI_Controller {
     }
 
     public function index() {
-
+        $this->session->sess_destroy();
         $image = $this->item_model->fetch('content')[0];
 
         $data = array(
@@ -30,6 +30,7 @@ class Login extends CI_Controller {
     }
 
     public function login_submit() {
+
         $this->form_validation->set_rules('user', 'username/email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_message('required', 'Please enter your {field}.');
@@ -71,12 +72,16 @@ class Login extends CI_Controller {
 
                             $search = $this->item_model->getDistinct("audit_trail", "customer_id = " . $this->session->uid . " AND status = 1  AND at_detail = 'Search'", "at_date", "at_date", "ASC");
 
-                            if ($view) {
+                            function sortBySupport($a, $b) {
+                                return $b[0] - $a[0];
+                            }
+
+                            if ($view) { # get product views
                                 # store the fetched values into an array:
                                 foreach ($view as $v)
                                     $v_array[] = $v->at_date;
 
-                                # get the orders of customer based on order_id_array[]:
+                                # get the orders of customer based on v_array[]:
                                 for ($i = 0; $i < sizeof($v_array); $i++) {
                                     $this->db->select("item_name");
                                     $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Viewed' AND at_date = $v_array[$i]");
@@ -103,60 +108,116 @@ class Login extends CI_Controller {
                                     }
                                 }
                                 $this->apriori->process($customer_transactions_str);
-                                $test_freq = $this->apriori->getFreqItemsets();
+                                $freq = $this->apriori->getFreqItemsets();
+                                $basis = 'Viewed Products';
 
-                                if(!$test_freq) {
-                                    if ($search) {
-                                        # store the fetched values into an array:
-                                        foreach ($search as $s)
-                                            $s_array[] = $s->at_date;
+                                usort($freq, 'sortBySupport');
 
-                                        # get the orders of customer based on order_id_array[]:
-                                        for ($i = 0; $i < sizeof($s_array); $i++) {
-                                            $this->db->select("item_name");
-                                            $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Search' AND at_date = $s_array[$i]");
-                                        }
-
-                                        $customer_transactions = array();
-                                        $i = 0;
-                                        foreach ($tilted_transactions as $tilted_transaction) {
-                                            if (sizeof($tilted_transactions[$i]) > 1) {
-                                                for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
-                                                    $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
-                                                }
-                                                $i++;
-                                                continue;
-                                            } else
-                                                $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
-                                            $i++;
-                                        }
-
-                                        # convert into string using implode:
-                                        for ($i = 0; $i < sizeof($customer_transactions); $i++) {
-                                            for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
-                                                $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
-                                            }
-                                        }
-                                        $this->apriori->process($customer_transactions_str);
-                                        $s_freq = $this->apriori->getFreqItemsets();
-
+                                $pushable = array(); # becomes 2d array
+                                $support = 0;
+                                for ($i = 0; $i < sizeof($freq); $i++) {
+                                    if ($freq[$i][0] > $support) { # highest support
+                                        $support = $freq[$i][0];
+                                        $index = $i;
+                                        array_push($pushable, $freq[$index]);
+                                    } elseif($freq[$i][0] == $support) { # same support value
+                                        array_push($pushable, $freq[$i]);
                                     }
                                 }
-                            }
 
-                            $freq = $this->apriori->getFreqItemsets();
-
-                            $b = 0;
-                            for($i = 0; $i < sizeof($freq); $i++) {
-                                for($j = 0; $j < sizeof($freq[$i]); $j++) {
-                                    if($freq[$i][0] > $b) {
-                                        $b = implode(", ", array_slice($freq[$i], 1));
+                                # break down the 2d array into 1d array
+                                $products_array = array();
+                                for ($i = 0; $i < sizeof($pushable); $i++) {
+                                    for ($j = 0; $j < sizeof($pushable[$i]); $j++) {
+                                        if ($j == 0)
+                                            continue;
+                                        else
+                                            array_push($products_array, $pushable[$i][$j]);
                                     }
                                 }
+                                $products_unique = array_unique($products_array);
+
+                                # to convert the array into string:
+                                $products_str = implode(", ", array_slice($products_unique, 0));
+
+                                $product_insert = ($products_str) ? $products_str : NULL;
+                                $this->item_model->updatedata("customer", array("product_preference" => $product_insert, "preference_basis" => $basis), "customer_id = " . $this->session->uid);
+
+                                if(!$freq) { # get product search
+                                    goto search;
+                                }
+                            } elseif ($search) {
+                                search:
+                                # store the fetched values into an array:
+                                foreach ($search as $s)
+                                    $s_array[] = $s->at_date;
+
+                                # get the orders of customer based on s_array[]:
+                                for ($i = 0; $i < sizeof($s_array); $i++) {
+                                    $this->db->select("item_name");
+                                    $tilted_transactions[] = $this->item_model->fetch("audit_trail", "customer_id = " . $this->session->uid . " AND at_detail = 'Search' AND at_date = $s_array[$i]");
+                                }
+
+                                $customer_transactions = array();
+                                $i = 0;
+                                foreach ($tilted_transactions as $tilted_transaction) {
+                                    if (sizeof($tilted_transactions[$i]) > 1) {
+                                        for ($j = 0; $j < sizeof($tilted_transactions[$i]); $j++) {
+                                            $customer_transactions[$i][$j] = (string) $tilted_transaction[$j]->item_name;
+                                        }
+                                        $i++;
+                                        continue;
+                                    } else
+                                        $customer_transactions[] = (array) $tilted_transaction[0]->item_name;
+                                    $i++;
+                                }
+
+                                # convert into string using implode:
+                                for ($i = 0; $i < sizeof($customer_transactions); $i++) {
+                                    for ($j = 0; $j < sizeof($customer_transactions[$i]); $j++) {
+                                        $customer_transactions_str[$i] = implode(", ", $customer_transactions[$i]);
+                                    }
+                                }
+                                $this->apriori->process($customer_transactions_str);
+                                $freq_search = $this->apriori->getFreqItemsets();
+                                $basis_search = 'Searched products';
+
+                                usort($freq, 'sortBySupport');
+
+                                $pushable = array(); # becomes 2d array
+                                $support = 0;
+                                for ($i = 0; $i < sizeof($freq_search); $i++) {
+                                    if ($freq_search[$i][0] > $support) { # highest support
+                                        $support = $freq_search[$i][0];
+                                        $index = $i;
+                                        array_push($pushable, $freq_search[$index]);
+                                    } elseif($freq_search[$i][0] == $support) { # same support value
+                                        array_push($pushable, $freq_search[$i]);
+                                    }
+                                }
+
+                                # break down the 2d array into 1d array
+                                $products_array = array();
+                                for ($i = 0; $i < sizeof($pushable); $i++) {
+                                    for ($j = 0; $j < sizeof($pushable[$i]); $j++) {
+                                        if ($j == 0)
+                                            continue;
+                                        else
+                                            array_push($products_array, $pushable[$i][$j]);
+                                    }
+                                }
+                                $products_unique = array_unique($products_array);
+
+                                # to convert the array into string:
+                                $products_str = implode(", ", array_slice($products_unique, 0));
+
+                                $product_insert = ($products_str) ? $products_str : NULL;
+                                $this->item_model->updatedata("customer", array("product_preference" => $product_insert, "preference_basis" => $basis_search), "customer_id = " . $this->session->uid);
                             }
 
-                            $product_insert = ($b) ? $b : NULL;
-                            $this->item_model->updatedata("customer", array("product_preference" => $product_insert), "customer_id = " . $this->session->uid);
+                            #$freq = $this->apriori->getFreqItemsets();
+
+
 
                             # ====================================================================>
 

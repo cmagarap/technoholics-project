@@ -11,7 +11,7 @@ class Reports extends CI_Controller {
         }
     }
 
-    public function sales_reports() {
+    public function sales() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $this->load->view("paper/includes/header", array('title' => 'Sales Reports', 'heading' => 'Sales Reports'));
             $this->load->view("paper/includes/navbar");
@@ -136,7 +136,7 @@ class Reports extends CI_Controller {
             if(isset($_POST['enter'])) {
                 $annual = $this->db->query("SELECT FROM_UNIXTIME(sales_date, '%Y') as sales_y, SUM(income) AS income, SUM(items_sold) AS items_sold FROM sales WHERE status = 1 GROUP BY sales_y ORDER BY sales_date DESC LIMIT " . $this->input->post('year'));
 
-                $subtitle = "Here are the here are the annual sales for the last <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . " years.</span><br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
+                $subtitle = "Here are the here are the annual sales for the last <span style='background-color: #dc2f54; color: white; padding: 3px;'>" . $this->input->post('year') . " years.</span><br><a href='" . base_url() . "reports/annual_sales'>See the latest annual sales.</a>";
 
                 $no_fetched_msg = "<center><h3><br><br><br><hr><br>There are no annual sales recorded for the selected number of years.</h3><br></center><br><br></div>";
             } else {
@@ -217,6 +217,86 @@ class Reports extends CI_Controller {
         }
     }
 
+    public function sold_unsold() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            function array_to_str($str) {
+                return $str;
+            }
+
+            $this->db->select('DISTINCT FROM_UNIXTIME(sales_date, "%Y") AS formatted');
+            $sales_years = $this->item_model->fetch('sales', 'status = 1', 'formatted', 'DESC');
+
+            if ($this->input->post('select_type') == 'unsold') {
+                unsold_products:
+                $title_of_report = "Unsold Products";
+                $month = (!$this->input->post('select_month') OR $this->input->post('select_month') == '—') ? date('M') : $this->input->post('select_month');
+                $year = (!$this->input->post('select_year') OR $this->input->post('select_year') == '—') ? date('Y') : $this->input->post('select_year');
+                $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
+                $temp = date('F, Y', strtotime($month .  "-" . $year));
+
+                $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales_date, '%Y') = '" . $year . "'");
+
+                $product_id_array = array();
+                foreach ($product_id->result() as $product) {
+                    array_push($product_id_array, $product->product_id);
+                }
+
+                $new = implode(", ", array_map("array_to_str", $product_id_array));
+                if ($new != '') {
+                    $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id NOT IN ($new) AND status = 1 ORDER BY product_name");
+                }
+            } elseif ($this->input->post('select_type') == 'sold') {
+                goto sold_products;
+            } else {
+                sold_products:
+                $title_of_report = "Sold Products";
+                $month = (!$this->input->post('select_month') OR $this->input->post('select_month') == '—') ? date('M') : $this->input->post('select_month');
+                $year = (!$this->input->post('select_year') OR $this->input->post('select_year') == '—') ? date('Y') : $this->input->post('select_year');
+                $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
+                $temp = date('F, Y', strtotime($month .  "-" . $year));
+
+                # $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = 'Mar' AND FROM_UNIXTIME(sales_date, '%Y') = '2018'");
+
+//                $product_id_array = array();
+//                foreach ($product_id->result() as $product) {
+//                    array_push($product_id_array, $product->product_id);
+//                }
+//
+//                $new = implode(", ", array_map("array_to_str", $product_id_array));
+//                echo '<pre>';
+//                print_r($new);
+//                echo '</pre>';
+
+                # $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id IN ($new) AND status = 1 ORDER BY product_name");
+                # $fetched = $this->db->query("SELECT product.product_id, product.product_name, product.product_brand, product.product_price, SUM(sales.items_sold) AS total_items_sold FROM product JOIN order_items ON product.product_id = order_items.product_id JOIN sales ON order_items.order_id = sales.order_id WHERE product.product_id IN ($new) AND FROM_UNIXTIME(sales.sales_date, '%b') = 'Apr' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '2018' AND sales.status = 1 AND product.status = 1 GROUP BY product.product_id ORDER BY product.product_name");
+
+                $fetched = $this->db->query("SELECT order_items.product_id, order_items.product_name, order_items.product_price, SUM(sales.items_sold) AS total_items_sold FROM order_items JOIN sales ON order_items.order_id = sales.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '" . $year . "' AND sales.status = 1 GROUP BY order_items.product_id");
+
+                if (!$fetched) {
+                    goto unsold_products;
+                }
+            }
+
+            $data = array(
+                'title' => 'Sold and Unsold Products',
+                'heading' => 'Inventory',
+                'title_of_report' => $title_of_report,
+                'subtitle' => $subtitle,
+                'products' => $fetched->result(),
+                'sales_years' => $sales_years,
+                'temp_date' => $temp
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/inventory/sold_unsold");
+            $this->load->view("paper/includes/footer");
+
+        } else {
+            redirect('home');
+        }
+    }
+
     public function active_customers() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
             $this->db->select(array("customer_id", "username", "email", "lastname", "firstname", "image"));
@@ -239,7 +319,7 @@ class Reports extends CI_Controller {
 
     public function product_preference() {
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference"));
+            $this->db->select(array("customer_id", "username", "lastname", "firstname", "image", "product_preference", "preference_basis"));
             $customer = $this->item_model->fetch("customer", "status = 1");
 
             $data = array(
@@ -257,17 +337,47 @@ class Reports extends CI_Controller {
         }
     }
 
+    public function feedback() {
+        if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
+            /* if (isset($_POST['filter'])) {
+                if ($this->input->post('filter_feedback') == 'all') {
+                    goto filter_all;
+                } elseif ($this->input->post('filter_feedback') == 'min_rating') {
+                    $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 AND feedback.rating = " . $this->input->post('select_f') . " GROUP BY customer.username ORDER BY min_rating ASC");
+                 }
+            } else {
+                filter_all:*/
+                $feedback = $this->db->query("SELECT feedback.customer_id, customer.image AS image, customer.username AS username, MIN(feedback.rating) AS min_rating, MAX(feedback.rating) AS max_rating, ROUND(AVG(feedback.rating), 2) AS average, MAX(feedback.added_at) AS max_date, COUNT(feedback.feedback) AS total_feedback FROM feedback JOIN customer ON feedback.customer_id = customer.customer_id WHERE feedback.status = 1 GROUP BY customer.username ORDER BY customer.username ASC");
+            # }
+
+            $data = array(
+                'title' => 'Feedback Report',
+                'heading' => 'Feedback',
+                'feedback' => $feedback->result()
+            );
+
+            $this->load->view("paper/includes/header", $data);
+            $this->load->view("paper/includes/navbar");
+            $this->load->view("paper/feedback/report");
+            $this->load->view("paper/includes/footer");
+        } else {
+            redirect('home');
+        }
+    }
+
     public function populate_sales() {
-        $now = strtotime("Jan 31, 2017");
-        echo date("F j, Y", $now);
-        $data = array(
-            'sales_detail' => "No items were purchased this day.",
-            'income' => 0.00,
-            'sales_date' => $now,
-            'admin_id' => NULL,
-            'order_id' => NULL
-        );
-        $this->item_model->insertData('sales', $data);
+        #for ($i = 17; $i <= 30; $i++) {
+            $now = strtotime("April 7, 2018");
+            echo date("F j, Y", $now);
+            $data = array(
+                'sales_detail' => "No items were purchased this day.",
+                'income' => 0.00,
+                'sales_date' => $now,
+                'admin_id' => NULL,
+                'order_id' => NULL
+            );
+            $this->item_model->insertData('sales', $data);
+        #}
     }
 
 }

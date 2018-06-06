@@ -3,6 +3,14 @@ $(document).ready(function(){
         url: base_url + "inventory/getProductData",
         method: "POST",
         success: function(data) {
+            String.prototype.ucwords = function() {
+                str = this.toLowerCase();
+                return str.replace(/(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g,
+                    function($1){
+                        return $1.toUpperCase();
+                    });
+            }
+
             var brand = [];
             var stock = [];
             var color_chart = [
@@ -17,7 +25,7 @@ $(document).ready(function(){
             ];
 
             for(var i in data) {
-                brand.push(data[i].product_brand);
+                brand.push(data[i].product_brand.ucwords());
                 stock.push(data[i].quan);
             }
 

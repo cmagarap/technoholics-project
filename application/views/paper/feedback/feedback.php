@@ -8,7 +8,7 @@
                         <p class="category">Select a date to filter feedback records.</p>
                         <hr>
                         <div class="calendar"></div>
-                        <form action="<?= base_url() . 'feedback'; ?>" method="POST">
+                        <form action="<?= base_url() . 'feedback'; ?>" method="POST" role="form">
                             <br>
                             <div align="center">
                                 <button type="submit" id="submit" class="btn btn-info btn-fill" name="date" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
@@ -30,16 +30,16 @@
                         <?php if ($f_rated): ?>
                             <table class="table table-striped" style = "margin-top: -20px">
                                 <thead>
-                                <th><u style = "color: #31bbe0">Product</u></th>
-                                <th><u style = "color: #31bbe0">Feedback Count</u></th>
+                                    <th><u style = "color: #31bbe0">Product</u></th>
+                                    <th><u style = "color: #31bbe0">Feedback Count</u></th>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($f_rated as $f_rated): ?>
-                                    <tr>
-                                        <td><b><?= $f_rated->product_name ?></b></td>
-                                        <td><?= $f_rated->feedback_count ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                    <?php foreach ($f_rated as $f_rated): ?>
+                                        <tr>
+                                            <td><b><?= $f_rated->product_name ?></b></td>
+                                            <td><?= $f_rated->feedback_count ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         <?php else: ?>
@@ -89,6 +89,7 @@
                         <div class="col-md-6">
                             <h3><span class="ti-comment" style="color: #F3BB45"></span>&nbsp; <b>Feedback</b></h3>
                             <p class="category"><?= $date ?></p>
+                            <a href="<?= base_url() ?>reports/feedback">See feedback report.</a>
                         </div>
                         <div class="col-md-2"></div>
                         <form role="form" method="post">
@@ -121,39 +122,39 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                <th><b title="Feedback ID">ID</b></th>
-                                <th colspan="2"><b>Customer</b></th>
-                                <th><b>Feedback</b></th>
-                                <th><b>Date</b></th>
-                                <th><b>Rating</b></th>
-                                <th><b>Product ID</b></th>
-                                <th><b>Action</b></th>
+                                    <th><b title="Feedback ID">ID</b></th>
+                                    <th colspan="2"><b>Customer</b></th>
+                                    <th><b>Feedback</b></th>
+                                    <th><b>Date</b></th>
+                                    <th><b>Rating</b></th>
+                                    <th><b>Product ID</b></th>
+                                    <th><b>Action</b></th>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($feedback as $feed): ?>
-                                    <tr>
-                                        <?php $customer = $this->item_model->fetch("customer", "customer_id = " . $feed->customer_id)[0];
-                                        $user_image = (string)$customer->image;
-                                        $image_array = explode(".", $user_image); ?>
+                                    <?php foreach ($feedback as $feed): ?>
+                                        <tr>
+                                            <?php $customer = $this->item_model->fetch("customer", "customer_id = " . $feed->customer_id)[0];
+                                            $user_image = (string)$customer->image;
+                                            $image_array = explode(".", $user_image); ?>
 
-                                        <td><?= $feed->feedback_id ?></td>
-                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
-                                        <td><?= $feed->feedback ?></td>
-                                        <td><?= date("M-d-y", $feed->added_at) ?></td>
-                                        <td>
-                                            <div class="star-ratings-css">
-                                                <div class="star-ratings-css-top" style="width: <?= ($feed->rating / 5) * 100 ?>%" title="<?= $feed->rating ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-                                                <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
-                                            </div>
-                                        </td>
-                                        <td><a href="<?= base_url() ?>inventory/view/<?= $feed->product_id ?>" style="text-decoration: underline"><?= $feed->product_id ?></a></td>
-                                        <td><a class="btn btn-danger cancel" href="#" data-id="<?= $feed->feedback_id ?>" title="Delete this feedback">
+                                            <td><?= $feed->feedback_id ?></td>
+                                            <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                            <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?= $customer->username ?></a></td>
+                                            <td><?= $feed->feedback ?></td>
+                                            <td><?= date("M-d-y", $feed->added_at) ?></td>
+                                            <td>
+                                                <div class="star-ratings-css">
+                                                    <div class="star-ratings-css-top" style="width: <?= ($feed->rating / 5) * 100 ?>%" title="<?= $feed->rating ?>"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                                                    <div class="star-ratings-css-bottom"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+                                                </div>
+                                            </td>
+                                            <td><a href="<?= base_url() ?>inventory/view/<?= $feed->product_id ?>" style="text-decoration: underline"><?= $feed->product_id ?></a></td>
+                                            <td><a class="btn btn-danger cancel" href="#" data-id="<?= $feed->feedback_id ?>" title="Delete this feedback">
                                                 <span class="ti-close"></span>
                                             </a></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                <tr></tr>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -178,10 +179,10 @@
             buttons: true,
             dangerMode: true,
         })
-            .then((willDelete) => {
-                if (willDelete) {
-                    window.location = "<?= $this->config->base_url() ?>feedback/delete/" + id;
-                } else {
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = "<?= $this->config->base_url() ?>feedback/delete/" + id;
+            } else {
                     // swal("This feedback is safe!");
                 }
             });
@@ -199,11 +200,11 @@
              * @obj.storage.events is all events associated to this date
              */
 
-            var $calendar = obj.calendar;
-            $("#submit").show();
-            var text = '';
+             var $calendar = obj.calendar;
+             $("#submit").show();
+             var text = '';
 
-            if(date[0] !== null) {
+             if(date[0] !== null) {
                 text += date[0].format('YYYY-MM-DD');
             }
 

@@ -169,7 +169,7 @@ class Inventory extends CI_Controller {
     }
 
     public function add_product_exec() {
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        $this->form_validation->set_rules('product_name', "Please put the product name.", "required|is_unique[product.product_name]");
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
         $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
@@ -213,6 +213,7 @@ class Inventory extends CI_Controller {
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => $this->input->post('product_price', TRUE),
+                'product_discount' => $this->input->post('product_discount', TRUE),
                 'product_quantity' => $this->input->post('product_quantity', TRUE),
                 'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : "default-product.jpg",
@@ -225,6 +226,7 @@ class Inventory extends CI_Controller {
                 'admin_id' => $this->session->uid,
                 'category_id' => $this->input->post('product_category'),
                 'brand_id' => $this->input->post('product_brand'),
+                'batch_number' => date("Mdy")
             );
 
             $for_log = array(
@@ -240,6 +242,9 @@ class Inventory extends CI_Controller {
             $this->item_model->insertData('user_log', $for_log);
             $statusMsg = $insert ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been added successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg', $statusMsg);
+            $this->session->set_flashdata('icon', 'ti-check');
+            $this->session->set_flashdata('color', 'success');
+
             redirect("inventory/page");
         } else {
             $this->add_product();
@@ -273,7 +278,13 @@ class Inventory extends CI_Controller {
     }
 
     public function edit_product_exec() {
-        $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        $product = $this->item_model->fetch('product', 'product_id = ' . $this->uri->segment(3) . ' AND status = 1')[0];
+        if($product->product_name != $this->input->post('product_name', TRUE)) {
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required|is_unique[product.product_name]");
+        } else {
+            $this->form_validation->set_rules('product_name', "Please put the product name.", "required");
+        }
+
         $this->form_validation->set_rules('product_price', "Please put the product price.", "required|numeric");
         $this->form_validation->set_rules('product_quantity', "Please put the product quantity.", "required|numeric");
         $this->form_validation->set_rules('product_desc', "Please put a description for the product.", "required");
@@ -316,6 +327,7 @@ class Inventory extends CI_Controller {
                 'product_brand' => $brand_fetch->brand_name,
                 'product_category' => $category_fetch->category,
                 'product_price' => $this->input->post('product_price', TRUE),
+                'product_discount' => $this->input->post('product_discount', TRUE),
                 'product_quantity' => $this->input->post('product_quantity', TRUE),
                 'is_featured' => $this->input->post('is_featured', TRUE),
                 'product_image1' => ($dataInfo[0]) ? $dataInfo[0] : $image1_fetch->product_image1,
@@ -343,6 +355,8 @@ class Inventory extends CI_Controller {
             $this->item_model->insertData('user_log', $for_log);
             $statusMsg = $update ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been updated successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg', $statusMsg);
+            $this->session->set_flashdata('icon', 'ti-check');
+            $this->session->set_flashdata('color', 'success');
 
             redirect("inventory/page");
         } else {
@@ -356,6 +370,8 @@ class Inventory extends CI_Controller {
         $update = $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
         $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been deleted.' : 'Some problem occured, please try again.';
         $this->session->set_flashdata('statusMsg', $statusMsg);
+        $this->session->set_flashdata('icon', 'ti-close');
+        $this->session->set_flashdata('color', 'danger');
 
         $for_log = array(
             "admin_id" => $this->session->uid,
@@ -490,6 +506,7 @@ class Inventory extends CI_Controller {
     public function getProductViews() {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
+
             $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND FROM_UNIXTIME(at_date, '%m') = '". date('m') ."' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
 
             if(!$data->result()) { # for the past month
@@ -519,10 +536,20 @@ class Inventory extends CI_Controller {
                     if (!$data->result()) { # for the past year
                         $past_year = date("Y") - 1;
                         $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Viewed' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
-                    }
-                }
-            }
-            print json_encode($data->result());
+
+                        if ($data->result())
+                            $display[] = array('msg' => "Last Year");
+                        else
+                            $display[] = array('msg' => "There are no records to display.");
+
+                    } else
+                    $display[] = array('msg' => "Past Three Months");
+                } else
+                $display[] = array('msg' => "Last Month");
+            } else
+            $display[] = array('msg' => "Current Month");
+
+            print json_encode(array_merge($display, (array)$data->result()));
         } else {
             redirect("home");
         }
@@ -532,15 +559,13 @@ class Inventory extends CI_Controller {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
 
-            # $this->session->set_userdata(array('times_bought' => 'current month'), true);
-
             $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND FROM_UNIXTIME(at_date, '%m') = '". date('m') ."' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
 
-            if(!$data->result()) { # for the past month
+            if(!$data->result()) { # get data for the past month
                 $past_month = (date("m") == 1) ? 12 : date("n") - 1;
                 $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND MONTH(FROM_UNIXTIME(at_date)) = $past_month GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
 
-                if (!$data->result()) { # for the past three months
+                if (!$data->result()) { # get data for the past three months
                     if (date("m") == 1) { # January
                         $past_month = 10;
                         $year = date("Y") - 1;
@@ -560,13 +585,23 @@ class Inventory extends CI_Controller {
 
                     $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND MONTH(FROM_UNIXTIME(at_date)) = '" . $past_month . "' AND FROM_UNIXTIME(at_date, '%Y') = '" . $year . "' GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
 
-                    if (!$data->result()) { # for the past year
+                    if (!$data->result()) { # get data for the past year
                         $past_year = date("Y") - 1;
                         $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Purchase' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
-                    }
-                }
-            }
-            print json_encode($data->result());
+
+                        if ($data->result())
+                            $display[] = array('msg' => "Last Year");
+                        else
+                            $display[] = array('msg' => "There are no records to display.");
+
+                    } else
+                    $display[] = array('msg' => "Past Three Months");
+                } else
+                $display[] = array('msg' => "Last Month");
+            } else
+            $display[] = array('msg' => "Current Month");
+
+            print json_encode(array_merge($display, (array)$data->result()));
         } else {
             redirect("home");
         }
@@ -605,10 +640,19 @@ class Inventory extends CI_Controller {
                     if (!$data->result()) { # for the past year
                         $past_year = date("Y") - 1;
                         $data = $this->db->query("SELECT COUNT(at_detail) AS at_count, item_name FROM audit_trail WHERE status = 1 AND at_detail = 'Search' AND FROM_UNIXTIME(at_date, '%Y') = $past_year GROUP BY product_id ORDER BY at_count DESC LIMIT 5");
-                    }
-                }
-            }
-            print json_encode($data->result());
+
+                        if ($data->result())
+                            $display[] = array('msg' => "Last Year");
+                        else
+                            $display[] = array('msg' => "There are no records to display.");
+                    } else
+                    $display[] = array('msg' => "Past Three Months");
+                } else
+                $display[] = array('msg' => "Last Month");
+            } else
+            $display[] = array('msg' => "Current Month");
+
+            print json_encode(array_merge($display, (array)$data->result()));
         } else {
             redirect("home");
         }
@@ -620,7 +664,7 @@ class Inventory extends CI_Controller {
         $output .= '<option value="">Select a brand</option>';
         if($query) {
             foreach($query as $query){
-                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
+                $output .= '<option value='.$query->brand_id.'>'.ucfirst($query->brand_name).'</option>';
             }
         }
         echo $output;
@@ -631,7 +675,7 @@ class Inventory extends CI_Controller {
         $query = $this->item_model->search('brand','status = 1 AND category_id', $_POST["query"]);
         if($query) {
             foreach($query as $query){
-                $output .= '<option value='.$query->brand_id.'>'.$query->brand_name.'</option>';
+                $output .= '<option value='.$query->brand_id.'>'.ucfirst($query->brand_name).'</option>';
             }
         }
         echo $output;

@@ -5,6 +5,9 @@ $this->db->select(array("image", "username", "firstname"));
 $userinformation = $this->item_model->fetch('customer', array('customer_id' => $this->session->uid))[0];
 $category_content = $this->item_model->fetch('category', "status = 1");
 date_default_timezone_set("Asia/Manila");
+if($CTI == 0){
+    $this->session->unset_userdata('total_discount');
+}
 ?>
 <div class="navbar navbar-default yamm navbar-fixed-top" role="navigation" id="navbar">
     <div id="top" style="background-color: <?= $image->customer_color1 ?>">
@@ -78,7 +81,7 @@ date_default_timezone_set("Asia/Manila");
                         <div class="yamm-content">
                             <div class="row">
                                 <?php foreach ($category_content as $category_content): 
-                                $brand_content = $this->item_model->fetch("brand", "category_id = " . $category_content->category_id, "brand_name", "ASC");
+                                $brand_content = $this->item_model->fetch("brand", "status = 1 AND category_id = " . $category_content->category_id, "brand_name", "ASC");
                                 ?>
                                 <div class="col-sm-3">
                                     <h5><?=$category_content->category?></h5>
@@ -89,21 +92,12 @@ date_default_timezone_set("Asia/Manila");
                                     </ul>
                                 </div>
                             <?php endforeach ?>
-                            <div class="col-sm-3">
-                                <div class="banner">
-                                    <a href="#">
-                                        <img src="<?= base_url() ?>assets/ordering/img/<?= $image->image_2 ?>" class="img img-responsive" alt="">
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!-- /.yamm-content -->
                 </li>
             </ul>
         </li>
-
-
         <li class="<?php if($page == "services"){ echo "active"; }?> dropdown yamm-fw">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">SERVICES <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -163,11 +157,11 @@ date_default_timezone_set("Asia/Manila");
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
             <span class="input-group-btn">
-             <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
-         </span>
-     </div>
-     <div id="productlist" style="position:absolute;"></div>
- </form>
+               <button type="submit" class="btn btn-primary" ><i class="fa fa-search"></i></button>
+           </span>
+       </div>
+       <div id="productlist" style="position:absolute;"></div>
+   </form>
 </div> <!--/.nav-collapse -->
 </div> <!-- /.container -->
 </div> <!-- /#navbar -->

@@ -6,9 +6,16 @@ $(document).ready(function(){
             var product = [];
             var searches = [];
             var color_chart = [];
+            var msg = '';
+
             for (var i in data) {
-                product.push(data[i].item_name);
-                searches.push(data[i].at_count);
+                if(i == 0) {
+                    var msg = data[0].msg;
+                    continue;
+                } else {
+                    product.push(data[i].item_name);
+                    searches.push(data[i].at_count);
+                }
             }
             console.log(searches);
 
@@ -36,11 +43,20 @@ $(document).ready(function(){
                 ]};
 
             var ctx = $("#productSearch");
+            Chart.defaults.global.defaultFontFamily = "Arial";
 
             var barGraph = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: chartdata,
                 options: {
+                    title: {
+                        display: true,
+                        text: msg,
+                        fontFamily: 'Helvetica',
+                        fontStyle: 'italic',
+                        fontSize: 15
+
+                    },
                     legend: {
                         display: false,
                         position: "right"

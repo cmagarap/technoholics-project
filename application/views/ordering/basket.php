@@ -84,8 +84,9 @@
                         </div>
                         <div id="hot">
                             <div class="product-slider">
-                                <?php if($this->session->has_userdata('suggest')){ $suggest = $this->session->userdata('suggest'); } else{ $suggest = $product;} foreach ($suggest as $suggest): ?>
-                                 <div class="item" style="margin: 0 10px; visibility: hidden;">
+                                <?php if($this->session->has_userdata('suggest')){ $temp_suggest = $this->session->userdata('suggest'); shuffle($temp_suggest);} else{ $temp_suggest = $product;} foreach ($temp_suggest as $temp_suggest): 
+                                $suggest = $this->item_model->fetch('product',"product_id = '$temp_suggest' AND status = 1")[0];?>
+                                <div class="item" style="margin: 0 10px; visibility: hidden;">
                                     <div class="product">
                                         <div class="image_container" align="center">
                                             <a href="<?= base_url() . 'home/detail/' . $suggest->product_category . '/' . $suggest->product_brand . '/' . $suggest->product_id .'/page'?>">
@@ -111,26 +112,26 @@
                             <h4>Coupon code</h4>
                         </div>
                         <p class="text-muted">If you have a coupon code, please enter it in the box below.</p>
-                        <form>
+                        <form method="post" action="<?= base_url().'home/promo_exec';?>" >
                             <div class="input-group">
 
-                                <input type="text" class="form-control">
-
+                                <input type="text" name="promo_code" class="form-control">
                                 <span class="input-group-btn">
-
-                                 <button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
-
-                             </span>
-                         </div>
-                         <!-- /input-group -->
-                     </form>
-                 </div>
-
-             </div>
-             <!-- /.col-md-3 -->
-
-         </div>
-         <!-- /.container -->
-     </div>
-     <!-- /#content -->
- </div>
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-gift"></i></button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                            <?php if(validation_errors()):
+                            echo "<span style = 'color: red'>" . form_error("promo_code") . "</span>";
+                        elseif ($this->session->flashdata('error')): 
+                            echo "<span style = 'color: red'>" . $this->session->flashdata('error') . "</span>";
+                            endif; ?>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+    </div>

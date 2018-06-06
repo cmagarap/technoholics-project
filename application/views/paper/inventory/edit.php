@@ -84,7 +84,7 @@
                                     <label>Product Category <font color="red">*</font></label>
                                     <select name="product_category" id="category" class = "form-control border-input file">
                                         <?php foreach ($category as $category): ?>
-                                            <option value="<?= $category->category_id ?>" <?php if ($category->category_id == $products->category_id) echo "selected"; ?>><?= $category->category ?></option>
+                                            <option value="<?= $category->category_id ?>" <?php if ($category->category_id == $products->category_id) echo "selected"; ?>><?= ucfirst($category->category) ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -96,31 +96,41 @@
                                         <?php
                                         $brand = $this->item_model->fetch("brand", array("status" => 1, "category_id" => $products->category_id ), "brand_name", "ASC");
                                         foreach ($brand as $brand): ?>
-                                        <option value="<?= $brand->brand_id ?>" <?php if ($brand->brand_id == $products->brand_id) echo "selected"; ?>><?= $brand->brand_name ?></option>
+                                        <option value="<?= $brand->brand_id ?>" <?php if ($brand->brand_id == $products->brand_id) echo "selected"; ?>><?= ucfirst($brand->brand_name) ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Price <font color="red">*</font></label>
                                 <input type="number" class="form-control border-input" placeholder="Price" name = "product_price" value="<?= $products->product_price ?>">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Quantity <font color="red">*</font></label>
                                 <input type="number" class="form-control border-input" placeholder="Product quantity" name="product_quantity" value="<?= $products->product_quantity ?>">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Featured <font color="red">*</font></label>
                                 <select name="is_featured" class="form-control border-input file">
                                     <option value="1" <?php if ($products->is_featured == 1) echo 'selected'; ?>>Yes</option>
                                     <option value="0" <?php if ($products->is_featured == 0) echo 'selected'; ?>>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Discount</label>
+                                <select name="product_discount" class="form-control border-input file">
+                                    <?php for ($i=0; $i <= 100 ; $i++) { ?>
+                                    <option <?php if ($products->product_discount == $i) echo 'selected'; ?> value="<?=$i?>"><?=$i?>%</option>
+                                    <?php }?>
                                 </select>
                             </div>
                         </div>

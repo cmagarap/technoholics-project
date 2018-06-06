@@ -1,3 +1,16 @@
+<?php if($this->session->flashdata('statusMsg')): ?>
+    <script>
+        $(document).ready(function(){
+            $.notify({
+                icon: 'ti-close',
+                message: "<?= $this->session->flashdata('statusMsg') ?>"
+            },{
+                type: 'danger',
+                timer: 2000
+            });
+        });
+    </script>
+<?php endif; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -42,7 +55,7 @@
                     <div class="header">
                         <h3><span class="ti-notepad" style = "color: #dc2f54;"></span>&nbsp; <b>List of Sales</b></h3>
                         <p class="category"><?= $date ?></p>
-                        <a href="<?= base_url() ?>reports/sales_reports">See sales report.</a>
+                        <a href="<?= base_url() ?>reports/sales">See sales report.</a>
                     </div>
                     <?php if(!$sales) {
                         echo "<center><h3><hr><br>There are no sales recorded for the date you have selected.</h3><br></center><br><br>";
