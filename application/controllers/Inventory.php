@@ -242,6 +242,9 @@ class Inventory extends CI_Controller {
             $this->item_model->insertData('user_log', $for_log);
             $statusMsg = $insert ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been added successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg', $statusMsg);
+            $this->session->set_flashdata('icon', 'ti-check');
+            $this->session->set_flashdata('color', 'success');
+
             redirect("inventory/page");
         } else {
             $this->add_product();
@@ -352,6 +355,8 @@ class Inventory extends CI_Controller {
             $this->item_model->insertData('user_log', $for_log);
             $statusMsg = $update ? '<b>' . trim($this->input->post('product_name')) . '</b>' . ' has been updated successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg', $statusMsg);
+            $this->session->set_flashdata('icon', 'ti-check');
+            $this->session->set_flashdata('color', 'success');
 
             redirect("inventory/page");
         } else {
@@ -365,6 +370,8 @@ class Inventory extends CI_Controller {
         $update = $this->item_model->updatedata("product", array("status" => false), array('product_id' => $this->uri->segment(3)));
         $statusMsg = $update ? '<b>' . $product_name->product_name . '</b>' . ' has been deleted.' : 'Some problem occured, please try again.';
         $this->session->set_flashdata('statusMsg', $statusMsg);
+        $this->session->set_flashdata('icon', 'ti-close');
+        $this->session->set_flashdata('color', 'danger');
 
         $for_log = array(
             "admin_id" => $this->session->uid,

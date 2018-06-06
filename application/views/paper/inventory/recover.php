@@ -6,10 +6,10 @@
                 <script>
                     $(document).ready(function(){
                         $.notify({
-                            icon: 'ti-direction',
-                            message: "<?=$this->session->flashdata('statusMsg')?>"
+                            icon: 'ti-check',
+                            message: "<?= $this->session->flashdata('statusMsg') ?>"
                         },{
-                            type: 'info',
+                            type: 'success',
                             timer: 2000
                         });
                     });

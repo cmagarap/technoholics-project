@@ -11,8 +11,7 @@ class Forecasting extends CI_Controller {
     }
 
     public function index() {
-        if (!$this->session->userdata('month_session') AND $this->session->userdata('year_session')) {
-//            echo "no month";
+        if (!$this->session->userdata('month_session') AND !$this->session->userdata('year_session')) {
             $this->db->distinct();
             $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
             $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
@@ -21,16 +20,11 @@ class Forecasting extends CI_Controller {
         } else {
             $month = $this->session->userdata('month_session');
             $year = $this->session->userdata('year_session');
-//            echo $month;
             $this->db->distinct();
             $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
             $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
             $this->db->select(array("date_forecasted", "forecasted_income"));
-            $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018 AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
-
-//            echo '<pre>';
-//            print_r($forecast);
-//            echo '</pre>';
+            $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = $year AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
         }
 
         $data = array(
@@ -67,24 +61,24 @@ class Forecasting extends CI_Controller {
 
         // for the first past month
             $this->db->select("SUM(income) as income");
-            $sales_first_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$first_month_date'")[0];
+            $sales_first_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$first_month_date' AND status = 1")[0];
             $this->db->select("forecasted_income");
             $forecasted_first_month = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%m-%Y') = '$first_month_date'")[0];
             $first_month = $sales_first_month->income ? $sales_first_month->income : $forecasted_first_month->forecasted_income;
 
         // for the second past month
             $this->db->select("SUM(income) as income");
-            $sales_second_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$second_month_date'")[0];
+            $sales_second_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$second_month_date' AND status = 1")[0];
             $this->db->select("forecasted_income");
             $forecasted_second_month = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$second_month_date'")[0];
             $second_month = $sales_second_month->income? $sales_second_month->income : $forecasted_second_month->forecasted_income;
 
         // for the third past month
             $this->db->select("SUM(income) as income");
-            $sales_third_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$third_month_date'")[0];
+            $sales_third_month = $this->item_model->fetch('sales', "FROM_UNIXTIME(sales_date,'%m-%Y') = '$third_month_date' AND status = 1")[0];
             $this->db->select("forecasted_income");
-            $forecasted_third_month = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$third_month_date'")[0];
-            $third_month = $sales_third_month->income? $sales_third_month->income : $forecasted_third_month->forecasted_income;
+            $forecasted_third_month = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%m-%Y') = '$third_month_date'")[0];
+            $third_month = $sales_third_month->income ? $sales_third_month->income : $forecasted_third_month->forecasted_income;
 
             if($first_month && $second_month && $third_month) {
                 // Moving average formula
@@ -98,11 +92,12 @@ class Forecasting extends CI_Controller {
                     "user_type" => $this->session->userdata('type'),
                     "username" => $this->session->userdata('username'),
                     "date" => time(),
-                    "action" => 'Forecasted sales income for '.date("M y", $month_to_predict),
+                    "action" => 'Forecasted sales income for ' . date("M y", $month_to_predict),
                     'status' => '1'
                 );
 
-                $condition = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
+                $condition = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
+
                 if ($condition) {
                     $data = array(
                         "forecasted_income" => $forecasted_income,
@@ -112,7 +107,7 @@ class Forecasting extends CI_Controller {
                     $action = $this->item_model->updatedata('forecast', $data, "FROM_UNIXTIME(date_forecasted,'%m-%Y') = '$format'");
                 }
 
-                else{
+                else {
                     $data = array(
                         "forecasted_income" => $forecasted_income,
                         "date_forecasted" =>  $month_to_predict,
@@ -154,13 +149,14 @@ class Forecasting extends CI_Controller {
         if($this->session->userdata("type") == 1 OR $this->session->userdata("type") == 0) {
             header('Content-Type: application/json');
 
-            if (!$this->session->userdata('month_session')) {
+            if (!$this->session->userdata('month_session') AND !$this->session->userdata('year_session')) {
                 $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
                 $forecast = $this->item_model->fetch('forecast',"FROM_UNIXTIME(date_forecasted,'%Y') = 2018",'date_forecasted','ASC');
             } else {
                 $month = $this->session->userdata('month_session');
+                $year = $this->session->userdata('year_session');
                 $this->db->select(array('FROM_UNIXTIME(date_forecasted, "%M") as df', 'forecasted_income'));
-                $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018 AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
+                $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = $year AND FROM_UNIXTIME(date_forecasted, '%m') BETWEEN 01 AND $month", 'date_forecasted', 'ASC');
             }
 
             print json_encode($forecast);

@@ -106,6 +106,7 @@ class Orders extends CI_Controller {
             $delivery_date = $this->item_model->fetch('orders', 'order_id = ' . $this->uri->segment(3))[0];
             $order_items = $this->item_model->fetch('order_items', 'order_id = ' . $this->uri->segment(3));
             $shippers = $this->item_model->fetch("shipper", "status = 1", "shipper_name", "ASC");
+
             if ($order_items) {
                 $data = array(
                     'title' => "Orders: Track Order",
@@ -114,6 +115,7 @@ class Orders extends CI_Controller {
                     'delivery' => $delivery_date,
                     'shippers' => $shippers
                 );
+
                 $this->load->view('paper/includes/header', $data);
                 $this->load->view("paper/includes/navbar");
                 $this->load->view('paper/orders/track');
@@ -134,14 +136,11 @@ class Orders extends CI_Controller {
         );
 
         $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
-
         $condition_cd = $this->item_model->fetch("orders", array('FROM_UNIXTIME(delivery_date,"%Y-%m-%d")' => html_escape($this->input->post("order_date")), "order_id" => $this->uri->segment(3)));
-
         $condition_tr = $this->item_model->fetch("orders", array("process_status" => $this->input->post("progress"), "order_id" => $this->uri->segment(3)));
 
         if (!$condition_tr) {
-
-            $track = $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
+            $this->item_model->updatedata("orders", $data, "order_id = " . $this->uri->segment(3));
 
             $for_log = array(
                 "admin_id" => $this->session->uid,
@@ -159,7 +158,6 @@ class Orders extends CI_Controller {
             $shipper = $this->item_model->fetch('shipper', "shipper_id = " . $order->shipper_id)[0];
 
             if ($this->input->post("progress") == 1) {
-
                 $for_orderstatus = array(
                     "description_status" => "Your order has been confirmed, and is now waiting to be verified.",
                     "customer_id" => $customer->customer_id,
@@ -184,6 +182,10 @@ class Orders extends CI_Controller {
                 } else {
                     $this->item_model->insertData("order_status", $for_orderstatus);
                 }
+//                $this->session->set_flashdata('statusMsg', 'Transaction status successfully changed to Processing');
+//                $this->session->set_flashdata('icon', 'ti-package');
+//                $this->session->set_flashdata('notif_type', 'info');
+
             } else if ($this->input->post("progress") == 2) {
                 $for_orderstatus = array(
                     "description_status" => "Your order has been verified and is now being shipped to your address.",
@@ -239,8 +241,7 @@ class Orders extends CI_Controller {
         }
 
         if (!$condition_cd) {
-
-            $change_delivery = $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
+            $this->item_model->updatedata("orders", array("delivery_date" => strtotime(html_escape($this->input->post("order_date")))), "order_id = " . $this->uri->segment(3));
 
             $for_log = array(
                 "admin_id" => $this->session->uid,
@@ -309,13 +310,15 @@ class Orders extends CI_Controller {
 
     public function cancel() {
         $customer = $this->item_model->fetch("orders", "order_id = " . $this->uri->segment(3))[0];
-        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 0), "order_id = " . $this->uri->segment(3));
-        $restore = $this->item_model->fetch("order_items", array("order_id" => $this->uri->segment(3)));
+        $cancel = $this->item_model->updatedata("orders", array("status" => 0, "process_status" => 4), "order_id = " . $this->uri->segment(3));
+        $this->db->select(array('product_id', 'quantity'));
+        $restore = $this->item_model->fetch("order_items", "order_id = " . $this->uri->segment(3));
 
         foreach ($restore as $restore) {
-            $item = $this->item_model->fetch('product', array('product_id' => $restore->product_id))[0];
+            $this->db->select('product_quantity');
+            $item = $this->item_model->fetch('product', 'product_id = ' . $restore->product_id)[0];
             $quantity = $item->product_quantity + $restore->quantity;
-            $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " .$restore->product_id);
+            $this->item_model->updatedata("product", array("product_quantity" => $quantity), "product_id = " . $restore->product_id);
         }
 
         if ($cancel) {
@@ -339,6 +342,7 @@ class Orders extends CI_Controller {
 
             $this->item_model->insertData("order_status", $for_orderstatus);
             $this->item_model->updatedata("audit_trail", array("status" => 0), "order_id = " . $this->uri->segment(3));
+            $this->session->set_flashdata('statusMsg', 'The transaction is cancelled successfully.');
             redirect("orders/page");
         }
     }
