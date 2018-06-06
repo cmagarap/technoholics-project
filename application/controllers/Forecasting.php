@@ -11,8 +11,8 @@ class Forecasting extends CI_Controller {
     }
 
     public function index() {
-        if (!$this->session->userdata('month_session')) {
-            echo "no month";
+        if (!$this->session->userdata('month_session') AND $this->session->userdata('year_session')) {
+//            echo "no month";
             $this->db->distinct();
             $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
             $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
@@ -20,7 +20,8 @@ class Forecasting extends CI_Controller {
             $forecast = $this->item_model->fetch('forecast', "FROM_UNIXTIME(date_forecasted, '%Y') = 2018", 'date_forecasted', 'ASC');
         } else {
             $month = $this->session->userdata('month_session');
-            echo $month;
+            $year = $this->session->userdata('year_session');
+//            echo $month;
             $this->db->distinct();
             $this->db->select("FROM_UNIXTIME(sales.sales_date, '%Y') AS sales_year");
             $year_for_dropdown = $this->item_model->fetch('sales', 'status = 1', 'sales_date', 'DESC');
@@ -53,8 +54,10 @@ class Forecasting extends CI_Controller {
 
         if ($this->form_validation->run()) {
             // month and user that the admin wants to predict
-
+            
             $this->session->set_userdata('month_session', $this->input->post('month'));
+            $this->session->set_userdata('year_session', $this->input->post('year'));
+            
             $month_to_predict = strtotime($this->input->post('year') . "-" . $this->input->post('month'));
             $format = date('m-Y', $month_to_predict);
 

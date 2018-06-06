@@ -16,9 +16,9 @@ $(document).ready(function(){
                 datasets : [{
                     label: 'TECHNOHOLICS',
                     data: income,
-                    borderColor: '#31bbe0',
+                    borderColor: '#dc2f54',
                     backgroundColor: 'rgba(243, 187, 69, 0.2)',
-                    pointBorderColor: '#31bbe0',
+                    pointBorderColor: '#dc2f54',
                     pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,

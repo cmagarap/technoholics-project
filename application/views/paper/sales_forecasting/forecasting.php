@@ -2,10 +2,10 @@
     <script>
         $(document).ready(function(){
             $.notify({
-                icon: 'ti-direction',
+                icon: 'ti-stats-up',
                 message: "<?= $this->session->flashdata('statusMsg') ?>"
             },{
-                type: 'info',
+                type: 'warning',
                 timer: 2000
             });
         });
