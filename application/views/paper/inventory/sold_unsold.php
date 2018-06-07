@@ -23,23 +23,22 @@ if (isset($_POST["generate_pdf"])) {
     <br><br>
     <table border="1" cellspacing="0" cellpadding="3">
     <tr>
-    <th colspan="5"><h2 align="center">'.$_POST["title"].' for '.$_POST["date"].' </h2></th>
+    <th colspan="4"><h2 align="center">'.$_POST["title"].' for '.$_POST["date"].' </h2></th>
     </tr>
     <tr>
                             <td><p><b>Product ID</b></p></td>
                             <td><p><b>Product</b></p></td>
-                            <td><p><b>Brand</b></p></td>
-                            <td align="right"><p><b>Stock</b></p></td>
+                            <td><p><b>Quantity</b></p></td>
                             <td align="right"><p><b>Price</b></p></td>>
     </tr>
     ';
     foreach ($temp as $products) {
         $content .='
         <tr>
+        
         <td>' . $products->product_id . '</td>
         <td align="right">' . $products->product_name. '</td>
-        <td align="right">' . ucfirst($products->product_brand). '</td>
-        <td align="right">' . $products->product_quantity. '</td>
+        <td align="right">' . $products->quantity. '</td>
         <td align="right">&#8369;' . number_format($products->product_price, 2) . '</td>
         </tr>
         ';
@@ -122,7 +121,7 @@ if (isset($_POST["generate_pdf"])) {
                     </div>
                     <?php
                     if (!$products) {
-                        echo "<br><br><br><br><br><center><h3><hr><br>There are no products recorded.</h3><br></center><br><br>";
+                        echo $msg_no_fetched;
                     } else {
                     ?>
                     <br><br><br><br><br>
@@ -137,15 +136,26 @@ if (isset($_POST["generate_pdf"])) {
                             <td align="right"><p><b>Price</b></p></td>
                             </thead>
                             <tbody>
-                            <?php foreach ($products as $products): ?>
+                            <?php $total_quantity = $total_price = 0;
+                            foreach ($products as $products): ?>
                                     <tr>
                                         <td><?= $products->product_id ?></td>
                                         <td><?= $products->product_name ?></td>
-                                        <td align="right"><?= $products->total_items_sold ?></td>
+                                        <td align="right"><?= $products->quantity ?></td>
                                         <td align="right">&#8369; <?= number_format($products->product_price, 2) ?></td>
+                                        <?php $total_quantity += $products->quantity;
+                                        $total_price += $products->product_price;
+                                        ?>
                                     </tr>
                                 <?php
                             endforeach; ?>
+                                    
+                            <tr>
+                                <td></td>
+                                <td><h3><?= $msg_total ?></h3></td>
+                                <td><h3 align="right"><?= $total_quantity ?></h3></td>
+                                <td align="right"><h3>&#8369; <?= number_format($total_price, 2) ?></h3></td>
+                            </tr>
                             </tbody>
                         </table>
                         <?php } ?>

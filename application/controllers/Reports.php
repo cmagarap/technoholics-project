@@ -243,8 +243,12 @@ class Reports extends CI_Controller {
 
                 $new = implode(", ", array_map("array_to_str", $product_id_array));
                 if ($new != '') {
-                    $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id NOT IN ($new) AND status = 1 ORDER BY product_name");
+                    $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity AS quantity, product_brand FROM product WHERE product_id NOT IN ($new) AND status = 1 ORDER BY product_name");
+                } else {
+                    $fetched = false;
+                    $msg_no_fetched = "<br><br><br><br><br><center><h3><hr><br>There are no unsold products recorded.</h3><br></center><br><br>";
                 }
+                $total_msg = "Total Unsold Items";
             } elseif ($this->input->post('select_type') == 'sold') {
                 goto sold_products;
             } else {
@@ -252,7 +256,7 @@ class Reports extends CI_Controller {
                 $title_of_report = "Sold Products";
                 $month = (!$this->input->post('select_month') OR $this->input->post('select_month') == '—') ? date('M') : $this->input->post('select_month');
                 $year = (!$this->input->post('select_year') OR $this->input->post('select_year') == '—') ? date('Y') : $this->input->post('select_year');
-                $subtitle = "For <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
+                $subtitle = "For <span style='background-color: #dc2f54; color: white; padding: 3px;'>" . date('F, Y', strtotime($month .  "-" . $year)) . "</span>";
                 $temp = date('F, Y', strtotime($month .  "-" . $year));
 
                 # $product_id = $this->db->query("SELECT DISTINCT order_items.product_id FROM order_items JOIN orders ON order_items.order_id = orders.order_id JOIN sales ON orders.order_id = sales.order_id WHERE sales.status = 1 AND FROM_UNIXTIME(sales_date, '%b') = 'Mar' AND FROM_UNIXTIME(sales_date, '%Y') = '2018'");
@@ -270,20 +274,27 @@ class Reports extends CI_Controller {
                 # $fetched = $this->db->query("SELECT product_id, product_name, product_price, product_quantity, product_brand FROM product WHERE product_id IN ($new) AND status = 1 ORDER BY product_name");
                 # $fetched = $this->db->query("SELECT product.product_id, product.product_name, product.product_brand, product.product_price, SUM(sales.items_sold) AS total_items_sold FROM product JOIN order_items ON product.product_id = order_items.product_id JOIN sales ON order_items.order_id = sales.order_id WHERE product.product_id IN ($new) AND FROM_UNIXTIME(sales.sales_date, '%b') = 'Apr' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '2018' AND sales.status = 1 AND product.status = 1 GROUP BY product.product_id ORDER BY product.product_name");
 
-                $fetched = $this->db->query("SELECT order_items.product_id, order_items.product_name, order_items.product_price, SUM(sales.items_sold) AS total_items_sold FROM order_items JOIN sales ON order_items.order_id = sales.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '" . $year . "' AND sales.status = 1 GROUP BY order_items.product_id");
+                $fetched = $this->db->query("SELECT order_items.product_id, order_items.product_name, order_items.product_price, SUM(sales.items_sold) AS quantity FROM order_items JOIN sales ON order_items.order_id = sales.order_id WHERE FROM_UNIXTIME(sales.sales_date, '%b') = '" . $month . "' AND FROM_UNIXTIME(sales.sales_date, '%Y') = '" . $year . "' AND sales.status = 1 GROUP BY order_items.product_id");
 
                 if (!$fetched) {
-                    goto unsold_products;
+                    # goto unsold_products;
+                    $msg_no_fetched = "<br><br><br><br><br><center><h3><hr><br>There are no sold products recorded.</h3><br></center><br><br>";
                 }
+                $total_msg = "Total Sold Items";
             }
 
+            $product_fetched = ($fetched) ? $fetched->result() : $fetched;
+            $msg_no_fetched = '';
+            
             $data = array(
                 'title' => 'Sold and Unsold Products',
                 'heading' => 'Inventory',
                 'title_of_report' => $title_of_report,
                 'subtitle' => $subtitle,
-                'products' => $fetched->result(),
+                'products' => $product_fetched,
                 'sales_years' => $sales_years,
+                'msg_no_fetched' => $msg_no_fetched,
+                'msg_total' => $total_msg,
                 'temp_date' => $temp
             );
 
