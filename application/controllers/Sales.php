@@ -81,6 +81,7 @@ class Sales extends CI_Controller {
                 "action" => 'Deleted Sales #' . $this->uri->segment(3)
             );
             $this->item_model->insertData("user_log", $for_log);
+            $this->session->set_flashdata('statusMsg', 'The sales record is successfully deleted.');
             redirect("sales/page");
         }
     }

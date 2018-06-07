@@ -2,10 +2,10 @@
     <script>
         $(document).ready(function(){
             $.notify({
-                icon: 'ti-direction',
+                icon: 'ti-stats-up',
                 message: "<?= $this->session->flashdata('statusMsg') ?>"
             },{
-                type: 'info',
+                type: 'warning',
                 timer: 2000
             });
         });
@@ -18,7 +18,7 @@
                     <div class="header">
                         <div align = "left">
                             <h2 class="title"><b>Sales Forecasting</b></h2>
-                            <form role="form" method="post" action="<?=base_url()?>/forecasting/forecast_exec">
+                            <form role="form" method="post" action="<?= base_url() ?>forecasting/forecast_exec">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label>Year:</label>
@@ -54,7 +54,7 @@
                                             <option value='12'>December</option>
                                         </select>
                                         <?php if(validation_errors()):
-                                        echo "<span style = 'color: red'>" . form_error("month") . "</span>";
+                                            echo "<span style = 'color: red'>" . form_error("month") . "</span>";
                                         endif; ?>
                                     </div>
                                 </div>
@@ -68,15 +68,14 @@
                             </form>
                         </div>
                     </div>
-                    <br>
-                    <br>
+                    <br><br>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8">
                     <div class="content">
                         <div id="chart-container">
-                            <canvas id="forecast"></canvas>
+                            <canvas id="forecast_spec"></canvas>
                         </div>
                     </div>
                 </div>
@@ -90,8 +89,8 @@
                         <tbody>
                             <?php foreach ($forecast as $forecast): ?>
                                 <tr>
-                                    <td><?=date("F",$forecast->date_forecasted)?></td>
-                                    <td>&#8369;<?= number_format($forecast->forecasted_income, 2) ?></td>
+                                    <td><?= date("F", $forecast->date_forecasted)?></td>
+                                    <td align="right">&#8369;<?= number_format($forecast->forecasted_income, 2) ?></td>
                                 </tr>
                             <?php endforeach;?>
                         </tbody>
@@ -102,4 +101,4 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/paper/js/forecast_spec.js"></script>

@@ -506,7 +506,7 @@ class Accounts extends CI_Controller {
               } */
             $statusMsg = $insert ? 'Account for <b>' . trim(ucwords($this->input->post('first_name'))) . " " . trim(ucwords($this->input->post('last_name'))) . '</b>' . ' has been added successfully.' : 'Some problem occured, please try again.';
             $this->session->set_flashdata('statusMsg', $statusMsg);
-            redirect("accounts/");
+            redirect("accounts/admin");
         } else {
             $this->add_account();
         }

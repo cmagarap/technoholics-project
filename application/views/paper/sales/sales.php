@@ -1,3 +1,16 @@
+<?php if($this->session->flashdata('statusMsg')): ?>
+    <script>
+        $(document).ready(function(){
+            $.notify({
+                icon: 'ti-close',
+                message: "<?= $this->session->flashdata('statusMsg') ?>"
+            },{
+                type: 'danger',
+                timer: 2000
+            });
+        });
+    </script>
+<?php endif; ?>
 <div class="content">
     <div class="container-fluid">
         <div class="row">

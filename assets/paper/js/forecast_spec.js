@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: base_url + "forecasting/getForecasts",
+        url: base_url + "forecasting/getForecasts_spec",
         method: "POST",
         success: function(data) {
             var date_forecasted = [];
@@ -16,16 +16,16 @@ $(document).ready(function(){
                 datasets : [{
                     label: 'TECHNOHOLICS',
                     data: income,
-                    borderColor: '#31bbe0',
+                    borderColor: '#dc2f54',
                     backgroundColor: 'rgba(243, 187, 69, 0.2)',
-                    pointBorderColor: '#31bbe0',
+                    pointBorderColor: '#dc2f54',
                     pointHoverBackgroundColor: 'rgba(255,255,255, 1)',
                     pointHoverBorderWidth: 2,
                     pointHoverRadius: 10,
                     borderWidth: 6
                 }
                 ]};
-            var ctx = document.getElementById("forecast");
+            var ctx = document.getElementById("forecast_spec");
             ctx.height = 150;
             var lineGraph = new Chart(ctx, {
                 type: 'line',

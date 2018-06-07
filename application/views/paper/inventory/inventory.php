@@ -6,10 +6,10 @@
                 <script>
                     $(document).ready(function(){
                         $.notify({
-                            icon: 'ti-direction',
+                            icon: "<?= $this->session->flashdata('icon') ?>",
                             message: "<?= $this->session->flashdata('statusMsg') ?>"
                         },{
-                            type: 'info',
+                            type: "<?= $this->session->flashdata('color') ?>",
                             timer: 2000
                         });
                     });
@@ -68,11 +68,11 @@
                                         $image_array = explode(".", $product_image); ?>
 
                                         <td align="center"><img src="<?= $this->config->base_url() ?>uploads_products/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" alt="product" title="<?= $products->product_name ?>" style="width: 50%; margin: 0px"></td>
-                                        <td><div class="ellipsis" style="width:250px"><?= $products->product_name ?></div></td>
+                                        <td title="<?= $products->product_name ?>"><div class="ellipsis" style="width:250px"><?= $products->product_name ?></div></td>
                                         <td><?= ucwords($products->product_brand) ?></td>
-                                        <td><?= $products->product_category ?></td>
-                                        <td>&#8369; <?= number_format($products->product_price, 2) ?></td>
-                                        <td><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
+                                        <td><?= ucfirst($products->product_category) ?></td>
+                                        <td align="right">&#8369; <?= number_format($products->product_price, 2) ?></td>
+                                        <td align="right"><?php if($products->product_quantity == 0) echo "<h6><span style = 'background-color: red; color: white; padding: 3px;'>Out of stock</span></h6>";
                                         else echo $products->product_quantity;
                                         ?></td>
                                         <td>
