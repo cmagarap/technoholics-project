@@ -135,64 +135,63 @@ if(isset($_POST["generate_pdf"]))
                     if (!$inventory) {
                         echo $html_tags[0] . $if_none . $html_tags[1];
                     } else {
-                    ?>
-                    <hr style="margin-bottom: -10px">
-                    <div class="content table-responsive table-full-width">
-                        <table class="table table-striped">
-                            <thead>
+                        ?>
+                        <hr style="margin-bottom: -10px">
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td><p><b>Product ID</b></p></td>
+                                        <td><p><b>Asset <?php if($sorted_by == 'product_name') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                        <td><p><b>Brand <?php if($sorted_by == 'product_brand') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                        <td><p><b>Date Acquired <?php if($sorted_by == 'added_at') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                        <td align="right"><p><b>Stock <?php if($sorted_by == 'product_quantity') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                        <td align="right"><p><b>Value <?php if($sorted_by == 'product_price') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
+                                        <td align="right"><p><b>Exact Value</b></p></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $total_price = 0;
+                                    $total_items = 0;
+                                    foreach ($inventory as $product): ?>
+                                    <tr>
+                                        <td><u><a href="<?= base_url() ?>inventory/view/<?= $product->product_id ?>"><?= $product->product_id ?></a></u></td>
+                                        <td><?= $product->product_name ?></td>
+                                        <td><?= ucwords($product->product_brand) ?></td>
+                                        <td><?= date('M. j, Y', $product->added_at)?></td>
+                                        <td align="right"><?= $product->product_quantity ?></td>
+                                        <td align="right">&#8369; <?= number_format($product->product_price, 2) ?></td>
+                                        <td align="right">&#8369; <?= number_format($product->product_price * $product->product_quantity, 2) ?></td>
+                                        <?php $total_price += $product->product_price * $product->product_quantity;
+                                        $total_items += $product->product_quantity; ?>
+                                    </tr>
+                                <?php endforeach; ?>
                                 <tr>
-                                    <td><p><b>Product ID</b></p></td>
-                                    <td><p><b>Asset <?php if($sorted_by == 'product_name') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
-                                    <td><p><b>Brand <?php if($sorted_by == 'product_brand') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
-                                    <td><p><b>Date Acquired <?php if($sorted_by == 'added_at') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
-                                    <td align="right"><p><b>Stock <?php if($sorted_by == 'product_quantity') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
-                                    <td align="right"><p><b>Value <?php if($sorted_by == 'product_price') echo '<sup><i class="ti-angle-double-up" style="font-size: 10px; color: #dc2f54;"></i></sup>'; ?></b></p></td>
-                                    <td align="right"><p><b>Exact Value</b></p></td>
+                                    <td></td>
+                                    <td><h3>Total Inventory Value</h3></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><h3 align="right"><?= $total_items ?></h3></td>
+                                    <td align="right"><b>-</b></td>
+                                    <td align="right"><h3>&#8369; <?= number_format($total_price, 2) ?></h3></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php $total_price = 0;
-                                $total_items = 0;
-                                foreach ($inventory as $product): ?>
-                                <tr>
-                                    <td><u><a href="<?= base_url() ?>inventory/view/<?= $product->product_id ?>"><?= $product->product_id ?></a></u>
-                                    </td>
-                                    <td><?= $product->product_name ?></td>
-                                    <td><?= ucwords($product->product_brand) ?></td>
-                                    <td><?= date('M. j, Y', $product->added_at)?></td>
-                                    <td align="right"><?= $product->product_quantity ?></td>
-                                    <td align="right">&#8369; <?= number_format($product->product_price, 2) ?></td>
-                                    <td align="right">&#8369; <?= number_format($product->product_price * $product->product_quantity, 2) ?></td>
-                                    <?php $total_price += $product->product_price * $product->product_quantity;
-                                    $total_items += $product->product_quantity; ?>
-                                </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td></td>
-                                <td><h3>Total Inventory Value</h3></td>
-                                <td></td>
-                                <td></td>
-                                <td><h3 align="right"><?= $total_items ?></h3></td>
-                                <td align="right"><b>-</b></td>
-                                <td align="right"><h3>&#8369; <?= number_format($total_price, 2) ?></h3></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
                         <div class="content">
-                        <div class="footer">
-                            <hr>
-                            <div class="stats">
-                                <i class="ti-package"></i>
-                                <a href="<?= $this->config->base_url() ?>reports/sold_unsold" style="text-decoration: underline">Click here to see sold and unsold products.</a>
+                            <div class="footer">
+                                <hr>
+                                <div class="stats">
+                                    <i class="ti-package"></i>
+                                    <a href="<?= $this->config->base_url() ?>reports/sold_unsold" style="text-decoration: underline">Click here to see sold and unsold products.</a>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <script>
     function populate(s1, s2){
