@@ -19,6 +19,7 @@ class Sales extends CI_Controller {
     }
 
     public function index() {
+        $this->session->set_userdata('sales_date', $this->input->post('date'));
         $this->page();
     }
 
@@ -47,12 +48,12 @@ class Sales extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date') ? "Here are the list of sales for <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('date'))) . ".</span><br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
+        $date = $this->session->userdata('sales_date') ? "Here are the list of sales for <span style = 'background-color: #dc2f54; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->session->userdata('sales_date'))) . ".</span><br><a href = '". base_url() . "sales'>Click  here to view all recorded sales.</a>" : "Here are the overall sales of the business.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('sales', array('status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('sales', 'status = 1');
+            $config['total_rows'] = $this->session->userdata('sales_date') ? $this->item_model->getCount('sales', array('status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->session->userdata('sales_date'))) : $this->item_model->getCount('sales', 'status = 1');
             $this->pagination->initialize($config);
-            $sales = $this->input->post('date')?$this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->input->post('date'))):$this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1));
+            $sales = $this->session->userdata('sales_date') ? $this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1, 'FROM_UNIXTIME(SALES_DATE,"%Y-%m-%d")' => $this->session->userdata('sales_date'))):$this->item_model->getItemsWithLimit('sales', $perpage, $this->uri->segment(3), 'sales_date', 'DESC', array( 'status' => 1));
             $data = array(
                 'title' => 'Sales Management',
                 'heading' => 'Sales Management',
