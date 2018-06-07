@@ -120,7 +120,7 @@
                     </div>
                     <?php
                     if (!$feedback) {
-                        echo "<center><h3><hr><br><br><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
+                        echo "<center><h3><br><br><br><br><hr><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                         ?>
                         <div class="content table-responsive table-full-width">
