@@ -7,10 +7,10 @@
                     $(document).ready(function(){
                         demo.initChartist();
                         $.notify({
-                            icon: 'ti-direction',
+                            icon: 'ti-check',
                             message: "<?= $this->session->flashdata('statusMsg') ?>"
                         },{
-                            type: 'info',
+                            type: 'success',
                             timer: 2000
                         });
                     });
