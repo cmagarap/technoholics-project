@@ -21,6 +21,7 @@ class Orders extends CI_Controller {
     }
 
     public function index() {
+        $this->session->set_userdata('order_date', $this->input->post('date'));
         $this->page();
     }
 
@@ -49,12 +50,12 @@ class Orders extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-        $date = $this->input->post('date') ? "Here are the list of orders for <span style = 'background-color: #31bbe0; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->input->post('date'))) . ".</span><br><a href = '" . base_url() . "orders'>Click  here to view all recorded transactions.</a>" : "Here are the overall orders of the customers.";
+        $date = $this->session->userdata('order_date') ? "Here are the list of orders for <span style = 'background-color: #31bbe0; color: white; padding: 3px;'>" . date("F j, Y", strtotime($this->session->userdata('order_date'))) . ".</span><br><a href = '" . base_url() . "orders'>Click  here to view all recorded transactions.</a>" : "Here are the overall orders of the customers.";
 
         if ($this->session->userdata('type') == 0 OR $this->session->userdata('type') == 1) {
-            $config['total_rows'] = $this->input->post('date') ? $this->item_model->getCount('orders', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date'))) : $this->item_model->getCount('orders', array('status' => 1));
+            $config['total_rows'] = $this->session->userdata('order_date') ? $this->item_model->getCount('orders', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->session->userdata('order_date'))) : $this->item_model->getCount('orders', array('status' => 1));
             $this->pagination->initialize($config);
-            $orders = ($this->input->post('date')) ? ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->input->post('date')))) : ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array('status' => 1)));
+            $orders = ($this->session->userdata('order_date')) ? ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array('status' => 1, 'FROM_UNIXTIME(transaction_date,"%Y-%m-%d")' => $this->session->userdata('order_date')))) : ($this->item_model->getItemsWithLimit('orders', $perpage, $this->uri->segment(3), 'transaction_date', 'DESC', array('status' => 1)));
 
             $data = array(
                 'title' => 'Orders Management',

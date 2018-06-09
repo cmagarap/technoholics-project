@@ -50,7 +50,7 @@
                             <p class="category">Select a date to filter order records.</p>
                             <hr>
                             <div class="calendar"></div>
-                            <form action="<?= base_url() . 'orders/page'; ?>" method="POST">
+                            <form action="<?= base_url() . 'orders'; ?>" method="POST">
                             </br>
                             <div align="center">
                                 <button type="submit" id="submit" class="btn btn-info btn-fill" style="background-color: #31bbe0; border-color: #31bbe0; color: white;">Submit</button>
