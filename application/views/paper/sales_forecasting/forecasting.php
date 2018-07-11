@@ -80,6 +80,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
+                    <?php if ($forecast): ?>
                     <h3 class="title">Forecasted Reports for the year <b>2018</b></h3>
                     <table class="table table-striped">
                         <thead>
@@ -95,6 +96,9 @@
                             <?php endforeach;?>
                         </tbody>
                     </table>
+                    <?php else: ?>
+                        <h3 class="title"><b>There are no forecasts available.</b></h3>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
