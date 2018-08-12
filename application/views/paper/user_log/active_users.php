@@ -155,7 +155,7 @@ exit;
                     </div>
                     <?php
                     if (!$customer) {
-                        echo "<center><h3><hr><br>There are currently none weekly active users.</h3><br></center><br><br>";
+                        echo "<center><h3><hr><br>There are currently no weekly active users.</h3><br></center><br><br>";
                     } else {
                     ?>
                     <hr style="margin-bottom: -10px">
@@ -187,35 +187,35 @@ exit;
                                         $action = ($trail->at_date > $log->date) ? $log->action : $trail->at_detail;
                                     elseif ($log AND !$trail)
                                         $action = $log->action;
-                                elseif (!$log AND $trail) # least likely to happen, but still included
-                                $action = $trail->at_detail;
-                                elseif (!$log AND !$trail)
-                                    $action = "None";
+                                    elseif (!$log AND $trail) # least likely to happen, but still included
+                                        $action = $trail->at_detail;
+                                    elseif (!$log AND !$trail)
+                                        $action = "None";
 
-                                $user_image = (string)$customer->image;
-                                $image_array = explode(".", $user_image);
-                                ?>
-                                <tr>
-                                    <?php if ($active_identifier < $week) : ?>
-                                        <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
-                                        <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?php if($customer->username != NULL) echo $customer->username; else echo $customer->email; ?></a></td>
-                                        <td><?= date("M-d-Y h:i A", $date->date) ?></td>
-                                        <td><?= $action ?></td>
-                                        <td align="right"><?= $count_action ?></td>
-                                        <?php $total_action += $count_action; ?>
-                                        <td align="right"><span class="text-success">ACTIVE</span></td>
-                                        <?php else: continue;
-                                        endif; ?>
-                                    </tr>
+                                    $user_image = (string)$customer->image;
+                                    $image_array = explode(".", $user_image);
+
+                                    if ($active_identifier < $week) : ?>
+                                        <tr>
+                                            <td><p><img src="<?= $this->config->base_url() ?>uploads_users/<?= $image_array[0] . "_thumb." . $image_array[1]; ?>" class="img-responsive img-circle" alt="<?= $customer->username ?>" title="<?= $customer->firstname . " " . $customer->lastname ?>"></p></td>
+                                            <td><a href="<?= base_url() ?>accounts/view/<?= $customer->customer_id ?>" style="text-decoration: underline"><?php if($customer->username != NULL) echo $customer->username; else echo $customer->email; ?></a></td>
+                                            <td><?= date("M-d-Y h:i A", $date->date) ?></td>
+                                            <td><?= $action ?></td>
+                                            <td align="right"><?= $count_action ?></td>
+                                            <?php $total_action += $count_action; ?>
+                                            <td align="right"><span class="text-success">ACTIVE</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><h3>Total Weekly Active Customers</h3></td>
+                                            <td><b>-</b></td>
+                                            <td><b>-</b></td>
+                                            <td align="right"><h3><?= $total_action ?></h3></td>
+                                            <td align="right"><h3><?= $acc ?></h3></td>
+                                        </tr>
+                                            <?php else: continue;
+                                            endif; ?>
                                 <?php endforeach; ?>
-                                <tr>
-                                    <td></td>
-                                    <td><h3>Total Weekly Active Customers</h3></td>
-                                    <td><b>-</b></td>
-                                    <td><b>-</b></td>
-                                    <td align="right"><h3><?= $total_action ?></h3></td>
-                                    <td align="right"><h3><?= $acc ?></h3></td>
-                                </tr>
                             </tbody>
                         </table>
                         <?php } ?>
