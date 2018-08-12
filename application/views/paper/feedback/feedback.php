@@ -92,7 +92,11 @@
                             <a href="<?= base_url() ?>reports/feedback">See feedback report.</a>
                         </div>
                         <div class="col-md-2"></div>
-                        <form role="form" method="post">
+                        <form action="<?= base_url() . 'feedback'; ?>" method="post">
+                            <?php
+                            $pass_date = $this->session->userdata('feedback_date');
+                            $this->session->set_userdata('feedback_date_filter',$pass_date);
+                            ?>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Filter by:</label>
@@ -116,7 +120,7 @@
                     </div>
                     <?php
                     if (!$feedback) {
-                        echo "<center><h3><hr><br><br><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
+                        echo "<center><h3><br><br><br><br><hr><br>There are no feedback recorded for the date you have selected.</h3><br></center><br><br>";
                     } else {
                         ?>
                         <div class="content table-responsive table-full-width">
