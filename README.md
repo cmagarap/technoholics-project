@@ -5,8 +5,8 @@
 ## Built With
 
 * [AJAX](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX) - Used to update data in the website asynchronously
-* [CodeIgniter 3.1.5](https://codeigniter.com/) - The PHP web framework used
-* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - scripting language for Web pages
+* [CodeIgniter 3.1.5](https://codeigniter.com/) - PHP web framework used
+* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 * [MySQL](https://www.mysql.com/) - SQL Database
 * [PHP 7.0.30](https://www.php.net/)
 
