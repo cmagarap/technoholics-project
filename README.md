@@ -24,7 +24,7 @@
 
 ## Authors
 
-* [Chris John Agarap](https://github.com/Seej11010) - Data Analyst & Scrum master
+* [Chris John Agarap](https://github.com/seeej) - Data Analyst & Scrum master
 * Veo Thadeus Calimlim - Back End Web developer
 * Andew Cyle Leona - Project Manager
 * Michaela Mallari - Front End Web developer
